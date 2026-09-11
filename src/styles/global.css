@@ -257,3 +257,33 @@ main { padding-block: var(--s7) var(--s8); }
 /* A list directly under a section header already has its rule. */
 .section__head + .entries li:first-child,
 .section__head + p + .entries li:first-child { border-top: 0; }
+
+/* ============================================================
+   The press-and-hold structure. This is what separates a brief
+   from an aggregator: not just what happened, but what was
+   broken, what changed, the catch, and what it means for you.
+   ============================================================ */
+.analysis {
+  margin: var(--s5) 0 0;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule-soft);
+  display: grid;
+  gap: var(--s4);
+}
+.analysis dt {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s1);
+}
+.analysis dd {
+  margin: 0;
+  font-size: 0.95em;
+  color: var(--ink-soft);
+  max-width: var(--measure);
+}
+.brief__item--opinion .analysis { border-top-color: rgba(255,255,255,0.16); }
+.brief__item--opinion .analysis dt { color: #A9B6FF; }
+.brief__item--opinion .analysis dd { color: #C9C9D4; }

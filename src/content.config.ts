@@ -1,11 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-/**
- * Astro 5+ content layer. If `npm create astro` gave you v4, this file lives at
- * src/content/config.ts instead, and collections use `type: 'content'` with no loader.
- */
-
 const ITEM_KINDS = [
   'commentary', 'news', 'tip', 'comparison',
   'myth-buster', 'hot-take', 'known-issue', 'community', 'security', 'ai',
@@ -24,6 +19,16 @@ const briefItem = z
     /** Two-line teaser - required when `story` is set. */
     teaser: z.string().optional(),
     source: z.string().url().optional(),
+
+    /**
+     * The press-and-hold structure. Optional, but when present this is what
+     * separates the brief from an aggregator: not just what happened, but
+     * what was broken, what changed, what the catch is, and what it means.
+     */
+    problem: z.string().optional(),
+    breakthrough: z.string().optional(),
+    catch: z.string().optional(),
+    forYou: z.string().optional(),
   })
   .refine((i) => Boolean(i.body) !== Boolean(i.story), {
     message:
@@ -39,7 +44,10 @@ const daily = defineCollection({
   schema: z.object({
     date: z.coerce.date(),
     title: z.string(),
+    /** Meta description - hard capped so it does not truncate in results. */
     description: z.string().max(160),
+    /** The full standfirst, shown on the page. No length limit. */
+    intro: z.string().optional(),
     items: z.array(briefItem).min(1),
     draft: z.boolean().default(false),
   }),
@@ -48,11 +56,7 @@ const daily = defineCollection({
 const stories = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/stories' }),
   schema: z.object({
-    /**
-     * Explicit and permanent. Never derived from the title at build time -
-     * slugify() strips non-Latin, and a headline must be rewritable
-     * without moving the URL.
-     */
+    /** Explicit and permanent. Never derived from the title at build time. */
     slug: z.string(),
     title: z.string(),
     description: z.string().max(160),

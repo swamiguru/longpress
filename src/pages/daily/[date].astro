@@ -18,6 +18,14 @@ const items = [...d.items].sort((a, b) => a.slot - b.slot);
 const OPINION = ['hot-take', 'myth-buster', 'known-issue'];
 const label = (k: string) => k.replace(/-/g, ' ');
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' });
+
+/** The press-and-hold structure, in reading order. */
+const ANALYSIS = [
+  ['problem', 'The problem'],
+  ['breakthrough', 'What changed'],
+  ['catch', 'The catch'],
+  ['forYou', 'What it means for you'],
+] as const;
 ---
 <BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date}>
   <article>
@@ -25,38 +33,53 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' });
       <span class="eyebrow">The Daily Five</span>
       <h1>{d.title}</h1>
       <time class="dateline" datetime={d.date.toISOString()}>{long.format(d.date)}</time>
+      {d.intro && <p class="standfirst" style="margin-top: var(--s4)">{d.intro}</p>}
     </div>
 
     <ol class="brief">
-      {items.map((item, i) => (
-        <>
-          {i === 2 && <li class="ad-row"><AdSlot placement="brief" /></li>}
-          <li class={`brief__item${OPINION.includes(item.kind) ? ' brief__item--opinion' : ''}`}>
-            <div class="brief__head">
-              <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, "0")}</span>
-              <div>
-                <span class="eyebrow brief__kind">{label(item.kind)}</span>
-                <h2>{item.heading}</h2>
+      {items.map((item, i) => {
+        const analysis = ANALYSIS.filter(([k]) => item[k as keyof typeof item]);
+        return (
+          <>
+            {i === 2 && <li class="ad-row"><AdSlot placement="brief" /></li>}
+            <li class={`brief__item${OPINION.includes(item.kind) ? ' brief__item--opinion' : ''}`}>
+              <div class="brief__head">
+                <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
+                <div>
+                  <span class="eyebrow brief__kind">{label(item.kind)}</span>
+                  <h2>{item.heading}</h2>
+                </div>
               </div>
-            </div>
 
-            {item.body && <p class="brief__body">{item.body}</p>}
+              {item.body && <p class="brief__body">{item.body}</p>}
 
-            {item.story && (
-              <>
-                <p class="brief__body">{item.teaser}</p>
-                <p class="brief__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
-              </>
-            )}
+              {item.story && (
+                <>
+                  <p class="brief__body">{item.teaser}</p>
+                  <p class="brief__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
+                </>
+              )}
 
-            {item.source && (
-              <p class="brief__source">
-                <a href={item.source} rel="nofollow noopener" target="_blank">Source &nearr;</a>
-              </p>
-            )}
-          </li>
-        </>
-      ))}
+              {analysis.length > 0 && (
+                <dl class="analysis">
+                  {analysis.map(([key, text]) => (
+                    <>
+                      <dt>{text}</dt>
+                      <dd>{item[key as keyof typeof item]}</dd>
+                    </>
+                  ))}
+                </dl>
+              )}
+
+              {item.source && (
+                <p class="brief__source">
+                  <a href={item.source} rel="nofollow noopener" target="_blank">Source &nearr;</a>
+                </p>
+              )}
+            </li>
+          </>
+        );
+      })}
     </ol>
 
     <div class="prose" style="margin-top: var(--s7)"><Content /></div>
