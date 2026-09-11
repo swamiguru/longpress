@@ -610,6 +610,114 @@ main { padding-block: var(--s7) var(--s9); }
 .footer__links a:hover { color: var(--accent-light); }
 
 
+
+/* ============================================================
+   Ad rows inside lists
+   The hub and archive templates wrap an AdSlot in a bare
+   <li class="ad-row"> so the markup stays valid. Without this it
+   draws a list marker and inherits the row rule.
+   ============================================================ */
+.ad-row { list-style: none; border-top: 0 !important; padding-block: 0 !important; }
+.ad-row .ad { margin-block: var(--s6); }
+
+/* ============================================================
+   Known Issue hub — the one inverted page head
+   Add class="page-head page-head--column" on the /known-issue
+   page head. An argument-led section should not look like an index.
+   ============================================================ */
+.page-head--column {
+  background: var(--dark-ground);
+  color: var(--dark-soft);
+  border-bottom: 0;
+  padding: var(--s7) var(--s5) var(--s6);
+}
+/* Full-bleed only when the head sits OUTSIDE .shell (see PAGES.md —
+   render it into BaseLayout's bleed slot). Inside the shell it stays
+   a contained midnight block, which is also fine.
+   No vw arithmetic: 100vw includes the scrollbar gutter and pushes a
+   horizontal scrollbar on classic-scrollbar platforms. */
+.bleed > .page-head--column { padding-inline: max(24px, calc((100% - 792px) / 2)); }
+.page-head--column h1 { color: var(--dark-ink); }
+.page-head--column .standfirst { color: var(--dark-soft); }
+.page-head--column .eyebrow { color: var(--accent-light); }
+@media (max-width: 640px) {
+  .page-head--column,
+  .bleed > .page-head--column { padding: var(--s6) 16px var(--s5); }
+}
+
+/* ============================================================
+   Archive month groups
+   Add <h2 class="archive-month"><span>September 2026</span>
+   <em>11 issues</em></h2> between month runs in /daily.
+   Sixty-one undifferentiated rows is a wall.
+   ============================================================ */
+.archive-month {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+  margin: var(--s7) 0 0;
+  padding-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.archive-month em { font-style: normal; color: var(--accent-deep); letter-spacing: 0.1em; }
+.archive-month + .entries li:first-child { border-top: 2px solid var(--rule-strong); }
+
+/* ============================================================
+   Archive & hub rows: date column, headlines on one axis
+   ============================================================ */
+@media (min-width: 641px) {
+  .entries li:not(.ad-row) {
+    display: grid;
+    grid-template-columns: minmax(0, 132px) minmax(0, 1fr);
+    gap: var(--s5);
+    align-items: start;
+  }
+  .entries li .entry__meta { margin-bottom: 0; padding-top: 3px; }
+  .entries li .entry__title,
+  .entries li .entry__desc { grid-column: 2; }
+  .entries li .entry__title { margin-bottom: 6px; }
+}
+
+/* ============================================================
+   About — the credibility facts
+   Add <div class="facts"><div><b>Daily</b><span>Cadence · 07:00 IST</span>
+   </div>…</div> above .prose. An About page gets four seconds.
+   ============================================================ */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s4);
+  margin: var(--s6) 0;
+}
+.facts > div { background: var(--surface); padding: 20px; }
+.facts b {
+  display: block;
+  font-family: var(--display);
+  font-variation-settings: var(--display-wide);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--accent-deep);
+}
+.facts span {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* Not --muted: slate on clay at this size is 4.17:1. */
+  color: var(--ink-soft);
+}
+
 /* ============================================================
    MOBILE — 375px first pass
    The primary reader is on a phone in India before the standup.
