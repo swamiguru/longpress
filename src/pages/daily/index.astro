@@ -1,23 +1,42 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const years = [...new Set(briefs.map((b) => b.data.date.getFullYear()))];
+const years = [...new Set(briefs.map((b) => b.data.date.getFullYear()))].sort((a, b) => b - a);
+const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 ---
-<BaseLayout title="The Daily Five - archive" description="Every Long Press morning brief, newest first.">
-  <h1>The Daily Five</h1>
-  <nav>{years.map((y) => <a href={`/daily/${y}`}>{y}</a>)}</nav>
-  <ul>
-    {briefs.map((b) => (
-      <li>
-        <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
-        <time datetime={b.data.date.toISOString()}>
-          {b.data.date.toLocaleDateString('en-IN', { dateStyle: 'medium' })}
-        </time>
-      </li>
+<BaseLayout
+  title="The Daily Five - archive"
+  description="Every Long Press morning brief, newest first. Five tech stories a day, with an honest take."
+>
+  <div class="page-head">
+    <span class="eyebrow">Archive</span>
+    <h1>The Daily Five</h1>
+    <p class="standfirst">
+      Published every morning since 12 July 2026. {briefs.length} issues.
+    </p>
+    <nav class="chips" aria-label="By year">
+      {years.map((y) => <a class="chip" href={`/daily/${y}`}>{y}</a>)}
+    </nav>
+  </div>
+
+  <ul class="entries">
+    {briefs.map((b, i) => (
+      <>
+        {i === 8 && <li class="ad-row"><AdSlot placement="hub" /></li>}
+        <li>
+          <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+            {med.format(b.data.date)}
+          </time>
+          <p class="entry__title">
+            <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
+          </p>
+          <p class="entry__desc">{b.data.description}</p>
+        </li>
+      </>
     ))}
   </ul>
 </BaseLayout>

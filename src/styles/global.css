@@ -1,0 +1,255 @@
+/* ============================================================
+   Long Press - design system
+   Light editorial ground. Distinct from BuiltBySwami; the only
+   thread back is the ink family. Boldness is spent in one place:
+   the Known Issue block.
+   ============================================================ */
+
+:root {
+  /* --- colour ------------------------------------------------ */
+  --ground:     #FFFFFF;
+  --surface:    #F6F6F3;   /* warm-neutral, for slots and wells   */
+  --ink:        #17171C;   /* cool near-black                      */
+  --ink-soft:   #3A3A44;
+  --muted:      #6B6B76;   /* grey with a faint violet bias        */
+  --rule:       #E3E3DE;
+  --rule-soft:  #EFEFEB;
+  --accent:     #2A3FA8;   /* deep indigo - links, marks, wordmark */
+  --accent-ink: #1E2E80;   /* hover / visited                      */
+
+  /* --- type -------------------------------------------------- */
+  --display: "Schibsted Grotesk", system-ui, -apple-system, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* --- rhythm ------------------------------------------------ */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+  --measure: 68ch;
+  --shell: 760px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+@media (min-width: 700px) { body { font-size: 18px; } }
+
+.shell {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+
+/* --- headings ------------------------------------------------ */
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.018em;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 { font-size: clamp(28px, 5.6vw, 40px); }
+h2 { font-size: clamp(20px, 3.4vw, 25px); letter-spacing: -0.012em; }
+h3 { font-size: clamp(17px, 2.6vw, 20px); }
+
+p { margin: 0 0 var(--s5); max-width: var(--measure); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+img { max-width: 100%; height: auto; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: var(--s7) 0; }
+
+/* --- utility labels ------------------------------------------ */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+.dateline { font-family: var(--mono); font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; }
+
+/* ============================================================
+   Masthead
+   ============================================================ */
+.masthead { border-bottom: 1px solid var(--ink); }
+.masthead__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s4); flex-wrap: wrap;
+  padding-block: var(--s4);
+}
+.wordmark {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--display); font-weight: 700;
+  font-size: 21px; letter-spacing: -0.03em;
+  color: var(--ink); text-decoration: none;
+}
+/* a held key - the gesture, not a logo */
+.wordmark::before {
+  content: ""; width: 15px; height: 15px; border-radius: 4px;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(42, 63, 168, 0.16);
+}
+.nav { display: flex; gap: var(--s5); flex-wrap: wrap; }
+.nav a {
+  font-family: var(--display); font-size: 14.5px; font-weight: 500;
+  color: var(--ink-soft); text-decoration: none;
+}
+.nav a:hover { color: var(--accent); }
+
+/* ============================================================
+   Page furniture
+   ============================================================ */
+main { padding-block: var(--s7) var(--s8); }
+.page-head { margin-bottom: var(--s7); }
+.page-head .eyebrow { display: block; margin-bottom: var(--s3); }
+.page-head h1 { margin-bottom: var(--s3); }
+.standfirst { font-size: 1.06em; color: var(--ink-soft); max-width: 58ch; }
+
+/* ============================================================
+   The daily brief - an ordered sequence, so numbers earn their place
+   ============================================================ */
+.brief { list-style: none; margin: 0; padding: 0; }
+.brief__item {
+  padding-block: var(--s6);
+  border-top: 1px solid var(--rule);
+}
+.brief__item:first-child { border-top: 2px solid var(--ink); }
+.brief__head { display: flex; gap: var(--s4); align-items: baseline; margin-bottom: var(--s3); }
+.brief__num {
+  font-family: var(--mono); font-size: 13px; color: var(--muted);
+  flex: none; padding-top: 2px;
+}
+.brief__kind { display: block; margin-bottom: var(--s2); }
+.brief__body { margin: 0 0 var(--s3); }
+.brief__more { font-family: var(--display); font-size: 15px; font-weight: 500; }
+.brief__source { font-family: var(--mono); font-size: 12px; }
+.brief__source a { color: var(--muted); }
+
+/* The opinion slot carries the terminal register - the one place
+   the old voice shows through, and the only bold move on the page. */
+.brief__item--opinion {
+  background: var(--ink);
+  color: #E9E9EE;
+  border-radius: 6px;
+  padding: var(--s6) var(--s5);
+  border-top: 0;
+  margin-top: var(--s5);
+}
+.brief__item--opinion h2 { color: #FFFFFF; }
+.brief__item--opinion .brief__num,
+.brief__item--opinion .eyebrow { color: #9A9AA8; }
+.brief__item--opinion a { color: #A9B6FF; }
+
+/* ============================================================
+   Article
+   ============================================================ */
+.article__meta {
+  display: flex; gap: var(--s4); flex-wrap: wrap; align-items: baseline;
+  margin-bottom: var(--s6); padding-bottom: var(--s4);
+  border-bottom: 1px solid var(--rule);
+}
+.prose > * { max-width: var(--measure); }
+.prose h2 { margin: var(--s7) 0 var(--s3); }
+.prose h3 { margin: var(--s6) 0 var(--s2); }
+.prose blockquote {
+  margin: var(--s6) 0; padding-left: var(--s5);
+  border-left: 3px solid var(--accent);
+  font-style: italic; color: var(--ink-soft);
+}
+.prose code {
+  font-family: var(--mono); font-size: 0.88em;
+  background: var(--surface); padding: 2px 5px; border-radius: 3px;
+}
+.prose pre {
+  background: var(--ink); color: #E9E9EE; padding: var(--s4);
+  border-radius: 6px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px;
+}
+
+/* ============================================================
+   Lists and hubs - rules, not cards. Not everything is a card.
+   ============================================================ */
+.entries { list-style: none; margin: 0; padding: 0; }
+.entries li { border-top: 1px solid var(--rule); padding-block: var(--s5); }
+.entries li:first-child { border-top: 2px solid var(--ink); }
+.entry__title { font-family: var(--display); font-size: clamp(18px,2.8vw,21px); font-weight: 700; letter-spacing: -0.012em; margin-bottom: var(--s2); }
+.entry__title a { color: var(--ink); text-decoration: none; }
+.entry__title a:hover { color: var(--accent); }
+.entry__desc { color: var(--muted); font-size: 0.95em; margin: 0; }
+.entry__meta { margin-bottom: var(--s2); }
+
+/* An ad sits inside an <li> so the list stays valid HTML. */
+.ad-row { border-top: 0 !important; padding-block: 0 !important; list-style: none; }
+
+.chips { display: flex; gap: var(--s2); flex-wrap: wrap; margin-top: var(--s5); }
+.chip {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+  padding: 5px 11px; border: 1px solid var(--rule); border-radius: 999px;
+  color: var(--ink-soft); text-decoration: none; background: var(--ground);
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+
+.section { margin-top: var(--s8); }
+.section__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s4); margin-bottom: var(--s5);
+  padding-bottom: var(--s3); border-bottom: 2px solid var(--ink);
+}
+.section__head h2 { font-size: clamp(19px,3vw,22px); }
+.section__head a { font-family: var(--display); font-size: 14px; font-weight: 500; }
+
+/* ============================================================
+   Ad slots - reserved now so nothing shifts when AdSense lands.
+   Fixed min-heights: CLS is a ranking factor.
+   ============================================================ */
+.ad {
+  display: flex; flex-direction: column; align-items: center; gap: var(--s2);
+  margin-block: var(--s7);
+  padding: var(--s4);
+  background: var(--surface);
+  border-radius: 6px;
+}
+.ad__label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+}
+.ad__unit { width: 100%; display: block; }
+.ad[data-placement="brief"] .ad__unit,
+.ad[data-placement="article"] .ad__unit { min-height: 250px; }
+.ad[data-placement="hub"] .ad__unit { min-height: 250px; }
+@media (min-width: 760px) {
+  .ad[data-placement="brief"] .ad__unit,
+  .ad[data-placement="hub"] .ad__unit { min-height: 90px; }
+  .ad[data-placement="article"] .ad__unit { min-height: 250px; }
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer {
+  border-top: 1px solid var(--ink);
+  margin-top: var(--s8);
+  padding-block: var(--s6) var(--s7);
+  font-size: 15px;
+}
+.footer__grid { display: flex; gap: var(--s6) var(--s7); flex-wrap: wrap; justify-content: space-between; }
+.footer p { margin: 0; color: var(--muted); max-width: 46ch; }
+.footer__links { display: flex; gap: var(--s5); flex-wrap: wrap; }
+.footer__links a { font-family: var(--display); font-size: 14.5px; font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

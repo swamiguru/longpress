@@ -4,15 +4,15 @@ import BaseLayout from '../../../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
-  const keys = new Map();
+  const groups = new Map<string, { year: string; month: string; briefs: typeof briefs }>();
   for (const b of briefs) {
     const year = String(b.data.date.getFullYear());
     const month = String(b.data.date.getMonth() + 1).padStart(2, '0');
     const key = `${year}/${month}`;
-    if (!keys.has(key)) keys.set(key, { year, month, briefs: [] });
-    keys.get(key).briefs.push(b);
+    if (!groups.has(key)) groups.set(key, { year, month, briefs: [] });
+    groups.get(key)!.briefs.push(b);
   }
-  return [...keys.values()].map(({ year, month, briefs }) => ({
+  return [...groups.values()].map(({ year, month, briefs }) => ({
     params: { year, month },
     props: { briefs },
   }));
@@ -20,14 +20,32 @@ export async function getStaticPaths() {
 
 const { year, month } = Astro.params;
 const { briefs } = Astro.props;
+const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+const monthName = new Intl.DateTimeFormat('en-IN', { month: 'long' })
+  .format(new Date(Number(year), Number(month) - 1, 1));
 ---
-<BaseLayout title={`The Daily Five - ${month}/${year}`} description={`Long Press briefs from ${month}/${year}.`}>
-  <h1>{month}/{year}</h1>
-  <ul>
+<BaseLayout
+  title={`The Daily Five - ${monthName} ${year}`}
+  description={`Long Press briefs from ${monthName} ${year}.`}
+>
+  <div class="page-head">
+    <span class="eyebrow"><a href={`/daily/${year}`}>{year}</a></span>
+    <h1>{monthName}</h1>
+    <p class="standfirst">{briefs.length} issues.</p>
+  </div>
+
+  <ul class="entries">
     {briefs
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
       .map((b) => (
-        <li><a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a></li>
+        <li>
+          <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+            {med.format(b.data.date)}
+          </time>
+          <p class="entry__title">
+            <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
+          </p>
+        </li>
       ))}
   </ul>
 </BaseLayout>

@@ -1,16 +1,22 @@
 ---
+import '../styles/global.css';
+
 export interface Props {
   title: string;
   description: string;
-  /** Omit for index/hub pages. */
   schema?: 'NewsArticle' | 'CollectionPage';
   published?: Date;
   updated?: Date;
+  /** Suppress " | Long Press" on the homepage. */
+  bare?: boolean;
 }
-const { title, description, schema = 'CollectionPage', published, updated } = Astro.props;
+const { title, description, schema = 'CollectionPage', published, updated, bare = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const AUTHOR = { '@type': 'Person', name: 'Swami Guru', url: 'https://www.builtbyswami.com/about' };
-
+const AUTHOR = {
+  '@type': 'Person',
+  name: 'Swami Guru',
+  url: 'https://www.builtbyswami.com/about',
+};
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': schema,
@@ -22,35 +28,64 @@ const jsonLd = {
   ...(published && { datePublished: published.toISOString() }),
   ...(updated && { dateModified: updated.toISOString() }),
 };
+const year = new Date().getFullYear();
 ---
-<html lang="en">
+<html lang="en-IN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} | Long Press</title>
+    <title>{bare ? title : `${title} | Long Press`}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap"
+    />
+
     <link rel="alternate" type="application/rss+xml" title="Long Press" href="/rss.xml" />
+    <meta property="og:site_name" content="Long Press" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="Long Press" />
     <meta property="og:type" content={schema === 'NewsArticle' ? 'article' : 'website'} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#FFFFFF" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
+
   <body>
-    <header>
-      <a href="/"><strong>Long Press</strong></a>
-      <nav>
-        <a href="/daily">The Daily Five</a>
-        <a href="/known-issue">Known Issue</a>
-        <a href="/about">About</a>
-      </nav>
+    <header class="masthead">
+      <div class="shell masthead__inner">
+        <a class="wordmark" href="/">Long Press</a>
+        <nav class="nav" aria-label="Sections">
+          <a href="/daily">The Daily Five</a>
+          <a href="/known-issue">Known Issue</a>
+          <a href="/about">About</a>
+        </nav>
+      </div>
     </header>
-    <main><slot /></main>
-    <footer>
-      <p>Long Press is published by <a href="https://www.builtbyswami.com">BuiltBySwami</a>.</p>
+
+    <main class="shell">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer__grid">
+        <p>
+          Long Press is written every morning by Swami &mdash; eleven years of product
+          at Vogue, GQ and Wired. Published by
+          <a href="https://www.builtbyswami.com">BuiltBySwami</a>.
+          &copy; {year}
+        </p>
+        <div class="footer__links">
+          <a href="/daily">Archive</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="https://www.builtbyswami.com/work-with-me">Consulting</a>
+        </div>
+      </div>
     </footer>
   </body>
 </html>

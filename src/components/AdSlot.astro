@@ -1,0 +1,17 @@
+---
+/**
+ * Reserved ad slot. Renders an empty, correctly-sized box until AdSense
+ * is approved - then drop the <ins> unit inside .ad__unit and nothing
+ * on the page moves.
+ */
+interface Props {
+  placement: 'brief' | 'article' | 'hub';
+}
+const { placement } = Astro.props;
+---
+<aside class="ad" data-placement={placement} aria-label="Advertisement">
+  <span class="ad__label">Advertisement</span>
+  <div class="ad__unit">
+    {/* AdSense <ins class="adsbygoogle"> goes here after approval */}
+  </div>
+</aside>

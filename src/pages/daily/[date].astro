@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
 
 export async function getStaticPaths() {
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
@@ -13,36 +14,51 @@ export async function getStaticPaths() {
 const { brief } = Astro.props;
 const { Content } = await render(brief);
 const d = brief.data;
+const items = [...d.items].sort((a, b) => a.slot - b.slot);
+const OPINION = ['hot-take', 'myth-buster', 'known-issue'];
+const label = (k: string) => k.replace(/-/g, ' ');
+const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' });
 ---
-<BaseLayout
-  title={d.title}
-  description={d.description}
-  schema="NewsArticle"
-  published={d.date}
->
+<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date}>
   <article>
-    <p><time datetime={d.date.toISOString()}>
-      {d.date.toLocaleDateString('en-IN', { dateStyle: 'long' })}
-    </time></p>
-    <h1>{d.title}</h1>
+    <div class="page-head">
+      <span class="eyebrow">The Daily Five</span>
+      <h1>{d.title}</h1>
+      <time class="dateline" datetime={d.date.toISOString()}>{long.format(d.date)}</time>
+    </div>
 
-    <ol>
-      {d.items.sort((a, b) => a.slot - b.slot).map((item) => (
-        <li>
-          <h2>{item.heading}</h2>
-          {/* Full text lives in exactly one place - the schema enforces it. */}
-          {item.body && <p>{item.body}</p>}
-          {item.story && (
-            <>
-              <p>{item.teaser}</p>
-              <p><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
-            </>
-          )}
-          {item.source && <p><a href={item.source} rel="nofollow noopener">Source</a></p>}
-        </li>
+    <ol class="brief">
+      {items.map((item, i) => (
+        <>
+          {i === 2 && <li class="ad-row"><AdSlot placement="brief" /></li>}
+          <li class={`brief__item${OPINION.includes(item.kind) ? ' brief__item--opinion' : ''}`}>
+            <div class="brief__head">
+              <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, "0")}</span>
+              <div>
+                <span class="eyebrow brief__kind">{label(item.kind)}</span>
+                <h2>{item.heading}</h2>
+              </div>
+            </div>
+
+            {item.body && <p class="brief__body">{item.body}</p>}
+
+            {item.story && (
+              <>
+                <p class="brief__body">{item.teaser}</p>
+                <p class="brief__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
+              </>
+            )}
+
+            {item.source && (
+              <p class="brief__source">
+                <a href={item.source} rel="nofollow noopener" target="_blank">Source &nearr;</a>
+              </p>
+            )}
+          </li>
+        </>
       ))}
     </ol>
 
-    <Content />
+    <div class="prose" style="margin-top: var(--s7)"><Content /></div>
   </article>
 </BaseLayout>

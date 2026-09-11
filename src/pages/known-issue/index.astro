@@ -1,24 +1,42 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
 
-// Category is metadata, not a URL segment - recategorising costs no redirect.
 const pieces = (await getCollection('stories', ({ data }) =>
   !data.draft && data.category === 'known-issue'
 )).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
 <BaseLayout
   title="Known Issue"
-  description="The things everyone is pretending aren't broken. Long Press's standing column."
+  description="The things everyone is pretending aren't broken. Long Press's standing column on tech that doesn't do what it claims."
 >
-  <h1>Known Issue</h1>
-  <p>The things everyone is pretending aren't broken.</p>
-  <ul>
-    {pieces.map((p) => (
-      <li>
-        <a href={`/${p.data.slug}`}>{p.data.title}</a>
-        <p>{p.data.description}</p>
-      </li>
-    ))}
-  </ul>
+  <div class="page-head">
+    <span class="eyebrow">The column</span>
+    <h1>Known Issue</h1>
+    <p class="standfirst">
+      In release notes, a known issue is the polite way of saying &ldquo;yes, it&rsquo;s broken,
+      we know.&rdquo; This is the column for the things everyone is pretending aren&rsquo;t.
+    </p>
+  </div>
+
+  {pieces.length === 0 ? (
+    <p class="entry__desc">Nothing filed yet. The first one runs in the daily brief.</p>
+  ) : (
+    <ul class="entries">
+      {pieces.map((p, i) => (
+        <>
+          {i === 6 && <li class="ad-row"><AdSlot placement="hub" /></li>}
+          <li>
+            <time class="dateline entry__meta" datetime={p.data.published.toISOString()}>
+              {long.format(p.data.published)}
+            </time>
+            <p class="entry__title"><a href={`/${p.data.slug}`}>{p.data.title}</a></p>
+            <p class="entry__desc">{p.data.description}</p>
+          </li>
+        </>
+      ))}
+    </ul>
+  )}
 </BaseLayout>

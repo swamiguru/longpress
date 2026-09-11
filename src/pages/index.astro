@@ -1,35 +1,83 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AdSlot from '../components/AdSlot.astro';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const today = briefs[0];
+const earlier = briefs.slice(1, 6);
 
 const stories = (await getCollection('stories', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 6);
+  .slice(0, 5);
+
+const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
 ---
 <BaseLayout
-  title="Long Press"
-  description="Press and hold. The tech stories that mattered, with an honest take - written every morning by Swami."
+  title="Long Press - the tech stories that mattered, with an honest take"
+  description="Press and hold. Five tech stories every morning, plus explainers and comparisons - written by Swami, eleven years of product at Vogue, GQ and Wired."
+  bare
 >
-  <h1>Press and hold.</h1>
-  <p>The tech stories that mattered, with an honest take.</p>
+  <div class="page-head">
+    <h1>Press and hold.</h1>
+    <p class="standfirst">
+      Everyone else tells you what happened. We stay on it a beat longer &mdash;
+      five stories every morning, with an honest take on which ones actually matter.
+    </p>
+  </div>
 
   {today && (
-    <section>
-      <h2><a href={`/daily/${today.id.replace(/\.md$/, '')}`}>{today.data.title}</a></h2>
-      <p>{today.data.description}</p>
+    <section aria-labelledby="today">
+      <div class="section__head">
+        <h2 id="today">Today&rsquo;s five</h2>
+        <a href="/daily">All issues &rarr;</a>
+      </div>
+      <p class="dateline">{med.format(today.data.date)}</p>
+      <h3 class="entry__title" style="margin-top: var(--s3)">
+        <a href={path(today)}>{today.data.title}</a>
+      </h3>
+      <p class="entry__desc">{today.data.description}</p>
     </section>
   )}
 
-  <section>
-    <h2>Recent</h2>
-    <ul>
-      {stories.map((s) => (
-        <li><a href={`/${s.data.slug}`}>{s.data.title}</a></li>
-      ))}
-    </ul>
-  </section>
+  <AdSlot placement="hub" />
+
+  {stories.length > 0 && (
+    <section class="section" aria-labelledby="reading">
+      <div class="section__head">
+        <h2 id="reading">Worth your time</h2>
+        <a href="/known-issue">Known Issue &rarr;</a>
+      </div>
+      <ul class="entries">
+        {stories.map((s) => (
+          <li>
+            <span class="eyebrow entry__meta">{s.data.category.replace(/-/g, ' ')}</span>
+            <p class="entry__title"><a href={`/${s.data.slug}`}>{s.data.title}</a></p>
+            <p class="entry__desc">{s.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {earlier.length > 0 && (
+    <section class="section" aria-labelledby="earlier">
+      <div class="section__head">
+        <h2 id="earlier">Earlier briefs</h2>
+        <a href="/daily">Archive &rarr;</a>
+      </div>
+      <ul class="entries">
+        {earlier.map((b) => (
+          <li>
+            <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+              {med.format(b.data.date)}
+            </time>
+            <p class="entry__title"><a href={path(b)}>{b.data.title}</a></p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 </BaseLayout>

@@ -13,16 +13,33 @@ export async function getStaticPaths() {
 
 const { year } = Astro.params;
 const { briefs } = Astro.props;
-const months = [...new Set(briefs.map((b) => String(b.data.date.getMonth() + 1).padStart(2, '0')))].sort();
+const months = [...new Set(briefs.map((b) => String(b.data.date.getMonth() + 1).padStart(2, '0')))].sort().reverse();
+const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+const monthName = (m: string) =>
+  new Intl.DateTimeFormat('en-IN', { month: 'long' }).format(new Date(Number(year), Number(m) - 1, 1));
 ---
 <BaseLayout title={`The Daily Five - ${year}`} description={`Every Long Press brief published in ${year}.`}>
-  <h1>{year}</h1>
-  <nav>{months.map((m) => <a href={`/daily/${year}/${m}`}>{m}</a>)}</nav>
-  <ul>
+  <div class="page-head">
+    <span class="eyebrow"><a href="/daily">Archive</a></span>
+    <h1>{year}</h1>
+    <p class="standfirst">{briefs.length} issues.</p>
+    <nav class="chips" aria-label="By month">
+      {months.map((m) => <a class="chip" href={`/daily/${year}/${m}`}>{monthName(m)}</a>)}
+    </nav>
+  </div>
+
+  <ul class="entries">
     {briefs
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
       .map((b) => (
-        <li><a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a></li>
+        <li>
+          <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+            {med.format(b.data.date)}
+          </time>
+          <p class="entry__title">
+            <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
+          </p>
+        </li>
       ))}
   </ul>
 </BaseLayout>

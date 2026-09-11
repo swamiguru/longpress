@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdSlot from '../../components/AdSlot.astro';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
@@ -13,14 +14,28 @@ export async function getStaticPaths() {
 
 const { topic } = Astro.params;
 const { stories } = Astro.props;
+const sorted = [...stories].sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
-<BaseLayout title={topic} description={`Everything Long Press has published on ${topic}.`}>
-  <h1>{topic}</h1>
-  <ul>
-    {stories
-      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-      .map((s) => (
-        <li><a href={`/${s.data.slug}`}>{s.data.title}</a></li>
-      ))}
+<BaseLayout title={topic!} description={`Everything Long Press has published on ${topic}.`}>
+  <div class="page-head">
+    <span class="eyebrow">Topic</span>
+    <h1>{topic}</h1>
+    <p class="standfirst">{sorted.length} {sorted.length === 1 ? 'piece' : 'pieces'}.</p>
+  </div>
+
+  <ul class="entries">
+    {sorted.map((s, i) => (
+      <>
+        {i === 6 && <li class="ad-row"><AdSlot placement="hub" /></li>}
+        <li>
+          <time class="dateline entry__meta" datetime={s.data.published.toISOString()}>
+            {long.format(s.data.published)}
+          </time>
+          <p class="entry__title"><a href={`/${s.data.slug}`}>{s.data.title}</a></p>
+          <p class="entry__desc">{s.data.description}</p>
+        </li>
+      </>
+    ))}
   </ul>
 </BaseLayout>
