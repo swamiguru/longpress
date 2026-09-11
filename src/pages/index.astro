@@ -29,16 +29,23 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
   </div>
 
   {today && (
-    <section aria-labelledby="today">
-      <div class="section__head">
-        <h2 id="today">Today&rsquo;s five</h2>
-        <a href="/daily">All issues &rarr;</a>
+    <section aria-labelledby="today" class="featured-lead">
+      <div class="featured-lead__header">
+        <span class="eyebrow">The Daily Five &middot; Latest Issue</span>
+        <time class="dateline" datetime={today.data.date.toISOString()}>{med.format(today.data.date)}</time>
       </div>
-      <p class="dateline">{med.format(today.data.date)}</p>
-      <h3 class="entry__title" style="margin-top: var(--s3)">
+      <h2 id="today" class="featured-lead__title">
         <a href={path(today)}>{today.data.title}</a>
-      </h3>
-      <p class="entry__desc">{today.data.description}</p>
+      </h2>
+      <p class="featured-lead__desc">{today.data.description}</p>
+      <div style="margin-top: var(--s4); display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap;">
+        <a href={path(today)} class="chip" style="background: var(--ink); color: #FFF; border-color: var(--ink);">
+          Read Today&rsquo;s Brief &rarr;
+        </a>
+        <a href="/daily" class="chip">
+          All Issues ({briefs.length})
+        </a>
+      </div>
     </section>
   )}
 

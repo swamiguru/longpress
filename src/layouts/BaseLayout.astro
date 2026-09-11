@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Logo from '../components/Logo.astro';
 
 export interface Props {
   title: string;
@@ -29,6 +30,12 @@ const jsonLd = {
   ...(updated && { dateModified: updated.toISOString() }),
 };
 const year = new Date().getFullYear();
+const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric'
+}).format(new Date());
 ---
 <html lang="en-IN">
   <head>
@@ -38,11 +45,12 @@ const year = new Date().getFullYear();
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
     />
 
     <link rel="alternate" type="application/rss+xml" title="Long Press" href="/rss.xml" />
@@ -52,19 +60,49 @@ const year = new Date().getFullYear();
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={schema === 'NewsArticle' ? 'article' : 'website'} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="theme-color" content="#FAF9F5" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
 
   <body>
     <header class="masthead">
-      <div class="shell masthead__inner">
-        <a class="wordmark" href="/">Long Press</a>
-        <nav class="nav" aria-label="Sections">
-          <a href="/daily">The Daily Five</a>
-          <a href="/known-issue">Known Issue</a>
-          <a href="/about">About</a>
-        </nav>
+      <!-- Top Newsroom Utility Strip -->
+      <div class="masthead__utility">
+        <div class="shell--wide masthead__utility-inner">
+          <div class="utility-group">
+            <span class="live-indicator">
+              <span class="live-dot" aria-hidden="true"></span>
+              EDITION 07:00 IST
+            </span>
+            <span aria-hidden="true">&middot;</span>
+            <time datetime={new Date().toISOString()}>{todayHeaderDate}</time>
+          </div>
+          <div class="utility-group">
+            <a class="utility-link" href="/daily">ARCHIVE</a>
+            <span aria-hidden="true">&middot;</span>
+            <a class="utility-link" href="/rss.xml">RSS WIRE</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Masthead Brand Bar -->
+      <div class="masthead__main">
+        <div class="shell--wide masthead__inner">
+          <div class="masthead__branding">
+            <a href="/" style="text-decoration: none;">
+              <Logo variant="masthead" showTagline={true} />
+            </a>
+            <span class="masthead__credo">
+              Press and hold. Everyone else tells you what happened.
+            </span>
+          </div>
+
+          <nav class="nav" aria-label="Main Sections">
+            <a href="/daily">The Daily Five</a>
+            <a href="/known-issue" class="nav--highlight">Known Issue</a>
+            <a href="/about">About</a>
+          </nav>
+        </div>
       </div>
     </header>
 
@@ -73,17 +111,24 @@ const year = new Date().getFullYear();
     </main>
 
     <footer class="footer">
-      <div class="shell footer__grid">
-        <p>
-          Long Press is written every morning by Swami &mdash; eleven years of product
-          at Vogue, GQ and Wired. Published by
-          <a href="https://www.builtbyswami.com">BuiltBySwami</a>.
-          &copy; {year}
-        </p>
+      <div class="shell--wide footer__grid">
+        <div class="footer__bio">
+          <Logo variant="footer" showTagline={false} />
+          <p>
+            <strong>Long Press</strong> publishes five tech stories every morning, with an honest read
+            on which ones actually matter. Written by Swami Guru &mdash; eleven years running product
+            for Vogue, GQ, and Wired across twenty brand launches.
+          </p>
+          <p class="dateline" style="margin-top: var(--s2)">
+            Published by <a href="https://www.builtbyswami.com">BuiltBySwami</a> &middot; &copy; {year} Long Press
+          </p>
+        </div>
         <div class="footer__links">
-          <a href="/daily">Archive</a>
-          <a href="/rss.xml">RSS</a>
-          <a href="https://www.builtbyswami.com/work-with-me">Consulting</a>
+          <a href="/daily">Daily Archive</a>
+          <a href="/known-issue">Known Issue Column</a>
+          <a href="/about">About the Desk</a>
+          <a href="/rss.xml">RSS Feed</a>
+          <a href="https://www.builtbyswami.com/work-with-me">Advisory & Consulting</a>
         </div>
       </div>
     </footer>

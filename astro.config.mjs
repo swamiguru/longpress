@@ -7,6 +7,10 @@ export default defineConfig({
   trailingSlash: 'never',
   integrations: [react(), sitemap()],
   build: { format: 'file' },
+  server: {
+    host: '0.0.0.0',
+    port: 3000,
+  },
   // Passthrough Vite config - same stack you already know.
   vite: {},
 });

@@ -1,0 +1,8 @@
+{
+  "name": "Long Press",
+  "description": "Long Press (longpress.news) - Press and hold. Five tech stories every morning, plus explainers and comparisons, with an honest take on what actually matters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

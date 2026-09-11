@@ -63,10 +63,10 @@ const ANALYSIS = [
               {analysis.length > 0 && (
                 <dl class="analysis">
                   {analysis.map(([key, text]) => (
-                    <>
+                    <div class="analysis__cell">
                       <dt>{text}</dt>
                       <dd>{item[key as keyof typeof item]}</dd>
-                    </>
+                    </div>
                   ))}
                 </dl>
               )}
