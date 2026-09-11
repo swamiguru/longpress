@@ -253,3 +253,7 @@ main { padding-block: var(--s7) var(--s8); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* A list directly under a section header already has its rule. */
+.section__head + .entries li:first-child,
+.section__head + p + .entries li:first-child { border-top: 0; }
