@@ -934,3 +934,12 @@ main {
     animation: none !important;
   }
 }
+
+/* An ad sits inside an <li> so the list stays valid HTML; the row itself
+   must not inherit the list-item rule and padding. Restored - the AI Studio
+   redesign dropped this while four templates still emit the class. */
+.ad-row {
+  border-top: 0 !important;
+  padding-block: 0 !important;
+  list-style: none;
+}
