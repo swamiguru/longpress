@@ -8,22 +8,17 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
 ---
 <div class={`brand-logo brand-logo--${variant}`} id="brand-logo">
   <div class="brand-logo__mark" aria-hidden="true">
-    <svg width="28" height="28" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="48" height="48" rx="11" class="mark-bg" />
-      <!-- Haptic pulse ring -->
-      <circle cx="24" cy="19" r="10.5" stroke="#FF3B14" stroke-width="2.5" stroke-dasharray="2.5 2" opacity="0.95" />
-      <circle cx="24" cy="19" r="5.5" fill="#FF3B14" />
-      <!-- Sustained hold bar -->
-      <rect x="10" y="34" width="28" height="4.5" rx="2.25" class="mark-bar" />
+    <!-- Press and hold: the ring fills while you wait. 135deg arc. -->
+    <svg width="38" height="38" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="21" cy="21" r="19.5" fill="none" class="mark-ring" stroke-width="2" />
+      <path d="M21 1.5a19.5 19.5 0 0 1 13.8 33.3" fill="none" stroke="#E0552B" stroke-width="4.5" stroke-linecap="round" />
+      <circle cx="21" cy="21" r="7.5" class="mark-dot" />
     </svg>
   </div>
   <div class="brand-logo__text">
-    <span class="brand-logo__title">
-      <span class="word-long">LONG</span><span class="word-slash" aria-hidden="true">//</span><span class="word-press">PRESS</span>
-      <span class="domain-tld">.NEWS</span>
-    </span>
+    <span class="brand-logo__title">Long<span class="word-press">press</span></span>
     {showTagline && (
-      <span class="brand-logo__tagline">PRESS AND HOLD &middot; THE TECH SIGNAL</span>
+      <span class="brand-logo__tagline">Press and hold &middot; the tech signal</span>
     )}
   </div>
 </div>
@@ -32,7 +27,7 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
   .brand-logo {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 13px;
     text-decoration: none;
     color: var(--ink);
     user-select: none;
@@ -43,89 +38,52 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: transform .2s cubic-bezier(.2, .8, .2, 1);
   }
+  .brand-logo:hover .brand-logo__mark { transform: scale(1.05); }
 
-  .brand-logo:hover .brand-logo__mark {
-    transform: scale(1.06);
-  }
-
-  .mark-bg {
-    fill: var(--ink);
-    transition: fill 0.2s ease;
-  }
-
-  .mark-bar {
-    fill: #FFFFFF;
-  }
+  .mark-ring { stroke: var(--ink); }
+  .mark-dot  { fill: var(--ink); }
 
   .brand-logo__text {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 5px;
     line-height: 1;
   }
 
   .brand-logo__title {
     font-family: var(--display);
+    font-variation-settings: var(--display-wide);
     font-weight: 800;
-    font-size: 23px;
-    letter-spacing: -0.035em;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 2px;
-  }
-
-  .word-long {
+    font-size: 26px;
+    line-height: .9;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
     color: var(--ink);
   }
 
-  .word-slash {
-    color: var(--accent);
-    font-weight: 900;
-    margin: 0 1px;
-    font-size: 0.9em;
-    letter-spacing: -0.08em;
-  }
-
-  .word-press {
-    color: var(--ink);
-  }
-
-  .domain-tld {
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-    margin-left: 4px;
-    background: var(--accent-subtle);
-    padding: 2px 4px;
-    border-radius: 3px;
-    align-self: center;
-  }
+  .word-press { color: var(--accent); }
 
   .brand-logo__tagline {
     font-family: var(--mono);
-    font-size: 9.5px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    color: var(--muted);
-    margin-top: 4px;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    color: var(--muted);
   }
 
-  /* Compact variant */
-  .brand-logo--compact .brand-logo__title {
-    font-size: 19px;
-  }
-  .brand-logo--compact .brand-logo__mark svg {
-    width: 22px;
-    height: 22px;
-  }
+  /* Compact — sticky nav, mobile. Tagline is dropped by the caller. */
+  .brand-logo--compact { gap: 10px; }
+  .brand-logo--compact .brand-logo__title { font-size: 19px; }
+  .brand-logo--compact .brand-logo__mark svg { width: 30px; height: 30px; }
 
-  /* Footer variant */
-  .brand-logo--footer .brand-logo__title {
-    font-size: 21px;
-  }
+  /* Footer — reverse, stacked */
+  .brand-logo--footer { flex-direction: column; align-items: flex-start; gap: 11px; }
+  .brand-logo--footer .brand-logo__title { font-size: 21px; color: var(--dark-ink); }
+  .brand-logo--footer .mark-ring { stroke: var(--dark-ink); }
+  .brand-logo--footer .mark-dot  { fill: var(--dark-ink); }
+  .brand-logo--footer .brand-logo__mark svg { width: 30px; height: 30px; }
 </style>
