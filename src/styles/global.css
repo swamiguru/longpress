@@ -611,6 +611,50 @@ main { padding-block: var(--s7) var(--s9); }
 
 
 
+
+/* ============================================================
+   Empty state
+   A hub with nothing in it is a real state, not an error — and on
+   /known-issue it is currently the DEFAULT view of the most
+   distinctive section on the site. Give it a shape.
+   ============================================================ */
+.empty {
+  margin: var(--s6) 0 var(--s7);
+  padding: var(--s6) var(--s5);
+  background: var(--surface);
+  border-left: 5px solid var(--accent);
+  max-width: 54ch;
+}
+.empty b {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 12px;
+}
+.empty p {
+  margin: 0 0 var(--s4);
+  font-family: var(--display);
+  font-variation-settings: var(--display-normal);
+  font-weight: 700;
+  font-size: clamp(19px, 2.8vw, 23px);
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  max-width: none;
+}
+.empty small {
+  display: block;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-bottom: var(--s5);
+}
+.empty .chip { display: inline-block; }
+
 /* ============================================================
    Ad rows inside lists
    The hub and archive templates wrap an AdSlot in a bare

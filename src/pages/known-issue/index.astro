@@ -22,8 +22,15 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
   </div>
 
   {pieces.length === 0 ? (
-    <p class="entry__desc">Nothing filed yet. The first one runs in the daily brief.</p>
-  ) : (
+<div class="empty">
+      <b>Nothing filed yet</b>
+      <p>The column runs inside the daily brief first.</p>
+      <small>
+        Every brief carries one inverted block &mdash; a hot take, a myth-buster or a
+        known issue. When one earns its own page, it lands here.
+      </small>
+      <a class="chip" href="/daily">Read today&rsquo;s brief &rarr;</a>
+    </div>  ) : (
     <ul class="entries">
       {pieces.map((p, i) => (
         <>
