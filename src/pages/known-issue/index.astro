@@ -40,15 +40,9 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
               {long.format(p.data.published)}
             </time>
             <p class="entry__title"><a href={`/${p.data.slug}`}>{p.data.title}</a></p>
-<div class="empty">
-      <b>Nothing filed yet</b>
-      <p>The column runs inside the daily brief first.</p>
-      <small>
-        Every brief carries one inverted block &mdash; a hot take, a myth-buster or a
-        known issue. When one earns its own page, it lands here.
-      </small>
-      <a class="chip" href="/daily">Read today&rsquo;s brief &rarr;</a>
-    </div>          </li>
+            <p class="entry__desc">{p.data.description}</p>
+
+            </li>
         </>
       ))}
     </ul>
