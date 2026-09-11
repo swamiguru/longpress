@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const briefs = (await getCollection('daily', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const today = briefs[0];
+
+const stories = (await getCollection('stories', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+  .slice(0, 6);
+---
+<BaseLayout
+  title="Long Press"
+  description="Press and hold. The tech stories that mattered, with an honest take - written every morning by Swami."
+>
+  <h1>Press and hold.</h1>
+  <p>The tech stories that mattered, with an honest take.</p>
+
+  {today && (
+    <section>
+      <h2><a href={`/daily/${today.id.replace(/\.md$/, '')}`}>{today.data.title}</a></h2>
+      <p>{today.data.description}</p>
+    </section>
+  )}
+
+  <section>
+    <h2>Recent</h2>
+    <ul>
+      {stories.map((s) => (
+        <li><a href={`/${s.data.slug}`}>{s.data.title}</a></li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

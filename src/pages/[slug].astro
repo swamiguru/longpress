@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories', ({ data }) => !data.draft);
+  // data.slug, never the filename - a headline must be rewritable
+  // without the URL moving.
+  return stories.map((story) => ({
+    params: { slug: story.data.slug },
+    props: { story },
+  }));
+}
+
+const { story } = Astro.props;
+const { Content } = await render(story);
+const d = story.data;
+---
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  schema="NewsArticle"
+  published={d.published}
+  updated={d.updated}
+>
+  <article>
+    <p>{d.category.replace('-', ' ')}</p>
+    <h1>{d.title}</h1>
+    <p><time datetime={d.published.toISOString()}>
+      {d.published.toLocaleDateString('en-IN', { dateStyle: 'long' })}
+    </time></p>
+    <Content />
+    {d.topics.length > 0 && (
+      <nav>
+        {d.topics.map((t) => <a href={`/topics/${t}`}>{t}</a>)}
+      </nav>
+    )}
+  </article>
+</BaseLayout>

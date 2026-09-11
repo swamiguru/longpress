@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const briefs = (await getCollection('daily', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const years = [...new Set(briefs.map((b) => b.data.date.getFullYear()))];
+---
+<BaseLayout title="The Daily Five - archive" description="Every Long Press morning brief, newest first.">
+  <h1>The Daily Five</h1>
+  <nav>{years.map((y) => <a href={`/daily/${y}`}>{y}</a>)}</nav>
+  <ul>
+    {briefs.map((b) => (
+      <li>
+        <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
+        <time datetime={b.data.date.toISOString()}>
+          {b.data.date.toLocaleDateString('en-IN', { dateStyle: 'medium' })}
+        </time>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

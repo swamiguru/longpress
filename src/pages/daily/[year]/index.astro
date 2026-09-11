@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const briefs = await getCollection('daily', ({ data }) => !data.draft);
+  const years = [...new Set(briefs.map((b) => String(b.data.date.getFullYear())))];
+  return years.map((year) => ({
+    params: { year },
+    props: { briefs: briefs.filter((b) => String(b.data.date.getFullYear()) === year) },
+  }));
+}
+
+const { year } = Astro.params;
+const { briefs } = Astro.props;
+const months = [...new Set(briefs.map((b) => String(b.data.date.getMonth() + 1).padStart(2, '0')))].sort();
+---
+<BaseLayout title={`The Daily Five - ${year}`} description={`Every Long Press brief published in ${year}.`}>
+  <h1>{year}</h1>
+  <nav>{months.map((m) => <a href={`/daily/${year}/${m}`}>{m}</a>)}</nav>
+  <ul>
+    {briefs
+      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+      .map((b) => (
+        <li><a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a></li>
+      ))}
+  </ul>
+</BaseLayout>

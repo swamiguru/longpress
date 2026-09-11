@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Category is metadata, not a URL segment - recategorising costs no redirect.
+const pieces = (await getCollection('stories', ({ data }) =>
+  !data.draft && data.category === 'known-issue'
+)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+---
+<BaseLayout
+  title="Known Issue"
+  description="The things everyone is pretending aren't broken. Long Press's standing column."
+>
+  <h1>Known Issue</h1>
+  <p>The things everyone is pretending aren't broken.</p>
+  <ul>
+    {pieces.map((p) => (
+      <li>
+        <a href={`/${p.data.slug}`}>{p.data.title}</a>
+        <p>{p.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

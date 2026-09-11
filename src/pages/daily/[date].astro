@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const briefs = await getCollection('daily', ({ data }) => !data.draft);
+  return briefs.map((brief) => ({
+    params: { date: brief.id.replace(/\.md$/, '') },
+    props: { brief },
+  }));
+}
+
+const { brief } = Astro.props;
+const { Content } = await render(brief);
+const d = brief.data;
+---
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  schema="NewsArticle"
+  published={d.date}
+>
+  <article>
+    <p><time datetime={d.date.toISOString()}>
+      {d.date.toLocaleDateString('en-IN', { dateStyle: 'long' })}
+    </time></p>
+    <h1>{d.title}</h1>
+
+    <ol>
+      {d.items.sort((a, b) => a.slot - b.slot).map((item) => (
+        <li>
+          <h2>{item.heading}</h2>
+          {/* Full text lives in exactly one place - the schema enforces it. */}
+          {item.body && <p>{item.body}</p>}
+          {item.story && (
+            <>
+              <p>{item.teaser}</p>
+              <p><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
+            </>
+          )}
+          {item.source && <p><a href={item.source} rel="nofollow noopener">Source</a></p>}
+        </li>
+      ))}
+    </ol>
+
+    <Content />
+  </article>
+</BaseLayout>

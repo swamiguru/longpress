@@ -1,0 +1,56 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  /** Omit for index/hub pages. */
+  schema?: 'NewsArticle' | 'CollectionPage';
+  published?: Date;
+  updated?: Date;
+}
+const { title, description, schema = 'CollectionPage', published, updated } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const AUTHOR = { '@type': 'Person', name: 'Swami Guru', url: 'https://www.builtbyswami.com/about' };
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': schema,
+  headline: title,
+  description,
+  url: canonical,
+  author: AUTHOR,
+  publisher: { '@type': 'Organization', name: 'Long Press', url: 'https://longpress.news' },
+  ...(published && { datePublished: published.toISOString() }),
+  ...(updated && { dateModified: updated.toISOString() }),
+};
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | Long Press</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title="Long Press" href="/rss.xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Long Press" />
+    <meta property="og:type" content={schema === 'NewsArticle' ? 'article' : 'website'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <header>
+      <a href="/"><strong>Long Press</strong></a>
+      <nav>
+        <a href="/daily">The Daily Five</a>
+        <a href="/known-issue">Known Issue</a>
+        <a href="/about">About</a>
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer>
+      <p>Long Press is published by <a href="https://www.builtbyswami.com">BuiltBySwami</a>.</p>
+    </footer>
+  </body>
+</html>

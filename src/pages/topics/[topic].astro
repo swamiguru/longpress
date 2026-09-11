@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories', ({ data }) => !data.draft);
+  const topics = [...new Set(stories.flatMap((s) => s.data.topics))];
+  return topics.map((topic) => ({
+    params: { topic },
+    props: { stories: stories.filter((s) => s.data.topics.includes(topic)) },
+  }));
+}
+
+const { topic } = Astro.params;
+const { stories } = Astro.props;
+---
+<BaseLayout title={topic} description={`Everything Long Press has published on ${topic}.`}>
+  <h1>{topic}</h1>
+  <ul>
+    {stories
+      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
+      .map((s) => (
+        <li><a href={`/${s.data.slug}`}>{s.data.title}</a></li>
+      ))}
+  </ul>
+</BaseLayout>
