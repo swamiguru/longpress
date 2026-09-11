@@ -609,6 +609,146 @@ main { padding-block: var(--s7) var(--s9); }
 }
 .footer__links a:hover { color: var(--accent-light); }
 
+
+/* ============================================================
+   MOBILE — 375px first pass
+   The primary reader is on a phone in India before the standup.
+   Five deliberate changes, not a shrink: nav rail instead of a
+   menu, inline slot numbers, stacked dossier, full-bleed opinion
+   block, and a read-progress rule on the sticky bar.
+   ============================================================ */
+@media (max-width: 640px) {
+
+  body { font-size: 16px; }
+
+  .shell, .shell--wide { padding-inline: 16px; }
+
+  main { padding-block: var(--s5) var(--s7); }
+
+  h1 { font-size: 36px; line-height: .88; }
+
+  /* --- Masthead: compact, sticky, nav as a scrolling rail ---- */
+  .masthead {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom-width: 2px;
+  }
+
+  .masthead__utility { padding-block: 6px; font-size: 9px; letter-spacing: .1em; }
+  /* The archive / RSS pair is reachable from the footer — drop it
+     here so the edition time and date never wrap. */
+  .masthead__utility-inner > .utility-group:last-child { display: none; }
+
+  .masthead__main { padding-block: 14px 12px; }
+  .masthead__inner { gap: var(--s3); }
+  .masthead__credo { display: none; }
+
+  .brand-logo__tagline { display: none; }
+  .brand-logo__title { font-size: 20px; }
+  .brand-logo__mark svg { width: 30px; height: 30px; }
+
+  .nav {
+    width: 100%;
+    gap: 18px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    border-top: 1px solid var(--rule);
+    padding-top: 0;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a {
+    white-space: nowrap;
+    flex: none;
+    font-size: 13px;
+    /* 44px minimum target — measured on the box, not the row */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding-block: 0;
+    border-bottom: 0;
+    box-shadow: inset 0 -2.5px 0 transparent;
+  }
+  .nav a:hover,
+  .nav a.nav--highlight { box-shadow: inset 0 -2.5px 0 var(--accent); }
+
+  /* --- Lead ------------------------------------------------- */
+  .page-head { margin-bottom: var(--s6); padding-bottom: var(--s5); }
+  .standfirst { font-size: 16px; line-height: 1.45; }
+
+  .featured-lead { padding: 20px 16px; margin-bottom: var(--s6); }
+  .featured-lead__title { font-size: 22px; line-height: 1.02; }
+
+  /* Buttons go full width and stack — thumb targets, not links. */
+  .chip {
+    padding: 14px 18px;
+    text-align: center;
+    font-size: 11px;
+  }
+  .featured-lead .chip,
+  .page-head .chip { display: block; width: 100%; }
+
+  /* --- Brief items: the slot number moves inline ------------ */
+  .brief__item { padding-block: var(--s5); }
+
+  .brief__head { display: block; }
+  .brief__num {
+    font-size: 19px;
+    line-height: 1;
+    display: inline-block;
+    margin-right: 9px;
+    vertical-align: -1px;
+  }
+  .brief__meta-row { display: inline-flex; gap: 8px; margin-bottom: 8px; }
+  .brief__head h2 { font-size: 20px; line-height: 1.14; margin-top: 8px; }
+  .brief__body { font-size: 14.5px; line-height: 1.6; }
+
+  /* --- Dossier stacks to one column ------------------------- */
+  .analysis {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px;
+  }
+  .analysis dt { font-size: 9px; }
+  .analysis dd { font-size: 14px; line-height: 1.55; }
+
+  /* --- Known Issue: full-bleed, keep the saffron rule -------- */
+  .brief__item--opinion {
+    margin-inline: -16px;
+    padding: 22px 16px;
+    border-left-width: 5px;
+  }
+  .brief__item--opinion h2 { font-size: 27px; line-height: .98; }
+
+  /* --- Sections & archives ---------------------------------- */
+  .section { margin-top: var(--s6); }
+  .section__head h2 { font-size: 17px; }
+  .entries li { padding-block: var(--s4); }
+  .entry__title { font-size: 19px; }
+
+  /* --- Ads: the 250px rectangle, full width ----------------- */
+  .ad { margin-inline: 0; margin-block: var(--s6); padding: 12px; }
+
+  /* --- Prose ------------------------------------------------ */
+  .prose blockquote { padding: 14px 16px; font-size: 1em; }
+  .article__meta { gap: var(--s3); font-size: 9px; }
+
+  /* --- Footer ----------------------------------------------- */
+  .footer { padding-block: var(--s6) var(--s7); }
+  .footer__grid { gap: var(--s5); }
+  .footer__links { gap: var(--s3); }
+  .footer__links a { padding-block: 6px; }
+}
+
+/* Read-progress rule on the sticky masthead. Optional markup:
+   <div class="read-progress"><span style="width:60%"></span></div>
+   as the last child of .masthead. Width is set by a 6-line
+   scroll listener, or left static per item index. */
+.read-progress { height: 3px; background: var(--rule); }
+.read-progress > span { display: block; height: 3px; background: var(--accent); transition: width .12s linear; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
