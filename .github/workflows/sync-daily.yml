@@ -1,0 +1,70 @@
+name: Sync daily brief
+
+# Long Press PULLS the roundup instead of waiting to be pushed to.
+# The existing pipeline keeps committing to the builtbyswami repo, untouched.
+# This notices, imports, and publishes. Vercel deploys on the resulting push.
+
+on:
+  schedule:
+    # The roundup lands ~06:04 UTC. Run after it, then again as a safety net
+    # in case it is late. Cron here is always UTC.
+    - cron: '0 7 * * *'
+    - cron: '0 10 * * *'
+  workflow_dispatch:        # lets you run it by hand from the Actions tab
+
+concurrency:
+  group: sync-daily
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # to commit the imported briefs back
+
+    steps:
+      - name: Check out Long Press
+        uses: actions/checkout@v4
+
+      - name: Check out the roundup source
+        uses: actions/checkout@v4
+        with:
+          repository: swamiguru/builtbyswami
+          path: .source
+          # Fine-grained PAT with Contents:read on swamiguru/builtbyswami.
+          # Store it in this repo under Settings > Secrets > Actions.
+          token: ${{ secrets.ROUNDUP_READ_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - run: npm ci
+
+      - name: Import any new briefs
+        run: node scripts/import-roundup.mjs .source
+
+      - name: Stop here if nothing changed
+        id: check
+        run: |
+          if git diff --quiet -- src/content/daily && \
+             [ -z "$(git ls-files --others --exclude-standard -- src/content/daily)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new briefs."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git status --porcelain -- src/content/daily
+          fi
+
+      - name: Build (routing guard runs first and blocks on a bad slug)
+        if: steps.check.outputs.changed == 'true'
+        run: npm run build
+
+      - name: Publish
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name  "long-press-bot"
+          git config user.email "builtbyswami@gmail.com"
+          git add src/content/daily
+          git commit -m "Daily brief: $(date -u +%Y-%m-%d)"
+          git push
