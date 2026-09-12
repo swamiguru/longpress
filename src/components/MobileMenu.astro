@@ -65,7 +65,7 @@ const isSearchActive = currentPath === '/search';
         <div class="mobile-drawer-brand__mark" aria-hidden="true">
           <svg width="30" height="30" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="21" cy="21" r="19.5" fill="none" stroke="currentColor" stroke-width="2" class="drawer-mark-ring" />
-            <path d="M21 1.5a19.5 19.5 0 0 1 13.8 33.3" fill="none" stroke="#E0552B" stroke-width="4.5" stroke-linecap="round" />
+            <path d="M21 1.5a19.5 19.5 0 0 1 13.8 33.3" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linecap="round" />
             <circle cx="21" cy="21" r="7.5" fill="currentColor" class="drawer-mark-dot" />
           </svg>
         </div>
@@ -358,7 +358,7 @@ const isSearchActive = currentPath === '/search';
     min-width: 38px;
     min-height: 38px;
     padding: 0;
-    border-radius: 9999px;
+    border-radius: 50%;
     border: 1.5px solid var(--rule);
     background: var(--surface);
     color: var(--ink);
@@ -404,7 +404,6 @@ const isSearchActive = currentPath === '/search';
     width: 100%;
     height: 2px;
     background: currentColor;
-    border-radius: 2px;
     transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
                 opacity 0.2s ease;
     transform-origin: center;
@@ -545,7 +544,7 @@ const isSearchActive = currentPath === '/search';
     min-width: 44px;
     min-height: 44px;
     padding: 0;
-    border-radius: 9999px;
+    border-radius: 50%;
     border: 1.5px solid var(--rule);
     background: var(--surface);
     color: var(--ink);
@@ -575,8 +574,8 @@ const isSearchActive = currentPath === '/search';
     align-items: center;
     justify-content: space-between;
     padding: 8px 18px;
-    background: var(--ground-subtle, rgba(0, 0, 0, 0.02));
-    border-bottom: 1px solid var(--rule-soft, var(--rule));
+    background: var(--ground-subtle);
+    border-bottom: 1px solid var(--rule-soft);
     font-family: var(--mono);
     font-size: 10px;
     color: var(--muted);
@@ -643,7 +642,6 @@ const isSearchActive = currentPath === '/search';
     gap: 12px;
     padding: 12px 14px;
     min-height: 54px;
-    border-radius: 12px;
     background: var(--ground);
     border: 1.5px solid var(--rule);
     text-decoration: none;
@@ -679,7 +677,6 @@ const isSearchActive = currentPath === '/search';
     height: 36px;
     min-width: 36px;
     min-height: 36px;
-    border-radius: 8px;
     background: var(--surface);
     border: 1px solid var(--rule);
     color: var(--ink);
@@ -722,7 +719,6 @@ const isSearchActive = currentPath === '/search';
   .drawer-card__badge {
     display: inline-block;
     padding: 2px 6px;
-    border-radius: 4px;
     font-family: var(--mono);
     font-size: 9px;
     font-weight: 700;
@@ -738,7 +734,7 @@ const isSearchActive = currentPath === '/search';
   }
 
   .drawer-card__badge--opinion {
-    background: rgba(14, 15, 29, 0.06);
+    background: var(--surface-hover);
     color: var(--ink-soft);
     border: 1px solid var(--rule);
   }
@@ -789,7 +785,6 @@ const isSearchActive = currentPath === '/search';
     gap: 12px;
     padding: 10px 12px;
     min-height: 48px;
-    border-radius: 10px;
     background: transparent;
     border: 1px solid transparent;
     text-decoration: none;
@@ -816,7 +811,6 @@ const isSearchActive = currentPath === '/search';
     justify-content: center;
     width: 32px;
     height: 32px;
-    border-radius: 6px;
     background: var(--ground);
     border: 1px solid var(--rule);
     color: var(--muted);
@@ -870,7 +864,6 @@ const isSearchActive = currentPath === '/search';
     gap: 12px;
     padding: 10px 14px;
     min-height: 48px;
-    border-radius: 10px;
     background: var(--ground);
     border: 1.5px solid var(--rule);
     box-sizing: border-box;
@@ -888,7 +881,6 @@ const isSearchActive = currentPath === '/search';
     justify-content: center;
     width: 32px;
     height: 32px;
-    border-radius: 6px;
     background: var(--surface);
     border: 1px solid var(--rule);
     color: var(--accent-deep);
@@ -898,7 +890,7 @@ const isSearchActive = currentPath === '/search';
   .drawer-theme-svg--sun { display: none; }
   .drawer-theme-svg--moon { display: block; }
 
-  :global(html[data-theme="dark"]) .drawer-theme-svg--sun { display: block; color: #FFA07E; }
+  :global(html[data-theme="dark"]) .drawer-theme-svg--sun { display: block; color: var(--accent-deep); }
   :global(html[data-theme="dark"]) .drawer-theme-svg--moon { display: none; }
 
   .drawer-theme-card__text {
@@ -926,7 +918,6 @@ const isSearchActive = currentPath === '/search';
     justify-content: center;
     min-height: 36px;
     padding: 6px 14px;
-    border-radius: 9999px;
     border: 1.5px solid var(--rule-strong);
     background: var(--surface);
     color: var(--ink);
@@ -967,7 +958,6 @@ const isSearchActive = currentPath === '/search';
     gap: 8px;
     padding: 8px 10px;
     min-height: 44px;
-    border-radius: 8px;
     text-decoration: none;
     font-size: 13px;
     color: var(--ink-soft);
@@ -1014,6 +1004,10 @@ const isSearchActive = currentPath === '/search';
   @media (max-width: 768px) {
     .mobile-menu-toggle {
       display: inline-flex;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
     }
   }
 
@@ -1037,7 +1031,9 @@ const isSearchActive = currentPath === '/search';
   }
 </style>
 
-<script is:inline>
+<script>
+  import { getTheme, toggleTheme, onThemeChange } from '../lib/theme';
+
   (function() {
     function setupMobileNavDrawer() {
       const toggleBtn = document.getElementById('mobile-menu-toggle');
@@ -1054,7 +1050,7 @@ const isSearchActive = currentPath === '/search';
 
       function updateThemeLabel() {
         if (!themeStatus || !themeBtnLabel) return;
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const isDark = getTheme() === 'dark';
         themeStatus.textContent = isDark ? 'Deep Midnight Dark' : 'Sand Editorial Light';
         themeBtnLabel.textContent = isDark ? 'To Light' : 'To Dark';
       }
@@ -1062,28 +1058,10 @@ const isSearchActive = currentPath === '/search';
       updateThemeLabel();
 
       // Synchronize with any theme changes elsewhere on page
-      window.addEventListener('longpress:theme-change', updateThemeLabel);
+      onThemeChange(updateThemeLabel);
 
       if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-          const nextTheme = isDark ? 'light' : 'dark';
-
-          if (nextTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('longpress-theme', 'dark');
-            const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#0E0F1D');
-          } else {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.setItem('longpress-theme', 'light');
-            const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#F4F1E8');
-          }
-
-          updateThemeLabel();
-          window.dispatchEvent(new CustomEvent('longpress:theme-change', { detail: { theme: nextTheme } }));
-        });
+        themeToggleBtn.addEventListener('click', () => toggleTheme());
       }
 
       function openDrawer() {

@@ -37,7 +37,7 @@
   </g>
 
   <!-- Headline and payoff -->
-  <text x="400" y="615" font-family="'Bricolage Grotesque', sans-serif" font-size="32" font-weight="800" fill="#FFFFFF" text-anchor="middle">Unlock Windows 'God Mode'</text>
+  <text x="400" y="615" font-family="'Archivo', system-ui, sans-serif" font-size="32" font-weight="800" fill="#FFFFFF" text-anchor="middle">Unlock Windows 'God Mode'</text>
   <text x="400" y="660" font-family="'Newsreader', serif" font-size="20" fill="#A0A3BD" text-anchor="middle">200+ legacy settings in one searchable master list</text>
 
   <!-- Bottom watermark -->

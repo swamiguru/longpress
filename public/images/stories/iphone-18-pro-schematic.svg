@@ -50,14 +50,14 @@
   <!-- Spec callouts & technical annotations -->
   <g transform="translate(560, 160)">
     <!-- Heading -->
-    <text x="0" y="30" font-family="'Bricolage Grotesque', sans-serif" font-size="34" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">iPhone 18 Pro Architecture</text>
+    <text x="0" y="30" font-family="'Archivo', system-ui, sans-serif" font-size="34" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">iPhone 18 Pro Architecture</text>
     <text x="0" y="60" font-family="'Space Mono', monospace" font-size="14" fill="#E0552B">THE DIMINISHING RETURNS PLATEAU</text>
 
     <!-- Callout 1 -->
     <g transform="translate(0, 105)">
       <circle cx="12" cy="12" r="12" fill="rgba(224, 85, 43, 0.15)" stroke="#E0552B" stroke-width="1.5"/>
       <text x="12" y="16" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#E0552B" text-anchor="middle">A</text>
-      <text x="36" y="10" font-family="'Bricolage Grotesque', sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">TSMC 2nm (N2) Gate-All-Around</text>
+      <text x="36" y="10" font-family="'Archivo', system-ui, sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">TSMC 2nm (N2) Gate-All-Around</text>
       <text x="36" y="32" font-family="'Newsreader', serif" font-size="15" fill="#A0A3BD">Thermal headroom gained is largely traded for on-device neural weight retention.</text>
     </g>
 
@@ -65,7 +65,7 @@
     <g transform="translate(0, 185)">
       <circle cx="12" cy="12" r="12" fill="rgba(224, 85, 43, 0.15)" stroke="#E0552B" stroke-width="1.5"/>
       <text x="12" y="16" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#E0552B" text-anchor="middle">B</text>
-      <text x="36" y="10" font-family="'Bricolage Grotesque', sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">Vapor-Chamber Thermal Diffusion</text>
+      <text x="36" y="10" font-family="'Archivo', system-ui, sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">Vapor-Chamber Thermal Diffusion</text>
       <text x="36" y="32" font-family="'Newsreader', serif" font-size="15" fill="#A0A3BD">Sustained 4K ProRes frame rates without the thermal throttling of previous cycles.</text>
     </g>
 
@@ -73,7 +73,7 @@
     <g transform="translate(0, 265)">
       <circle cx="12" cy="12" r="12" fill="rgba(224, 85, 43, 0.15)" stroke="#E0552B" stroke-width="1.5"/>
       <text x="12" y="16" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#E0552B" text-anchor="middle">C</text>
-      <text x="36" y="10" font-family="'Bricolage Grotesque', sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">Zero Day-One Motivation for Upgrades</text>
+      <text x="36" y="10" font-family="'Archivo', system-ui, sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">Zero Day-One Motivation for Upgrades</text>
       <text x="36" y="32" font-family="'Newsreader', serif" font-size="15" fill="#A0A3BD">If you already own an iPhone 15 Pro or newer, performance deltas are imperceptible.</text>
     </g>
   </g>

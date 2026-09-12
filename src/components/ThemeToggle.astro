@@ -38,7 +38,7 @@
     min-width: 36px;
     min-height: 36px;
     padding: 0;
-    border-radius: 9999px;
+    border-radius: 50%;
     border: 1.5px solid var(--rule);
     background: var(--surface);
     color: var(--ink);
@@ -97,49 +97,40 @@
   :global(html[data-theme="dark"]) .theme-toggle__icon--sun {
     transform: rotate(0deg) scale(1);
     opacity: 1;
-    color: #FFA07E;
+    color: var(--accent-deep);
+  }
+
+  @media (max-width: 768px) {
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+    }
   }
 </style>
 
-<script is:inline>
-  (function() {
-    function setupThemeToggle() {
-      const toggle = document.getElementById('theme-toggle');
-      if (!toggle) return;
+<script>
+  import { getTheme, toggleTheme, onThemeChange } from '../lib/theme';
 
-      function updateLabel() {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        toggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-        toggle.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-      }
+  function setup() {
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
 
-      updateLabel();
-
-      toggle.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const nextTheme = isDark ? 'light' : 'dark';
-
-        if (nextTheme === 'dark') {
-          document.documentElement.setAttribute('data-theme', 'dark');
-          localStorage.setItem('longpress-theme', 'dark');
-          const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute('content', '#0E0F1D');
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          localStorage.setItem('longpress-theme', 'light');
-          const meta = document.querySelector('meta[name="theme-color"]');
-          if (meta) meta.setAttribute('content', '#F4F1E8');
-        }
-
-        updateLabel();
-        window.dispatchEvent(new CustomEvent('longpress:theme-change', { detail: { theme: nextTheme } }));
-      });
+    function updateLabel() {
+      const label = getTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+      toggle.setAttribute('aria-label', label);
+      toggle.setAttribute('title', label);
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', setupThemeToggle);
-    } else {
-      setupThemeToggle();
-    }
-  })();
+    updateLabel();
+    onThemeChange(updateLabel);
+    toggle.addEventListener('click', () => toggleTheme());
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup);
+  } else {
+    setup();
+  }
 </script>
