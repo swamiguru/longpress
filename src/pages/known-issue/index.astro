@@ -43,18 +43,18 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
         <span class="column-telemetry-dot" aria-hidden="true"></span>
         Format: Standing Opinion Column
       </span>
-      <span class="column-telemetry-item">&middot;</span>
+      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
       <span class="column-telemetry-item">Scope: Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware &amp; AI</span>
-      <span class="column-telemetry-item">&middot;</span>
+      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
       <span class="column-telemetry-item">Cadence: Regular Dispatches</span>
-      <span class="column-telemetry-item">&middot;</span>
+      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
       <span class="column-telemetry-item">Desk: Swami Guru ({allStories.length} Pieces)</span>
     </div>
 
     <!-- Core Coverage Domain Pills -->
-    <div class="column-domains" aria-label="Core opinion coverage domains" style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: var(--s4);">
+    <div class="column-domains" aria-label="Core opinion coverage domains">
       {['Tech', 'Software', 'Apps', 'iOS', 'Android', 'Google', 'Apple', 'Big Tech', 'Hardware', 'AI'].map((domain) => (
-        <span class="pill-tag pill-tag--muted" style="font-size: 11px; padding: 3px 10px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: var(--reverse-muted);">
+        <span class="column-domain-pill">
           {domain}
         </span>
       ))}
@@ -113,7 +113,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
             ))}
           </div>
 
-          <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="entry__actions">
             <button
               type="button"
               class="card-share-btn"
@@ -214,7 +214,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 
           <div class="entry__footer">
             <span class="entry__meta-note">Swami Guru</span>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="entry__actions">
               <button
                 type="button"
                 class="card-share-btn"

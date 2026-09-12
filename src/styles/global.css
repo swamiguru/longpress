@@ -1154,6 +1154,7 @@ main { padding-block: var(--s7) var(--s9); }
   justify-content: space-between;
   align-items: center;
   gap: var(--s2);
+  flex-wrap: wrap;
   margin-bottom: var(--s3);
 }
 
@@ -1169,6 +1170,8 @@ main { padding-block: var(--s7) var(--s9); }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 .pill-tag--category {
   background: rgba(224, 85, 43, 0.08);
@@ -1283,6 +1286,8 @@ main { padding-block: var(--s7) var(--s9); }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--s2);
+  flex-wrap: wrap;
   padding-top: var(--s3);
   border-top: 1px solid var(--rule);
   margin-top: auto;
@@ -1305,6 +1310,7 @@ main { padding-block: var(--s7) var(--s9); }
   text-transform: uppercase;
   color: var(--ink);
   text-decoration: none;
+  white-space: nowrap;
   transition: color 0.15s ease, transform 0.12s ease;
   display: inline-flex;
   align-items: center;
@@ -2649,7 +2655,8 @@ main { padding-block: var(--s7) var(--s9); }
 .column-telemetry {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 20px;
+  align-items: center;
+  gap: 10px 18px;
   margin-top: var(--s5);
   padding-top: var(--s4);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
@@ -2666,12 +2673,48 @@ main { padding-block: var(--s7) var(--s9); }
   gap: 6px;
 }
 
+.column-telemetry-sep {
+  color: rgba(255, 255, 255, 0.28);
+  user-select: none;
+}
+
 .column-telemetry-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--accent-light);
   box-shadow: 0 0 6px var(--accent-light);
+}
+
+.column-domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  justify-content: center;
+  margin-top: var(--s4);
+}
+
+.column-domain-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--dark-soft);
+  white-space: nowrap;
+  line-height: 1.2;
+  transition: all 0.15s ease;
+}
+
+.column-domain-pill:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--dark-ink);
+  border-color: rgba(255, 255, 255, 0.32);
 }
 
 .column-manifesto {
@@ -3437,6 +3480,224 @@ main { padding-block: var(--s7) var(--s9); }
     justify-content: center;
     padding: 10px 16px;
     min-height: 40px;
+  }
+
+  /* ============================================================
+     The Daily Five Archive (/daily) mobile
+     ============================================================ */
+  .archive-pagination-bar {
+    border-radius: 16px;
+    padding: 12px;
+    gap: 10px;
+  }
+  .archive-filter-pills {
+    order: 1;
+    width: 100%;
+    justify-content: center;
+    gap: 6px;
+  }
+  #btn-older-month-top,
+  #btn-newer-month-top {
+    order: 2;
+    flex: 1 1 calc(50% - 6px);
+    min-height: 40px;
+    justify-content: center;
+  }
+  .archive-month-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .archive-month-title-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .archive-pagination-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .archive-pagination-bottom > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .archive-pagination-bottom .archive-bottom-nav {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+  .archive-pagination-bottom .archive-pagination-info {
+    order: -1;
+    margin-bottom: 2px;
+    font-size: 11px;
+  }
+
+  /* ============================================================
+     Known Issue Column (/known-issue) mobile
+     ============================================================ */
+  .page-head--column {
+    padding: 24px 18px;
+  }
+  .column-telemetry {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-top: 14px;
+  }
+  .column-telemetry-sep {
+    display: none;
+  }
+  .column-domains {
+    justify-content: flex-start;
+    gap: 6px;
+  }
+  .column-domain-pill {
+    font-size: 10.5px;
+    padding: 4px 9px;
+  }
+  .known-issue-featured {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .known-issue-featured__eyebrow {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .known-issue-featured__title {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  .known-issue-featured__desc {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .known-issue-featured .entry__footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .known-issue-featured .entry__footer > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  .column-manifesto {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .column-manifesto__card {
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+  .column-section-title {
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    align-items: baseline;
+  }
+
+  /* ============================================================
+     About Page (/about) mobile
+     ============================================================ */
+  .about-profile {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 16px;
+    gap: 16px;
+    border-radius: 16px;
+  }
+  .about-profile__avatar {
+    width: 58px;
+    height: 58px;
+    font-size: 20px;
+    border-radius: 14px;
+  }
+  .about-profile__name {
+    font-size: 22px;
+  }
+  .about-profile__bio {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .about-profile__actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+  .about-profile__actions .chip {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .about-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .about-pillar-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .about-standards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .about-standards-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .column-tip-box {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .dispatch-card__link {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* ============================================================
+   Narrow Mobile Viewports (<= 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .entry__meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .entry__footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .entry__footer > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  .entry__cta {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .card-share-btn {
+    min-height: 36px;
+    padding: 6px 12px;
+  }
+  .archive-filter-btn {
+    padding: 6px 11px;
+    font-size: 10.5px;
   }
 }
 
