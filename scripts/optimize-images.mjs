@@ -19,6 +19,12 @@ async function processDir(dir, sizeConfigs) {
   const files = fs.readdirSync(dir);
 
   for (const file of files) {
+    // Recurse: the daily importer files cards under public/images/daily/<date>/
+    // so one folder does not end up holding thousands of loose files.
+    if (fs.statSync(path.join(dir, file)).isDirectory()) {
+      await processDir(path.join(dir, file), sizeConfigs);
+      continue;
+    }
     // Skip generated variants
     if (file.includes('-480w.') || file.includes('-800w.') || file.includes('-1200w.') || file.includes('-320w.') || file.includes('-640w.')) {
       continue;

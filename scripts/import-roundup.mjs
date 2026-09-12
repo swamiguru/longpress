@@ -6,7 +6,7 @@
  * Usage:  node scripts/import-roundup.mjs <path-to-builtbyswami-repo> [--dry]
  */
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { join, resolve, basename } from 'node:path';
 
 const SRC_REPO = process.argv[2];
 const DRY = process.argv.includes('--dry');
@@ -19,7 +19,10 @@ const OUT = 'src/content/daily';
 // resolves on this domain instead of pointing at a site that no longer serves
 // them.
 const CARDS_SRC = join(resolve(SRC_REPO), 'public/social');
-const CARDS_OUT = 'public/social';
+// Cards land under public/images/daily/<date>/ - the tree scripts/optimize-images.mjs
+// walks, so each one gets 320w and 640w WebP variants and ResponsiveImage can
+// pick the right file. public/social/ was outside that tree and served raw PNGs.
+const CARDS_OUT = 'public/images/daily';
 // Every card made before this date carries the old @builtbyswami wordmark and
 // the cyan palette. Pulling those in would put the wrong brand on all 61
 // archived briefs, so the archive stays text-only and cards start from the
@@ -72,11 +75,39 @@ let written = 0, skipped = 0;
 const kinds = new Map();
 const warnings = [];
 
+/**
+ * Art a human added by hand to an already-published brief.
+ *
+ * These files are generated: every run rewrites all of them from the source
+ * JSON. So a diagram someone hand-authored into a brief - the Windows God Mode
+ * SVG on 2026-09-12, for instance - is silently deleted by the next sync unless
+ * it is read back first. Anything the JSON does not supply a card for keeps
+ * whatever the file already had.
+ */
+function existingArt(date) {
+  const art = new Map();
+  const file = join(OUT, `${date}.md`);
+  if (!existsSync(file)) return art;
+  let slot = null;
+  for (const line of readFileSync(file, 'utf8').split('\n')) {
+    const isSlot = line.match(/^ {2}- slot: (\d+)\s*$/);
+    if (isSlot) { slot = isSlot[1]; continue; }
+    const kv = line.match(/^ {4}(image|imageAlt|imageCaption): (.+)$/);
+    if (kv && slot) {
+      if (!art.has(slot)) art.set(slot, []);
+      art.get(slot).push(`    ${kv[1]}: ${kv[2]}`);
+    }
+  }
+  return art;
+}
+
 for (const file of files) {
   const d = JSON.parse(readFileSync(join(SRC, file), 'utf8'));
   const date = d.date || file.replace('.json', '');
   const posts = (d.posts || []).slice().sort((a, b) => Number(a.n) - Number(b.n));
   if (!posts.length) { warnings.push(`${date}: no posts, skipped`); skipped++; continue; }
+
+  const keepArt = existingArt(date);
 
   const lines = ['---'];
   lines.push(`date: ${date}`);
@@ -98,9 +129,14 @@ for (const file of files) {
     // Only emit the card if the file is really there. A frontmatter path to a
     // missing image fails the build, and a missing card is normal: the
     // community/poll slot never gets one.
+    const slotKey = String(Number(p.n) || i + 1);
     if (date >= CARDS_FROM && p.image
         && existsSync(join(resolve(SRC_REPO), 'public', p.image.replace(/^\//, '')))) {
-      lines.push(`    image: ${quote(p.image)}`);
+      lines.push(`    image: ${quote(`/images/daily/${date}/${basename(p.image)}`)}`);
+      const alt = keepArt.get(slotKey)?.filter((l) => !l.startsWith('    image:'));
+      if (alt?.length) lines.push(...alt);
+    } else if (keepArt.has(slotKey)) {
+      lines.push(...keepArt.get(slotKey));
     }
     for (const [src, dest] of [['problem','problem'],['breakthrough','breakthrough'],['catch','catch'],['forYou','forYou']]) {
       if (p[src]) lines.push(block(dest, p[src], 4));
