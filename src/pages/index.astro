@@ -62,7 +62,7 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
         <div class="featured-lead__dossier" aria-label="Stories in this issue">
           <div class="featured-lead__dossier-label">
             <span>Inside Today&rsquo;s Daily Five</span>
-            <span>5 Stories &middot; Full Dossier</span>
+            <span>5 stories &middot; the full brief</span>
           </div>
           <div class="featured-lead__story-grid">
             {today.data.items.map((item) => (
@@ -188,7 +188,7 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
       <div class="known-issue-strip" id="known-issue-desk-callout">
         <div class="known-issue-strip__text">
           <strong>Known Issue Column:</strong>
-          <span>Swami's opinions on Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware &amp; AI.</span>
+          <span>The things in Apple, Google, Meta and the apps you use daily that stay broken.</span>
         </div>
         <a href="/known-issue" class="entry__cta" style="font-weight: 700; white-space: nowrap;">
           About the Column &rarr;
