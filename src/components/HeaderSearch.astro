@@ -152,14 +152,16 @@
     border-radius: 9999px;
     padding: 0 32px 0 34px;
     height: 36px;
-    width: 240px;
+    width: clamp(160px, 15vw, 210px);
     box-sizing: border-box;
-    transition: border-color 0.18s ease,
+    transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.18s ease,
                 background-color 0.18s ease,
                 box-shadow 0.18s ease;
   }
 
   .header-search:focus-within {
+    width: clamp(210px, 20vw, 260px);
     border-color: var(--accent);
     background: var(--surface-card);
     box-shadow: 0 0 0 3px var(--accent-subtle), 0 2px 8px rgba(0, 0, 0, 0.06);

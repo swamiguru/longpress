@@ -282,6 +282,7 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   align-items: center;
   justify-content: space-between;
   gap: var(--s4);
+  flex-wrap: nowrap;
 }
 .masthead__branding {
   display: flex;
@@ -293,12 +294,15 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   align-items: center;
   gap: 16px;
   justify-content: flex-end;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 .masthead__tools {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  flex-wrap: nowrap;
 }
 .masthead__brand-link {
   display: inline-flex;
@@ -319,19 +323,21 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
 .nav {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  flex-shrink: 0;
 }
 .nav__link,
 .nav a {
   display: inline-flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 7px 14px;
   border-radius: 9999px;
   border: 1.5px solid transparent;
   font-family: var(--display);
   font-variation-settings: var(--display-normal);
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -339,6 +345,8 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   text-decoration: none;
   background: transparent;
   line-height: 1;
+  white-space: nowrap !important;
+  flex-shrink: 0;
   transition: background-color 0.18s ease,
               border-color 0.18s ease,
               color 0.18s ease,
@@ -358,6 +366,7 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   background: var(--surface);
   border-color: var(--rule-strong);
   color: var(--ink);
+  padding: 7px 14px 7px 10px;
   box-shadow: 0 2px 8px rgba(23, 24, 46, 0.04);
 }
 .nav__link.is-active::before,
@@ -368,8 +377,27 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  margin-right: 8px;
+  margin-right: 6px;
   flex-shrink: 0;
+}
+
+@media (min-width: 769px) and (max-width: 1040px) {
+  .masthead__actions {
+    gap: 10px;
+  }
+  .nav {
+    gap: 4px;
+  }
+  .nav__link,
+  .nav a {
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+  }
+  .nav__link.is-active,
+  .nav a.is-active {
+    padding: 6px 10px 6px 8px;
+  }
 }
 
 /* --- Mobile Navigation Consolidation (< 768px) -------------- */
