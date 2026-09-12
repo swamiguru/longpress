@@ -37,6 +37,21 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       In software, a &ldquo;known issue&rdquo; is what everyone quietly knows is broken, awkward, or off-target, but nobody wants to say out loud. In this column, Swami writes candid opinion pieces and critical takes across Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI &mdash; cutting through marketing hype with an operator-informed read.
     </p>
 
+    <!-- Masthead Quick Actions / Jump Controls -->
+    <div class="column-masthead-actions" aria-label="Editorial shortcuts">
+      {leadStory && (
+        <a href={`/${leadStory.data.slug}`} class="column-action-btn column-action-btn--primary" id="hero-read-lead-opinion">
+          Read Featured Opinion &rarr;
+        </a>
+      )}
+      <a href="#all-columns-section" class="column-action-btn column-action-btn--secondary" id="hero-jump-columns">
+        Browse All Pieces ({allStories.length}) &darr;
+      </a>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">✍️</span> Operator Perspective</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> Unfiltered Point of View</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> Zero PR Spin</span>
+    </div>
+
     <!-- Telemetry strip -->
     <div class="column-telemetry" aria-label="Column status">
       <span class="column-telemetry-item">
@@ -58,25 +73,6 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
           {domain}
         </span>
       ))}
-    </div>
-  </div>
-
-  <!-- Editorial Tenets Bento -->
-  <div class="column-manifesto" aria-label="Editorial Principles">
-    <div class="column-manifesto__card">
-      <span class="column-manifesto__num">01 / The Real Read</span>
-      <h3>Zero PR Spin</h3>
-      <p>Cutting through keynote buzzwords, investor hype, and polite corporate messaging to share what actually makes sense across consumer tech and enterprise ecosystems.</p>
-    </div>
-    <div class="column-manifesto__card">
-      <span class="column-manifesto__num">02 / The Product Lens</span>
-      <h3>Operator Perspective</h3>
-      <p>Opinions informed by eleven years leading product and digital publishing platforms at Vogue, Wired, and Cond&eacute; Nast &mdash; shipping real software and evaluating hardware firsthand.</p>
-    </div>
-    <div class="column-manifesto__card">
-      <span class="column-manifesto__num">03 / Taking a Stand</span>
-      <h3>Unfiltered Point of View</h3>
-      <p>Decisive, independent critique on apps, operating systems (iOS &amp; Android), platform shifts from Apple and Google, Big Tech power dynamics, and practical AI reality.</p>
     </div>
   </div>
 
@@ -149,7 +145,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
   <AdSlot placement="hub" />
 
   <!-- Unified Column Feed -->
-  <section class="column-section" aria-labelledby="all-columns-title" style="margin-top: var(--s7);">
+  <section class="column-section" id="all-columns-section" aria-labelledby="all-columns-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
       <h2 id="all-columns-title">All Column Pieces ({allStories.length})</h2>
       <span>Opinions on Tech, Software, Hardware &amp; AI</span>
@@ -182,9 +178,9 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
     <ul class="entries" id="column-feed-list">
       {allStories.map((p, idx) => (
         <li
+          class="entry-card"
           id={`story-${p.data.slug}`}
           data-topics={(p.data.topics || []).join(' ')}
-          style={idx === 0 ? 'background: var(--surface); border: 1.5px solid var(--accent-deep); border-radius: 12px; padding: var(--s4);' : ''}
         >
           <div class="entry__meta-row">
             <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">

@@ -1,0 +1,1192 @@
+---
+// MobileMenu.astro — Consolidated slide-out navigation drawer for mobile devices
+export interface Props {
+  currentPath?: string;
+  isDailyActive?: boolean;
+  isKnownIssueActive?: boolean;
+  isAboutActive?: boolean;
+  todayHeaderDate?: string;
+  edition?: string;
+  year?: number;
+}
+
+const {
+  currentPath = '/',
+  isDailyActive = false,
+  isKnownIssueActive = false,
+  isAboutActive = false,
+  todayHeaderDate = '',
+  edition = 'EDITION 10:00 IST',
+  year = new Date().getFullYear(),
+} = Astro.props;
+
+const isSearchActive = currentPath === '/search';
+---
+
+<!-- Mobile Menu Component Wrap -->
+<div class="mobile-menu-wrap" id="mobile-menu-wrap">
+  <!-- Hamburger Toggle Trigger Button -->
+  <button
+    type="button"
+    class="mobile-menu-toggle"
+    id="mobile-menu-toggle"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+    aria-controls="mobile-nav-drawer"
+    title="Open navigation menu"
+  >
+    <span class="mobile-menu-toggle__box" aria-hidden="true">
+      <span class="mobile-menu-toggle__bar mobile-menu-toggle__bar--top"></span>
+      <span class="mobile-menu-toggle__bar mobile-menu-toggle__bar--middle"></span>
+      <span class="mobile-menu-toggle__bar mobile-menu-toggle__bar--bottom"></span>
+    </span>
+  </button>
+
+  <!-- Backdrop / Scrim Overlay -->
+  <div
+    class="mobile-menu-backdrop"
+    id="mobile-menu-backdrop"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Slide-Out Navigation Drawer Panel -->
+  <aside
+    class="mobile-menu-drawer"
+    id="mobile-nav-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Site Navigation Menu"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <!-- Drawer Header -->
+    <div class="mobile-drawer-header" id="mobile-drawer-header">
+      <a href="/" class="mobile-drawer-brand" id="mobile-drawer-brand-link" aria-label="Long Press Home">
+        <div class="mobile-drawer-brand__mark" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="21" cy="21" r="19.5" fill="none" stroke="currentColor" stroke-width="2" class="drawer-mark-ring" />
+            <path d="M21 1.5a19.5 19.5 0 0 1 13.8 33.3" fill="none" stroke="#E0552B" stroke-width="4.5" stroke-linecap="round" />
+            <circle cx="21" cy="21" r="7.5" fill="currentColor" class="drawer-mark-dot" />
+          </svg>
+        </div>
+        <div class="mobile-drawer-brand__text">
+          <span class="mobile-drawer-brand__title">Long<span class="word-press">press</span></span>
+          <span class="mobile-drawer-brand__edition">{edition}</span>
+        </div>
+      </a>
+
+      <button
+        type="button"
+        class="mobile-drawer-close"
+        id="mobile-drawer-close"
+        aria-label="Close navigation menu"
+        title="Close navigation menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Telemetry Strip inside Drawer -->
+    <div class="mobile-drawer-telemetry" aria-label="Editorial edition info">
+      <span class="drawer-telemetry-item">
+        <span class="drawer-live-dot" aria-hidden="true"></span>
+        <span>Daily at 10:00 IST</span>
+      </span>
+      {todayHeaderDate && (
+        <span class="drawer-telemetry-date">{todayHeaderDate}</span>
+      )}
+    </div>
+
+    <!-- Scrollable Drawer Body -->
+    <div class="mobile-drawer-body" id="mobile-drawer-body">
+      <!-- Section 1: Primary Editorial Coverage -->
+      <div class="drawer-group" id="drawer-group-primary">
+        <div class="drawer-group__label">Core Coverage</div>
+        <nav class="drawer-nav" aria-label="Core Sections">
+          <!-- The Daily Five -->
+          <a
+            href="/daily"
+            class:list={['drawer-card', { 'is-active': isDailyActive }]}
+            aria-current={isDailyActive ? 'page' : undefined}
+            id="drawer-nav-daily"
+          >
+            <div class="drawer-card__icon drawer-card__icon--brief" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="drawer-card__content">
+              <div class="drawer-card__header">
+                <span class="drawer-card__title">The Daily Five</span>
+                <span class="drawer-card__badge drawer-card__badge--brief">Morning Brief</span>
+              </div>
+              <p class="drawer-card__desc">Five consequential developments disassembled daily at 10:00 IST.</p>
+            </div>
+            <span class="drawer-card__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <!-- Known Issue Column -->
+          <a
+            href="/known-issue"
+            class:list={['drawer-card', { 'is-active': isKnownIssueActive }]}
+            aria-current={isKnownIssueActive ? 'page' : undefined}
+            id="drawer-nav-known-issue"
+          >
+            <div class="drawer-card__icon drawer-card__icon--opinion" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </div>
+            <div class="drawer-card__content">
+              <div class="drawer-card__header">
+                <span class="drawer-card__title">Known Issue</span>
+                <span class="drawer-card__badge drawer-card__badge--opinion">Opinion Column</span>
+              </div>
+              <p class="drawer-card__desc">Operator-informed critical analysis cutting through industry marketing spin.</p>
+            </div>
+            <span class="drawer-card__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <!-- About Long Press -->
+          <a
+            href="/about"
+            class:list={['drawer-card', { 'is-active': isAboutActive }]}
+            aria-current={isAboutActive ? 'page' : undefined}
+            id="drawer-nav-about"
+          >
+            <div class="drawer-card__icon drawer-card__icon--about" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </div>
+            <div class="drawer-card__content">
+              <div class="drawer-card__header">
+                <span class="drawer-card__title">About Long Press</span>
+                <span class="drawer-card__badge drawer-card__badge--desk">The Desk</span>
+              </div>
+              <p class="drawer-card__desc">Eleven years of product leadership at Wired, Vogue, and Cond&eacute; Nast.</p>
+            </div>
+            <span class="drawer-card__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Section 2: Discovery, Archive & Syndication -->
+      <div class="drawer-group" id="drawer-group-discovery">
+        <div class="drawer-group__label">Discovery &amp; Archives</div>
+        <ul class="drawer-utility-list">
+          <li>
+            <a
+              href="/search"
+              class:list={['drawer-utility-item', { 'is-active': isSearchActive }]}
+              id="drawer-util-search"
+            >
+              <span class="drawer-utility-item__icon" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </span>
+              <div class="drawer-utility-item__text">
+                <span class="drawer-utility-item__title">Search Archives &amp; Topics</span>
+                <span class="drawer-utility-item__sub">Index across software, hardware &amp; AI</span>
+              </div>
+              <span class="drawer-utility-item__hint" aria-hidden="true">Search &rarr;</span>
+            </a>
+          </li>
+          <li>
+            <a href="/daily#archive-section" class="drawer-utility-item" id="drawer-util-volumes">
+              <span class="drawer-utility-item__icon" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </span>
+              <div class="drawer-utility-item__text">
+                <span class="drawer-utility-item__title">Volume Archive</span>
+                <span class="drawer-utility-item__sub">Browse past editions by month</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="/" class="drawer-utility-item" id="drawer-util-home">
+              <span class="drawer-utility-item__icon" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </span>
+              <div class="drawer-utility-item__text">
+                <span class="drawer-utility-item__title">Today&rsquo;s Front Page</span>
+                <span class="drawer-utility-item__sub">Top stories &amp; lead dossier</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="/rss.xml" class="drawer-utility-item" id="drawer-util-rss">
+              <span class="drawer-utility-item__icon drawer-utility-item__icon--rss" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 11a9 9 0 0 1 9 9"></path>
+                  <path d="M4 4a16 16 0 0 1 16 16"></path>
+                  <circle cx="5" cy="19" r="1"></circle>
+                </svg>
+              </span>
+              <div class="drawer-utility-item__text">
+                <span class="drawer-utility-item__title">RSS 2.0 Wire</span>
+                <span class="drawer-utility-item__sub">Real-time feed for news readers</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Section 3: Display & Theme Mode Switcher -->
+      <div class="drawer-group" id="drawer-group-theme">
+        <div class="drawer-group__label">Display Mode</div>
+        <div class="drawer-theme-card">
+          <div class="drawer-theme-card__info">
+            <span class="drawer-theme-card__icon" id="drawer-theme-icon" aria-hidden="true">
+              <svg class="drawer-theme-svg--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              <svg class="drawer-theme-svg--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <div class="drawer-theme-card__text">
+              <span class="drawer-theme-card__title">Theme Appearance</span>
+              <span class="drawer-theme-card__status" id="drawer-theme-status">Light Editorial Mode</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="drawer-theme-toggle-btn"
+            id="drawer-theme-toggle-btn"
+            aria-label="Switch theme mode"
+          >
+            <span id="drawer-theme-btn-label">Toggle</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 4: The Desk & Direct Links -->
+      <div class="drawer-group" id="drawer-group-desk">
+        <div class="drawer-group__label">The Desk &amp; Contact</div>
+        <ul class="drawer-desk-list">
+          <li>
+            <a
+              href="https://www.builtbyswami.com/work-with-me"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="drawer-desk-link"
+              id="drawer-desk-advisory"
+            >
+              <span>Product Advisory</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" />
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:builtbyswami@gmail.com" class="drawer-desk-link" id="drawer-desk-email">
+              <span>Direct Desk Email (Tips &amp; Feedback)</span>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://www.builtbyswami.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="drawer-desk-link"
+              id="drawer-desk-publisher"
+            >
+              <span>BuiltBySwami &middot; Publisher</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="mobile-drawer-footer" id="mobile-drawer-footer">
+      <p class="drawer-creed">
+        Zero sponsored takes &middot; Zero paywalls &middot; Written for builders, operators &amp; product leaders.
+      </p>
+      <div class="drawer-colophon">
+        &copy; {year} Long Press &middot; An independent publication by <a href="https://www.builtbyswami.com" target="_blank" rel="noopener noreferrer">BuiltBySwami</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<style>
+  /* ------------------------------------------------------------
+     MOBILE MENU TRIGGER BUTTON
+     Hidden on desktop (> 768px), visible on mobile (<= 768px).
+     ------------------------------------------------------------ */
+  .mobile-menu-wrap {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-menu-toggle {
+    display: none; /* hidden by default on desktop */
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    padding: 0;
+    border-radius: 9999px;
+    border: 1.5px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: background-color 0.18s ease,
+                border-color 0.18s ease,
+                color 0.18s ease,
+                transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.18s ease;
+  }
+
+  .mobile-menu-toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--rule-strong);
+    color: var(--accent-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .mobile-menu-toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .mobile-menu-toggle:active {
+    transform: scale(0.95);
+  }
+
+  /* Animated Hamburger Icon Lines */
+  .mobile-menu-toggle__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 17px;
+    height: 13px;
+    position: relative;
+  }
+
+  .mobile-menu-toggle__bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.2s ease;
+    transform-origin: center;
+  }
+
+  /* When Hamburger is active / open */
+  .mobile-menu-toggle.is-active .mobile-menu-toggle__bar--top {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+  .mobile-menu-toggle.is-active .mobile-menu-toggle__bar--middle {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .mobile-menu-toggle.is-active .mobile-menu-toggle__bar--bottom {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+
+  /* ------------------------------------------------------------
+     BACKDROP / SCRIM OVERLAY
+     ------------------------------------------------------------ */
+  .mobile-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(14, 15, 29, 0.62);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s;
+  }
+
+  .mobile-menu-backdrop.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* ------------------------------------------------------------
+     SLIDE-OUT DRAWER PANEL
+     ------------------------------------------------------------ */
+  .mobile-menu-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 88vw;
+    max-width: 380px;
+    height: 100%;
+    height: 100dvh;
+    background: var(--surface);
+    color: var(--ink);
+    border-left: 2px solid var(--rule-strong);
+    box-shadow: -8px 0 36px rgba(14, 15, 29, 0.28);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.28s;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  .mobile-menu-drawer.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  /* ------------------------------------------------------------
+     DRAWER HEADER
+     ------------------------------------------------------------ */
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--ground);
+    border-bottom: 1.5px solid var(--rule);
+    flex-shrink: 0;
+  }
+
+  .mobile-drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    min-height: 44px;
+  }
+
+  .mobile-drawer-brand__mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--ink);
+  }
+
+  .drawer-mark-ring { stroke: currentColor; }
+  .drawer-mark-dot { fill: currentColor; }
+
+  .mobile-drawer-brand__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobile-drawer-brand__title {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .mobile-drawer-brand__edition {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+  }
+
+  .mobile-drawer-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 9999px;
+    border: 1.5px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.16s ease,
+                border-color 0.16s ease,
+                color 0.16s ease,
+                transform 0.16s ease;
+  }
+
+  .mobile-drawer-close:hover {
+    background: var(--surface-hover);
+    border-color: var(--rule-strong);
+    color: var(--accent-deep);
+    transform: scale(1.05);
+  }
+
+  .mobile-drawer-close:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* Telemetry sub-strip */
+  .mobile-drawer-telemetry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 18px;
+    background: var(--ground-subtle, rgba(0, 0, 0, 0.02));
+    border-bottom: 1px solid var(--rule-soft, var(--rule));
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .drawer-telemetry-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .drawer-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: live-pulse 2.2s infinite ease-in-out;
+  }
+
+  /* ------------------------------------------------------------
+     SCROLLABLE DRAWER BODY
+     ------------------------------------------------------------ */
+  .mobile-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 18px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .drawer-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .drawer-group__label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-inline: 4px;
+    margin-bottom: 2px;
+  }
+
+  /* --- Core Section Cards ------------------------------------ */
+  .drawer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .drawer-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    min-height: 54px;
+    border-radius: 12px;
+    background: var(--ground);
+    border: 1.5px solid var(--rule);
+    text-decoration: none;
+    color: var(--ink);
+    box-sizing: border-box;
+    transition: all 0.16s ease;
+    touch-action: manipulation;
+  }
+
+  .drawer-card:hover,
+  .drawer-card:focus-visible {
+    background: var(--surface-card);
+    border-color: var(--rule-strong);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  }
+
+  .drawer-card:active {
+    transform: scale(0.985);
+  }
+
+  .drawer-card.is-active {
+    background: var(--surface-card);
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px var(--accent-subtle);
+  }
+
+  .drawer-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .drawer-card.is-active .drawer-card__icon {
+    background: var(--accent-subtle);
+    border-color: var(--accent-border);
+    color: var(--accent-deep);
+  }
+
+  .drawer-card__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .drawer-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .drawer-card__title {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .drawer-card.is-active .drawer-card__title {
+    color: var(--accent-deep);
+  }
+
+  .drawer-card__badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .drawer-card__badge--brief {
+    background: var(--accent-subtle);
+    color: var(--accent-deep);
+    border: 1px solid var(--accent-border);
+  }
+
+  .drawer-card__badge--opinion {
+    background: rgba(14, 15, 29, 0.06);
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+  }
+
+  .drawer-card__badge--desk {
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--rule);
+  }
+
+  .drawer-card__desc {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .drawer-card__arrow {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.16s ease, color 0.16s ease;
+  }
+
+  .drawer-card:hover .drawer-card__arrow {
+    transform: translateX(2px);
+    color: var(--accent-deep);
+  }
+
+  /* --- Discovery & Utility List ------------------------------ */
+  .drawer-utility-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .drawer-utility-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    min-height: 48px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    text-decoration: none;
+    color: var(--ink);
+    box-sizing: border-box;
+    transition: all 0.15s ease;
+  }
+
+  .drawer-utility-item:hover,
+  .drawer-utility-item:focus-visible {
+    background: var(--ground);
+    border-color: var(--rule);
+    color: var(--accent-deep);
+  }
+
+  .drawer-utility-item.is-active {
+    background: var(--ground);
+    border-color: var(--accent);
+  }
+
+  .drawer-utility-item__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--ground);
+    border: 1px solid var(--rule);
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .drawer-utility-item:hover .drawer-utility-item__icon {
+    color: var(--accent-deep);
+    border-color: var(--rule-strong);
+  }
+
+  .drawer-utility-item__icon--rss {
+    color: var(--accent-deep);
+  }
+
+  .drawer-utility-item__text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .drawer-utility-item__title {
+    font-family: var(--display);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .drawer-utility-item__sub {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+
+  .drawer-utility-item__hint {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-deep);
+    flex-shrink: 0;
+  }
+
+  /* --- Theme Mode Card --------------------------------------- */
+  .drawer-theme-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    min-height: 48px;
+    border-radius: 10px;
+    background: var(--ground);
+    border: 1.5px solid var(--rule);
+    box-sizing: border-box;
+  }
+
+  .drawer-theme-card__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .drawer-theme-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    color: var(--accent-deep);
+    flex-shrink: 0;
+  }
+
+  .drawer-theme-svg--sun { display: none; }
+  .drawer-theme-svg--moon { display: block; }
+
+  :global(html[data-theme="dark"]) .drawer-theme-svg--sun { display: block; color: #FFA07E; }
+  :global(html[data-theme="dark"]) .drawer-theme-svg--moon { display: none; }
+
+  .drawer-theme-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .drawer-theme-card__title {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .drawer-theme-card__status {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+
+  .drawer-theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--rule-strong);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.16s ease;
+    white-space: nowrap;
+  }
+
+  .drawer-theme-toggle-btn:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    color: var(--accent-deep);
+  }
+
+  .drawer-theme-toggle-btn:active {
+    transform: scale(0.96);
+  }
+
+  /* --- Desk & External Links --------------------------------- */
+  .drawer-desk-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .drawer-desk-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    min-height: 44px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+  }
+
+  .drawer-desk-link:hover,
+  .drawer-desk-link:focus-visible {
+    background: var(--ground);
+    color: var(--accent-deep);
+  }
+
+  /* ------------------------------------------------------------
+     DRAWER FOOTER
+     ------------------------------------------------------------ */
+  .mobile-drawer-footer {
+    padding: 14px 18px;
+    background: var(--ground);
+    border-top: 1.5px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .drawer-creed {
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .drawer-colophon {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .drawer-colophon a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .drawer-colophon a:hover {
+    color: var(--accent-deep);
+  }
+
+  /* ------------------------------------------------------------
+     RESPONSIVE BREAKPOINTS
+     ------------------------------------------------------------ */
+  @media (max-width: 768px) {
+    .mobile-menu-toggle {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .mobile-menu-toggle,
+    .mobile-menu-backdrop,
+    .mobile-menu-drawer {
+      display: none !important;
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-drawer,
+    .mobile-menu-backdrop,
+    .mobile-menu-toggle__bar,
+    .drawer-live-dot {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    function setupMobileNavDrawer() {
+      const toggleBtn = document.getElementById('mobile-menu-toggle');
+      const closeBtn = document.getElementById('mobile-drawer-close');
+      const drawer = document.getElementById('mobile-nav-drawer');
+      const backdrop = document.getElementById('mobile-menu-backdrop');
+      const themeToggleBtn = document.getElementById('drawer-theme-toggle-btn');
+      const themeStatus = document.getElementById('drawer-theme-status');
+      const themeBtnLabel = document.getElementById('drawer-theme-btn-label');
+
+      if (!toggleBtn || !drawer || !backdrop) return;
+
+      let isOpen = false;
+
+      function updateThemeLabel() {
+        if (!themeStatus || !themeBtnLabel) return;
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        themeStatus.textContent = isDark ? 'Deep Midnight Dark' : 'Sand Editorial Light';
+        themeBtnLabel.textContent = isDark ? 'To Light' : 'To Dark';
+      }
+
+      updateThemeLabel();
+
+      // Synchronize with any theme changes elsewhere on page
+      window.addEventListener('longpress:theme-change', updateThemeLabel);
+
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          const nextTheme = isDark ? 'light' : 'dark';
+
+          if (nextTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('longpress-theme', 'dark');
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', '#0E0F1D');
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('longpress-theme', 'light');
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', '#F4F1E8');
+          }
+
+          updateThemeLabel();
+          window.dispatchEvent(new CustomEvent('longpress:theme-change', { detail: { theme: nextTheme } }));
+        });
+      }
+
+      function openDrawer() {
+        isOpen = true;
+        drawer.classList.add('is-open');
+        backdrop.classList.add('is-open');
+        toggleBtn.classList.add('is-active');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('mobile-menu-open');
+
+        // Trap focus to close button initially
+        setTimeout(() => {
+          if (closeBtn) closeBtn.focus();
+        }, 50);
+
+        document.addEventListener('keydown', handleKeydown);
+      }
+
+      function closeDrawer() {
+        if (!isOpen) return;
+        isOpen = false;
+        drawer.classList.remove('is-open');
+        backdrop.classList.remove('is-open');
+        toggleBtn.classList.remove('is-active');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('mobile-menu-open');
+
+        document.removeEventListener('keydown', handleKeydown);
+        toggleBtn.focus();
+      }
+
+      function handleKeydown(e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeDrawer();
+          return;
+        }
+
+        if (e.key === 'Tab') {
+          const focusable = drawer.querySelectorAll(
+            'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (!focusable || focusable.length === 0) return;
+
+          const firstEl = focusable[0];
+          const lastEl = focusable[focusable.length - 1];
+
+          if (e.shiftKey && document.activeElement === firstEl) {
+            e.preventDefault();
+            lastEl.focus();
+          } else if (!e.shiftKey && document.activeElement === lastEl) {
+            e.preventDefault();
+            firstEl.focus();
+          }
+        }
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        if (isOpen) {
+          closeDrawer();
+        } else {
+          openDrawer();
+        }
+      });
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeDrawer);
+      }
+
+      backdrop.addEventListener('click', closeDrawer);
+
+      // Close drawer when any internal navigation link is tapped
+      const navLinks = drawer.querySelectorAll('a');
+      navLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          closeDrawer();
+        });
+      });
+
+      // Auto close on window resize beyond mobile breakpoint
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && isOpen) {
+          closeDrawer();
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupMobileNavDrawer);
+    } else {
+      setupMobileNavDrawer();
+    }
+  })();
+</script>

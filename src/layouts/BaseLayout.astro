@@ -5,6 +5,7 @@ import ReadingProgressBar from '../components/ReadingProgressBar.astro';
 import BackToTop from '../components/BackToTop.astro';
 import HeaderSearch from '../components/HeaderSearch.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import MobileMenu from '../components/MobileMenu.astro';
 
 export interface Props {
   title: string;
@@ -197,6 +198,15 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
             <div class="masthead__tools" id="masthead-tools">
               <HeaderSearch />
               <ThemeToggle />
+              <MobileMenu
+                currentPath={currentPath}
+                isDailyActive={isDailyActive}
+                isKnownIssueActive={isKnownIssueActive}
+                isAboutActive={isAboutActive}
+                todayHeaderDate={todayHeaderDate}
+                edition={EDITION}
+                year={year}
+              />
             </div>
           </div>
         </div>

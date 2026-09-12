@@ -39,69 +39,116 @@ for (const b of briefs) {
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 ---
 <BaseLayout
-  title="The Daily Five - archive"
-  description="Every Long Press morning brief, newest first. Five tech stories a day, with an honest take."
+  title="The Daily Five — Morning Tech Briefing & Archive | Long Press"
+  description="Five consequential tech stories delivered every morning at 10:00 IST. Rigorously analyzed through our operator framework, with complete volume archives."
   wide
 >
-  <!-- Month Pagination Bar (Top) -->
-  <div class="page-head" id="archive-head">
-    <span class="eyebrow">Daily Archive &middot; 10:00 IST</span>
+  <!-- Section Masthead -->
+  <div class="page-head page-head--column" id="archive-head">
+    <span class="eyebrow">The Morning Tech Briefing &middot; Every Day at 10:00 IST</span>
     <h1>The Daily Five</h1>
     <p class="standfirst" id="archive-standfirst">
-      Published every morning since 12 July 2026. {briefs.length} issues paginated by monthly volumes.
+      The editorial home for Long Press&rsquo;s flagship morning briefing series. Every morning at 10:00 IST, we publish five consequential stories across technology, software, platforms, and AI &mdash; disassembled through our operator-informed framework with zero PR spin, clear technical context, and what each shift actually means for you.
     </p>
 
-    <!-- Interactive month pagination bar -->
-    <nav class="archive-pagination-bar" aria-label="Month pagination" id="archive-pagination-bar">
-      <button
-        type="button"
-        class="archive-nav-btn"
-        id="btn-older-month-top"
-        aria-label="Go to older month"
-      >
-        <span aria-hidden="true">&larr;</span>
-        <span id="label-older-month">Older Month</span>
-      </button>
+    <!-- Masthead Quick Actions / Jump Controls -->
+    <div class="column-masthead-actions" aria-label="Editorial shortcuts">
+      {briefs[0] && (
+        <a href={`/daily/${briefs[0].id.replace(/\.md$/, '')}`} class="column-action-btn column-action-btn--primary" id="hero-read-latest-brief">
+          Read Today&rsquo;s Issue ({med.format(briefs[0].data.date)}) &rarr;
+        </a>
+      )}
+      <a href="#archive-section" class="column-action-btn column-action-btn--secondary" id="hero-jump-archive">
+        Browse Volume Archive &darr;
+      </a>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">⚡</span> 10:00 IST Daily</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> 4-Part Analytical Grid</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> Zero PR Spin</span>
+    </div>
 
-      <div class="archive-filter-pills" role="tablist" id="month-pills-container">
-        {monthGroups.map((g, idx) => (
-          <button
-            type="button"
-            class={`archive-filter-btn ${idx === 0 ? 'is-active' : ''}`}
-            data-month-target={g.id}
-            data-month-index={idx}
-            role="tab"
-            aria-selected={idx === 0 ? 'true' : 'false'}
-            id={`tab-month-${g.id}`}
-          >
-            <span>{g.shortName}</span>
-            <span class="badge-count">{g.briefs.length}</span>
-          </button>
-        ))}
+    <!-- Telemetry strip -->
+    <div class="column-telemetry" aria-label="Section telemetry">
+      <span class="column-telemetry-item">
+        <span class="column-telemetry-dot" aria-hidden="true"></span>
+        Format: Daily Morning Dossier
+      </span>
+      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
+      <span class="column-telemetry-item">Cadence: 10:00 IST Daily</span>
+      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
+      <span class="column-telemetry-item">Scope: 5 Consequential Stories</span>
+      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
+      <span class="column-telemetry-item">Framework: 4-Part Analytical Grid</span>
+      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
+      <span class="column-telemetry-item">Archive: {briefs.length} Issues ({monthGroups.length} Volumes)</span>
+    </div>
+
+    <!-- Analytical Framework & Coverage Domains -->
+    <div class="column-domains" aria-label="Analytical framework and core domains">
+      {['The Problem', 'The Breakthrough', 'The Catch', 'What It Means For You', 'Tech & Infra', 'Software & OS', 'Hardware', 'AI & Models'].map((pill) => (
+        <span class="column-domain-pill">
+          {pill}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <!-- Built-in Volume Archive Section -->
+  <section class="column-section" id="archive-section" aria-labelledby="archive-heading" style="margin-top: var(--s7);">
+    <div class="column-section-title" style="margin-bottom: var(--s3);">
+      <h2 id="archive-heading">The Daily Five Archive</h2>
+      <span>Browse by Monthly Volumes &middot; {briefs.length} Published Issues</span>
+    </div>
+
+  <!-- Interactive month pagination bar -->
+  <nav class="archive-pagination-bar" aria-label="Month pagination" id="archive-pagination-bar">
+    <button
+      type="button"
+      class="archive-nav-btn"
+      id="btn-older-month-top"
+      aria-label="Go to older month"
+    >
+      <span aria-hidden="true">&larr;</span>
+      <span id="label-older-month">Older Month</span>
+    </button>
+
+    <div class="archive-filter-pills" role="tablist" id="month-pills-container">
+      {monthGroups.map((g, idx) => (
         <button
           type="button"
-          class="archive-filter-btn"
-          data-month-target="all"
+          class={`archive-filter-btn ${idx === 0 ? 'is-active' : ''}`}
+          data-month-target={g.id}
+          data-month-index={idx}
           role="tab"
-          aria-selected="false"
-          id="tab-all-months"
+          aria-selected={idx === 0 ? 'true' : 'false'}
+          id={`tab-month-${g.id}`}
         >
-          <span>All ({briefs.length})</span>
+          <span>{g.shortName}</span>
+          <span class="badge-count">{g.briefs.length}</span>
         </button>
-      </div>
-
+      ))}
       <button
         type="button"
-        class="archive-nav-btn"
-        id="btn-newer-month-top"
-        aria-label="Go to newer month"
-        disabled
+        class="archive-filter-btn"
+        data-month-target="all"
+        role="tab"
+        aria-selected="false"
+        id="tab-all-months"
       >
-        <span id="label-newer-month">Newer Month</span>
-        <span aria-hidden="true">&rarr;</span>
+        <span>All ({briefs.length})</span>
       </button>
-    </nav>
-  </div>
+    </div>
+
+    <button
+      type="button"
+      class="archive-nav-btn"
+      id="btn-newer-month-top"
+      aria-label="Go to newer month"
+      disabled
+    >
+      <span id="label-newer-month">Newer Month</span>
+      <span aria-hidden="true">&rarr;</span>
+    </button>
+  </nav>
 
   <!-- Monthly Stacked & Paginated Sections -->
   <div class="archive-stacks" id="archive-stacks">
@@ -131,8 +178,8 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
                 Volume {monthGroups.length - groupIndex} of {monthGroups.length}
               </span>
             </div>
-            <a href="#archive-head" class="archive-jump-top" aria-label={`Back to top from ${group.fullName}`}>
-              <span>Top &uarr;</span>
+            <a href="#archive-pagination-bar" class="archive-jump-top" aria-label={`Back to volume navigator from ${group.fullName}`}>
+              <span>Volume Navigator &uarr;</span>
             </a>
           </div>
 
@@ -145,7 +192,7 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
                   {group.id === monthGroups[0]?.id && i === 6 && (
                     <li class="ad-row"><AdSlot placement="hub" /></li>
                   )}
-                  <li id={`brief-${dateSlug}`}>
+                  <li id={`brief-${dateSlug}`} class="entry-card">
                     <div class="entry__meta-row">
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
@@ -204,7 +251,7 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
                   type="button"
                   class="archive-nav-btn archive-bottom-nav"
                   data-nav-target={prevMonth.id}
-                  aria-label={`Go to ${prevMonth.fullName}`}
+                  aria-label={`Go to older volume ${prevMonth.fullName}`}
                 >
                   <span aria-hidden="true">&larr;</span>
                   <span>{prevMonth.fullName} ({prevMonth.briefs.length})</span>
@@ -216,9 +263,14 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
               )}
             </div>
 
-            <div class="archive-pagination-info">
-              {group.fullName} &middot; Volume {monthGroups.length - groupIndex} of {monthGroups.length}
-            </div>
+            <button
+              type="button"
+              class="archive-nav-btn archive-jump-top-btn"
+              data-scroll-target="archive-pagination-bar"
+              aria-label="Back to Volume Navigator"
+            >
+              <span>Volume Navigator &uarr;</span>
+            </button>
 
             <div>
               {nextMonth ? (
@@ -226,7 +278,7 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
                   type="button"
                   class="archive-nav-btn archive-bottom-nav"
                   data-nav-target={nextMonth.id}
-                  aria-label={`Go to ${nextMonth.fullName}`}
+                  aria-label={`Go to newer volume ${nextMonth.fullName}`}
                 >
                   <span>{nextMonth.fullName} ({nextMonth.briefs.length})</span>
                   <span aria-hidden="true">&rarr;</span>
@@ -242,6 +294,7 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
       );
     })}
   </div>
+  </section>
 
   <script>
     function setupArchivePagination() {
@@ -321,12 +374,42 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
         }
 
         if (scrollIntoView) {
-          const stacksEl = document.getElementById('archive-stacks');
-          if (stacksEl) {
-            stacksEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const navTarget = document.getElementById('archive-section') || document.getElementById('archive-pagination-bar');
+          if (navTarget) {
+            const rect = navTarget.getBoundingClientRect();
+            if (rect.top < -10 || rect.top > 200) {
+              const targetY = window.pageYOffset + rect.top - 20;
+              window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+            }
           }
         }
       }
+
+      // Jump to volume navigator button handlers
+      const jumpButtons = document.querySelectorAll<HTMLElement>('.archive-jump-top, .archive-jump-top-btn');
+      jumpButtons.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const navTarget = document.getElementById('archive-section') || document.getElementById('archive-pagination-bar');
+          if (navTarget) {
+            const rect = navTarget.getBoundingClientRect();
+            const targetY = window.pageYOffset + rect.top - 20;
+            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Hero masthead jump to archive
+      const heroJump = document.getElementById('hero-jump-archive');
+      heroJump?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const navTarget = document.getElementById('archive-section');
+        if (navTarget) {
+          const rect = navTarget.getBoundingClientRect();
+          const targetY = window.pageYOffset + rect.top - 20;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+      });
 
       // Pill clicks
       pills.forEach((pill) => {
