@@ -3,15 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout
   title="About"
-  description="Long Press is an independent daily tech publication written by Swami — eleven years of product leadership at Vogue, GQ, and Wired."
+  description="Long Press is a daily tech brief by Swami, eleven years leading product at Condé Nast and Newsweek. Five stories each morning, plus a column on what stays broken."
   wide
 >
   <!-- Masthead -->
   <div class="page-head" id="about-head">
-    <span class="eyebrow">Masthead &middot; Editorial Charter</span>
+    <span class="eyebrow">Masthead</span>
     <h1>About Long Press</h1>
     <p class="standfirst">
-      Long Press delivers clear-eyed technical journalism and operator critique through two core editorial formats: <strong>The Daily Five</strong>, a structured 10:00 IST morning briefing of the five developments that genuinely matter, and <strong>Known Issue</strong>, Swami&rsquo;s standing opinion column cutting through PR spin across Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI.
+      Long Press publishes two things. <strong>The Daily Five</strong> lands at 10:00 IST with the five tech stories worth your time, each one taken apart the same way. <strong>Known Issue</strong> is the column, and it goes after the things that have been broken for a while that nobody is fixing.
     </p>
   </div>
 
@@ -26,7 +26,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="about-profile__byline">Editor &amp; Publisher</div>
       <h2 class="about-profile__name">Swami Guru</h2>
       <p class="about-profile__bio">
-        Swami spent eleven years leading digital product engineering and publishing platforms for <em>Vogue</em>, <em>GQ</em>, <em>Wired</em>, <em>Condé Nast Traveller</em>, and <em>Architectural Digest</em> &mdash; shipping twenty major brand launches across five continents. Long Press is written from that side of the industry: by someone who has built, budgeted, and shipped the systems being reported on, rather than commentating from the sidelines.
+        Swami spent eleven years leading product at Condé Nast &mdash; <em>Vogue</em>, <em>GQ</em>, <em>Wired</em>, <em>Condé Nast Traveller</em> and <em>Architectural Digest</em> &mdash; and before that at Newsweek and Metro World News. Twenty brand launches across five continents. Long Press is written from inside that job, by someone who sat in the rooms where these decisions get made and knows which half of an announcement is the half that matters.
       </p>
 
       <div class="about-profile__actions" id="publisher">
@@ -53,45 +53,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="about-pillars-grid">
       <!-- Pillar 1: The Daily Five -->
       <div class="about-pillar-card" id="cadence">
-        <span class="about-pillar-card__eyebrow">Editorial Pillar 01 &middot; Morning Intelligence</span>
+        <span class="about-pillar-card__eyebrow">Pillar 01 &middot; The morning brief</span>
         <h3>The Daily Five</h3>
         <p>
-          <strong>Editorial Mission:</strong> Curate high-signal morning intelligence at <strong>10:00 IST</strong> that cuts through information overload. We deliberately cap daily output to five consequential developments, prioritizing architectural shifts, real engineering breakthroughs, and strategic market moves over press-release hype.
+          Five tech stories, every morning at <strong>10:00 IST</strong>. Five is a cap, not a target. More than five things happen most days and most of them do not matter, so the work is deciding what to leave out.
         </p>
         <div class="about-pillar-card__philosophy">
-          <h4>The Philosophy: The 4-Part Analytical Grid</h4>
-          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px;">Every single brief in The Daily Five is rigorously disassembled through a repeatable four-part framework:</p>
+          <h4>Every story, taken apart the same way</h4>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px;">Every item in the brief answers the same four questions:</p>
           <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);">
-            <li><strong>The Problem:</strong> What genuine user friction, architectural limit, or economic pain triggered this move?</li>
-            <li><strong>The Breakthrough:</strong> What did the company or team actually engineer or deploy (stripping away marketing rhetoric)?</li>
-            <li><strong>The Catch:</strong> What are the hidden costs, pricing tiers, lock-in clauses, or latency trade-offs buried in footnote fine print?</li>
-            <li><strong>What It Means For You:</strong> Direct, actionable implications for engineering managers, product leaders, and enterprise buyers.</li>
+            <li><strong>The problem:</strong> What was annoying, expensive or broken before this.</li>
+            <li><strong>What changed:</strong> What actually shipped, with the dates, prices and numbers, minus the adjectives.</li>
+            <li><strong>The catch:</strong> The subscription, the region it is not available in, the line in the footnote. There is nearly always one.</li>
+            <li><strong>What it means for you:</strong> Whether to act on it, wait, or ignore it.</li>
           </ul>
         </div>
         <a href="/daily" class="dispatch-card__link" style="margin-top: auto; padding-top: 12px;">
-          Explore Daily Archive &rarr;
+          Read the archive &rarr;
         </a>
       </div>
 
       <!-- Pillar 2: Known Issue -->
       <div class="about-pillar-card" id="known-issue">
-        <span class="about-pillar-card__eyebrow">Editorial Pillar 02 &middot; The Standing Opinion Column</span>
+        <span class="about-pillar-card__eyebrow">Pillar 02 &middot; The column</span>
         <h3>Known Issue</h3>
         <p>
-          <strong>Editorial Mission:</strong> Provide candid, operator-led commentary on the industry's most significant platforms and products. Covering Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI, Known Issue delivers the unvarnished perspective that industry practitioners discuss privately but rarely read in mainstream tech coverage.
+          In software, a known issue is the bug everyone has agreed to live with. This column is about the other kind: the things in Apple, Google, Meta, Android, iOS and the apps you use daily that have been wrong long enough to count as a decision rather than an oversight. Not launch reviews. The brief handles those.
         </p>
         <div class="about-pillar-card__philosophy">
-          <h4>The Philosophy: Candid Operator Critique</h4>
-          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px;">No access journalism, no sponsored fluff, and no PR embargo cheerleading:</p>
+          <h4>How it differs from the brief</h4>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px;">No embargo access to protect, so nothing to soften:</p>
           <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);">
-            <li><strong>Zero PR Spin:</strong> Cutting through keynote buzzwords, investor hype, and polite corporate messaging to speak plainly.</li>
-            <li><strong>The Operator Lens:</strong> Grounded in eleven years directing engineering, budgets, and publishing systems at Vogue and Wired.</li>
-            <li><strong>Broad Domain Coverage:</strong> Dedicated opinions spanning Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI.</li>
-            <li><strong>Decisive Verdicts:</strong> Actionable guidance on whether a release or architecture is an essential upgrade or an appliance pass.</li>
+            <li><strong>Not today&rsquo;s news.</strong> The brief is set off by something that happened this morning. A column is set off by something that has been true for months.</li>
+            <li><strong>Plain about the money.</strong> Who benefits from the thing staying broken is usually the answer, and usually the part nobody prints.</li>
+            <li><strong>The operator&rsquo;s read.</strong> Eleven years leading product inside large publishers, which is mostly an education in why obvious fixes do not ship.</li>
+            <li><strong>A verdict.</strong> Buy it, skip it, or wait. Not &ldquo;it depends&rdquo;.</li>
           </ul>
         </div>
         <a href="/known-issue" class="dispatch-card__link" style="margin-top: auto; padding-top: 12px;">
-          Read Known Issue Column &rarr;
+          Read the column &rarr;
         </a>
       </div>
     </div>
@@ -101,21 +101,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="about-section" aria-labelledby="standards-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
       <h2 id="standards-title">Editorial Standards &amp; Ethics</h2>
-      <span>Integrity Charter</span>
+      <span>How this works</span>
     </div>
 
     <div class="about-standards-grid" id="corrections-and-contact">
       <div class="about-standards-card">
         <h3>Visible Corrections Policy</h3>
         <p>
-          Mistakes get fixed in place with a visible update line, clear timestamp, and transparent explanation &mdash; never quietly smoothed away in the dead of night. If you spot an inaccuracy or factual issue, write directly to the desk.
+          Mistakes get fixed on the page, with a line saying what changed and when. Nothing gets quietly edited away. If you find something wrong, write to the desk.
         </p>
       </div>
 
       <div class="about-standards-card">
         <h3>Commercial Opportunities &amp; Independence</h3>
         <p>
-          Long Press is open to select commercial opportunities, brand sponsorships, newsletter placements, and advisory collaborations that align with our audience of technology leaders and product operators. Editorial coverage remains strictly independent: any sponsored placements or commercial partners are always explicitly disclosed, and honest editorial opinion cannot be purchased. For partnership inquiries or sponsorship rates, reach out directly to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
+          Long Press takes sponsorships, newsletter placements and advisory work. Anything paid for is labelled as paid, every time, and the opinion is not part of the deal. For rates, write to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
         </p>
       </div>
     </div>
@@ -124,39 +124,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- Syndication and Feeds -->
   <section class="about-section" aria-labelledby="syndication-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
-      <h2 id="syndication-title">Delivery &amp; Syndication</h2>
-      <span>Open Web Wire</span>
+      <h2 id="syndication-title">Read it elsewhere</h2>
+      <span>Feeds and search</span>
     </div>
 
     <div class="column-manifesto" style="margin: var(--s4) 0 var(--s6);">
       <div class="column-manifesto__card">
         <span class="column-manifesto__num">RSS 2.0</span>
-        <h3>Standard XML Wire</h3>
-        <p>Full-text RSS feed updated with every morning brief and long-form investigation.</p>
+        <h3>RSS</h3>
+        <p>Every brief and every column, the moment it publishes. Summaries rather than full text, so you still come to the page.</p>
         <a href="/rss.xml" class="dispatch-card__link" style="margin-top: 8px;">Subscribe to RSS &rarr;</a>
       </div>
 
       <div class="column-manifesto__card">
         <span class="column-manifesto__num">Search Index</span>
-        <h3>Full Archive Search</h3>
-        <p>Search every issue, topic, company, and take across our complete publishing history.</p>
-        <a href="/search" class="dispatch-card__link" style="margin-top: 8px;">Open Search Engine &rarr;</a>
+        <h3>Archive search</h3>
+        <p>Search every issue and column by keyword, company or topic.</p>
+        <a href="/search" class="dispatch-card__link" style="margin-top: 8px;">Search the archive &rarr;</a>
       </div>
 
       <div class="column-manifesto__card">
-        <span class="column-manifesto__num">API Wire</span>
-        <h3>JSON Archive Feed</h3>
-        <p>Open machine-readable JSON index of all articles, categories, and reading times.</p>
-        <a href="/search.json" class="dispatch-card__link" style="margin-top: 8px;">View JSON Endpoint &rarr;</a>
+        <span class="column-manifesto__num">JSON</span>
+        <h3>The search index</h3>
+        <p>The index the search page runs on. It is public, if you want to build something with it.</p>
+        <a href="/search.json" class="dispatch-card__link" style="margin-top: 8px;">See the JSON &rarr;</a>
       </div>
     </div>
   </section>
 
   <!-- Contact Callout -->
   <div class="column-tip-box" id="contact" style="margin-bottom: var(--s8);">
-    <h3>Contact the Long Press Desk</h3>
+    <h3>Contact the desk</h3>
     <p>
-      For tips, corrections, editorial feedback, or confidential war stories: email <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>. Published from Bengaluru (IST).
+      Tips, corrections, or a story about something quietly broken where you work: <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>. Published from Bengaluru (IST).
     </p>
   </div>
 </BaseLayout>

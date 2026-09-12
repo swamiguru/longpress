@@ -17,8 +17,8 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
 ---
 <BaseLayout
-  title="Long Press - the tech stories that mattered, with an honest take"
-  description="Press and hold. Five tech stories every morning in The Daily Five, plus Swami's candid opinions on Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI in Known Issue."
+  title="Long Press - five tech stories every morning, with an honest take"
+  description="Press and hold. Five tech stories every morning at 10:00 IST in The Daily Five, plus Known Issue, Swami's column on the things that stay broken."
   bare
   wide
 >
@@ -119,12 +119,12 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
     <section class="section" aria-labelledby="heading-known-issue" id="section-known-issue">
       <div class="section__head">
         <div>
-          <span class="section__eyebrow">The Standing Opinion Column</span>
+          <span class="section__eyebrow">The column</span>
           <h2 id="heading-known-issue">Known Issue</h2>
-          <p class="section__sub">Swami's candid opinions across Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI &mdash; without the PR filter.</p>
+          <p class="section__sub">The things in Apple, Google, Meta, Android, iOS and everyday apps that have been broken long enough to count as a decision.</p>
         </div>
         <a href="/known-issue" class="section__link-pill" id="link-known-issue-hub">
-          <span>All Column Pieces ({stories.length}) &rarr;</span>
+          <span>Every column ({stories.length}) &rarr;</span>
         </a>
       </div>
       <ul class="entries" id="known-issue-grid">

@@ -25,16 +25,16 @@ const topTopics = Object.entries(topicCounts)
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
 <BaseLayout
-  title="Known Issue — Opinion on Tech, Software, Apps, Hardware & AI by Swami Guru"
-  description="Swami Guru's standing opinion column on Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI. Honest, unfiltered commentary with zero PR spin."
+  title="Known Issue — the column on what stays broken"
+  description="Swami's column on the things in Apple, Google, Meta, Android, iOS and everyday apps that have been broken long enough to count as a decision. Not launch reviews."
   wide
 >
   <!-- Masthead -->
   <div class="page-head page-head--column" id="known-issue-head">
-    <span class="eyebrow">The Standing Opinion Column &middot; By Swami Guru</span>
+    <span class="eyebrow">The column &middot; By Swami Guru</span>
     <h1>Known Issue</h1>
     <p class="standfirst">
-      In software, a &ldquo;known issue&rdquo; is what everyone quietly knows is broken, awkward, or off-target, but nobody wants to say out loud. In this column, Swami writes candid opinion pieces and critical takes across Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI &mdash; cutting through marketing hype with an operator-informed read.
+      In software, a known issue is the bug everyone has agreed to live with. This column is about the other kind: the things in Apple, Google, Meta, Android, iOS and the apps you open every day that have been wrong long enough to count as a decision rather than an oversight. The morning brief covers what happened today. This covers what has been true for months and still is.
     </p>
 
     <!-- Masthead Quick Actions / Jump Controls -->
@@ -56,23 +56,33 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
     <div class="column-telemetry" aria-label="Column status">
       <span class="column-telemetry-item">
         <span class="column-telemetry-dot" aria-hidden="true"></span>
-        Format: Standing Opinion Column
+        Format: Column
       </span>
       <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Scope: Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware &amp; AI</span>
+      <span class="column-telemetry-item">Scope: Apple, Google, Meta, Android, iOS, apps and the platforms in between</span>
       <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Cadence: Regular Dispatches</span>
+      <span class="column-telemetry-item">Cadence: When something is worth saying</span>
       <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Desk: Swami Guru ({allStories.length} Pieces)</span>
+      <span class="column-telemetry-item">Written by Swami Guru ({allStories.length} pieces)</span>
     </div>
+  </div>
 
-    <!-- Core Coverage Domain Pills -->
-    <div class="column-domains" aria-label="Core opinion coverage domains">
-      {['Tech', 'Software', 'Apps', 'iOS', 'Android', 'Google', 'Apple', 'Big Tech', 'Hardware', 'AI'].map((domain) => (
-        <span class="column-domain-pill">
-          {domain}
-        </span>
-      ))}
+  <!-- Editorial Tenets Bento -->
+  <div class="column-manifesto" aria-label="Editorial Principles">
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">01 / The trigger</span>
+      <h3>Not today&rsquo;s news</h3>
+      <p>A brief item is set off by something that happened this morning. A column is set off by something that has been true for months, and still is. If a launch date is the reason to write it, it belongs in the brief.</p>
+    </div>
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">02 / The read</span>
+      <h3>From inside the job</h3>
+      <p>Eleven years leading product at Cond&eacute; Nast and Newsweek, which is mostly an education in why obvious fixes do not ship. Usually somebody benefits from the thing staying broken. That part rarely gets printed.</p>
+    </div>
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">03 / The ending</span>
+      <h3>It ends on a verdict</h3>
+      <p>Buy it, skip it, wait, or turn the setting off. Nothing here ends on &ldquo;it depends&rdquo;, and there is no embargo access to protect, so there is nothing to soften.</p>
     </div>
   </div>
 
