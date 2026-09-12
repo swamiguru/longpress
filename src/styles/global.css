@@ -57,6 +57,7 @@
   --dark-soft:       #B9B6C8;
   --dark-muted:      #9E9CB0;
   --dark-rule:       #3A3B55;
+  --dark-utility:    #DCDAE8;   /* utility strip + colophon on midnight */
 
   /* --- Type ------------------------------------------------- */
   --display: "Archivo", system-ui, -apple-system, sans-serif;
@@ -185,13 +186,13 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
 .masthead__utility {
   background: var(--dark-ground);
   border-bottom: 0;
-  color: var(--dark-muted);
+  color: var(--dark-utility);
   font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding-block: 7px;
+  padding-block: 9px;
 }
 .masthead__utility-inner {
   display: flex; align-items: center; justify-content: space-between;
@@ -210,8 +211,11 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   50%      { transform: scale(1.28); opacity: .55; }
 }
 
-.utility-link { color: var(--dark-muted); text-decoration: none; }
-.utility-link:hover { color: var(--accent); }
+.masthead__utility .live-indicator { color: var(--accent-light); }
+.masthead__utility .live-dot { background: var(--accent-light); }
+
+.utility-link { color: var(--dark-utility); text-decoration: none; }
+.utility-link:hover { color: var(--accent-light); }
 
 .masthead__main { padding-block: var(--s5); }
 .masthead__inner {
@@ -581,7 +585,7 @@ main { padding-block: var(--s7) var(--s9); }
   border-top: 0;
   margin-top: var(--s8);
   padding-block: var(--s7) var(--s8);
-  font-size: 14px;
+  font-size: 15px;
 }
 .footer__grid { display: grid; gap: var(--s6); }
 @media (min-width: 768px) {
@@ -591,7 +595,10 @@ main { padding-block: var(--s7) var(--s9); }
 .footer__bio { display: flex; flex-direction: column; gap: var(--s3); }
 .footer p { margin: 0; color: var(--dark-soft); max-width: 46ch; line-height: 1.62; }
 .footer strong { color: var(--dark-ink); font-weight: 700; }
-.footer .dateline { color: var(--muted); }
+/* Was on --muted, a light-ground token, at ~2.3:1 on midnight. */
+.footer .dateline { color: var(--dark-utility); font-size: 13px; letter-spacing: 0.01em; }
+.footer .dateline a { color: var(--dark-utility); text-decoration-color: var(--accent); }
+.footer .dateline a:hover { color: var(--accent-light); }
 .footer a { color: var(--dark-ink); text-decoration-color: var(--accent); }
 .footer a:hover { color: var(--accent-light); }
 
@@ -600,7 +607,7 @@ main { padding-block: var(--s7) var(--s9); }
 .footer__links a {
   font-family: var(--display);
   font-variation-settings: var(--display-normal);
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -787,7 +794,7 @@ main { padding-block: var(--s7) var(--s9); }
     border-bottom-width: 2px;
   }
 
-  .masthead__utility { padding-block: 6px; font-size: 9px; letter-spacing: .1em; }
+  .masthead__utility { padding-block: 8px; font-size: 11px; letter-spacing: .04em; }
   /* The archive / RSS pair is reachable from the footer — drop it
      here so the edition time and date never wrap. */
   .masthead__utility-inner > .utility-group:last-child { display: none; }
