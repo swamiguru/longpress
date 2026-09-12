@@ -11,10 +11,25 @@ const earlier = briefs.slice(1, 7);
 
 const stories = (await getCollection('stories', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 5);
+  .slice(0, 6);
+const leadStory = stories[0];
+const restStories = stories.slice(1);
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
+const label = (k: string) => k.replace(/-/g, ' ');
+const OPINION = ['hot-take', 'myth-buster', 'known-issue'];
+const hasOpinionToday = Boolean(today?.data.items.some((i) => OPINION.includes(i.kind)));
+
+/** Short one-line teaser for a brief item that has no dedicated `teaser` field. */
+function excerpt(text: string | undefined, max = 130): string {
+  if (!text) return '';
+  const clean = text.replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}\u2026`;
+}
 ---
 <BaseLayout
   title="Long Press - five tech stories every morning, with an honest take"
@@ -22,86 +37,61 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
   bare
   wide
 >
-  <!-- Hero / Masthead: Introduces the publication clearly -->
-  <div class="page-head page-head--home" id="homepage-hero">
-    <h1 class="page-head__title">Press and hold.</h1>
-    <p class="standfirst">
-      Everyone else tells you what happened. We stay on it a beat longer &mdash;
-      five stories every morning, with an honest take on which ones actually matter.
-    </p>
-  </div>
-
-  <!-- 1. The Daily Five — Today's Edition -->
-  {today && (
-    <section aria-labelledby="today-title" class="featured-lead" id="today-featured-lead">
-      <div class="featured-lead__header">
-        <div class="featured-lead__badge">
-          <span class="featured-lead__badge-dot" aria-hidden="true"></span>
-          <span>The Daily Five &middot; Latest Issue</span>
-        </div>
-        <div class="featured-lead__meta">
-          <span style="color: var(--accent-light); font-weight: 700;">10:00 IST</span>
-          <span aria-hidden="true">&middot;</span>
-          <time class="dateline" datetime={today.data.date.toISOString()}>{med.format(today.data.date)}</time>
-          <span aria-hidden="true">&middot;</span>
-          <span class="reading-time">{getArticleReadingTime(today).text}</span>
-        </div>
-      </div>
-      <h2 id="today-title" class="featured-lead__title">
-        <a href={path(today)}>{today.data.title}</a>
-      </h2>
-      <p class="featured-lead__desc">{today.data.description}</p>
-
-      {today.data.items && today.data.items.length > 0 && (
-        <div class="featured-lead__dossier" aria-label="Stories in this issue">
-          <div class="featured-lead__dossier-label">
-            <span>Inside Today&rsquo;s Daily Five</span>
-            <span>5 stories &middot; the full brief</span>
-          </div>
-          <div class="featured-lead__story-grid">
-            {today.data.items.map((item) => (
-              <a href={`${path(today)}#story-${item.slot}`} class="featured-story-pill" id={`lead-pill-slot-${item.slot}`}>
-                <span class="featured-story-pill__num">0{item.slot}</span>
-                <span class="featured-story-pill__text">{item.heading}</span>
-                <svg class="featured-story-pill__arrow" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
-            ))}
-          </div>
+  <!-- Hero: intro + today's issue preview -->
+  <div class="hero-grid" id="homepage-hero">
+    <div class="hero-intro">
+      <span class="eyebrow">The Daily Five &middot; Latest issue</span>
+      <h1 class="page-head__title">Press and hold.</h1>
+      <p class="standfirst">
+        Everyone else tells you what happened. We stay on it a beat longer &mdash;
+        five stories every morning, with an honest take on which ones actually matter.
+      </p>
+      {today && (
+        <div class="hero-intro__actions">
+          <a href={path(today)} class="chip chip--primary chip--pill" id="cta-read-today">
+            Read Today&rsquo;s Brief &rarr;
+          </a>
+          <a href="/daily" class="chip chip--secondary chip--pill" id="cta-all-issues">
+            All Issues ({briefs.length})
+          </a>
         </div>
       )}
+    </div>
 
-      <div class="featured-lead__actions">
-        <a href={path(today)} class="chip chip--primary chip--pill" id="cta-read-today">
-          Read Today&rsquo;s Daily Five &rarr;
-        </a>
-        <button
-          type="button"
-          class="chip chip--secondary chip--pill card-share-btn"
-          data-share-title={`${today.data.title} — Long Press Daily Five`}
-          data-share-url={path(today)}
-          data-share-desc={today.data.description}
-          aria-label="Quick share today's Daily Five via Web Share"
-          title="Share today's Daily Five"
-        >
-          <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="18" cy="5" r="3"></circle>
-            <circle cx="6" cy="12" r="3"></circle>
-            <circle cx="18" cy="19" r="3"></circle>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-          </svg>
-          <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M20 6L9 17l-5-5"/>
-          </svg>
-          <span class="card-share-btn__text">Share Issue</span>
-        </button>
-        <a href="/daily" class="chip chip--secondary chip--pill" id="cta-all-issues">
-          The Daily Five Archive ({briefs.length}) &rarr;
+    {today && (
+      <a href={path(today)} class="hero-preview" id="today-hero-preview" aria-labelledby="today-hero-preview-title">
+        <span class="hero-preview__eyebrow">Today&rsquo;s issue &middot; {med.format(today.data.date)}</span>
+        <h2 id="today-hero-preview-title" class="hero-preview__title">{today.data.title}</h2>
+        <p class="hero-preview__desc">{today.data.description}</p>
+        <div class="hero-preview__tags">
+          {hasOpinionToday && <span class="hero-preview__tag hero-preview__tag--accent">Hot take inside</span>}
+          <span class="hero-preview__tag">{today.data.items.length} items &middot; {getArticleReadingTime(today).text}</span>
+        </div>
+      </a>
+    )}
+  </div>
+
+  <!-- 1. Today's Five — every item in this morning's brief, as a real list -->
+  {today && (
+    <section class="section" aria-labelledby="todays-five-heading" id="section-todays-five">
+      <div class="column-section-title">
+        <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
+        <a href={path(today)} class="section__link-pill" id="link-read-full-issue">
+          <span>Read the full issue &rarr;</span>
         </a>
       </div>
+      <ol class="daily-list">
+        {today.data.items.map((item) => (
+          <li class="daily-list__item" id={`daily-list-slot-${item.slot}`}>
+            <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
+            <div>
+              <span class="eyebrow brief__kind">{label(item.kind)}</span>
+              <h3><a href={`${path(today)}#story-${item.slot}`}>{item.heading}</a></h3>
+              <p class="daily-list__teaser">{excerpt(item.body || item.teaser)}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </section>
   )}
 
@@ -121,8 +111,60 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
           <span>Every column ({stories.length}) &rarr;</span>
         </a>
       </div>
-      <ul class="entries" id="known-issue-grid">
-        {stories.slice(0, 6).map((s) => {
+
+      {leadStory && (
+        <article class="known-issue-lead" id={`known-issue-lead-${leadStory.data.slug}`}>
+          <div class="known-issue-lead__eyebrow">
+            <span>Known Issue &middot; Opinion</span>
+            <span aria-hidden="true">&middot;</span>
+            <time datetime={leadStory.data.published.toISOString()}>{med.format(leadStory.data.published)}</time>
+            <span aria-hidden="true">&middot;</span>
+            <span>{getArticleReadingTime(leadStory).text}</span>
+          </div>
+
+          {leadStory.data.trigger && (
+            <p class="known-issue-lead__trigger">
+              <span class="known-issue-lead__trigger-label">Not today&rsquo;s news</span>
+              {leadStory.data.trigger}
+            </p>
+          )}
+
+          <h3 class="known-issue-lead__title">
+            <a href={`/${leadStory.data.slug}`}>{leadStory.data.title}</a>
+          </h3>
+          <p class="known-issue-lead__desc">{leadStory.data.description}</p>
+
+          {(leadStory.data.whoBenefits || leadStory.data.operatorsRead || leadStory.data.verdict) && (
+            <div class="known-issue-lead__grid">
+              {leadStory.data.whoBenefits && (
+                <div class="known-issue-lead__snippet">
+                  <span class="known-issue-lead__snippet-label">Plain about the money</span>
+                  <p>{leadStory.data.whoBenefits}</p>
+                </div>
+              )}
+              {leadStory.data.operatorsRead && (
+                <div class="known-issue-lead__snippet">
+                  <span class="known-issue-lead__snippet-label">The operator&rsquo;s read</span>
+                  <p>{leadStory.data.operatorsRead}</p>
+                </div>
+              )}
+              {leadStory.data.verdict && (
+                <div class="known-issue-lead__verdict">
+                  <span class={`column-verdict__badge column-verdict__badge--${leadStory.data.verdict}`}>{leadStory.data.verdict}</span>
+                  {leadStory.data.verdictNote && <p>{leadStory.data.verdictNote}</p>}
+                </div>
+              )}
+            </div>
+          )}
+
+          <a href={`/${leadStory.data.slug}`} class="chip chip--primary chip--pill" id="cta-read-lead-opinion">
+            Read Opinion &rarr;
+          </a>
+        </article>
+      )}
+      {restStories.length > 0 && (
+        <ul class="entries" id="known-issue-grid">
+          {restStories.map((s) => {
           const reading = getArticleReadingTime(s);
           return (
             <li class="entry-card" id={`story-${s.data.slug}`}>
@@ -177,7 +219,8 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
             </li>
           );
         })}
-      </ul>
+        </ul>
+      )}
 
       <div class="known-issue-strip" id="known-issue-desk-callout">
         <div class="known-issue-strip__text">
