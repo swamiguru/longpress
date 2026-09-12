@@ -19,6 +19,8 @@ const briefItem = z
     /** Two-line teaser - required when `story` is set. */
     teaser: z.string().optional(),
     source: z.string().url().optional(),
+    /** Square social card for this item, e.g. /social/2026-09-12/card_1.png */
+    image: z.string().optional(),
 
     /**
      * The press-and-hold structure. Optional, but when present this is what

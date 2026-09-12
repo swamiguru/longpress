@@ -5,7 +5,7 @@
  *
  * Usage:  node scripts/import-roundup.mjs <path-to-builtbyswami-repo> [--dry]
  */
-import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const SRC_REPO = process.argv[2];
@@ -14,6 +14,18 @@ if (!SRC_REPO) { console.error('usage: node scripts/import-roundup.mjs <builtbys
 
 const SRC = join(resolve(SRC_REPO), 'src/content/social');
 const OUT = 'src/content/daily';
+// The roundup writes its cards to <repo>/public/social/<date>/card_N.png and
+// puts that same path in each post's `image`. Copy them across so the path
+// resolves on this domain instead of pointing at a site that no longer serves
+// them.
+const CARDS_SRC = join(resolve(SRC_REPO), 'public/social');
+const CARDS_OUT = 'public/social';
+// Every card made before this date carries the old @builtbyswami wordmark and
+// the cyan palette. Pulling those in would put the wrong brand on all 61
+// archived briefs, so the archive stays text-only and cards start from the
+// first day the generator produces Long Press artwork. Move this date if the
+// cutover slips; drop it entirely once nothing old is left to worry about.
+const CARDS_FROM = '2026-09-13';
 
 /**
  * 46 distinct pillar strings collapse to 10 kinds.
@@ -83,6 +95,13 @@ for (const file of files) {
     lines.push(`    kind: ${kind}`);
     lines.push(`    heading: ${quote(heading)}`);
     lines.push(block('body', p.body || heading, 4));
+    // Only emit the card if the file is really there. A frontmatter path to a
+    // missing image fails the build, and a missing card is normal: the
+    // community/poll slot never gets one.
+    if (date >= CARDS_FROM && p.image
+        && existsSync(join(resolve(SRC_REPO), 'public', p.image.replace(/^\//, '')))) {
+      lines.push(`    image: ${quote(p.image)}`);
+    }
     for (const [src, dest] of [['problem','problem'],['breakthrough','breakthrough'],['catch','catch'],['forYou','forYou']]) {
       if (p[src]) lines.push(block(dest, p[src], 4));
     }
@@ -93,7 +112,21 @@ for (const file of files) {
   lines.push('');
 
   const out = join(OUT, `${date}.md`);
-  if (!DRY) writeFileSync(out, lines.join('\n'));
+  if (!DRY) {
+    writeFileSync(out, lines.join('\n'));
+    // File by file rather than cpSync: cpSync copies mode and timestamps too,
+    // and the mounted filesystem this runs on from the Mac rejects that with
+    // EACCES. A plain read-then-write is portable and all we need.
+    const cards = join(CARDS_SRC, date);
+    if (date >= CARDS_FROM && existsSync(cards)) {
+      const dest = join(CARDS_OUT, date);
+      mkdirSync(dest, { recursive: true });
+      for (const card of readdirSync(cards)) {
+        const from = join(cards, card);
+        if (statSync(from).isFile()) writeFileSync(join(dest, card), readFileSync(from));
+      }
+    }
+  }
   written++;
 }
 

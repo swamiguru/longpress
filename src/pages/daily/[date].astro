@@ -51,6 +51,18 @@ const ANALYSIS = [
                 </div>
               </div>
 
+              {item.image && (
+                <img
+                  class="brief__card"
+                  src={item.image}
+                  alt=""
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+
               {item.body && <p class="brief__body">{item.body}</p>}
 
               {item.story && (
@@ -85,3 +97,20 @@ const ANALYSIS = [
     <div class="prose" style="margin-top: var(--s7)"><Content /></div>
   </article>
 </BaseLayout>
+
+<style>
+  /* The roundup's social cards are 1080x1080. Full width would shout louder
+     than the headline, so cap them and let the text lead. Width and height are
+     on the tag itself, so the box is reserved before the file loads and the
+     brief never reflows. */
+  .brief__card {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin-block: var(--s4, 1rem);
+    border-radius: 14px;
+    border: 1px solid var(--rule, rgba(23, 24, 46, 0.12));
+  }
+</style>
