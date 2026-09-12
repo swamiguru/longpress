@@ -29,6 +29,13 @@ const jsonLd = {
   ...(published && { datePublished: published.toISOString() }),
   ...(updated && { dateModified: updated.toISOString() }),
 };
+// The masthead's daily promise, and the only place it is written down.
+// The upstream roundup generator commits between 09:29 and 10:40 IST (median
+// 09:35 over the fortnight to 12 Sept) and the sync workflow picks it up within
+// minutes, so 10:00 is a time this pipeline can actually hit. It read 07:00 for
+// two months and was never once true. If the generator moves earlier, move this
+// with it, and the crons in .github/workflows/sync-daily.yml.
+const EDITION = 'EDITION 10:00 IST';
 const year = new Date().getFullYear();
 const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
   weekday: 'long',
@@ -91,7 +98,7 @@ const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
           <div class="utility-group">
             <span class="live-indicator">
               <span class="live-dot" aria-hidden="true"></span>
-              EDITION 07:00 IST
+              {EDITION}
             </span>
             <span aria-hidden="true">&middot;</span>
             <time datetime={new Date().toISOString()}>{todayHeaderDate}</time>
