@@ -110,7 +110,9 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
     <meta name="theme-color" content="#F4F1E8" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Anti-FOUC Theme Detection Script -->
+    <!-- Anti-FOUC theme detection. Deliberately inline and dependency-free:
+         it must run before first paint, so it cannot import src/lib/theme.ts.
+         The two colours below are duplicated there on purpose — keep in step. -->
     <script is:inline>
       (function() {
         try {

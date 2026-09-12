@@ -1031,7 +1031,9 @@ const isSearchActive = currentPath === '/search';
   }
 </style>
 
-<script is:inline>
+<script>
+  import { getTheme, toggleTheme, onThemeChange } from '../lib/theme';
+
   (function() {
     function setupMobileNavDrawer() {
       const toggleBtn = document.getElementById('mobile-menu-toggle');
@@ -1048,7 +1050,7 @@ const isSearchActive = currentPath === '/search';
 
       function updateThemeLabel() {
         if (!themeStatus || !themeBtnLabel) return;
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const isDark = getTheme() === 'dark';
         themeStatus.textContent = isDark ? 'Deep Midnight Dark' : 'Sand Editorial Light';
         themeBtnLabel.textContent = isDark ? 'To Light' : 'To Dark';
       }
@@ -1056,28 +1058,10 @@ const isSearchActive = currentPath === '/search';
       updateThemeLabel();
 
       // Synchronize with any theme changes elsewhere on page
-      window.addEventListener('longpress:theme-change', updateThemeLabel);
+      onThemeChange(updateThemeLabel);
 
       if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-          const nextTheme = isDark ? 'light' : 'dark';
-
-          if (nextTheme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('longpress-theme', 'dark');
-            const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#0E0F1D');
-          } else {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.setItem('longpress-theme', 'light');
-            const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#F4F1E8');
-          }
-
-          updateThemeLabel();
-          window.dispatchEvent(new CustomEvent('longpress:theme-change', { detail: { theme: nextTheme } }));
-        });
+        themeToggleBtn.addEventListener('click', () => toggleTheme());
       }
 
       function openDrawer() {
