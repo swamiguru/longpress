@@ -71,6 +71,25 @@ const stories = defineCollection({
     heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
     heroImageCaption: z.string().optional(),
+
+    /**
+     * The Known Issue column's four tenets, in reading order. Optional on
+     * the schema so any story type could carry a verdict, but in practice
+     * these are what make a known-issue piece read as the column rather
+     * than a longer news item. Never flatten these into body prose - they
+     * are the structure, not decoration.
+     */
+    /** "Not today's news." What's been true for months, and why this is worth saying now rather than at launch. */
+    trigger: z.string().optional(),
+    /** "Plain about the money." Who benefits from the thing staying broken - usually the part nobody prints. */
+    whoBenefits: z.string().optional(),
+    /** "The operator's read." The inside-the-job take a reporter without that background couldn't write. */
+    operatorsRead: z.string().optional(),
+    /** "A verdict." Buy, skip, or wait - never "it depends". */
+    verdict: z.enum(['buy', 'skip', 'wait']).optional(),
+    /** One or two sentences backing the verdict call. */
+    verdictNote: z.string().optional(),
+
     draft: z.boolean().default(false),
   }),
 });

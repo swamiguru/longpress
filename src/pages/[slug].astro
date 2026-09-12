@@ -45,6 +45,12 @@ const readingTime = getArticleReadingTime(story);
       <span class="eyebrow">{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
       <h1>{d.title}</h1>
       <p class="standfirst">{d.description}</p>
+      {d.trigger && (
+        <p class="column-trigger">
+          <span class="column-trigger__label">Not today&rsquo;s news</span>
+          {d.trigger}
+        </p>
+      )}
     </div>
 
     <div class="article__meta">
@@ -77,6 +83,29 @@ const readingTime = getArticleReadingTime(story);
     )}
 
     <div class="prose"><Content /></div>
+
+    {(d.whoBenefits || d.operatorsRead || d.verdict) && (
+      <div class="column-structure" aria-label="Known Issue analysis">
+        {d.whoBenefits && (
+          <div class="column-callout column-callout--money">
+            <span class="column-callout__label">Plain about the money</span>
+            <p>{d.whoBenefits}</p>
+          </div>
+        )}
+        {d.operatorsRead && (
+          <div class="column-pullquote">
+            <span class="column-pullquote__label">The operator&rsquo;s read</span>
+            <p>{d.operatorsRead}</p>
+          </div>
+        )}
+        {d.verdict && (
+          <div class="column-verdict">
+            <span class={`column-verdict__badge column-verdict__badge--${d.verdict}`}>{d.verdict}</span>
+            {d.verdictNote && <p class="column-verdict__note">{d.verdictNote}</p>}
+          </div>
+        )}
+      </div>
+    )}
 
     <div class="article-share-end" style="margin-top: var(--s6); margin-bottom: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--rule);">
       <ShareButtons
@@ -120,3 +149,143 @@ const readingTime = getArticleReadingTime(story);
     />
   </article>
 </BaseLayout>
+
+<style>
+  /* ============================================================
+     Known Issue structure — the column's four tenets, rendered.
+     Not today's news (kicker) / Plain about the money (callout) /
+     The operator's read (pull-quote) / A verdict (badge).
+     Scoped to the story page only.
+     ============================================================ */
+  .column-trigger {
+    margin: var(--s4) 0 0;
+    max-width: var(--measure);
+    font-size: 14.5px;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .column-trigger__label {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 2px 9px;
+    border-radius: 9999px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-style: normal;
+    color: var(--ink-soft);
+    vertical-align: middle;
+  }
+
+  .column-structure {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s5);
+    margin-top: var(--s6);
+  }
+
+  .column-callout {
+    padding: var(--s5);
+    border-radius: 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+  }
+  .column-callout--money {
+    background: var(--accent-2-subtle);
+    border-color: rgba(62, 124, 116, 0.35);
+  }
+  .column-callout__label {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+  .column-callout p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.62;
+    color: var(--ink);
+    max-width: var(--measure);
+  }
+
+  .column-pullquote {
+    padding: var(--s5) var(--s5);
+    border-left: 4px solid var(--ink-soft);
+    background: var(--surface);
+  }
+  .column-pullquote__label {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .column-pullquote p {
+    margin: 0;
+    font-style: italic;
+    font-size: 1.08em;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+  }
+
+  .column-verdict {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: var(--s5);
+    border-radius: 18px;
+    border: 1.5px solid var(--rule-strong);
+    background: var(--ground);
+  }
+  .column-verdict__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 18px;
+    border-radius: 9999px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .column-verdict__badge--buy {
+    background: var(--accent-2);
+    color: #FFFFFF;
+  }
+  .column-verdict__badge--wait {
+    background: var(--accent);
+    color: #111625;
+  }
+  .column-verdict__badge--skip {
+    background: var(--accent-deep);
+    color: #FFFFFF;
+  }
+  .column-verdict__note {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.62;
+    color: var(--ink);
+    max-width: var(--measure);
+  }
+
+  @media (max-width: 640px) {
+    .column-callout,
+    .column-verdict { padding: var(--s4); }
+    .column-pullquote { padding: var(--s4); }
+  }
+</style>

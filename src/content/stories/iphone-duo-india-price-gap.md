@@ -5,6 +5,15 @@ description: "The iPhone Duo costs ₹1.09 lakh more in India than a dollar conv
 published: 2026-09-12
 category: "known-issue"
 topics: ["apple", "iphone-duo", "india-pricing"]
+trigger: >-
+  Apple's India pricing story runs on the same yearly cycle: new iPhone, new markup headline, same explanation. What's actually different only shows up once you compare a phone built here against one that isn't, and the Duo is the first device in years to make that comparison possible.
+whoBenefits: >-
+  The "India just taxes everything harder" framing benefits exactly one party: Apple. It turns a pricing decision that's really about not having local foldable assembly yet into something that sounds like an inevitability nobody could do anything about, rather than a gap that gets cheaper to close every year it stays open.
+operatorsRead: >-
+  Eleven years running product at Condé Nast and Newsweek taught me to be suspicious of any "that's just how the market works" explanation from a company big enough to have already fixed the same problem once, for a different product line, in the same country. Apple has run this exact localization play before. It just hasn't run it yet for this device.
+verdict: "wait"
+verdictNote: >-
+  Wait, not because the Duo is a bad device but because this price is a snapshot of a supply chain that's one generation old, not a permanent decision about what Indian buyers should pay for a folding iPhone. It closed for the Pro Max once local assembly caught up. There's a reasonable case it closes here too, on the same timeline. Just not by October 23.
 draft: false
 ---
 
@@ -23,5 +32,3 @@ There's a second factor sitting on top of that one, and it's global rather than 
 Line it up against the phone it's actually competing with on a shelf and the picture gets sharper. Samsung's Galaxy Z Fold 8 sells in India for ₹1,79,999. The Duo costs about 67% more than that, for a first-generation product from a company that has never shipped a folding hinge before. Apple isn't really pricing the Duo against the Z Fold 8. It's pricing it against the cost of building it, in a market where it has no cheaper way to get the parts in yet.
 
 That's the known issue here, and it's a manufacturing problem wearing a tax story's clothes. Apple spent close to a decade building the India assembly base that made the regular iPhone line cheap enough to sell here in real volume. The Duo is on day one of that same process, and day one always prices like day one.
-
-Verdict: wait, if the price is what's stopping you, and not because the device itself is a bad bet. This is a supply chain problem, not a permanent decision about what Indian buyers should pay for a folding iPhone. It closed for the Pro Max once local assembly caught up. There's a reasonable case it closes here too, on the same timeline. Just not by October 23.
