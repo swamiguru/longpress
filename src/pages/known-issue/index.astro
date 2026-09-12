@@ -4,108 +4,216 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 
-// 1. Fetch column flagship pieces
-const columnPieces = (await getCollection('stories', ({ data }) =>
-  !data.draft && data.category === 'known-issue'
-)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+// 1. Fetch all column pieces and analyses unified in reverse chronological order
+const allStories = (await getCollection('stories', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
-// 2. Fetch related architectural sanity checks & analyses
-const relatedPieces = (await getCollection('stories', ({ data }) =>
-  !data.draft && data.category !== 'known-issue'
-)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const leadStory = allStories[0];
+const feedStories = allStories.slice(1);
 
-const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+// Topic aggregates for filtering
+const topicCounts: Record<string, number> = {};
+for (const s of allStories) {
+  for (const t of s.data.topics || []) {
+    topicCounts[t] = (topicCounts[t] || 0) + 1;
+  }
+}
+const topTopics = Object.entries(topicCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 8);
+
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
 <BaseLayout
-  title="Known Issue"
-  description="The things everyone in tech is pretending aren't broken. Architectural illusions, cloud taxes, and release notes in reverse."
+  title="Known Issue — The Standing Opinion Column by Swami Guru"
+  description="Swami's standing opinion column on tech, hardware, product strategy, and industry trends. Honest, unfiltered takes with zero PR spin."
   wide
 >
   <!-- Masthead -->
   <div class="page-head page-head--column" id="known-issue-head">
-    <span class="eyebrow">The Standing Column &middot; Release Notes in Reverse</span>
+    <span class="eyebrow">The Standing Opinion Column &middot; By Swami Guru</span>
     <h1>Known Issue</h1>
     <p class="standfirst">
-      In software release notes, a &ldquo;known issue&rdquo; is the polite admission that something is broken. This is the column for the architectural illusions, vendor taxes, and bloated paradigms everyone in tech is pretending aren&rsquo;t broken.
+      In software, a &ldquo;known issue&rdquo; is what everyone quietly knows is broken, awkward, or off-target, but nobody wants to say out loud. In this column, Swami writes candid opinion pieces and critical takes on tech, hardware launches, product strategy, and industry moves that deserve an honest read.
     </p>
 
     <!-- Telemetry strip -->
     <div class="column-telemetry" aria-label="Column status">
       <span class="column-telemetry-item">
         <span class="column-telemetry-dot" aria-hidden="true"></span>
-        Status: Confirmed Bug
+        Format: Opinion &amp; Hardware Critiques
       </span>
       <span class="column-telemetry-item">&middot;</span>
-      <span class="column-telemetry-item">Scope: Industry-Wide</span>
+      <span class="column-telemetry-item">Scope: Tech, Hardware &amp; Strategy</span>
       <span class="column-telemetry-item">&middot;</span>
-      <span class="column-telemetry-item">Cadence: Long-Form Investigations</span>
+      <span class="column-telemetry-item">Cadence: Standing Column</span>
       <span class="column-telemetry-item">&middot;</span>
-      <span class="column-telemetry-item">Desk: Swami Guru</span>
+      <span class="column-telemetry-item">Desk: Swami Guru ({allStories.length} Pieces)</span>
     </div>
   </div>
 
   <!-- Editorial Tenets Bento -->
   <div class="column-manifesto" aria-label="Editorial Principles">
     <div class="column-manifesto__card">
-      <span class="column-manifesto__num">01 / The Polite Lie</span>
-      <h3>Pretending It Works</h3>
-      <p>The gap between vendor keynote slides and what engineers actually debug at 2 AM. We dissect the tools that cost more in cognitive load than they save in code.</p>
+      <span class="column-manifesto__num">01 / The Real Read</span>
+      <h3>Zero PR Spin</h3>
+      <p>Cutting through keynote buzzwords, investor hype, and polite corporate messaging to share what actually makes sense — and what doesn&rsquo;t.</p>
     </div>
     <div class="column-manifesto__card">
-      <span class="column-manifesto__num">02 / The Hidden Tax</span>
-      <h3>Cloud & Framework Tolls</h3>
-      <p>From egress fees and idle provisioning to micro-frontend complexity taxes. We calculate what technology really costs when you stop trusting the brochure.</p>
+      <span class="column-manifesto__num">02 / The Product Lens</span>
+      <h3>Operator Perspective</h3>
+      <p>Opinions informed by eleven years leading product and digital publishing platforms at Vogue, Wired, and Cond&eacute; Nast &mdash; not armchair theory.</p>
     </div>
     <div class="column-manifesto__card">
-      <span class="column-manifesto__num">03 / The Operator View</span>
-      <h3>Trench Experience</h3>
-      <p>Written from eleven years leading digital product for Vogue, Wired, and Cond&eacute; Nast &mdash; twenty brand launches shipped, not theoretical commentary.</p>
+      <span class="column-manifesto__num">03 / Taking a Stand</span>
+      <h3>Unfiltered Point of View</h3>
+      <p>Clear, decisive commentary on where tech is losing its way, which products are genuinely meaningful, and what leaders should watch out for.</p>
     </div>
   </div>
 
-  <!-- Flagship Column Investigation -->
-  {columnPieces.length > 0 && (
-    <section class="column-section" aria-labelledby="featured-investigation-title">
+  <!-- Lead / Featured Column Piece -->
+  {leadStory && (
+    <section class="column-section" aria-labelledby="featured-opinion-title">
       <div class="column-section-title">
-        <h2 id="featured-investigation-title">Lead Investigation</h2>
-        <span>Long-Form Deep Dive</span>
+        <h2 id="featured-opinion-title">Featured Column</h2>
+        <span>Lead Opinion Piece</span>
       </div>
 
-      {columnPieces.map((p) => (
-        <article class="known-issue-featured" id={`article-${p.data.slug}`}>
-          <div class="known-issue-featured__eyebrow">
-            <span class="pill-tag pill-tag--primary">Flagship Column</span>
-            <span>&middot;</span>
-            <time datetime={p.data.published.toISOString()}>{long.format(p.data.published)}</time>
-            <span>&middot;</span>
-            <span>{getArticleReadingTime(p).text}</span>
+      <article class="known-issue-featured" id={`article-${leadStory.data.slug}`}>
+        <div class="known-issue-featured__eyebrow">
+          <span class="pill-tag pill-tag--primary">Lead Opinion</span>
+          <span>&middot;</span>
+          <time datetime={leadStory.data.published.toISOString()}>{long.format(leadStory.data.published)}</time>
+          <span>&middot;</span>
+          <span>{getArticleReadingTime(leadStory).text}</span>
+        </div>
+
+        <h3 class="known-issue-featured__title">
+          <a href={`/${leadStory.data.slug}`}>{leadStory.data.title}</a>
+        </h3>
+
+        <p class="known-issue-featured__desc">{leadStory.data.description}</p>
+
+        <div class="entry__footer" style="margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--rule);">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span class="pill-tag pill-tag--known-issue">Known Issue &middot; Opinion</span>
+            {leadStory.data.topics.slice(0, 3).map((t) => (
+              <span class="pill-tag pill-tag--muted" style="font-size: 10px; text-transform: uppercase;">
+                {t}
+              </span>
+            ))}
           </div>
 
-          <h3 class="known-issue-featured__title">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button
+              type="button"
+              class="card-share-btn"
+              data-share-title={`${leadStory.data.title} — Known Issue Opinion by Swami Guru`}
+              data-share-url={`/${leadStory.data.slug}`}
+              data-share-desc={leadStory.data.description}
+              aria-label={`Share ${leadStory.data.title}`}
+              title="Share article"
+            >
+              <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+              <span class="card-share-btn__text">Share</span>
+            </button>
+
+            <a href={`/${leadStory.data.slug}`} class="entry__cta" style="font-weight: 700;">
+              Read Opinion &rarr;
+            </a>
+          </div>
+        </div>
+      </article>
+    </section>
+  )}
+
+  <!-- Ad Slot -->
+  <AdSlot placement="hub" />
+
+  <!-- Unified Column Feed -->
+  <section class="column-section" aria-labelledby="all-columns-title" style="margin-top: var(--s7);">
+    <div class="column-section-title">
+      <h2 id="all-columns-title">All Column Pieces ({allStories.length})</h2>
+      <span>Opinions, Critiques &amp; Teardowns</span>
+    </div>
+
+    <!-- Quick Topic Filters -->
+    <div class="archive-filter-pills" role="tablist" aria-label="Filter columns by topic" style="margin-bottom: var(--s5);">
+      <button
+        type="button"
+        class="archive-filter-btn is-active"
+        data-filter="all"
+        id="btn-filter-all"
+      >
+        <span>All Pieces</span>
+        <span class="badge-count">{allStories.length}</span>
+      </button>
+      {topTopics.map(([tag, count]) => (
+        <button
+          type="button"
+          class="archive-filter-btn"
+          data-filter={tag}
+          id={`btn-filter-${tag}`}
+        >
+          <span style="text-transform: capitalize;">{tag}</span>
+          <span class="badge-count">{count}</span>
+        </button>
+      ))}
+    </div>
+
+    <ul class="entries" id="column-feed-list">
+      {allStories.map((p, idx) => (
+        <li
+          id={`story-${p.data.slug}`}
+          data-topics={(p.data.topics || []).join(' ')}
+          style={idx === 0 ? 'background: var(--surface); border: 1.5px solid var(--accent-deep); border-radius: 12px; padding: var(--s4);' : ''}
+        >
+          <div class="entry__meta-row">
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              {idx === 0 && (
+                <span class="pill-tag pill-tag--primary" style="font-size: 9.5px;">Latest</span>
+              )}
+              <span class="pill-tag pill-tag--known-issue" style="font-size: 9.5px;">Known Issue</span>
+              {(p.data.topics || []).slice(0, 2).map((tag) => (
+                <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; text-transform: uppercase;">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <time class="dateline entry__meta" datetime={p.data.published.toISOString()}>
+                {long.format(p.data.published)}
+              </time>
+              <span class="entry__reading-time">{getArticleReadingTime(p).text}</span>
+            </div>
+          </div>
+
+          <h3 class="entry__title">
             <a href={`/${p.data.slug}`}>{p.data.title}</a>
           </h3>
 
-          <p class="known-issue-featured__desc">{p.data.description}</p>
+          <p class="entry__desc">{p.data.description}</p>
 
-          <div class="known-issue-featured__quote">
-            &ldquo;Cloud providers don't optimize your bill because your waste is their net expansion rate. How idle provisioning, egress pricing, and enterprise tiers keep spend compounding.&rdquo;
-          </div>
-
-          <div class="entry__footer" style="margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--rule);">
+          <div class="entry__footer">
+            <span class="entry__meta-note">Swami Guru</span>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span class="pill-tag pill-tag--muted">Infrastructure Economics</span>
-            </div>
-
-            <div style="display: flex; align-items: center; gap: 10px;">
               <button
                 type="button"
                 class="card-share-btn"
-                data-share-title={`${p.data.title} — Known Issue by Long Press`}
+                data-share-title={`${p.data.title} — Known Issue Opinion by Swami Guru`}
                 data-share-url={`/${p.data.slug}`}
                 data-share-desc={p.data.description}
                 aria-label={`Share ${p.data.title}`}
-                title="Share article via Web Share API"
+                title="Share article"
               >
                 <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <circle cx="18" cy="5" r="3"></circle>
@@ -119,55 +227,55 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
                 </svg>
                 <span class="card-share-btn__text">Share</span>
               </button>
-
-              <a href={`/${p.data.slug}`} class="entry__cta">
-                Read Investigation &rarr;
-              </a>
+              <a href={`/${p.data.slug}`} class="entry__cta">Read Piece &rarr;</a>
             </div>
           </div>
-        </article>
+        </li>
       ))}
-    </section>
-  )}
+    </ul>
+  </section>
 
-  <!-- Ad Slot -->
-  <AdSlot placement="hub" />
-
-  <!-- Related Architectural Sanity Checks -->
-  {relatedPieces.length > 0 && (
-    <section class="column-section" aria-labelledby="related-analysis-title" style="margin-top: var(--s8);">
-      <div class="column-section-title">
-        <h2 id="related-analysis-title">Architectural Sanity Checks</h2>
-        <span>From Long Press Stories</span>
-      </div>
-
-      <ul class="entries">
-        {relatedPieces.map((p) => (
-          <li id={`related-${p.data.slug}`}>
-            <div class="entry__meta-row">
-              <time class="dateline entry__meta" datetime={p.data.published.toISOString()}>
-                {long.format(p.data.published)}
-              </time>
-              <span class="entry__reading-time">{getArticleReadingTime(p).text}</span>
-            </div>
-            <h3 class="entry__title"><a href={`/${p.data.slug}`}>{p.data.title}</a></h3>
-            <p class="entry__desc">{p.data.description}</p>
-            <div class="entry__footer">
-              <span class="entry__meta-note">{p.data.category}</span>
-              <a href={`/${p.data.slug}`} class="entry__cta">Read Analysis &rarr;</a>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
-  <!-- Confidential Tips Callout -->
+  <!-- Confidential Tips / Topic Proposal Callout -->
   <div class="column-tip-box" id="tips-box">
-    <h3>Have a Known Issue to Report?</h3>
+    <h3>Have a Topic for the Column?</h3>
     <p>
-      Found an industry architecture, vendor pricing model, or engineering practice that everyone is politely pretending works? Send confidential tips and war stories directly to Swami's desk at <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
+      Have an industry topic, product launch controversy, or tech narrative you want Swami&rsquo;s honest opinion on? Send suggestions or confidential talking points directly to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
     </p>
   </div>
 </BaseLayout>
 
+<script>
+  // Interactive Topic Filter for the Unified Column Feed
+  (function() {
+    const filterButtons = document.querySelectorAll('.archive-filter-btn');
+    const feedList = document.getElementById('column-feed-list');
+    if (!feedList || !filterButtons.length) return;
+
+    const items = feedList.querySelectorAll('li[data-topics]');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        if (!filter) return;
+
+        // Update active class
+        filterButtons.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+
+        // Filter list items
+        items.forEach(item => {
+          if (filter === 'all') {
+            (item as HTMLElement).style.display = '';
+          } else {
+            const itemTopics = (item.getAttribute('data-topics') || '').toLowerCase().split(' ');
+            if (itemTopics.includes(filter.toLowerCase())) {
+              (item as HTMLElement).style.display = '';
+            } else {
+              (item as HTMLElement).style.display = 'none';
+            }
+          }
+        });
+      });
+    });
+  })();
+</script>

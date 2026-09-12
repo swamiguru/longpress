@@ -18,38 +18,42 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
 ---
 <BaseLayout
   title="Long Press - the tech stories that mattered, with an honest take"
-  description="Press and hold. Five tech stories every morning, plus explainers and comparisons - written by Swami, eleven years of product at Vogue, GQ and Wired."
+  description="Press and hold. Five tech stories every morning in The Daily Five, plus forensic critiques in Known Issue — written by Swami, eleven years of product at Vogue, GQ and Wired."
   bare
   wide
 >
+  <!-- Hero / Masthead: Introduces the publication clearly -->
   <div class="page-head page-head--home" id="homepage-hero">
     <h1 class="page-head__title">Press and hold.</h1>
     <p class="standfirst">
       Everyone else tells you what happened. We stay on it a beat longer &mdash;
       five stories every morning, with an honest take on which ones actually matter.
     </p>
-    <div class="page-head__values" aria-label="Editorial pillars">
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">⚡</span> 5 Stories Daily</span>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">⏱️</span> 3-Min Read</span>
+    <div class="page-head__values" aria-label="Editorial products and standards">
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">⚡</span> The Daily Five &middot; 10:00 IST</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">✍️</span> Known Issue &middot; Opinion Column</span>
       <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> What It Means For You</span>
       <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> Zero PR Fluff</span>
     </div>
   </div>
 
+  <!-- 1. The Daily Five — Today's Edition -->
   {today && (
-    <section aria-labelledby="today" class="featured-lead" id="today-featured-lead">
+    <section aria-labelledby="today-title" class="featured-lead" id="today-featured-lead">
       <div class="featured-lead__header">
         <div class="featured-lead__badge">
           <span class="featured-lead__badge-dot" aria-hidden="true"></span>
-          <span>Latest Issue &middot; Today</span>
+          <span>The Daily Five &middot; Latest Issue</span>
         </div>
         <div class="featured-lead__meta">
+          <span style="color: var(--accent-light); font-weight: 700;">10:00 IST</span>
+          <span aria-hidden="true">&middot;</span>
           <time class="dateline" datetime={today.data.date.toISOString()}>{med.format(today.data.date)}</time>
           <span aria-hidden="true">&middot;</span>
           <span class="reading-time">{getArticleReadingTime(today).text}</span>
         </div>
       </div>
-      <h2 id="today" class="featured-lead__title">
+      <h2 id="today-title" class="featured-lead__title">
         <a href={path(today)}>{today.data.title}</a>
       </h2>
       <p class="featured-lead__desc">{today.data.description}</p>
@@ -57,14 +61,18 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
       {today.data.items && today.data.items.length > 0 && (
         <div class="featured-lead__dossier" aria-label="Stories in this issue">
           <div class="featured-lead__dossier-label">
-            <span>Inside Today&rsquo;s Issue</span>
+            <span>Inside Today&rsquo;s Daily Five</span>
             <span>5 Stories &middot; Full Dossier</span>
           </div>
           <div class="featured-lead__story-grid">
             {today.data.items.map((item) => (
-              <a href={`${path(today)}#slot-${item.slot}`} class="featured-story-pill" id={`lead-pill-slot-${item.slot}`}>
+              <a href={`${path(today)}#story-${item.slot}`} class="featured-story-pill" id={`lead-pill-slot-${item.slot}`}>
                 <span class="featured-story-pill__num">0{item.slot}</span>
                 <span class="featured-story-pill__text">{item.heading}</span>
+                <svg class="featured-story-pill__arrow" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
               </a>
             ))}
           </div>
@@ -73,16 +81,16 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
 
       <div class="featured-lead__actions">
         <a href={path(today)} class="chip chip--primary chip--pill" id="cta-read-today">
-          Read Today&rsquo;s Brief &rarr;
+          Read Today&rsquo;s Daily Five &rarr;
         </a>
         <button
           type="button"
           class="chip chip--secondary chip--pill card-share-btn"
-          data-share-title={`${today.data.title} — Long Press`}
+          data-share-title={`${today.data.title} — Long Press Daily Five`}
           data-share-url={path(today)}
           data-share-desc={today.data.description}
-          aria-label="Quick share today's brief via Web Share"
-          title="Share today's brief"
+          aria-label="Quick share today's Daily Five via Web Share"
+          title="Share today's Daily Five"
         >
           <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="18" cy="5" r="3"></circle>
@@ -97,30 +105,37 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
           <span class="card-share-btn__text">Share Issue</span>
         </button>
         <a href="/daily" class="chip chip--secondary chip--pill" id="cta-all-issues">
-          All Issues ({briefs.length})
+          The Daily Five Archive ({briefs.length}) &rarr;
         </a>
       </div>
     </section>
   )}
 
+  <!-- Ad Slot -->
   <AdSlot placement="hub" />
 
+  <!-- 2. Known Issue — The Standing Opinion Column -->
   {stories.length > 0 && (
-    <section class="section" aria-labelledby="reading" id="section-worth-your-time">
+    <section class="section" aria-labelledby="heading-known-issue" id="section-known-issue">
       <div class="section__head">
         <div>
-          <h2 id="reading">Worth your time</h2>
-          <p class="section__sub">In-depth technical breakdowns, architectural comparisons, and known issues</p>
+          <span class="section__eyebrow">The Standing Opinion Column</span>
+          <h2 id="heading-known-issue">Known Issue</h2>
+          <p class="section__sub">Candid opinion pieces and sharp perspective on technology, products, and where the industry is headed &mdash; without the PR filter.</p>
         </div>
-        <a href="/known-issue" class="section__link-pill" id="link-known-issue-hub">Known Issue &rarr;</a>
+        <a href="/known-issue" class="section__link-pill" id="link-known-issue-hub">
+          <span>All Column Pieces ({stories.length}) &rarr;</span>
+        </a>
       </div>
-      <ul class="entries" id="worth-your-time-grid">
-        {stories.map((s) => {
+      <ul class="entries" id="known-issue-grid">
+        {stories.slice(0, 6).map((s) => {
           const reading = getArticleReadingTime(s);
           return (
             <li class="entry-card" id={`story-${s.data.slug}`}>
               <div class="entry__meta-row">
-                <span class="pill-tag pill-tag--category">{s.data.category.replace(/-/g, ' ')}</span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span class="pill-tag pill-tag--known-issue">Known Issue &middot; Opinion</span>
+                </div>
                 <span class="entry__reading-time">{reading.text}</span>
               </div>
               <h3 class="entry__title">
@@ -142,7 +157,7 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
                   <button
                     type="button"
                     class="card-share-btn"
-                    data-share-title={`${s.data.title} — Long Press`}
+                    data-share-title={`${s.data.title} — Known Issue Opinion by Swami Guru`}
                     data-share-url={`/${s.data.slug}`}
                     data-share-desc={s.data.description}
                     aria-label={`Share ${s.data.title}`}
@@ -161,7 +176,7 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
                     <span class="card-share-btn__text">Share</span>
                   </button>
                   <a href={`/${s.data.slug}`} class="entry__cta" id={`story-link-${s.data.slug}`} aria-label={`Read ${s.data.title}`}>
-                    Read Story &rarr;
+                    Read Piece &rarr;
                   </a>
                 </div>
               </div>
@@ -169,28 +184,48 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
           );
         })}
       </ul>
+
+      <div class="known-issue-strip" id="known-issue-desk-callout">
+        <div class="known-issue-strip__text">
+          <strong>Known Issue Column:</strong>
+          <span>Unfiltered opinion essays and critical perspectives by Swami Guru.</span>
+        </div>
+        <a href="/known-issue" class="entry__cta" style="font-weight: 700; white-space: nowrap;">
+          About the Column &rarr;
+        </a>
+      </div>
     </section>
   )}
 
+  <!-- 3. The Daily Five Archive — Past Morning Editions -->
   {earlier.length > 0 && (
-    <section class="section" aria-labelledby="earlier" id="section-earlier-briefs">
+    <section class="section" aria-labelledby="heading-daily-archive" id="section-daily-archive">
       <div class="section__head">
         <div>
-          <h2 id="earlier">Earlier briefs</h2>
-          <p class="section__sub">Explore previous morning editions and daily analysis archives</p>
+          <span class="section__eyebrow">Morning Brief Archive</span>
+          <h2 id="heading-daily-archive">The Daily Five Archive</h2>
+          <p class="section__sub">Explore previous morning editions, five stories at a time with the problem, the breakthrough, the catch, and what it means for you.</p>
         </div>
-        <a href="/daily" class="section__link-pill" id="link-all-briefs-archive">All Issues ({briefs.length}) &rarr;</a>
+        <a href="/daily" class="section__link-pill" id="link-all-daily-archive">
+          <span>All Issues ({briefs.length}) &rarr;</span>
+        </a>
       </div>
-      <ul class="entries" id="earlier-briefs-grid">
+      <ul class="entries" id="daily-archive-grid">
         {earlier.map((b) => {
           const reading = getArticleReadingTime(b);
           const briefSlug = b.id.replace(/\.md$/, '');
+          const dayOfWeek = new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(b.data.date);
           return (
             <li class="entry-card" id={`brief-${briefSlug}`}>
               <div class="entry__meta-row">
-                <time class="pill-tag pill-tag--date" datetime={b.data.date.toISOString()}>
-                  {med.format(b.data.date)}
-                </time>
+                <div style="display: flex; align-items: center; gap: 7px;">
+                  <time class="pill-tag pill-tag--date" datetime={b.data.date.toISOString()}>
+                    {med.format(b.data.date)}
+                  </time>
+                  <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
+                    {dayOfWeek}
+                  </span>
+                </div>
                 <span class="entry__reading-time">{reading.text}</span>
               </div>
               <h3 class="entry__title">
@@ -198,15 +233,45 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
               </h3>
               <p class="entry__desc">{b.data.description}</p>
               <div class="entry__footer">
-                <span class="entry__meta-note">5 Stories Dossier</span>
-                <a href={path(b)} class="entry__cta" id={`brief-link-${briefSlug}`} aria-label={`Read brief from ${med.format(b.data.date)}`}>
-                  Read Brief &rarr;
-                </a>
+                <span class="entry__meta-note">The Daily Five &middot; 5 Stories</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <button
+                    type="button"
+                    class="card-share-btn"
+                    data-share-title={`${b.data.title} — Long Press Daily Five`}
+                    data-share-url={path(b)}
+                    data-share-desc={b.data.description}
+                    aria-label={`Share ${b.data.title}`}
+                    title="Share brief via Web Share API"
+                  >
+                    <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="18" cy="5" r="3"></circle>
+                      <circle cx="6" cy="12" r="3"></circle>
+                      <circle cx="18" cy="19" r="3"></circle>
+                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    <span class="card-share-btn__text">Share</span>
+                  </button>
+                  <a href={path(b)} class="entry__cta" id={`brief-link-${briefSlug}`} aria-label={`Read brief from ${med.format(b.data.date)}`}>
+                    Read Issue &rarr;
+                  </a>
+                </div>
               </div>
             </li>
           );
         })}
       </ul>
+
+      <div style="margin-top: var(--s6); text-align: center;">
+        <a href="/daily" class="chip chip--secondary chip--pill" style="padding: 12px 24px; font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;" id="cta-view-full-daily-archive">
+          <span>Browse All {briefs.length} Issues in The Daily Five Archive</span>
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
     </section>
   )}
 </BaseLayout>

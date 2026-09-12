@@ -1,6 +1,6 @@
 {
   "name": "Long Press",
-  "description": "Long Press (longpress.news) - Press and hold. Five tech stories every morning, plus explainers and comparisons, with an honest take on what actually matters.",
+  "description": "Long Press (longpress.news) - Press and hold. Five tech stories every morning in The Daily Five, plus Swami's standing opinion column in Known Issue.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

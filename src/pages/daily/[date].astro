@@ -85,6 +85,8 @@ const ANALYSIS = [
           <>
             {i === 2 && <li class="ad-row"><AdSlot placement="brief" /></li>}
             <li id={`story-${item.slot}`} class={`brief__item${OPINION.includes(item.kind) ? ' brief__item--opinion' : ''}`}>
+              <span id={`slot-${item.slot}`} class="slot-anchor" aria-hidden="true"></span>
+              <span id={item.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} class="slot-anchor" aria-hidden="true"></span>
               <div class="brief__head">
                 <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
                 <div>
@@ -178,6 +180,27 @@ const ANALYSIS = [
       </div>
     </nav>
   </article>
+
+  <script is:inline>
+    function scrollCurrentHashIntoView() {
+      if (!window.location.hash) return;
+      const rawId = window.location.hash.slice(1);
+      const target = document.getElementById(rawId) ||
+        document.getElementById(`story-${rawId}`) ||
+        document.getElementById(`slot-${rawId}`);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 60);
+      }
+    }
+    if (document.readyState === 'complete') {
+      scrollCurrentHashIntoView();
+    } else {
+      window.addEventListener('load', scrollCurrentHashIntoView);
+    }
+    window.addEventListener('hashchange', scrollCurrentHashIntoView);
+  </script>
 </BaseLayout>
 
 <style>

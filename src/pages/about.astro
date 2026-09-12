@@ -11,7 +11,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <span class="eyebrow">Masthead &middot; Editorial Charter</span>
     <h1>About Long Press</h1>
     <p class="standfirst">
-      On modern touch screens, a long press reveals hidden secondary options. In technology journalism, holding on a story for an extra beat reveals the real business and engineering incentives behind the announcement. Everyone else tells you what happened; we stay on it a beat longer to explain what actually changes.
+      On modern touch screens, a <em>long press</em> reveals hidden secondary options beneath the surface. In technology journalism, holding on a story for an extra beat reveals the real business incentives, engineering trade-offs, and product compromises behind the announcement. Most outlets rush to tell you what happened from a vendor keynote slide; we stay on it a beat longer to explain what actually changes for builders, operators, and decision-makers.
+    </p>
+    <p style="margin-top: var(--s3); font-size: 16px; line-height: 1.65; color: var(--ink-soft); max-width: 72ch;">
+      Long Press is built on two distinct editorial pillars designed for busy technology professionals: <strong>The Daily Five</strong> (our structured, 10:00 IST morning briefing of the five stories that actually matter) and <strong>Known Issue</strong> (Swami’s standing opinion column and hardware teardowns, cutting through PR spin with operator-informed critique).
     </p>
   </div>
 
@@ -43,32 +46,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </div>
 
-  <!-- The Two Core Products -->
+  <!-- The Two Core Editorial Pillars & Philosophies -->
   <section class="about-section" aria-labelledby="products-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
-      <h2 id="products-title">The Two Core Editorial Products</h2>
-      <span>Coverage Formats</span>
+      <h2 id="products-title">The Two Editorial Pillars &amp; Philosophies</h2>
+      <span>Coverage Formats &amp; Standards</span>
     </div>
 
     <div class="about-pillars-grid">
+      <!-- Pillar 1: The Daily Five -->
       <div class="about-pillar-card" id="cadence">
-        <span class="about-pillar-card__eyebrow">Core Product 01 &middot; Morning Brief</span>
+        <span class="about-pillar-card__eyebrow">Editorial Pillar 01 &middot; Morning Intelligence</span>
         <h3>The Daily Five</h3>
         <p>
-          Five tech stories that matter every morning at 10:00 IST. Each brief cuts through press release noise with a consistent, structured lens: the problem, the breakthrough, the catch, and what it means for you.
+          Published every morning at <strong>10:00 IST</strong>, The Daily Five is our discipline against information overload. We deliberately cap our morning output at five essential developments. If a story isn't consequential enough to displace one of the five, it doesn't make the wire.
         </p>
-        <a href="/daily" class="dispatch-card__link" style="margin-top: auto; padding-top: 10px;">
+        <div class="about-pillar-card__philosophy">
+          <h4>The Philosophy: The 4-Part Analytical Grid</h4>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px;">Every single brief in The Daily Five is rigorously disassembled through a repeatable four-part framework:</p>
+          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);">
+            <li><strong>The Problem:</strong> What genuine user friction, architectural limit, or economic pain triggered this move?</li>
+            <li><strong>The Breakthrough:</strong> What did the company or team actually engineer or deploy (stripping away marketing rhetoric)?</li>
+            <li><strong>The Catch:</strong> What are the hidden costs, pricing tiers, lock-in clauses, or latency trade-offs buried in footnote fine print?</li>
+            <li><strong>What It Means For You:</strong> Direct, actionable implications for engineering managers, product leaders, and enterprise buyers.</li>
+          </ul>
+        </div>
+        <a href="/daily" class="dispatch-card__link" style="margin-top: auto; padding-top: 12px;">
           Explore Daily Archive &rarr;
         </a>
       </div>
 
+      <!-- Pillar 2: Known Issue -->
       <div class="about-pillar-card" id="known-issue">
-        <span class="about-pillar-card__eyebrow">Core Product 02 &middot; The Standing Column</span>
+        <span class="about-pillar-card__eyebrow">Editorial Pillar 02 &middot; The Standing Opinion Column</span>
         <h3>Known Issue</h3>
         <p>
-          In software, a known issue is the polite admission that something is broken. Our standing column calls out the architectural illusions, cloud invoice creep, and vendor taxes everyone in tech is pretending aren't broken.
+          In software release notes, a <em>known issue</em> is what everyone quietly knows is broken, awkward, or off-target, but vendor documentation politely minimizes. In this standing column, Swami writes sharp, human opinion pieces, device teardowns, and critical essays on the tech industry.
         </p>
-        <a href="/known-issue" class="dispatch-card__link" style="margin-top: auto; padding-top: 10px;">
+        <div class="about-pillar-card__philosophy">
+          <h4>The Philosophy: Candid Operator Critique</h4>
+          <p style="font-size: 13.5px; color: var(--ink-soft); margin-bottom: 8px;">No access journalism, no sponsored fluff, and no PR embargo cheerleading:</p>
+          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);">
+            <li><strong>Zero PR Spin:</strong> Cutting through keynote buzzwords, investor hype, and polite corporate messaging to speak plainly.</li>
+            <li><strong>The Operator Lens:</strong> Grounded in eleven years directing engineering, budgets, and publishing systems at Vogue and Wired.</li>
+            <li><strong>Rigorous Pros &amp; Cons:</strong> Balancing what is truly magnificent in modern hardware against real-world compromises and pricing taxes.</li>
+            <li><strong>Decisive Verdicts:</strong> Actionable guidance on whether a release is an essential upgrade or an appliance-replacement pass.</li>
+          </ul>
+        </div>
+        <a href="/known-issue" class="dispatch-card__link" style="margin-top: auto; padding-top: 12px;">
           Read Known Issue Column &rarr;
         </a>
       </div>
