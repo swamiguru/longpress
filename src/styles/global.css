@@ -404,6 +404,20 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
 
 /* --- Mobile Navigation Consolidation (< 768px) -------------- */
 @media (max-width: 768px) {
+  .masthead {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom-width: 2px;
+  }
+
+  .masthead__utility { padding-block: 5px; font-size: 10px; letter-spacing: .04em; }
+  /* The archive / RSS pair is reachable from the footer — drop it
+     here so the edition time and date never wrap. */
+  .masthead__utility-inner > .utility-group:last-child { display: none; }
+
+  .masthead__main { padding-block: 10px 8px; }
+
   .nav {
     display: none !important;
   }
@@ -411,7 +425,7 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
   }
   .masthead__branding {
     flex-shrink: 0;
@@ -419,13 +433,17 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   .masthead__actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
   .masthead__tools {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
+
+  .brand-logo__tagline { display: none; }
+  .brand-logo__title { font-size: 19px; }
+  .brand-logo__mark svg { width: 26px; height: 26px; }
 }
 
 /* Global scroll lock when mobile navigation drawer is active */
@@ -3281,46 +3299,6 @@ main { padding-block: var(--s7) var(--s9); }
   main { padding-block: var(--s5) var(--s7); }
 
   h1 { font-size: 36px; line-height: .98; }
-
-  /* --- Masthead: compact, sticky, nav as a scrolling rail ---- */
-  .masthead {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    border-bottom-width: 2px;
-  }
-
-  .masthead__utility { padding-block: 5px; font-size: 10px; letter-spacing: .04em; }
-  /* The archive / RSS pair is reachable from the footer — drop it
-     here so the edition time and date never wrap. */
-  .masthead__utility-inner > .utility-group:last-child { display: none; }
-
-  .masthead__main { padding-block: 10px 8px; }
-  .masthead__inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .masthead__branding { flex-shrink: 0; }
-  .masthead__actions {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .masthead__tools {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .brand-logo__tagline { display: none; }
-  .brand-logo__title { font-size: 19px; }
-  .brand-logo__mark svg { width: 26px; height: 26px; }
-
-  .nav {
-    display: none !important;
-  }
 
   /* --- Lead ------------------------------------------------- */
   .page-head { margin-bottom: var(--s6); padding-bottom: var(--s5); }
