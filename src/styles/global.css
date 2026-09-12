@@ -58,6 +58,8 @@
   --dark-muted:      #9E9CB0;
   --dark-rule:       #3A3B55;
   --dark-utility:    #DCDAE8;   /* utility strip + colophon on midnight */
+  --ground-subtle:   #EFEAE0;   /* drawer telemetry strip, faint wash    */
+  --highlight:       rgba(224, 85, 43, 0.22);  /* search match           */
 
   /* --- Type ------------------------------------------------- */
   --display: "Archivo", system-ui, -apple-system, sans-serif;
@@ -124,6 +126,8 @@ html[data-theme="dark"] {
   --dark-muted:      #9895AE;
   --dark-rule:       #262740;
   --dark-utility:    #DCDAE8;
+  --ground-subtle:   #131426;
+  --highlight:       rgba(240, 98, 54, 0.32);
 }
 
 html[data-theme="dark"] .entries > li:not(.ad-row) {
@@ -443,7 +447,9 @@ body.mobile-menu-open .back-to-top {
 .ticker-badge {
   font-family: var(--mono); font-size: 9.5px; font-weight: 700;
   letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink); background: var(--accent);
+  /* #0E0F1D, not var(--ink): ink flips to near-white in dark mode and
+     white-on-saffron is 2.6:1. This reads 6.4:1 light / 7.0:1 dark. */
+  color: #0E0F1D; background: var(--accent);
   padding: 3px 8px; flex-shrink: 0;
 }
 .ticker-text {
@@ -2573,9 +2579,9 @@ main { padding-block: var(--s7) var(--s9); }
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent-deep);
-  background: rgba(42, 63, 168, 0.08);
+  background: var(--accent-subtle);
   padding: 3px 8px;
-  border: 1px solid rgba(42, 63, 168, 0.2);
+  border: 1px solid var(--accent-border);
 }
 
 .archive-jump-top {
@@ -3113,7 +3119,7 @@ main { padding-block: var(--s7) var(--s9); }
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #10B981;
+  background: var(--accent-2);
   border: 2px solid var(--surface);
 }
 
