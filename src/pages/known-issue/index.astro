@@ -12,39 +12,7 @@ const columnPieces = (await getCollection('stories', ({ data }) =>
 // 2. Fetch related architectural sanity checks & analyses
 const relatedPieces = (await getCollection('stories', ({ data }) =>
   !data.draft && data.category !== 'known-issue'
-)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()).slice(0, 3);
-
-// 3. Extract daily dispatches (hot takes & myth busters) from daily briefs
-const allDaily = (await getCollection('daily', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-interface Dispatch {
-  date: Date;
-  dateSlug: string;
-  kind: 'hot-take' | 'myth-buster' | 'known-issue';
-  heading: string;
-  body: string;
-}
-
-const dispatches: Dispatch[] = [];
-
-for (const brief of allDaily) {
-  const dateSlug = brief.id.replace(/\.md$/, '');
-  for (const item of brief.data.items || []) {
-    if (item.kind === 'hot-take' || item.kind === 'myth-buster' || item.kind === 'known-issue') {
-      dispatches.push({
-        date: brief.data.date,
-        dateSlug,
-        kind: item.kind as any,
-        heading: item.heading,
-        body: item.body,
-      });
-    }
-  }
-}
-
-const hotTakeCount = dispatches.filter(d => d.kind === 'hot-take').length;
-const mythBusterCount = dispatches.filter(d => d.kind === 'myth-buster').length;
+)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
@@ -71,7 +39,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       <span class="column-telemetry-item">&middot;</span>
       <span class="column-telemetry-item">Scope: Industry-Wide</span>
       <span class="column-telemetry-item">&middot;</span>
-      <span class="column-telemetry-item">Cadence: Daily Dispatches &middot; Monthly Deep-Dives</span>
+      <span class="column-telemetry-item">Cadence: Long-Form Investigations</span>
       <span class="column-telemetry-item">&middot;</span>
       <span class="column-telemetry-item">Desk: Swami Guru</span>
     </div>
@@ -165,75 +133,6 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
   <!-- Ad Slot -->
   <AdSlot placement="hub" />
 
-  <!-- Daily Dispatches: Hot Takes & Myth-Busters -->
-  <section class="column-section" aria-labelledby="dispatches-title" style="margin-top: var(--s8);">
-    <div class="column-section-title">
-      <div>
-        <h2 id="dispatches-title">Daily Dispatches &amp; Takes</h2>
-        <p style="margin: 4px 0 0; font-family: var(--body); font-size: 14.5px; color: var(--ink-soft);">
-          Every morning's Daily Five features an inverted opinion block. Here are the latest dispatches from the desk.
-        </p>
-      </div>
-
-      <!-- Filter pills -->
-      <div class="archive-filter-pills" role="tablist" id="dispatch-filter-nav">
-        <button
-          type="button"
-          class="archive-filter-btn is-active"
-          data-filter="all"
-          role="tab"
-          aria-selected="true"
-        >
-          <span>All ({dispatches.length})</span>
-        </button>
-        <button
-          type="button"
-          class="archive-filter-btn"
-          data-filter="hot-take"
-          role="tab"
-          aria-selected="false"
-        >
-          <span>Hot Takes ({hotTakeCount})</span>
-        </button>
-        <button
-          type="button"
-          class="archive-filter-btn"
-          data-filter="myth-buster"
-          role="tab"
-          aria-selected="false"
-        >
-          <span>Myth-Busters ({mythBusterCount})</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="dispatch-grid" id="dispatches-grid">
-      {dispatches.map((d) => (
-        <article
-          class="dispatch-card"
-          data-kind={d.kind}
-          id={`dispatch-${d.dateSlug}-${d.kind}`}
-        >
-          <div class="dispatch-card__header">
-            <span class={`dispatch-tag ${d.kind === 'hot-take' ? 'dispatch-tag--hot-take' : 'dispatch-tag--myth-buster'}`}>
-              {d.kind === 'hot-take' ? 'Hot Take' : 'Myth-Buster'}
-            </span>
-            <time class="dateline entry__meta" datetime={d.date.toISOString()}>
-              {med.format(d.date)}
-            </time>
-          </div>
-
-          <h3 class="dispatch-card__title">{d.heading}</h3>
-          <p class="dispatch-card__body">{d.body}</p>
-
-          <a href={`/daily/${d.dateSlug}`} class="dispatch-card__link" aria-label={`Read in ${med.format(d.date)} morning brief`}>
-            Read in {med.format(d.date)} brief &rarr;
-          </a>
-        </article>
-      ))}
-    </div>
-  </section>
-
   <!-- Related Architectural Sanity Checks -->
   {relatedPieces.length > 0 && (
     <section class="column-section" aria-labelledby="related-analysis-title" style="margin-top: var(--s8);">
@@ -270,42 +169,5 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       Found an industry architecture, vendor pricing model, or engineering practice that everyone is politely pretending works? Send confidential tips and war stories directly to Swami's desk at <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
     </p>
   </div>
-
-  <script>
-    function setupDispatchFilter() {
-      const filterNav = document.getElementById('dispatch-filter-nav');
-      if (!filterNav) return;
-
-      const buttons = filterNav.querySelectorAll<HTMLButtonElement>('.archive-filter-btn');
-      const cards = document.querySelectorAll<HTMLElement>('.dispatch-card');
-
-      buttons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const filter = btn.getAttribute('data-filter') || 'all';
-
-          buttons.forEach((b) => {
-            const match = b === btn;
-            b.classList.toggle('is-active', match);
-            b.setAttribute('aria-selected', match ? 'true' : 'false');
-          });
-
-          cards.forEach((card) => {
-            const kind = card.getAttribute('data-kind');
-            if (filter === 'all' || kind === filter) {
-              card.style.display = 'flex';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        });
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', setupDispatchFilter);
-    } else {
-      setupDispatchFilter();
-    }
-  </script>
 </BaseLayout>
 

@@ -11,28 +11,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <span class="eyebrow">Masthead &middot; Editorial Charter</span>
     <h1>About Long Press</h1>
     <p class="standfirst">
-      Press and hold. Everyone else tells you what happened; we stay on it a beat longer to explain what actually changes.
+      On modern touch screens, a long press reveals hidden secondary options. In technology journalism, holding on a story for an extra beat reveals the real business and engineering incentives behind the announcement. Everyone else tells you what happened; we stay on it a beat longer to explain what actually changes.
     </p>
-  </div>
-
-  <!-- The Credibility Facts Grid -->
-  <div class="facts" aria-label="Key publication metrics" id="cadence">
-    <div>
-      <b>Daily 10:00</b>
-      <span>Cadence &middot; 10:00 IST Morning Edition</span>
-    </div>
-    <div>
-      <b>11 Years</b>
-      <span>Product Leadership &middot; Vogue, Wired, Condé Nast</span>
-    </div>
-    <div>
-      <b>20 Launches</b>
-      <span>Global Media Launches Across 5 Continents</span>
-    </div>
-    <div>
-      <b>100% Free</b>
-      <span>Zero Sponsored Posts &middot; Zero Paywalls</span>
-    </div>
   </div>
 
   <!-- Founder & Editor Profile -->
@@ -63,44 +43,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </div>
 
-  <!-- The Four Editorial Pillars Bento -->
-  <section class="about-section" aria-labelledby="pillars-title" style="margin-top: var(--s7);">
+  <!-- The Two Core Products -->
+  <section class="about-section" aria-labelledby="products-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
-      <h2 id="pillars-title">The Four Editorial Pillars</h2>
-      <span>Coverage Framework</span>
+      <h2 id="products-title">The Two Core Editorial Products</h2>
+      <span>Coverage Formats</span>
     </div>
 
     <div class="about-pillars-grid">
-      <div class="about-pillar-card">
-        <span class="about-pillar-card__eyebrow">Pillar 01 &middot; Daily Brief</span>
+      <div class="about-pillar-card" id="cadence">
+        <span class="about-pillar-card__eyebrow">Core Product 01 &middot; Morning Brief</span>
         <h3>The Daily Five</h3>
         <p>
           Five tech stories that matter every morning at 10:00 IST. Each brief cuts through press release noise with a consistent, structured lens: the problem, the breakthrough, the catch, and what it means for you.
         </p>
+        <a href="/daily" class="dispatch-card__link" style="margin-top: auto; padding-top: 10px;">
+          Explore Daily Archive &rarr;
+        </a>
       </div>
 
-      <div class="about-pillar-card">
-        <span class="about-pillar-card__eyebrow">Pillar 02 &middot; The Column</span>
+      <div class="about-pillar-card" id="known-issue">
+        <span class="about-pillar-card__eyebrow">Core Product 02 &middot; The Standing Column</span>
         <h3>Known Issue</h3>
         <p>
           In software, a known issue is the polite admission that something is broken. Our standing column calls out the architectural illusions, cloud invoice creep, and vendor taxes everyone in tech is pretending aren't broken.
         </p>
-      </div>
-
-      <div class="about-pillar-card">
-        <span class="about-pillar-card__eyebrow">Pillar 03 &middot; Investigations</span>
-        <h3>Engineering Reality Checks</h3>
-        <p>
-          Long-form deep dives and forensic comparisons: SQLite in production, CMS migrations, self-hosted vs managed search engines, and real-world system maintenance costs.
-        </p>
-      </div>
-
-      <div class="about-pillar-card">
-        <span class="about-pillar-card__eyebrow">Pillar 04 &middot; Ethos</span>
-        <h3>The "Press &amp; Hold" Rule</h3>
-        <p>
-          On modern touch screens, a long press reveals hidden secondary options. In technology journalism, holding on a story for an extra beat reveals the real business and engineering incentives behind the announcement.
-        </p>
+        <a href="/known-issue" class="dispatch-card__link" style="margin-top: auto; padding-top: 10px;">
+          Read Known Issue Column &rarr;
+        </a>
       </div>
     </div>
   </section>
@@ -121,9 +91,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <div class="about-standards-card">
-        <h3>Commercial Independence</h3>
+        <h3>Commercial Opportunities &amp; Independence</h3>
         <p>
-          Long Press accepts zero vendor payments, zero affiliate kickbacks, and zero sponsored reviews. Our coverage is funded independently through BuiltBySwami's digital product advisory practice. The daily brief is free, reader-first, and always will be.
+          Long Press is open to select commercial opportunities, brand sponsorships, newsletter placements, and advisory collaborations that align with our audience of technology leaders and product operators. Editorial coverage remains strictly independent: any sponsored placements or commercial partners are always explicitly disclosed, and honest editorial opinion cannot be purchased. For partnership inquiries or sponsorship rates, reach out directly to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
         </p>
       </div>
     </div>
@@ -164,7 +134,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="column-tip-box" id="contact" style="margin-bottom: var(--s8);">
     <h3>Contact the Long Press Desk</h3>
     <p>
-      For tips, corrections, editorial feedback, or confidential war stories: email <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>. Published from New Delhi (IST).
+      For tips, corrections, editorial feedback, or confidential war stories: email <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>. Published from Bengaluru (IST).
     </p>
   </div>
 </BaseLayout>

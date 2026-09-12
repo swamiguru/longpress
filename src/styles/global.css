@@ -2330,6 +2330,79 @@ main { padding-block: var(--s7) var(--s9); }
 }
 
 /* ============================================================
+   Month Pagination Bar & Controls
+   ============================================================ */
+.archive-pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  flex-wrap: wrap;
+  margin: var(--s5) 0 var(--s6);
+  padding: 6px 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--rule);
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(23, 24, 46, 0.02);
+}
+
+.archive-nav-btn {
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+
+.archive-nav-btn:hover:not(:disabled) {
+  color: var(--ink);
+  background: var(--ground);
+  border-color: var(--rule-strong);
+}
+
+.archive-nav-btn:disabled,
+.archive-nav-btn[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+  border-color: var(--rule);
+}
+
+.archive-pagination-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  flex-wrap: wrap;
+  margin: var(--s7) 0 var(--s8);
+  padding: var(--s4) var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+}
+
+.archive-pagination-info {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ============================================================
    Known Issue Hub Improvements
    ============================================================ */
 .page-head--column {
