@@ -4,50 +4,308 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 
-const pieces = (await getCollection('stories', ({ data }) =>
+// 1. Fetch column flagship pieces
+const columnPieces = (await getCollection('stories', ({ data }) =>
   !data.draft && data.category === 'known-issue'
 )).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+
+// 2. Fetch related architectural sanity checks & analyses
+const relatedPieces = (await getCollection('stories', ({ data }) =>
+  !data.draft && data.category !== 'known-issue'
+)).sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf()).slice(0, 3);
+
+// 3. Extract daily dispatches (hot takes & myth busters) from daily briefs
+const allDaily = (await getCollection('daily', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+interface Dispatch {
+  date: Date;
+  dateSlug: string;
+  kind: 'hot-take' | 'myth-buster' | 'known-issue';
+  heading: string;
+  body: string;
+}
+
+const dispatches: Dispatch[] = [];
+
+for (const brief of allDaily) {
+  const dateSlug = brief.id.replace(/\.md$/, '');
+  for (const item of brief.data.items || []) {
+    if (item.kind === 'hot-take' || item.kind === 'myth-buster' || item.kind === 'known-issue') {
+      dispatches.push({
+        date: brief.data.date,
+        dateSlug,
+        kind: item.kind as any,
+        heading: item.heading,
+        body: item.body,
+      });
+    }
+  }
+}
+
+const hotTakeCount = dispatches.filter(d => d.kind === 'hot-take').length;
+const mythBusterCount = dispatches.filter(d => d.kind === 'myth-buster').length;
+
+const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
 <BaseLayout
   title="Known Issue"
-  description="The things everyone is pretending aren't broken. Long Press's standing column on tech that doesn't do what it claims."
+  description="The things everyone in tech is pretending aren't broken. Architectural illusions, cloud taxes, and release notes in reverse."
+  wide
 >
-  <div class="page-head page-head--column">
-    <span class="eyebrow">The column</span>
+  <!-- Masthead -->
+  <div class="page-head page-head--column" id="known-issue-head">
+    <span class="eyebrow">The Standing Column &middot; Release Notes in Reverse</span>
     <h1>Known Issue</h1>
     <p class="standfirst">
-      In release notes, a known issue is the polite way of saying &ldquo;yes, it&rsquo;s broken,
-      we know.&rdquo; This is the column for the things everyone is pretending aren&rsquo;t.
+      In software release notes, a &ldquo;known issue&rdquo; is the polite admission that something is broken. This is the column for the architectural illusions, vendor taxes, and bloated paradigms everyone in tech is pretending aren&rsquo;t broken.
     </p>
+
+    <!-- Telemetry strip -->
+    <div class="column-telemetry" aria-label="Column status">
+      <span class="column-telemetry-item">
+        <span class="column-telemetry-dot" aria-hidden="true"></span>
+        Status: Confirmed Bug
+      </span>
+      <span class="column-telemetry-item">&middot;</span>
+      <span class="column-telemetry-item">Scope: Industry-Wide</span>
+      <span class="column-telemetry-item">&middot;</span>
+      <span class="column-telemetry-item">Cadence: Daily Dispatches &middot; Monthly Deep-Dives</span>
+      <span class="column-telemetry-item">&middot;</span>
+      <span class="column-telemetry-item">Desk: Swami Guru</span>
+    </div>
   </div>
 
-  {pieces.length === 0 ? (
-<div class="empty">
-      <b>Nothing filed yet</b>
-      <p>The column runs inside the daily brief first.</p>
-      <small>
-        Every brief carries one inverted block &mdash; a hot take, a myth-buster or a
-        known issue. When one earns its own page, it lands here.
-      </small>
-      <a class="chip" href="/daily">Read today&rsquo;s brief &rarr;</a>
-    </div>  ) : (
-    <ul class="entries">
-      {pieces.map((p, i) => (
-        <>
-          {i === 6 && <li class="ad-row"><AdSlot placement="hub" /></li>}
-          <li>
+  <!-- Editorial Tenets Bento -->
+  <div class="column-manifesto" aria-label="Editorial Principles">
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">01 / The Polite Lie</span>
+      <h3>Pretending It Works</h3>
+      <p>The gap between vendor keynote slides and what engineers actually debug at 2 AM. We dissect the tools that cost more in cognitive load than they save in code.</p>
+    </div>
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">02 / The Hidden Tax</span>
+      <h3>Cloud & Framework Tolls</h3>
+      <p>From egress fees and idle provisioning to micro-frontend complexity taxes. We calculate what technology really costs when you stop trusting the brochure.</p>
+    </div>
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">03 / The Operator View</span>
+      <h3>Trench Experience</h3>
+      <p>Written from eleven years leading digital product for Vogue, Wired, and Cond&eacute; Nast &mdash; twenty brand launches shipped, not theoretical commentary.</p>
+    </div>
+  </div>
+
+  <!-- Flagship Column Investigation -->
+  {columnPieces.length > 0 && (
+    <section class="column-section" aria-labelledby="featured-investigation-title">
+      <div class="column-section-title">
+        <h2 id="featured-investigation-title">Lead Investigation</h2>
+        <span>Long-Form Deep Dive</span>
+      </div>
+
+      {columnPieces.map((p) => (
+        <article class="known-issue-featured" id={`article-${p.data.slug}`}>
+          <div class="known-issue-featured__eyebrow">
+            <span class="pill-tag pill-tag--primary">Flagship Column</span>
+            <span>&middot;</span>
+            <time datetime={p.data.published.toISOString()}>{long.format(p.data.published)}</time>
+            <span>&middot;</span>
+            <span>{getArticleReadingTime(p).text}</span>
+          </div>
+
+          <h3 class="known-issue-featured__title">
+            <a href={`/${p.data.slug}`}>{p.data.title}</a>
+          </h3>
+
+          <p class="known-issue-featured__desc">{p.data.description}</p>
+
+          <div class="known-issue-featured__quote">
+            &ldquo;Cloud providers don't optimize your bill because your waste is their net expansion rate. How idle provisioning, egress pricing, and enterprise tiers keep spend compounding.&rdquo;
+          </div>
+
+          <div class="entry__footer" style="margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--rule);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="pill-tag pill-tag--muted">Infrastructure Economics</span>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button
+                type="button"
+                class="card-share-btn"
+                data-share-title={`${p.data.title} — Known Issue by Long Press`}
+                data-share-url={`/${p.data.slug}`}
+                data-share-desc={p.data.description}
+                aria-label={`Share ${p.data.title}`}
+                title="Share article via Web Share API"
+              >
+                <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+                <span class="card-share-btn__text">Share</span>
+              </button>
+
+              <a href={`/${p.data.slug}`} class="entry__cta">
+                Read Investigation &rarr;
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+  )}
+
+  <!-- Ad Slot -->
+  <AdSlot placement="hub" />
+
+  <!-- Daily Dispatches: Hot Takes & Myth-Busters -->
+  <section class="column-section" aria-labelledby="dispatches-title" style="margin-top: var(--s8);">
+    <div class="column-section-title">
+      <div>
+        <h2 id="dispatches-title">Daily Dispatches &amp; Takes</h2>
+        <p style="margin: 4px 0 0; font-family: var(--body); font-size: 14.5px; color: var(--ink-soft);">
+          Every morning's Daily Five features an inverted opinion block. Here are the latest dispatches from the desk.
+        </p>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="archive-filter-pills" role="tablist" id="dispatch-filter-nav">
+        <button
+          type="button"
+          class="archive-filter-btn is-active"
+          data-filter="all"
+          role="tab"
+          aria-selected="true"
+        >
+          <span>All ({dispatches.length})</span>
+        </button>
+        <button
+          type="button"
+          class="archive-filter-btn"
+          data-filter="hot-take"
+          role="tab"
+          aria-selected="false"
+        >
+          <span>Hot Takes ({hotTakeCount})</span>
+        </button>
+        <button
+          type="button"
+          class="archive-filter-btn"
+          data-filter="myth-buster"
+          role="tab"
+          aria-selected="false"
+        >
+          <span>Myth-Busters ({mythBusterCount})</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="dispatch-grid" id="dispatches-grid">
+      {dispatches.map((d) => (
+        <article
+          class="dispatch-card"
+          data-kind={d.kind}
+          id={`dispatch-${d.dateSlug}-${d.kind}`}
+        >
+          <div class="dispatch-card__header">
+            <span class={`dispatch-tag ${d.kind === 'hot-take' ? 'dispatch-tag--hot-take' : 'dispatch-tag--myth-buster'}`}>
+              {d.kind === 'hot-take' ? 'Hot Take' : 'Myth-Buster'}
+            </span>
+            <time class="dateline entry__meta" datetime={d.date.toISOString()}>
+              {med.format(d.date)}
+            </time>
+          </div>
+
+          <h3 class="dispatch-card__title">{d.heading}</h3>
+          <p class="dispatch-card__body">{d.body}</p>
+
+          <a href={`/daily/${d.dateSlug}`} class="dispatch-card__link" aria-label={`Read in ${med.format(d.date)} morning brief`}>
+            Read in {med.format(d.date)} brief &rarr;
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Related Architectural Sanity Checks -->
+  {relatedPieces.length > 0 && (
+    <section class="column-section" aria-labelledby="related-analysis-title" style="margin-top: var(--s8);">
+      <div class="column-section-title">
+        <h2 id="related-analysis-title">Architectural Sanity Checks</h2>
+        <span>From Long Press Stories</span>
+      </div>
+
+      <ul class="entries">
+        {relatedPieces.map((p) => (
+          <li id={`related-${p.data.slug}`}>
             <div class="entry__meta-row">
               <time class="dateline entry__meta" datetime={p.data.published.toISOString()}>
                 {long.format(p.data.published)}
               </time>
               <span class="entry__reading-time">{getArticleReadingTime(p).text}</span>
             </div>
-            <p class="entry__title"><a href={`/${p.data.slug}`}>{p.data.title}</a></p>
+            <h3 class="entry__title"><a href={`/${p.data.slug}`}>{p.data.title}</a></h3>
             <p class="entry__desc">{p.data.description}</p>
+            <div class="entry__footer">
+              <span class="entry__meta-note">{p.data.category}</span>
+              <a href={`/${p.data.slug}`} class="entry__cta">Read Analysis &rarr;</a>
+            </div>
           </li>
-        </>
-      ))}
-    </ul>
+        ))}
+      </ul>
+    </section>
   )}
+
+  <!-- Confidential Tips Callout -->
+  <div class="column-tip-box" id="tips-box">
+    <h3>Have a Known Issue to Report?</h3>
+    <p>
+      Found an industry architecture, vendor pricing model, or engineering practice that everyone is politely pretending works? Send confidential tips and war stories directly to Swami's desk at <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
+    </p>
+  </div>
+
+  <script>
+    function setupDispatchFilter() {
+      const filterNav = document.getElementById('dispatch-filter-nav');
+      if (!filterNav) return;
+
+      const buttons = filterNav.querySelectorAll<HTMLButtonElement>('.archive-filter-btn');
+      const cards = document.querySelectorAll<HTMLElement>('.dispatch-card');
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter') || 'all';
+
+          buttons.forEach((b) => {
+            const match = b === btn;
+            b.classList.toggle('is-active', match);
+            b.setAttribute('aria-selected', match ? 'true' : 'false');
+          });
+
+          cards.forEach((card) => {
+            const kind = card.getAttribute('data-kind');
+            if (filter === 'all' || kind === filter) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupDispatchFilter);
+    } else {
+      setupDispatchFilter();
+    }
+  </script>
 </BaseLayout>
+

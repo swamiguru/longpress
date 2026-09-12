@@ -3,51 +3,168 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout
   title="About"
-  description="Long Press is a daily tech brief written by Swami - eleven years of product at Vogue, GQ and Wired. Published every morning."
+  description="Long Press is an independent daily tech publication written by Swami — eleven years of product leadership at Vogue, GQ, and Wired."
+  wide
 >
-  <div class="page-head">
-    <span class="eyebrow">Masthead</span>
+  <!-- Masthead -->
+  <div class="page-head" id="about-head">
+    <span class="eyebrow">Masthead &middot; Editorial Charter</span>
     <h1>About Long Press</h1>
     <p class="standfirst">
-      Press and hold. Everyone else tells you what happened; we stay on it a beat longer.
+      Press and hold. Everyone else tells you what happened; we stay on it a beat longer to explain what actually changes.
     </p>
   </div>
 
-  <div class="prose">
-    <p>
-      <strong>Long Press</strong> publishes <a href="/daily">The Daily Five</a> every
-      morning &mdash; five tech stories that mattered, each with an honest read on whether
-      it actually changes anything. Alongside it run explainers and comparisons, and{' '}
-      <a href="/known-issue">Known Issue</a>, a standing column on the things everyone is
-      pretending aren&rsquo;t broken.
-    </p>
+  <!-- The Credibility Facts Grid -->
+  <div class="facts" aria-label="Key publication metrics" id="cadence">
+    <div>
+      <b>Daily 10:00</b>
+      <span>Cadence &middot; 10:00 IST Morning Edition</span>
+    </div>
+    <div>
+      <b>11 Years</b>
+      <span>Product Leadership &middot; Vogue, Wired, Condé Nast</span>
+    </div>
+    <div>
+      <b>20 Launches</b>
+      <span>Global Media Launches Across 5 Continents</span>
+    </div>
+    <div>
+      <b>100% Free</b>
+      <span>Zero Sponsored Posts &middot; Zero Paywalls</span>
+    </div>
+  </div>
 
-    <h2 id="who-writes-it">Who writes it</h2>
-    <p>
-      Swami spent eleven years running product for Vogue, GQ, Wired, Condé Nast Traveller
-      and Architectural Digest &mdash; twenty brand launches across five continents. Long
-      Press is written from that side of the industry: someone who has shipped the things
-      being reported on, rather than only covering them.
-    </p>
+  <!-- Founder & Editor Profile -->
+  <div class="about-profile" id="who-writes-it">
+    <div class="about-profile__avatar" aria-hidden="true">
+      <span>SG</span>
+      <span class="about-profile__status" title="Desk active &middot; Writing daily"></span>
+    </div>
 
-    <h2 id="cadence">Cadence</h2>
-    <p>
-      Daily. The brief goes out every morning, India time. Where a story deserves more than
-      a slot in the brief it gets its own page, and the brief links to it rather than
-      repeating it.
-    </p>
+    <div class="about-profile__content">
+      <div class="about-profile__byline">Editor &amp; Publisher</div>
+      <h2 class="about-profile__name">Swami Guru</h2>
+      <p class="about-profile__bio">
+        Swami spent eleven years leading digital product engineering and publishing platforms for <em>Vogue</em>, <em>GQ</em>, <em>Wired</em>, <em>Condé Nast Traveller</em>, and <em>Architectural Digest</em> &mdash; shipping twenty major brand launches across five continents. Long Press is written from that side of the industry: by someone who has built, budgeted, and shipped the systems being reported on, rather than commentating from the sidelines.
+      </p>
 
-    <h2 id="corrections-and-contact">Corrections and contact</h2>
-    <p>
-      Mistakes get fixed in place with a visible update line, not quietly. Reach the desk at
-      <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
-    </p>
+      <div class="about-profile__actions" id="publisher">
+        <a href="https://www.builtbyswami.com" target="_blank" rel="noopener noreferrer" class="chip">
+          BuiltBySwami &nearr;
+        </a>
+        <a href="https://www.builtbyswami.com/work-with-me" target="_blank" rel="noopener noreferrer" class="chip">
+          Advisory Practice &nearr;
+        </a>
+        <a href="mailto:builtbyswami@gmail.com" class="chip">
+          builtbyswami@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
 
-    <h2 id="publisher">Publisher</h2>
+  <!-- The Four Editorial Pillars Bento -->
+  <section class="about-section" aria-labelledby="pillars-title" style="margin-top: var(--s7);">
+    <div class="column-section-title">
+      <h2 id="pillars-title">The Four Editorial Pillars</h2>
+      <span>Coverage Framework</span>
+    </div>
+
+    <div class="about-pillars-grid">
+      <div class="about-pillar-card">
+        <span class="about-pillar-card__eyebrow">Pillar 01 &middot; Daily Brief</span>
+        <h3>The Daily Five</h3>
+        <p>
+          Five tech stories that matter every morning at 10:00 IST. Each brief cuts through press release noise with a consistent, structured lens: the problem, the breakthrough, the catch, and what it means for you.
+        </p>
+      </div>
+
+      <div class="about-pillar-card">
+        <span class="about-pillar-card__eyebrow">Pillar 02 &middot; The Column</span>
+        <h3>Known Issue</h3>
+        <p>
+          In software, a known issue is the polite admission that something is broken. Our standing column calls out the architectural illusions, cloud invoice creep, and vendor taxes everyone in tech is pretending aren't broken.
+        </p>
+      </div>
+
+      <div class="about-pillar-card">
+        <span class="about-pillar-card__eyebrow">Pillar 03 &middot; Investigations</span>
+        <h3>Engineering Reality Checks</h3>
+        <p>
+          Long-form deep dives and forensic comparisons: SQLite in production, CMS migrations, self-hosted vs managed search engines, and real-world system maintenance costs.
+        </p>
+      </div>
+
+      <div class="about-pillar-card">
+        <span class="about-pillar-card__eyebrow">Pillar 04 &middot; Ethos</span>
+        <h3>The "Press &amp; Hold" Rule</h3>
+        <p>
+          On modern touch screens, a long press reveals hidden secondary options. In technology journalism, holding on a story for an extra beat reveals the real business and engineering incentives behind the announcement.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards & Ethics -->
+  <section class="about-section" aria-labelledby="standards-title" style="margin-top: var(--s7);">
+    <div class="column-section-title">
+      <h2 id="standards-title">Editorial Standards &amp; Ethics</h2>
+      <span>Integrity Charter</span>
+    </div>
+
+    <div class="about-standards-grid" id="corrections-and-contact">
+      <div class="about-standards-card">
+        <h3>Visible Corrections Policy</h3>
+        <p>
+          Mistakes get fixed in place with a visible update line, clear timestamp, and transparent explanation &mdash; never quietly smoothed away in the dead of night. If you spot an inaccuracy or factual issue, write directly to the desk.
+        </p>
+      </div>
+
+      <div class="about-standards-card">
+        <h3>Commercial Independence</h3>
+        <p>
+          Long Press accepts zero vendor payments, zero affiliate kickbacks, and zero sponsored reviews. Our coverage is funded independently through BuiltBySwami's digital product advisory practice. The daily brief is free, reader-first, and always will be.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Syndication and Feeds -->
+  <section class="about-section" aria-labelledby="syndication-title" style="margin-top: var(--s7);">
+    <div class="column-section-title">
+      <h2 id="syndication-title">Delivery &amp; Syndication</h2>
+      <span>Open Web Wire</span>
+    </div>
+
+    <div class="column-manifesto" style="margin: var(--s4) 0 var(--s6);">
+      <div class="column-manifesto__card">
+        <span class="column-manifesto__num">RSS 2.0</span>
+        <h3>Standard XML Wire</h3>
+        <p>Full-text RSS feed updated with every morning brief and long-form investigation.</p>
+        <a href="/rss.xml" class="dispatch-card__link" style="margin-top: 8px;">Subscribe to RSS &rarr;</a>
+      </div>
+
+      <div class="column-manifesto__card">
+        <span class="column-manifesto__num">Search Index</span>
+        <h3>Full Archive Search</h3>
+        <p>Search every issue, topic, company, and take across our complete publishing history.</p>
+        <a href="/search" class="dispatch-card__link" style="margin-top: 8px;">Open Search Engine &rarr;</a>
+      </div>
+
+      <div class="column-manifesto__card">
+        <span class="column-manifesto__num">API Wire</span>
+        <h3>JSON Archive Feed</h3>
+        <p>Open machine-readable JSON index of all articles, categories, and reading times.</p>
+        <a href="/search.json" class="dispatch-card__link" style="margin-top: 8px;">View JSON Endpoint &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Callout -->
+  <div class="column-tip-box" id="contact" style="margin-bottom: var(--s8);">
+    <h3>Contact the Long Press Desk</h3>
     <p>
-      Long Press is published by <a href="https://www.builtbyswami.com">BuiltBySwami</a>,
-      which also runs a <a href="https://www.builtbyswami.com/work-with-me">consulting
-      practice</a> for publishers and media operators. The daily is free and always will be.
+      For tips, corrections, editorial feedback, or confidential war stories: email <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>. Published from New Delhi (IST).
     </p>
   </div>
 </BaseLayout>

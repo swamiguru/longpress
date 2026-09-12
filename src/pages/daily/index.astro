@@ -6,7 +6,36 @@ import { getArticleReadingTime } from '../../lib/readingTime';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const years = [...new Set(briefs.map((b) => b.data.date.getFullYear()))].sort((a, b) => b - a);
+
+interface MonthGroup {
+  id: string; // e.g. "2026-09"
+  fullName: string; // e.g. "September 2026"
+  shortName: string; // e.g. "Sep 2026"
+  year: number;
+  monthNum: string;
+  briefs: typeof briefs;
+}
+
+const monthGroups: MonthGroup[] = [];
+const groupMap = new Map<string, MonthGroup>();
+
+for (const b of briefs) {
+  const d = b.data.date;
+  const year = d.getFullYear();
+  const monthIdx = d.getMonth();
+  const monthNum = String(monthIdx + 1).padStart(2, '0');
+  const id = `${year}-${monthNum}`;
+
+  if (!groupMap.has(id)) {
+    const fullName = new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric' }).format(d);
+    const shortName = new Intl.DateTimeFormat('en-IN', { month: 'short', year: 'numeric' }).format(d);
+    const group: MonthGroup = { id, fullName, shortName, year, monthNum, briefs: [] };
+    groupMap.set(id, group);
+    monthGroups.push(group);
+  }
+  groupMap.get(id)!.briefs.push(b);
+}
+
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 ---
 <BaseLayout
@@ -14,34 +43,190 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
   description="Every Long Press morning brief, newest first. Five tech stories a day, with an honest take."
   wide
 >
-  <div class="page-head">
-    <span class="eyebrow">Archive</span>
+  <div class="page-head" id="archive-head">
+    <span class="eyebrow">Daily Archive &middot; 10:00 IST</span>
     <h1>The Daily Five</h1>
     <p class="standfirst">
-      Published every morning since 12 July 2026. {briefs.length} issues.
+      Published every morning since 12 July 2026. {briefs.length} issues stacked across {monthGroups.length} monthly volumes.
     </p>
-    <nav class="chips" aria-label="By year">
-      {years.map((y) => <a class="chip" href={`/daily/${y}`}>{y}</a>)}
+
+    <!-- Interactive month jump & stack filter bar -->
+    <nav class="archive-filter-bar" aria-label="Filter archive by month" id="archive-filter-nav">
+      <span class="archive-filter-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>Month:</span>
+      </span>
+      <div class="archive-filter-pills" role="tablist">
+        <button
+          type="button"
+          class="archive-filter-btn is-active"
+          data-filter="all"
+          role="tab"
+          aria-selected="true"
+          id="tab-all"
+        >
+          <span>All Months</span>
+          <span class="badge-count">{briefs.length}</span>
+        </button>
+        {monthGroups.map((g) => (
+          <button
+            type="button"
+            class="archive-filter-btn"
+            data-filter={g.id}
+            role="tab"
+            aria-selected="false"
+            id={`tab-${g.id}`}
+          >
+            <span>{g.shortName}</span>
+            <span class="badge-count">{g.briefs.length}</span>
+          </button>
+        ))}
+      </div>
     </nav>
   </div>
 
-  <ul class="entries">
-    {briefs.map((b, i) => (
-      <>
-        {i === 8 && <li class="ad-row"><AdSlot placement="hub" /></li>}
-        <li>
-          <div class="entry__meta-row">
-            <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
-              {med.format(b.data.date)}
-            </time>
-            <span class="entry__reading-time">{getArticleReadingTime(b).text}</span>
+  <!-- Monthly Stacked Sections -->
+  <div class="archive-stacks" id="archive-stacks">
+    {monthGroups.map((group) => (
+      <section
+        class="archive-month-block"
+        id={`month-${group.id}`}
+        data-month-id={group.id}
+        aria-labelledby={`heading-${group.id}`}
+      >
+        <div class="archive-month-header">
+          <div class="archive-month-title-group">
+            <h2 class="archive-month-title" id={`heading-${group.id}`}>
+              {group.fullName}
+            </h2>
+            <span class="archive-month-badge">
+              {group.briefs.length} {group.briefs.length === 1 ? 'issue' : 'issues'}
+            </span>
           </div>
-          <p class="entry__title">
-            <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
-          </p>
-          <p class="entry__desc">{b.data.description}</p>
-        </li>
-      </>
+          <a href="#archive-head" class="archive-jump-top" aria-label={`Back to top from ${group.fullName}`}>
+            <span>Top &uarr;</span>
+          </a>
+        </div>
+
+        <ul class="entries">
+          {group.briefs.map((b, i) => {
+            const dateSlug = b.id.replace(/\.md$/, '');
+            const dayOfWeek = new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(b.data.date);
+            return (
+              <>
+                {group.id === monthGroups[0]?.id && i === 6 && (
+                  <li class="ad-row"><AdSlot placement="hub" /></li>
+                )}
+                <li id={`brief-${dateSlug}`}>
+                  <div class="entry__meta-row">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+                        {med.format(b.data.date)}
+                      </time>
+                      <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
+                        {dayOfWeek}
+                      </span>
+                    </div>
+                    <span class="entry__reading-time">{getArticleReadingTime(b).text}</span>
+                  </div>
+                  <h3 class="entry__title">
+                    <a href={`/daily/${dateSlug}`}>{b.data.title}</a>
+                  </h3>
+                  <p class="entry__desc">{b.data.description}</p>
+                  <div class="entry__footer">
+                    <span class="entry__meta-note">5 Stories</span>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <button
+                        type="button"
+                        class="card-share-btn"
+                        data-share-title={`${b.data.title} — Long Press Daily Five`}
+                        data-share-url={`/daily/${dateSlug}`}
+                        data-share-desc={b.data.description}
+                        aria-label={`Share ${b.data.title}`}
+                        title="Share brief via Web Share API"
+                      >
+                        <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <circle cx="18" cy="5" r="3"></circle>
+                          <circle cx="6" cy="12" r="3"></circle>
+                          <circle cx="18" cy="19" r="3"></circle>
+                          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                        <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M20 6L9 17l-5-5"></path>
+                        </svg>
+                        <span class="card-share-btn__text">Share</span>
+                      </button>
+                      <a href={`/daily/${dateSlug}`} class="entry__cta" aria-label={`Read brief from ${med.format(b.data.date)}`}>
+                        Read Issue &rarr;
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              </>
+            );
+          })}
+        </ul>
+      </section>
     ))}
-  </ul>
+  </div>
+
+  <script>
+    function setupArchiveFilter() {
+      const filterNav = document.getElementById('archive-filter-nav');
+      if (!filterNav) return;
+
+      const buttons = filterNav.querySelectorAll<HTMLButtonElement>('.archive-filter-btn');
+      const monthSections = document.querySelectorAll<HTMLElement>('.archive-month-block');
+
+      function setActiveFilter(filterId: string, updateHash = true) {
+        // Update button states
+        buttons.forEach((btn) => {
+          const matches = btn.getAttribute('data-filter') === filterId;
+          btn.classList.toggle('is-active', matches);
+          btn.setAttribute('aria-selected', matches ? 'true' : 'false');
+        });
+
+        // Show/hide month sections
+        monthSections.forEach((section) => {
+          const sectionId = section.getAttribute('data-month-id');
+          if (filterId === 'all' || sectionId === filterId) {
+            section.removeAttribute('hidden');
+          } else {
+            section.setAttribute('hidden', '');
+          }
+        });
+
+        if (updateHash && filterId !== 'all') {
+          history.replaceState(null, '', `#${filterId}`);
+        } else if (updateHash && filterId === 'all') {
+          history.replaceState(null, '', window.location.pathname);
+        }
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filterId = btn.getAttribute('data-filter') || 'all';
+          setActiveFilter(filterId);
+        });
+      });
+
+      // Handle initial hash on load (e.g., #2026-09 or #month-2026-09)
+      const hash = window.location.hash.replace(/^#(month-)?/, '');
+      if (hash && document.querySelector(`[data-month-id="${hash}"]`)) {
+        setActiveFilter(hash, false);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupArchiveFilter);
+    } else {
+      setupArchiveFilter();
+    }
+  </script>
 </BaseLayout>
