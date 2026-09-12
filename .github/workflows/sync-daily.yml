@@ -6,10 +6,19 @@ name: Sync daily brief
 
 on:
   schedule:
-    # The roundup lands ~06:04 UTC. Run after it, then again as a safety net
-    # in case it is late. Cron here is always UTC.
-    - cron: '0 7 * * *'
-    - cron: '0 10 * * *'
+    # The roundup lands between 04:00 and 05:10 UTC (09:30-10:40 IST), so the
+    # first attempt is 05:23. The rest are backstops -- a run with nothing to
+    # import exits in about 20 seconds, so extra attempts cost nothing.
+    #
+    # Minute 23, not 0: GitHub's scheduled runs are best-effort and the top of
+    # the hour is the most contended slot. The 11 Sept run scheduled for 10:00
+    # UTC actually started at 14:07 UTC, four hours late. Off-peak minutes and
+    # several attempts are the fix; a single :00 cron is not dependable.
+    # Cron here is always UTC.
+    - cron: '23 5 * * *'
+    - cron: '23 7 * * *'
+    - cron: '23 9 * * *'
+    - cron: '23 12 * * *'
   workflow_dispatch:        # lets you run it by hand from the Actions tab
 
 concurrency:
