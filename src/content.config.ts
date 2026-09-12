@@ -19,8 +19,10 @@ const briefItem = z
     /** Two-line teaser - required when `story` is set. */
     teaser: z.string().optional(),
     source: z.string().url().optional(),
-    /** Square social card for this item, e.g. /social/2026-09-12/card_1.png */
+    /** Square social card or diagram for this item, e.g. /images/daily/card_1.webp */
     image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    imageCaption: z.string().optional(),
 
     /**
      * The press-and-hold structure. Optional, but when present this is what
@@ -66,6 +68,9 @@ const stories = defineCollection({
     updated: z.coerce.date().optional(),
     category: z.enum(['known-issue', 'explainer', 'comparison', 'news', 'tip']),
     topics: z.array(z.string()).default([]),
+    heroImage: z.string().optional(),
+    heroImageAlt: z.string().optional(),
+    heroImageCaption: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

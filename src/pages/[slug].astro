@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 import AdSlot from '../components/AdSlot.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
 import ShareButtons from '../components/ShareButtons.astro';
@@ -27,16 +28,21 @@ const readingTime = getArticleReadingTime(story);
   schema="NewsArticle"
   published={d.published}
   updated={d.updated}
+  image={d.heroImage}
 >
   <article>
     <nav class="article-breadcrumb" aria-label="Breadcrumb">
       <a href="/">&larr; Front Page</a>
       <span class="article-breadcrumb__sep">/</span>
-      <span class="article-breadcrumb__curr">{d.category.replace(/-/g, ' ')}</span>
+      {d.category === 'known-issue' ? (
+        <a href="/known-issue" class="article-breadcrumb__curr" style="color: inherit; text-decoration: underline;">Known Issue &middot; Opinion</a>
+      ) : (
+        <span class="article-breadcrumb__curr">{d.category.replace(/-/g, ' ')}</span>
+      )}
     </nav>
 
     <div class="page-head page-head--article" style="margin-top: var(--s3);">
-      <span class="eyebrow">{d.category.replace(/-/g, ' ')}</span>
+      <span class="eyebrow">{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
       <h1>{d.title}</h1>
       <p class="standfirst">{d.description}</p>
     </div>
@@ -55,6 +61,21 @@ const readingTime = getArticleReadingTime(story);
       description={d.description}
     />
 
+    {d.heroImage && (
+      <ResponsiveImage
+        src={d.heroImage}
+        alt={d.heroImageAlt || d.title}
+        caption={d.heroImageCaption}
+        aspectRatio="16/9"
+        loading="eager"
+        fetchpriority="high"
+        figureClass="article-hero"
+        captionClass="article-hero__caption"
+        class="article-hero__image"
+        id="article-lead-image"
+      />
+    )}
+
     <div class="prose"><Content /></div>
 
     <div class="article-share-end" style="margin-top: var(--s6); margin-bottom: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--rule);">
@@ -68,12 +89,20 @@ const readingTime = getArticleReadingTime(story);
 
     <div class="story-footer-card">
       <div class="story-footer-card__main">
-        <span class="eyebrow">Desk Dispatch</span>
+        <span class="eyebrow">{d.category === 'known-issue' ? 'Known Issue Column' : 'Desk Dispatch'}</span>
         <h3 class="story-footer-card__name">Swami Guru</h3>
-        <p class="story-footer-card__bio">Independent technical advisory and clear-eyed analysis on architectures, systems, and product strategy.</p>
+        <p class="story-footer-card__bio">
+          {d.category === 'known-issue'
+            ? "Swami's standing opinion column covering Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI."
+            : 'Independent technical advisory and clear-eyed analysis on architectures, systems, and product strategy.'}
+        </p>
       </div>
       <div class="story-footer-card__actions">
-        <a href="/daily" class="chip chip--primary">Read Today's Brief &rarr;</a>
+        {d.category === 'known-issue' ? (
+          <a href="/known-issue" class="chip chip--primary">More Known Issue Opinions &rarr;</a>
+        ) : (
+          <a href="/daily" class="chip chip--primary">Read Today's Brief &rarr;</a>
+        )}
         <a href="/about" class="chip chip--secondary">About Swami</a>
       </div>
     </div>

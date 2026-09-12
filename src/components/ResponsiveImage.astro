@@ -1,0 +1,112 @@
+---
+import { getResponsiveImage } from '../lib/images';
+
+export interface Props {
+  src: string;
+  alt?: string;
+  caption?: string;
+  aspectRatio?: '16/9' | '1/1' | '4/3' | '3/2';
+  sizes?: string;
+  srcset?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+  figureClass?: string;
+  captionClass?: string;
+  id?: string;
+}
+
+const {
+  src,
+  alt = '',
+  caption,
+  aspectRatio = '16/9',
+  sizes,
+  srcset,
+  width,
+  height,
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  class: className = '',
+  figureClass = '',
+  captionClass = '',
+  id,
+} = Astro.props;
+
+const img = getResponsiveImage(src, {
+  aspectRatio,
+  customSizes: sizes,
+  customSrcset: srcset,
+  width,
+  height,
+});
+---
+
+<figure class:list={['responsive-figure', figureClass]} id={id}>
+  <div
+    class="responsive-image-box"
+    style={`aspect-ratio: ${img.aspectRatioCss};`}
+  >
+    <img
+      class:list={['responsive-image-el', className]}
+      src={img.src}
+      srcset={img.srcset}
+      sizes={img.sizes}
+      alt={alt}
+      width={img.width}
+      height={img.height}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      decoding="async"
+    />
+  </div>
+  {caption && (
+    <figcaption class:list={['responsive-figure-caption', captionClass]}>
+      {caption}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .responsive-figure {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+  }
+
+  /* Aspect-ratio reserved container ensures ZERO layout shift (CLS = 0) */
+  .responsive-image-box {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: rgba(14, 15, 29, 0.04);
+    border-radius: inherit;
+    contain-intrinsic-size: auto 100%;
+  }
+
+  :global([data-theme='dark']) .responsive-image-box {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .responsive-image-el {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .responsive-figure-caption {
+    font-family: var(--mono, monospace);
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: var(--muted, #6B7280);
+    margin-top: 8px;
+  }
+</style>

@@ -5,6 +5,9 @@ description: "The iPhone 18 Pro is the most accomplished computer Apple has ever
 published: 2026-09-11
 category: known-issue
 topics: ["apple", "hardware", "opinion", "mobile"]
+heroImage: "/images/stories/iphone-18-pro-schematic.svg"
+heroImageAlt: "iPhone 18 Pro architecture schematic and camera plateau"
+heroImageCaption: "Long Press Hardware Teardown: Apple's 2nm A20 Pro silicon and vapor-chamber architecture. Illustration: Swami Guru"
 draft: false
 ---
 

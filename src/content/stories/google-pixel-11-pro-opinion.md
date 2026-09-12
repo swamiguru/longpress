@@ -5,6 +5,9 @@ description: "Unmatched zoom optics and local Gemini intelligence make the Pixel
 published: 2026-09-07
 category: known-issue
 topics: ["google", "hardware", "opinion", "ai"]
+heroImage: "/images/stories/pixel-11-pro-camera.svg"
+heroImageAlt: "Google Pixel 11 Pro camera visor and sensor architecture"
+heroImageCaption: "Long Press Hardware Teardown: Google's 5x folded periscope array and Tensor G6 imaging pipeline. Illustration: Swami Guru"
 draft: false
 ---
 

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0F1D"/>
+      <stop offset="100%" stop-color="#18192E"/>
+    </linearGradient>
+    <linearGradient id="accentGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E0552B"/>
+      <stop offset="100%" stop-color="#F58742"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <!-- Top metadata bar -->
+  <text x="70" y="70" font-family="'Space Mono', monospace" font-size="12" font-weight="700" letter-spacing="3" fill="#E0552B" text-transform="uppercase">LONG PRESS · KNOWN ISSUE HARDWARE DISPATCH</text>
+  <text x="1130" y="70" font-family="'Space Mono', monospace" font-size="12" font-weight="600" letter-spacing="1" fill="#7C809E" text-anchor="end">FIG. 018-PRO · TSMC N2 ARCHITECTURE</text>
+  <line x1="70" y1="88" x2="1130" y2="88" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+
+  <!-- Device Silhouette & Camera Plateau -->
+  <g transform="translate(180, 140)">
+    <!-- Chassis outer contour -->
+    <rect x="0" y="0" width="310" height="460" rx="42" fill="#131422" stroke="rgba(255, 255, 255, 0.18)" stroke-width="2.5"/>
+    <rect x="12" y="12" width="286" height="436" rx="34" fill="#0A0B14" stroke="rgba(255, 255, 255, 0.06)" stroke-width="1"/>
+
+    <!-- Camera island -->
+    <rect x="24" y="24" width="140" height="144" rx="28" fill="#161829" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5"/>
+    
+    <!-- 3 Periscope & Primary lenses -->
+    <!-- Main Lens -->
+    <circle cx="64" cy="62" r="26" fill="#0E0F1D" stroke="url(#accentGlow)" stroke-width="2.5"/>
+    <circle cx="64" cy="62" r="14" fill="#080911" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1"/>
+    <!-- Ultra-Wide Lens -->
+    <circle cx="64" cy="128" r="26" fill="#0E0F1D" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2"/>
+    <circle cx="64" cy="128" r="14" fill="#080911" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1"/>
+    <!-- 5x Telephoto Periscope Lens -->
+    <circle cx="126" cy="95" r="26" fill="#0E0F1D" stroke="rgba(255, 255, 255, 0.3)" stroke-width="2"/>
+    <circle cx="126" cy="95" r="14" fill="#080911" stroke="rgba(255, 255, 255, 0.25)" stroke-width="1"/>
+
+    <!-- LiDAR & Flash -->
+    <circle cx="138" cy="50" r="7" fill="#F8FAFC" opacity="0.9"/>
+    <circle cx="138" cy="140" r="8" fill="#1E2138" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1"/>
+  </g>
+
+  <!-- Spec callouts & technical annotations -->
+  <g transform="translate(560, 160)">
+    <!-- Heading -->
+    <text x="0" y="30" font-family="'Bricolage Grotesque', sans-serif" font-size="34" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">iPhone 18 Pro Architecture</text>
+    <text x="0" y="60" font-family="'Space Mono', monospace" font-size="14" fill="#E0552B">THE DIMINISHING RETURNS PLATEAU</text>
+
+    <!-- Callout 1 -->
+    <g transform="translate(0, 105)">
+      <circle cx="12" cy="12" r="12" fill="rgba(224, 85, 43, 0.15)" stroke="#E0552B" stroke-width="1.5"/>
+      <text x="12" y="16" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#E0552B" text-anchor="middle">A</text>
+      <text x="36" y="10" font-family="'Bricolage Grotesque', sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">TSMC 2nm (N2) Gate-All-Around</text>
+      <text x="36" y="32" font-family="'Newsreader', serif" font-size="15" fill="#A0A3BD">Thermal headroom gained is largely traded for on-device neural weight retention.</text>
+    </g>
+
+    <!-- Callout 2 -->
+    <g transform="translate(0, 185)">
+      <circle cx="12" cy="12" r="12" fill="rgba(224, 85, 43, 0.15)" stroke="#E0552B" stroke-width="1.5"/>
+      <text x="12" y="16" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#E0552B" text-anchor="middle">B</text>
+      <text x="36" y="10" font-family="'Bricolage Grotesque', sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">Vapor-Chamber Thermal Diffusion</text>
+      <text x="36" y="32" font-family="'Newsreader', serif" font-size="15" fill="#A0A3BD">Sustained 4K ProRes frame rates without the thermal throttling of previous cycles.</text>
+    </g>
+
+    <!-- Callout 3 -->
+    <g transform="translate(0, 265)">
+      <circle cx="12" cy="12" r="12" fill="rgba(224, 85, 43, 0.15)" stroke="#E0552B" stroke-width="1.5"/>
+      <text x="12" y="16" font-family="'Space Mono', monospace" font-size="11" font-weight="700" fill="#E0552B" text-anchor="middle">C</text>
+      <text x="36" y="10" font-family="'Bricolage Grotesque', sans-serif" font-size="17" font-weight="700" fill="#F4F1E8">Zero Day-One Motivation for Upgrades</text>
+      <text x="36" y="32" font-family="'Newsreader', serif" font-size="15" fill="#A0A3BD">If you already own an iPhone 15 Pro or newer, performance deltas are imperceptible.</text>
+    </g>
+  </g>
+
+  <!-- Bottom watermark -->
+  <line x1="70" y1="615" x2="1130" y2="615" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+  <text x="70" y="640" font-family="'Space Mono', monospace" font-size="11" fill="#7C809E">LONGPRESS.NEWS · HARDWARE OPINION · BY SWAMI GURU</text>
+  <text x="1130" y="640" font-family="'Space Mono', monospace" font-size="11" fill="#7C809E" text-anchor="end">TECHNICAL TEARDOWN &amp; EDITORIAL CRITIQUE</text>
+</svg>

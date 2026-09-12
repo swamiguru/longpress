@@ -25,8 +25,8 @@ const topTopics = Object.entries(topicCounts)
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
 <BaseLayout
-  title="Known Issue — The Standing Opinion Column by Swami Guru"
-  description="Swami's standing opinion column on tech, hardware, product strategy, and industry trends. Honest, unfiltered takes with zero PR spin."
+  title="Known Issue — Opinion on Tech, Software, Apps, Hardware & AI by Swami Guru"
+  description="Swami Guru's standing opinion column on Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI. Honest, unfiltered commentary with zero PR spin."
   wide
 >
   <!-- Masthead -->
@@ -34,21 +34,30 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
     <span class="eyebrow">The Standing Opinion Column &middot; By Swami Guru</span>
     <h1>Known Issue</h1>
     <p class="standfirst">
-      In software, a &ldquo;known issue&rdquo; is what everyone quietly knows is broken, awkward, or off-target, but nobody wants to say out loud. In this column, Swami writes candid opinion pieces and critical takes on tech, hardware launches, product strategy, and industry moves that deserve an honest read.
+      In software, a &ldquo;known issue&rdquo; is what everyone quietly knows is broken, awkward, or off-target, but nobody wants to say out loud. In this column, Swami writes candid opinion pieces and critical takes across Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware, and AI &mdash; cutting through marketing hype with an operator-informed read.
     </p>
 
     <!-- Telemetry strip -->
     <div class="column-telemetry" aria-label="Column status">
       <span class="column-telemetry-item">
         <span class="column-telemetry-dot" aria-hidden="true"></span>
-        Format: Opinion &amp; Hardware Critiques
+        Format: Standing Opinion Column
       </span>
       <span class="column-telemetry-item">&middot;</span>
-      <span class="column-telemetry-item">Scope: Tech, Hardware &amp; Strategy</span>
+      <span class="column-telemetry-item">Scope: Tech, Software, Apps, iOS, Android, Google, Apple, Big Tech, Hardware &amp; AI</span>
       <span class="column-telemetry-item">&middot;</span>
-      <span class="column-telemetry-item">Cadence: Standing Column</span>
+      <span class="column-telemetry-item">Cadence: Regular Dispatches</span>
       <span class="column-telemetry-item">&middot;</span>
       <span class="column-telemetry-item">Desk: Swami Guru ({allStories.length} Pieces)</span>
+    </div>
+
+    <!-- Core Coverage Domain Pills -->
+    <div class="column-domains" aria-label="Core opinion coverage domains" style="display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: var(--s4);">
+      {['Tech', 'Software', 'Apps', 'iOS', 'Android', 'Google', 'Apple', 'Big Tech', 'Hardware', 'AI'].map((domain) => (
+        <span class="pill-tag pill-tag--muted" style="font-size: 11px; padding: 3px 10px; background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: var(--reverse-muted);">
+          {domain}
+        </span>
+      ))}
     </div>
   </div>
 
@@ -57,17 +66,17 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
     <div class="column-manifesto__card">
       <span class="column-manifesto__num">01 / The Real Read</span>
       <h3>Zero PR Spin</h3>
-      <p>Cutting through keynote buzzwords, investor hype, and polite corporate messaging to share what actually makes sense — and what doesn&rsquo;t.</p>
+      <p>Cutting through keynote buzzwords, investor hype, and polite corporate messaging to share what actually makes sense across consumer tech and enterprise ecosystems.</p>
     </div>
     <div class="column-manifesto__card">
       <span class="column-manifesto__num">02 / The Product Lens</span>
       <h3>Operator Perspective</h3>
-      <p>Opinions informed by eleven years leading product and digital publishing platforms at Vogue, Wired, and Cond&eacute; Nast &mdash; not armchair theory.</p>
+      <p>Opinions informed by eleven years leading product and digital publishing platforms at Vogue, Wired, and Cond&eacute; Nast &mdash; shipping real software and evaluating hardware firsthand.</p>
     </div>
     <div class="column-manifesto__card">
       <span class="column-manifesto__num">03 / Taking a Stand</span>
       <h3>Unfiltered Point of View</h3>
-      <p>Clear, decisive commentary on where tech is losing its way, which products are genuinely meaningful, and what leaders should watch out for.</p>
+      <p>Decisive, independent critique on apps, operating systems (iOS &amp; Android), platform shifts from Apple and Google, Big Tech power dynamics, and practical AI reality.</p>
     </div>
   </div>
 
@@ -143,7 +152,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
   <section class="column-section" aria-labelledby="all-columns-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
       <h2 id="all-columns-title">All Column Pieces ({allStories.length})</h2>
-      <span>Opinions, Critiques &amp; Teardowns</span>
+      <span>Opinions on Tech, Software, Hardware &amp; AI</span>
     </div>
 
     <!-- Quick Topic Filters -->

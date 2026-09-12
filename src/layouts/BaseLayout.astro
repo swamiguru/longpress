@@ -20,11 +20,16 @@ export interface Props {
   showProgress?: boolean;
   /** Enable back to top floating button (defaults to true on NewsArticle pages) */
   showBackToTop?: boolean;
+  /** Hero or social preview image path */
+  image?: string;
 }
-const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop } = Astro.props;
+const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image } = Astro.props;
 const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');
 const shouldShowBackToTop = showBackToTop ?? (schema === 'NewsArticle');
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const resolvedImage = image
+  ? (image.startsWith('http') ? image : new URL(image, Astro.site).href)
+  : new URL('/og-default.png', Astro.site).href;
 const AUTHOR = {
   '@type': 'Person',
   name: 'Swami Guru',
@@ -40,6 +45,7 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: 'Long Press', url: 'https://longpress.news' },
   ...(published && { datePublished: published.toISOString() }),
   ...(updated && { dateModified: updated.toISOString() }),
+  ...(image && { image: [resolvedImage] }),
 };
 // The masthead's daily promise, and the only place it is written down.
 // The upstream roundup generator commits between 09:29 and 10:40 IST (median
@@ -94,10 +100,11 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={schema === 'NewsArticle' ? 'article' : 'website'} />
- <meta property="og:image" content={new URL('/og-default.png', Astro.site).href} />
+    <meta property="og:image" content={resolvedImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={resolvedImage} />
     <meta name="theme-color" content="#F4F1E8" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 

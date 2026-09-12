@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="godModeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E0F1D"/>
+      <stop offset="100%" stop-color="#16182C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="800" rx="36" fill="url(#godModeBg)"/>
+  
+  <!-- Outer border -->
+  <rect x="20" y="20" width="760" height="760" rx="28" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="2"/>
+
+  <!-- Top bar -->
+  <text x="50" y="70" font-family="'Space Mono', monospace" font-size="14" font-weight="700" letter-spacing="3" fill="#E0552B">THE DAILY FIVE · TIP</text>
+  <text x="750" y="70" font-family="'Space Mono', monospace" font-size="14" fill="#7C809E" text-anchor="end">SLOT 03 · WINDOWS 11</text>
+  <line x1="50" y1="90" x2="750" y2="90" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+
+  <!-- Windows Folder Icon Graphic -->
+  <g transform="translate(250, 160)">
+    <!-- Blue folder back -->
+    <path d="M 40 40 L 130 40 L 160 70 L 260 70 C 275 70 285 80 285 95 L 285 240 C 285 255 275 265 260 265 L 40 265 C 25 265 15 255 15 240 L 15 65 C 15 50 25 40 40 40 Z" fill="#0078D4" opacity="0.4"/>
+    <!-- Blue folder front -->
+    <rect x="15" y="80" width="270" height="185" rx="16" fill="#0078D4"/>
+    <rect x="25" y="90" width="250" height="165" rx="12" fill="#2B88D8"/>
+    
+    <!-- Gear / Settings Icon overlay -->
+    <circle cx="150" cy="172" r="42" fill="#0E0F1D" stroke="#FFFFFF" stroke-width="6"/>
+    <circle cx="150" cy="172" r="18" fill="#E0552B"/>
+  </g>
+
+  <!-- Folder string name badge -->
+  <g transform="translate(80, 470)">
+    <rect x="0" y="0" width="640" height="85" rx="14" fill="rgba(0, 0, 0, 0.5)" stroke="rgba(224, 85, 43, 0.4)" stroke-width="1.5"/>
+    <text x="320" y="34" font-family="'Space Mono', monospace" font-size="14" font-weight="700" fill="#E0552B" text-anchor="middle">FOLDER NAME / GUID TRICK</text>
+    <text x="320" y="65" font-family="'Space Mono', monospace" font-size="15" fill="#FFFFFF" text-anchor="middle">GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}</text>
+  </g>
+
+  <!-- Headline and payoff -->
+  <text x="400" y="615" font-family="'Bricolage Grotesque', sans-serif" font-size="32" font-weight="800" fill="#FFFFFF" text-anchor="middle">Unlock Windows 'God Mode'</text>
+  <text x="400" y="660" font-family="'Newsreader', serif" font-size="20" fill="#A0A3BD" text-anchor="middle">200+ legacy settings in one searchable master list</text>
+
+  <!-- Bottom watermark -->
+  <text x="400" y="730" font-family="'Space Mono', monospace" font-size="12" fill="#7C809E" text-anchor="middle">LONGPRESS.NEWS · NO THIRD-PARTY INSTALL NEEDED</text>
+</svg>
