@@ -36,59 +36,6 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
     <p class="standfirst">
       In software, a known issue is the bug everyone has agreed to live with. This column is about the other kind: the things in Apple, Google, Meta, Android, iOS and the apps you open every day that have been wrong long enough to count as a decision rather than an oversight. The morning brief covers what happened today. This covers what has been true for months and still is.
     </p>
-
-    <!-- Masthead Quick Actions / Jump Controls -->
-    <div class="column-masthead-actions" aria-label="Editorial shortcuts">
-      {leadStory && (
-        <a href={`/${leadStory.data.slug}`} class="column-action-btn column-action-btn--primary" id="hero-read-lead-opinion">
-          Read Featured Opinion &rarr;
-        </a>
-      )}
-      <a href="#all-columns-section" class="column-action-btn column-action-btn--secondary" id="hero-jump-columns">
-        Browse every column ({allStories.length}) &darr;
-      </a>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">✍️</span> Not today&rsquo;s news</span>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> Ends on a verdict</span>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> No embargo access</span>
-    </div>
-
-    <!-- Telemetry strip -->
-    <div class="column-telemetry" aria-label="Column status">
-      <span class="column-telemetry-item">
-        <span class="column-telemetry-dot" aria-hidden="true"></span>
-        Format: Column
-      </span>
-      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Scope: Apple, Google, Meta, Android, iOS, apps and the platforms in between</span>
-      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Cadence: When something is worth saying</span>
-      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Written by Swami Guru ({allStories.length} pieces)</span>
-    </div>
-  </div>
-
-  <!-- Editorial Tenets Bento -->
-  <div class="column-manifesto" aria-label="Editorial Principles">
-    <div class="column-manifesto__card">
-      <span class="column-manifesto__num">01 / The trigger</span>
-      <h3>Not today&rsquo;s news</h3>
-      <p>The brief is set off by something that happened this morning. A column is set off by something that has been true for months.</p>
-    </div>
-    <div class="column-manifesto__card">
-      <span class="column-manifesto__num">02 / The money</span>
-      <h3>Plain about the money</h3>
-      <p>Who benefits from the thing staying broken is usually the answer, and usually the part nobody prints.</p>
-    </div>
-    <div class="column-manifesto__card">
-      <span class="column-manifesto__num">03 / The read</span>
-      <h3>The operator&rsquo;s read</h3>
-      <p>Eleven years leading product inside large publishers, which is mostly an education in why obvious fixes do not ship.</p>
-    </div>
-    <div class="column-manifesto__card">
-      <span class="column-manifesto__num">04 / The ending</span>
-      <h3>A verdict</h3>
-      <p>Buy it, skip it, or wait. Not &ldquo;it depends&rdquo;.</p>
-    </div>
   </div>
 
   <!-- Lead / Featured Column Piece -->
@@ -155,6 +102,30 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       </article>
     </section>
   )}
+
+  <!-- Editorial Tenets — compact, sits after the lead so real content leads -->
+  <div class="column-manifesto column-manifesto--compact" aria-label="Editorial Principles">
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">01 / The trigger</span>
+      <h3>Not today&rsquo;s news</h3>
+      <p>The brief is set off by something that happened this morning. A column is set off by something that has been true for months.</p>
+    </div>
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">02 / The money</span>
+      <h3>Plain about the money</h3>
+      <p>Who benefits from the thing staying broken is usually the answer, and usually the part nobody prints.</p>
+    </div>
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">03 / The read</span>
+      <h3>The operator&rsquo;s read</h3>
+      <p>Eleven years leading product inside large publishers, which is mostly an education in why obvious fixes do not ship.</p>
+    </div>
+    <div class="column-manifesto__card">
+      <span class="column-manifesto__num">04 / The ending</span>
+      <h3>A verdict</h3>
+      <p>Buy it, skip it, or wait. Not &ldquo;it depends&rdquo;.</p>
+    </div>
+  </div>
 
   <!-- Ad Slot -->
   <AdSlot placement="hub" />

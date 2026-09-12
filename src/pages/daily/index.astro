@@ -50,46 +50,6 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
     <p class="standfirst" id="archive-standfirst">
       Five tech stories every morning at 10:00 IST, each one taken apart the same way: the problem, what changed, the catch, and what it means for you. Five is a cap, not a target. More than five things happen most days and most of them do not matter.
     </p>
-
-    <!-- Masthead Quick Actions / Jump Controls -->
-    <div class="column-masthead-actions" aria-label="Editorial shortcuts">
-      {briefs[0] && (
-        <a href={`/daily/${briefs[0].id.replace(/\.md$/, '')}`} class="column-action-btn column-action-btn--primary" id="hero-read-latest-brief">
-          Read Today&rsquo;s Issue ({med.format(briefs[0].data.date)}) &rarr;
-        </a>
-      )}
-      <a href="#archive-section" class="column-action-btn column-action-btn--secondary" id="hero-jump-archive">
-        Browse the archive &darr;
-      </a>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">⚡</span> 10:00 IST, every day</span>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> Four questions, every story</span>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> Five, never six</span>
-    </div>
-
-    <!-- Telemetry strip -->
-    <div class="column-telemetry" aria-label="Section telemetry">
-      <span class="column-telemetry-item">
-        <span class="column-telemetry-dot" aria-hidden="true"></span>
-        Format: Morning brief
-      </span>
-      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Cadence: 10:00 IST Daily</span>
-      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Scope: five stories, no more</span>
-      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Framework: 4-Part Analytical Grid</span>
-      <span class="column-telemetry-sep" aria-hidden="true">&middot;</span>
-      <span class="column-telemetry-item">Archive: {briefs.length} Issues ({monthGroups.length} Volumes)</span>
-    </div>
-
-    <!-- Analytical Framework & Coverage Domains -->
-    <div class="column-domains" aria-label="Analytical framework and core domains">
-      {['The Problem', 'The Breakthrough', 'The Catch', 'What It Means For You', 'Tech & Infra', 'Software & OS', 'Hardware', 'AI & Models'].map((pill) => (
-        <span class="column-domain-pill">
-          {pill}
-        </span>
-      ))}
-    </div>
   </div>
 
   <!-- Built-in Volume Archive Section -->
