@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
+import { getArticleReadingTime } from '../../lib/readingTime';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -11,6 +12,7 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 <BaseLayout
   title="The Daily Five - archive"
   description="Every Long Press morning brief, newest first. Five tech stories a day, with an honest take."
+  wide
 >
   <div class="page-head">
     <span class="eyebrow">Archive</span>
@@ -28,9 +30,12 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
       <>
         {i === 8 && <li class="ad-row"><AdSlot placement="hub" /></li>}
         <li>
-          <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
-            {med.format(b.data.date)}
-          </time>
+          <div class="entry__meta-row">
+            <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+              {med.format(b.data.date)}
+            </time>
+            <span class="entry__reading-time">{getArticleReadingTime(b).text}</span>
+          </div>
           <p class="entry__title">
             <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
           </p>

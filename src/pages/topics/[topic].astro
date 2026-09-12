@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
+import { getArticleReadingTime } from '../../lib/readingTime';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
@@ -29,9 +30,12 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       <>
         {i === 6 && <li class="ad-row"><AdSlot placement="hub" /></li>}
         <li>
-          <time class="dateline entry__meta" datetime={s.data.published.toISOString()}>
-            {long.format(s.data.published)}
-          </time>
+          <div class="entry__meta-row">
+            <time class="dateline entry__meta" datetime={s.data.published.toISOString()}>
+              {long.format(s.data.published)}
+            </time>
+            <span class="entry__reading-time">{getArticleReadingTime(s).text}</span>
+          </div>
           <p class="entry__title"><a href={`/${s.data.slug}`}>{s.data.title}</a></p>
           <p class="entry__desc">{s.data.description}</p>
         </li>

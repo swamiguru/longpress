@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import { getArticleReadingTime } from '../lib/readingTime';
+
+interface Props {
+  currentSlug: string;
+  currentCategory: string;
+  currentTopics?: string[];
+}
+
+const { currentSlug, currentCategory, currentTopics = [] } = Astro.props;
+
+const allStories = await getCollection('stories', ({ data }) => !data.draft);
+
+// Exclude current story from suggestions
+const candidates = allStories.filter((s) => s.data.slug !== currentSlug);
+
+// Dynamically rank candidates:
+// 1. Same category receives primary priority (+100)
+// 2. Shared topics provide secondary relevance (+15 per topic)
+// 3. Recent publication timestamp provides tiebreaker
+const scored = candidates.map((story) => {
+  let score = 0;
+  if (story.data.category === currentCategory) {
+    score += 100;
+  }
+
+  const sharedTopics = story.data.topics?.filter((t) => currentTopics.includes(t)) ?? [];
+  score += sharedTopics.length * 15;
+
+  const pubTime = story.data.published ? story.data.published.getTime() : 0;
+  score += pubTime / 1e12;
+
+  return { story, score };
+});
+
+scored.sort((a, b) => b.score - a.score);
+
+// Suggest 3 additional stories
+const related = scored.slice(0, 3).map((item) => item.story);
+
+const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+---
+
+{related.length > 0 && (
+  <section class="section related-articles" aria-labelledby="related-articles-heading" id="related-articles-section">
+    <div class="section__head">
+      <h2 id="related-articles-heading">Related Articles</h2>
+      <span class="eyebrow">Category &middot; {currentCategory.replace(/-/g, ' ')}</span>
+    </div>
+
+    <div class="related-articles__grid">
+      {related.map((s) => {
+        const reading = getArticleReadingTime(s);
+        return (
+          <article class="related-card" id={`related-${s.data.slug}`}>
+            <div class="related-card__header">
+              <span class="eyebrow related-card__category">{s.data.category.replace(/-/g, ' ')}</span>
+              <span class="related-card__reading-time">{reading.text}</span>
+            </div>
+
+            <h3 class="related-card__title">
+              <a href={`/${s.data.slug}`} id={`related-title-${s.data.slug}`}>{s.data.title}</a>
+            </h3>
+
+            <p class="related-card__desc">{s.data.description}</p>
+
+            <div class="related-card__footer">
+              <time class="dateline" datetime={s.data.published.toISOString()}>
+                {med.format(s.data.published)}
+              </time>
+              <div class="related-card__actions">
+                <button
+                  type="button"
+                  class="card-share-btn"
+                  data-share-title={`${s.data.title} — Long Press`}
+                  data-share-url={`/${s.data.slug}`}
+                  data-share-desc={s.data.description}
+                  aria-label={`Share ${s.data.title}`}
+                  title="Share article via Web Share API"
+                >
+                  <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                  </svg>
+                  <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 6L9 17l-5-5"/>
+                  </svg>
+                  <span class="card-share-btn__text">Share</span>
+                </button>
+                <a href={`/${s.data.slug}`} class="related-card__cta" id={`related-link-${s.data.slug}`} aria-label={`Read ${s.data.title}`}>
+                  Read Story &rarr;
+                </a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+)}

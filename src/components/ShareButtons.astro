@@ -1,0 +1,361 @@
+---
+interface Props {
+  title: string;
+  url?: string;
+  description?: string;
+  class?: string;
+}
+
+const { title, url, description = '', class: className = '' } = Astro.props;
+const currentUrl = url || (Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname);
+const encodedUrl = encodeURIComponent(currentUrl);
+const fullTitle = `${title} — Long Press`;
+const encodedTitle = encodeURIComponent(fullTitle);
+
+const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+---
+
+<aside
+  class={`share-bar ${className}`}
+  aria-label="Share this article"
+  data-url={currentUrl}
+  data-title={fullTitle}
+  data-description={description}
+>
+  <span class="share-bar__label">Share</span>
+  <div class="share-bar__group">
+    <!-- Web Share API Button (Native device share sheet) -->
+    <button
+      type="button"
+      class="share-pill share-pill--webshare"
+      data-action="webshare"
+      aria-label="Quick share this article via device apps"
+      title="Share article via Web Share API"
+    >
+      <svg class="share-pill__icon share-pill__icon--share" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="18" cy="5" r="3"></circle>
+        <circle cx="6" cy="12" r="3"></circle>
+        <circle cx="18" cy="19" r="3"></circle>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+      </svg>
+      <svg class="share-pill__icon share-pill__icon--check" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+      <span class="share-pill__text">Share</span>
+    </button>
+
+    <!-- Twitter / X -->
+    <a
+      href={twitterUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-pill share-pill--twitter"
+      aria-label="Share on X (formerly Twitter)"
+      title="Share on X"
+    >
+      <svg class="share-pill__icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      <span>X</span>
+    </a>
+
+    <!-- LinkedIn -->
+    <a
+      href={linkedInUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-pill share-pill--linkedin"
+      aria-label="Share on LinkedIn"
+      title="Share on LinkedIn"
+    >
+      <svg class="share-pill__icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.77a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"/>
+      </svg>
+      <span>LinkedIn</span>
+    </a>
+
+    <!-- Copy Link -->
+    <button
+      type="button"
+      class="share-pill share-pill--copy"
+      data-action="copy"
+      aria-label="Copy link to clipboard"
+      title="Copy article link"
+    >
+      <svg class="share-pill__icon share-pill__icon--link" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+      <svg class="share-pill__icon share-pill__icon--check" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+      <span class="share-pill__text">Copy Link</span>
+    </button>
+  </div>
+  <span class="sr-only" role="status" aria-live="polite"></span>
+</aside>
+
+<style>
+  .share-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s3);
+    margin-bottom: var(--s5);
+    flex-wrap: wrap;
+  }
+
+  .share-bar__label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .share-bar__group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .share-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 13px;
+    border-radius: 9999px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s ease;
+  }
+
+  .share-pill:hover {
+    background: var(--surface-hover);
+    border-color: var(--rule-strong);
+    color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(23, 24, 46, 0.05);
+  }
+
+  /* Primary Web Share API button styling */
+  .share-pill--webshare {
+    position: relative;
+    border-color: rgba(224, 85, 43, 0.35);
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .share-pill--webshare .share-pill__icon--share {
+    color: var(--accent);
+  }
+
+  .share-pill--webshare:hover {
+    border-color: var(--accent);
+    background: rgba(224, 85, 43, 0.08);
+    color: var(--accent-deep);
+    box-shadow: 0 4px 12px rgba(224, 85, 43, 0.15);
+  }
+
+  .share-pill--webshare .share-pill__icon--check {
+    display: none;
+    color: #10B981;
+  }
+
+  .share-pill--webshare.is-copied {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #065F46;
+  }
+
+  .share-pill--webshare.is-copied .share-pill__icon--share {
+    display: none;
+  }
+
+  .share-pill--webshare.is-copied .share-pill__icon--check {
+    display: inline-block;
+  }
+
+  .share-pill--twitter:hover {
+    border-color: #000;
+    color: #000;
+  }
+
+  .share-pill--linkedin:hover {
+    border-color: #0A66C2;
+    color: #0A66C2;
+  }
+
+  .share-pill--copy {
+    position: relative;
+  }
+
+  .share-pill--copy .share-pill__icon--check {
+    display: none;
+    color: #10B981;
+  }
+
+  .share-pill--copy.is-copied {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #065F46;
+  }
+
+  .share-pill--copy.is-copied .share-pill__icon--link {
+    display: none;
+  }
+
+  .share-pill--copy.is-copied .share-pill__icon--check {
+    display: inline-block;
+  }
+
+  .share-pill__icon {
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 600px) {
+    .share-bar {
+      width: 100%;
+      margin-bottom: var(--s4);
+    }
+    .share-pill {
+      font-size: 10.5px;
+      padding: 6px 11px;
+    }
+  }
+</style>
+
+<script>
+  function getAbsoluteUrl(urlPath: string): string {
+    if (/^https?:\/\//i.test(urlPath)) {
+      return urlPath;
+    }
+    return new URL(urlPath, window.location.origin).href;
+  }
+
+  async function copyText(text: string): Promise<boolean> {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return success;
+    } catch {
+      return false;
+    }
+  }
+
+  function showPillFeedback(pill: HTMLElement, message: string, statusEl: HTMLElement | null, resetLabel: string) {
+    pill.classList.add('is-copied');
+    const textEl = pill.querySelector<HTMLElement>('.share-pill__text');
+    if (textEl) textEl.textContent = message;
+    if (statusEl) statusEl.textContent = message;
+
+    setTimeout(() => {
+      pill.classList.remove('is-copied');
+      if (textEl) textEl.textContent = resetLabel;
+      if (statusEl) statusEl.textContent = '';
+    }, 2200);
+  }
+
+  function setupShareBars() {
+    const bars = document.querySelectorAll<HTMLElement>('.share-bar');
+    bars.forEach((bar) => {
+      if (bar.dataset.shareInitialized === 'true') return;
+      bar.dataset.shareInitialized = 'true';
+
+      const rawUrl = bar.getAttribute('data-url') || window.location.href;
+      const shareUrl = getAbsoluteUrl(rawUrl);
+      const title = bar.getAttribute('data-title') || document.title;
+      const description = bar.getAttribute('data-description') || '';
+      const statusEl = bar.querySelector<HTMLElement>('.sr-only');
+
+      const webShareBtn = bar.querySelector<HTMLButtonElement>('[data-action="webshare"]');
+      const copyBtn = bar.querySelector<HTMLButtonElement>('[data-action="copy"]');
+
+      if (webShareBtn) {
+        webShareBtn.addEventListener('click', async () => {
+          const shareData = {
+            title: title,
+            text: description ? `${description}\n` : title,
+            url: shareUrl,
+          };
+
+          if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+            try {
+              await navigator.share(shareData);
+              showPillFeedback(webShareBtn, 'Shared!', statusEl, 'Share');
+            } catch (err: any) {
+              if (err && err.name === 'AbortError') {
+                // User closed the share sheet; no action needed
+                return;
+              }
+              // If share fails or is blocked by permissions, fallback to clipboard copy
+              const success = await copyText(shareUrl);
+              if (success) {
+                showPillFeedback(webShareBtn, 'Link Copied!', statusEl, 'Share');
+              }
+            }
+          } else {
+            // Web Share API not available in browser; fallback to clipboard copy
+            const success = await copyText(shareUrl);
+            if (success) {
+              showPillFeedback(webShareBtn, 'Link Copied!', statusEl, 'Share');
+            }
+          }
+        });
+      }
+
+      if (copyBtn) {
+        copyBtn.addEventListener('click', async () => {
+          const success = await copyText(shareUrl);
+          if (success) {
+            showPillFeedback(copyBtn, 'Copied!', statusEl, 'Copy Link');
+          }
+        });
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupShareBars);
+  } else {
+    setupShareBars();
+  }
+</script>

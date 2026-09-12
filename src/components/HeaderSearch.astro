@@ -1,0 +1,969 @@
+---
+// HeaderSearch.astro — Responsive header search with mobile drawer and desktop inline pill
+---
+<div class="header-search-wrap" id="header-search-wrap">
+  <!-- Mobile search trigger button -->
+  <button
+    type="button"
+    class="header-search-trigger"
+    id="header-search-trigger"
+    aria-label="Search archives and topics"
+    aria-expanded="false"
+    title="Search archives (Press /)"
+  >
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  </button>
+
+  <!-- Search drawer (inline on desktop, full-width modal drawer on mobile) -->
+  <div class="header-search__drawer" id="header-search-drawer">
+    <div class="header-search__drawer-inner">
+      <form class="header-search" id="header-search-form" action="/search" method="get" role="search">
+        <span class="header-search__icon" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+
+        <input
+          type="search"
+          name="q"
+          id="header-search-input"
+          class="header-search__input"
+          placeholder="Search archives & tags... (Press /)"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search article archives by keyword or tag"
+          aria-expanded="false"
+          aria-controls="header-search-dropdown"
+        />
+
+        <kbd class="header-search__kbd" id="header-search-kbd" aria-hidden="true" title="Press / to search">/</kbd>
+
+        <button
+          type="button"
+          id="header-search-clear"
+          class="header-search__clear"
+          aria-label="Clear search input"
+          hidden
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </form>
+
+      <!-- Cancel button for mobile view -->
+      <button
+        type="button"
+        id="header-search-close"
+        class="header-search__close-btn"
+        aria-label="Close search"
+      >
+        Cancel
+      </button>
+    </div>
+
+    <!-- Live instant search dropdown -->
+    <div
+      class="header-search__dropdown"
+      id="header-search-dropdown"
+      role="region"
+      aria-label="Archive search results"
+      hidden
+    >
+      <div class="header-search__results" id="header-search-results">
+        <!-- Populated dynamically by script -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile backdrop -->
+  <div class="header-search__backdrop" id="header-search-backdrop" hidden></div>
+</div>
+
+<style>
+  .header-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  /* --- Mobile search trigger button ------------------------- */
+  .header-search-trigger {
+    display: none; /* hidden on desktop */
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    border-radius: 9999px;
+    border: 1.5px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.18s ease,
+                border-color 0.18s ease,
+                color 0.18s ease,
+                transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.18s ease;
+  }
+
+  .header-search-trigger:hover {
+    background: var(--surface-hover);
+    border-color: var(--rule-strong);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .header-search-trigger:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .header-search-trigger:active {
+    transform: translateY(0) scale(0.96);
+  }
+
+  /* --- Desktop Search Form ---------------------------------- */
+  .header-search__drawer {
+    display: block;
+    position: relative;
+  }
+
+  .header-search__drawer-inner {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 9999px;
+    padding: 0 32px 0 34px;
+    height: 36px;
+    width: 240px;
+    box-sizing: border-box;
+    transition: border-color 0.18s ease,
+                background-color 0.18s ease,
+                box-shadow 0.18s ease;
+  }
+
+  .header-search:focus-within {
+    border-color: var(--accent);
+    background: var(--surface-card);
+    box-shadow: 0 0 0 3px var(--accent-subtle), 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .header-search__icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    pointer-events: none;
+    transition: color 0.18s ease;
+  }
+
+  .header-search:focus-within .header-search__icon {
+    color: var(--accent);
+  }
+
+  .header-search__input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--ink);
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .header-search__input::-webkit-search-decoration,
+  .header-search__input::-webkit-search-cancel-button,
+  .header-search__input::-webkit-search-results-button,
+  .header-search__input::-webkit-search-results-decoration {
+    display: none;
+  }
+
+  .header-search__input::placeholder {
+    color: var(--muted);
+    font-size: 12px;
+    opacity: 0.85;
+  }
+
+  .header-search__kbd {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    background: var(--ground);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 2px 6px;
+    line-height: 1;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .header-search:focus-within .header-search__kbd {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .header-search__clear {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    z-index: 2;
+  }
+
+  .header-search__clear:hover {
+    color: var(--ink);
+    background: var(--surface-hover);
+  }
+
+  .header-search__close-btn {
+    display: none; /* hidden on desktop */
+  }
+
+  /* Dropdown styling */
+  .header-search__dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 380px;
+    max-width: min(380px, calc(100vw - 32px));
+    background: var(--surface-card);
+    border: 1.5px solid var(--rule-strong);
+    border-radius: 14px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    z-index: 120;
+    animation: dropdownFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes dropdownFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .header-search__results {
+    max-height: 440px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 8px;
+  }
+
+  .header-search__backdrop {
+    display: none;
+  }
+
+  /* --- Dropdown Shared Components --------------------------- */
+  :global(.search-section-label) {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 10px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  :global(.search-tags-row) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 10px 10px;
+  }
+
+  :global(.search-tag-pill) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+  }
+
+  :global(.search-tag-pill:hover),
+  :global(.search-tag-pill.is-selected) {
+    background: var(--accent-subtle);
+    border-color: var(--accent);
+    color: var(--accent-deep);
+    transform: translateY(-1px);
+  }
+
+  :global(.search-tag-count) {
+    font-size: 9.5px;
+    color: var(--muted);
+  }
+
+  :global(.search-item) {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: background-color 0.12s ease, transform 0.12s ease;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  :global(.search-item:last-child) {
+    border-bottom: none;
+  }
+
+  :global(.search-item:hover),
+  :global(.search-item.is-selected) {
+    background: var(--surface-hover);
+    outline: none;
+  }
+
+  :global(.search-item__header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  :global(.search-item__meta) {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  :global(.search-item__badge) {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  :global(.search-item__badge--story) {
+    background: var(--accent-subtle);
+    color: var(--accent-deep);
+    border: 1px solid var(--accent-border);
+  }
+
+  :global(.search-item__badge--brief) {
+    background: var(--surface);
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+  }
+
+  :global(.search-item__title) {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: var(--ink);
+    margin: 0 0 3px;
+  }
+
+  :global(.search-item:hover .search-item__title),
+  :global(.search-item.is-selected .search-item__title) {
+    color: var(--accent-deep);
+  }
+
+  :global(.search-item__snippet) {
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  :global(.search-item mark),
+  :global(.search-tag-pill mark) {
+    background: rgba(224, 85, 43, 0.22);
+    color: inherit;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+
+  :global(.search-empty) {
+    padding: 20px 14px;
+    text-align: center;
+  }
+
+  :global(.search-empty__title) {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 6px;
+  }
+
+  :global(.search-empty__desc) {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 14px;
+    line-height: 1.4;
+  }
+
+  :global(.search-dropdown-footer) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--surface);
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  :global(.search-dropdown-footer a) {
+    color: var(--accent-deep);
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  :global(.search-dropdown-footer a:hover) {
+    text-decoration: underline;
+  }
+
+  /* --- Mobile Responsive (< 768px) --------------------------- */
+  @media (max-width: 768px) {
+    .header-search-wrap {
+      position: static;
+    }
+
+    .header-search-trigger {
+      display: inline-flex;
+    }
+
+    /* Drawer is positioned as a seamless overlay of the top row of masthead__main */
+    .header-search__drawer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 52px;
+      background: var(--ground);
+      z-index: 60;
+      padding: 6px 16px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.2s;
+    }
+
+    .header-search-wrap.is-open .header-search__drawer {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .header-search__drawer-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .header-search-wrap.is-open .header-search {
+      flex: 1;
+      width: 100%;
+      height: 38px;
+      border-radius: 9999px;
+      background: var(--surface);
+      border: 1.5px solid var(--accent);
+      padding: 0 34px 0 36px;
+      box-shadow: 0 0 0 3px var(--accent-subtle);
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .header-search-wrap.is-open .header-search:focus-within {
+      width: 100%;
+    }
+
+    .header-search-wrap.is-open .header-search__icon {
+      left: 12px;
+      color: var(--accent);
+    }
+
+    .header-search-wrap.is-open .header-search__input {
+      font-size: 16px; /* Prevents mobile browser auto-zoom */
+    }
+
+    .header-search-wrap.is-open .header-search__kbd {
+      display: none;
+    }
+
+    .header-search-wrap.is-open .header-search__close-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      padding: 0 14px;
+      background: var(--surface);
+      border: 1.5px solid var(--rule);
+      border-radius: 9999px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      flex-shrink: 0;
+      line-height: 1;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .header-search-wrap.is-open .header-search__close-btn:hover,
+    .header-search-wrap.is-open .header-search__close-btn:active {
+      background: var(--surface-hover);
+      border-color: var(--rule-strong);
+      color: var(--accent-deep);
+    }
+
+    .header-search-wrap.is-open .header-search__dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0 0 16px 16px;
+      border-top: 1.5px solid var(--rule-strong);
+      border-left: none;
+      border-right: none;
+      max-height: calc(85vh - 70px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      background: var(--surface-card);
+      z-index: 100;
+    }
+
+    .header-search-wrap.is-open .header-search__backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 45;
+      animation: backdropFade 0.2s ease;
+    }
+
+    @keyframes backdropFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    let searchData = null;
+    let isLoading = false;
+    let selectedIndex = -1;
+
+    const wrap = document.getElementById('header-search-wrap');
+    const trigger = document.getElementById('header-search-trigger');
+    const closeBtn = document.getElementById('header-search-close');
+    const backdrop = document.getElementById('header-search-backdrop');
+    const form = document.getElementById('header-search-form');
+    const input = document.getElementById('header-search-input');
+    const clearBtn = document.getElementById('header-search-clear');
+    const dropdown = document.getElementById('header-search-dropdown');
+    const resultsContainer = document.getElementById('header-search-results');
+
+    if (!input || !dropdown || !resultsContainer) return;
+
+    // Fetch archive index lazily
+    async function loadIndex() {
+      if (searchData || isLoading) return;
+      isLoading = true;
+      try {
+        const res = await fetch('/search.json');
+        if (res.ok) {
+          searchData = await res.json();
+        }
+      } catch (err) {
+        console.error('Failed to load search index:', err);
+      } finally {
+        isLoading = false;
+      }
+    }
+
+    function openMobileSearch() {
+      wrap.classList.add('is-open');
+      if (trigger) trigger.setAttribute('aria-expanded', 'true');
+      if (backdrop) backdrop.hidden = false;
+      loadIndex().then(() => {
+        renderResults(input.value);
+      });
+      requestAnimationFrame(() => {
+        try {
+          input.focus({ preventScroll: true });
+        } catch (e) {
+          input.focus();
+        }
+      });
+    }
+
+    function closeMobileSearch(shouldFocusTrigger = false) {
+      wrap.classList.remove('is-open');
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'false');
+        if (shouldFocusTrigger) {
+          try {
+            trigger.focus({ preventScroll: true });
+          } catch (e) {
+            trigger.focus();
+          }
+        }
+      }
+      if (backdrop) backdrop.hidden = true;
+      dropdown.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+      input.blur();
+    }
+
+    if (trigger) {
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openMobileSearch();
+      });
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMobileSearch(false);
+      });
+    }
+    if (backdrop) {
+      backdrop.addEventListener('click', () => closeMobileSearch(false));
+    }
+
+    // Prefetch on hover or focus
+    input.addEventListener('focus', loadIndex);
+    wrap.addEventListener('mouseenter', loadIndex);
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, function(m) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
+      });
+    }
+
+    function highlight(text, query) {
+      if (!text || !query) return escapeHtml(text);
+      const cleanQ = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${cleanQ})`, 'gi');
+      return escapeHtml(text).replace(regex, '<mark>$1</mark>');
+    }
+
+    function renderResults(q) {
+      const query = (q || '').trim().toLowerCase();
+      selectedIndex = -1;
+
+      if (!searchData) {
+        resultsContainer.innerHTML = `
+          <div class="search-empty">
+            <p class="search-empty__desc">Loading archives...</p>
+          </div>`;
+        dropdown.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+        return;
+      }
+
+      // If empty query, display popular topic tags + recent story highlights
+      if (!query) {
+        let html = '';
+        if (searchData.topics && searchData.topics.length > 0) {
+          html += `<div class="search-section-label">Browse by Topic / Tag</div>`;
+          html += `<div class="search-tags-row">`;
+          searchData.topics.forEach(t => {
+            html += `<a href="${t.url}" class="search-tag-pill search-nav-item">#${escapeHtml(t.tag)} <span class="search-tag-count">(${t.count})</span></a>`;
+          });
+          html += `</div>`;
+        }
+
+        if (searchData.stories && searchData.stories.length > 0) {
+          html += `<div class="search-section-label">Featured Standalone Stories</div>`;
+          searchData.stories.slice(0, 3).forEach(s => {
+            html += `
+              <a href="${s.url}" class="search-item search-nav-item">
+                <div class="search-item__header">
+                  <span class="search-item__badge search-item__badge--story">${escapeHtml(s.category)}</span>
+                  <span class="search-item__meta">${escapeHtml(s.date)}</span>
+                </div>
+                <h4 class="search-item__title">${escapeHtml(s.title)}</h4>
+                <p class="search-item__snippet">${escapeHtml(s.description)}</p>
+              </a>
+            `;
+          });
+        }
+
+        resultsContainer.innerHTML = html;
+        dropdown.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+        return;
+      }
+
+      // Filter by tag or keyword
+      const isTagSearch = query.startsWith('#');
+      const cleanTerm = isTagSearch ? query.slice(1) : query;
+
+      // 1. Matched Topics
+      const matchedTopics = (searchData.topics || []).filter(t =>
+        t.tag.toLowerCase().includes(cleanTerm)
+      );
+
+      // 2. Matched Stories
+      const matchedStories = (searchData.stories || []).filter(s => {
+        const titleMatch = s.title.toLowerCase().includes(cleanTerm);
+        const descMatch = s.description.toLowerCase().includes(cleanTerm);
+        const topicMatch = (s.topics || []).some(t => t.toLowerCase().includes(cleanTerm));
+        const catMatch = (s.category || '').toLowerCase().includes(cleanTerm);
+        return titleMatch || descMatch || topicMatch || catMatch;
+      });
+
+      // 3. Matched Daily Briefs
+      const matchedBriefs = (searchData.briefs || []).filter(b => {
+        const titleMatch = b.title.toLowerCase().includes(cleanTerm);
+        const descMatch = b.description.toLowerCase().includes(cleanTerm);
+        const headMatch = (b.headlines || '').toLowerCase().includes(cleanTerm);
+        const topicMatch = (b.topics || []).some(t => t.toLowerCase().includes(cleanTerm));
+        const dateMatch = (b.date || '').toLowerCase().includes(cleanTerm) || b.id.includes(cleanTerm);
+        return titleMatch || descMatch || headMatch || topicMatch || dateMatch;
+      });
+
+      const totalCount = matchedTopics.length + matchedStories.length + matchedBriefs.length;
+
+      if (totalCount === 0) {
+        resultsContainer.innerHTML = `
+          <div class="search-empty">
+            <h4 class="search-empty__title">No archives found</h4>
+            <p class="search-empty__desc">No stories or briefs matched "${escapeHtml(query)}". Try searching for topics like <strong>#cloud</strong>, <strong>#databases</strong>, or <strong>Apple</strong>.</p>
+            ${searchData.topics && searchData.topics.length ? `
+              <div class="search-tags-row" style="justify-content: center;">
+                ${searchData.topics.slice(0, 5).map(t => `<a href="${t.url}" class="search-tag-pill">#${escapeHtml(t.tag)}</a>`).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+        dropdown.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+        return;
+      }
+
+      let html = '';
+
+      // Render Matched Topics first
+      if (matchedTopics.length > 0) {
+        html += `<div class="search-section-label">Matching Tags (${matchedTopics.length})</div>`;
+        html += `<div class="search-tags-row">`;
+        matchedTopics.slice(0, 6).forEach(t => {
+          html += `<a href="${t.url}" class="search-tag-pill search-nav-item">#${highlight(t.tag, cleanTerm)} <span class="search-tag-count">(${t.count})</span></a>`;
+        });
+        html += `</div>`;
+      }
+
+      // Render Matched Stories
+      if (matchedStories.length > 0) {
+        html += `<div class="search-section-label">Stories & Deep Dives (${matchedStories.length})</div>`;
+        matchedStories.slice(0, 4).forEach(s => {
+          html += `
+            <a href="${s.url}" class="search-item search-nav-item">
+              <div class="search-item__header">
+                <span class="search-item__badge search-item__badge--story">${escapeHtml(s.category)}</span>
+                <span class="search-item__meta">${escapeHtml(s.date)}</span>
+              </div>
+              <h4 class="search-item__title">${highlight(s.title, cleanTerm)}</h4>
+              <p class="search-item__snippet">${highlight(s.description, cleanTerm)}</p>
+            </a>
+          `;
+        });
+      }
+
+      // Render Matched Daily Briefs
+      if (matchedBriefs.length > 0) {
+        html += `<div class="search-section-label">Daily Briefs (${matchedBriefs.length})</div>`;
+        matchedBriefs.slice(0, 4).forEach(b => {
+          html += `
+            <a href="${b.url}" class="search-item search-nav-item">
+              <div class="search-item__header">
+                <span class="search-item__badge search-item__badge--brief">Daily Brief</span>
+                <span class="search-item__meta">${escapeHtml(b.date)}</span>
+              </div>
+              <h4 class="search-item__title">${highlight(b.title, cleanTerm)}</h4>
+              <p class="search-item__snippet">${highlight(b.description || b.headlines, cleanTerm)}</p>
+            </a>
+          `;
+        });
+      }
+
+      // Footer
+      html += `
+        <div class="search-dropdown-footer">
+          <span>Found ${totalCount} match${totalCount === 1 ? '' : 'es'}</span>
+          <a href="/search?q=${encodeURIComponent(query)}">Full search page &rarr;</a>
+        </div>
+      `;
+
+      resultsContainer.innerHTML = html;
+      dropdown.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    // Input events
+    input.addEventListener('input', (e) => {
+      const val = e.target.value;
+      clearBtn.hidden = !val;
+      renderResults(val);
+    });
+
+    input.addEventListener('focus', () => {
+      renderResults(input.value);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      clearBtn.hidden = true;
+      input.focus();
+      renderResults('');
+    });
+
+    // Keyboard navigation
+    input.addEventListener('keydown', (e) => {
+      const items = resultsContainer.querySelectorAll('.search-nav-item');
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (items.length === 0) return;
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelected(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (items.length === 0) return;
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelected(items);
+      } else if (e.key === 'Enter') {
+        if (selectedIndex >= 0 && items[selectedIndex]) {
+          e.preventDefault();
+          items[selectedIndex].click();
+        }
+      } else if (e.key === 'Escape') {
+        if (wrap.classList.contains('is-open')) {
+          closeMobileSearch(true);
+        } else {
+          dropdown.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    function updateSelected(items) {
+      items.forEach((item, idx) => {
+        if (idx === selectedIndex) {
+          item.classList.add('is-selected');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('is-selected');
+        }
+      });
+    }
+
+    // Close on click outside (desktop)
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) {
+        if (!wrap.classList.contains('is-open')) {
+          dropdown.hidden = true;
+          input.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    // Global keyboard shortcut: press '/' or 'Cmd+K' / 'Ctrl+K'
+    document.addEventListener('keydown', (e) => {
+      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+      if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') return;
+
+      if (e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
+        e.preventDefault();
+        if (window.innerWidth <= 768) {
+          openMobileSearch();
+        } else {
+          try {
+            input.focus({ preventScroll: true });
+          } catch (err) {
+            input.focus();
+          }
+          input.select();
+        }
+      }
+    });
+  })();
+</script>

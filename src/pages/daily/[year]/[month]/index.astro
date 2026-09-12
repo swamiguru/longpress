@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { getArticleReadingTime } from '../../../../lib/readingTime';
 
 export async function getStaticPaths() {
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
@@ -39,9 +40,12 @@ const monthName = new Intl.DateTimeFormat('en-IN', { month: 'long' })
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
       .map((b) => (
         <li>
-          <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
-            {med.format(b.data.date)}
-          </time>
+          <div class="entry__meta-row">
+            <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+              {med.format(b.data.date)}
+            </time>
+            <span class="entry__reading-time">{getArticleReadingTime(b).text}</span>
+          </div>
           <p class="entry__title">
             <a href={`/daily/${b.id.replace(/\.md$/, '')}`}>{b.data.title}</a>
           </p>

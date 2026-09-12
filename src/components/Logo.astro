@@ -27,7 +27,7 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
   .brand-logo {
     display: inline-flex;
     align-items: center;
-    gap: 13px;
+    gap: 10px;
     text-decoration: none;
     color: var(--ink);
     user-select: none;
@@ -40,6 +40,10 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
     flex-shrink: 0;
     transition: transform .2s cubic-bezier(.2, .8, .2, 1);
   }
+  .brand-logo__mark svg {
+    width: 32px;
+    height: 32px;
+  }
   .brand-logo:hover .brand-logo__mark { transform: scale(1.05); }
 
   .mark-ring { stroke: var(--ink); }
@@ -49,7 +53,7 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
     line-height: 1;
   }
 
@@ -57,7 +61,7 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
     font-family: var(--display);
     font-variation-settings: var(--display-wide);
     font-weight: 800;
-    font-size: 26px;
+    font-size: 22px;
     line-height: .9;
     letter-spacing: -0.04em;
     text-transform: uppercase;
@@ -66,24 +70,49 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
 
   .word-press { color: var(--accent); }
 
+  /* Masthead — primary header branding */
+  .brand-logo--masthead {
+    gap: 12px;
+  }
+  .brand-logo--masthead .brand-logo__mark svg {
+    width: 36px;
+    height: 36px;
+  }
+  .brand-logo--masthead .brand-logo__title {
+    font-size: 24px;
+    letter-spacing: -0.035em;
+  }
+  .brand-logo--masthead .brand-logo__tagline {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
   .brand-logo__tagline {
     font-family: var(--mono);
-    font-size: 8.5px;
+    font-size: 8px;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted);
   }
 
   /* Compact — sticky nav, mobile. Tagline is dropped by the caller. */
-  .brand-logo--compact { gap: 10px; }
-  .brand-logo--compact .brand-logo__title { font-size: 19px; }
-  .brand-logo--compact .brand-logo__mark svg { width: 30px; height: 30px; }
+  .brand-logo--compact { gap: 8px; }
+  .brand-logo--compact .brand-logo__title { font-size: 18px; }
+  .brand-logo--compact .brand-logo__mark svg { width: 24px; height: 24px; }
 
-  /* Footer — reverse, stacked */
-  .brand-logo--footer { flex-direction: column; align-items: flex-start; gap: 11px; }
-  .brand-logo--footer .brand-logo__title { font-size: 21px; color: var(--dark-ink); }
+  /* Footer — horizontal, sleek and compact */
+  .brand-logo--footer {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 9px;
+  }
+  .brand-logo--footer .brand-logo__title {
+    font-size: 18px;
+    color: var(--dark-ink);
+  }
   .brand-logo--footer .mark-ring { stroke: var(--dark-ink); }
   .brand-logo--footer .mark-dot  { fill: var(--dark-ink); }
-  .brand-logo--footer .brand-logo__mark svg { width: 30px; height: 30px; }
+  .brand-logo--footer .brand-logo__mark svg { width: 22px; height: 22px; }
 </style>

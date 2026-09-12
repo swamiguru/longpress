@@ -1,0 +1,537 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getArticleReadingTime } from '../lib/readingTime';
+
+const stories = await getCollection('stories', ({ data }) => !data.draft);
+const briefs = await getCollection('daily', ({ data }) => !data.draft);
+
+// Pre-calculate all unique topics
+const topicCounts: Record<string, number> = {};
+for (const s of stories) {
+  for (const t of s.data.topics || []) {
+    topicCounts[t] = (topicCounts[t] || 0) + 1;
+  }
+}
+const allTopics = Object.entries(topicCounts)
+  .map(([tag, count]) => ({ tag, count }))
+  .sort((a, b) => b.count - a.count);
+
+const dtf = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
+
+// Prepare search dataset for client hydration
+const searchDataset = {
+  stories: stories.map((s) => ({
+    id: s.data.slug,
+    title: s.data.title,
+    description: s.data.description,
+    category: s.data.category,
+    topics: s.data.topics || [],
+    date: dtf.format(s.data.published),
+    isoDate: s.data.published.toISOString(),
+    readingTime: getArticleReadingTime(s).text,
+    url: `/${s.data.slug}`,
+  })),
+  briefs: briefs.map((b) => {
+    const slug = b.id.replace(/\.md$/, '');
+    const headlines = b.data.items.map((i) => i.heading).join(' · ');
+    const tags = Array.from(new Set(b.data.items.map((i) => i.kind)));
+    return {
+      id: slug,
+      title: b.data.title,
+      description: b.data.description,
+      headlines,
+      topics: tags,
+      date: dtf.format(b.data.date),
+      isoDate: b.data.date.toISOString(),
+      itemCount: b.data.items.length,
+      url: `/daily/${slug}`,
+    };
+  }),
+};
+---
+
+<BaseLayout
+  title="Archive Search"
+  description="Search Long Press archives by keyword, technology, company or tag."
+  wide
+>
+  <div class="page-head" id="search-page-head">
+    <span class="eyebrow">Archives</span>
+    <h1>Search Articles &amp; Daily Briefs</h1>
+    <p class="standfirst">
+      Explore every story, morning dossier, and known-issue breakdown published by Long Press.
+    </p>
+  </div>
+
+  <section class="search-page" aria-label="Archive Search">
+    <!-- Active search bar on page -->
+    <div class="search-page__bar-card">
+      <div class="search-page__input-wrap">
+        <span class="search-page__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input
+          type="search"
+          id="search-page-input"
+          class="search-page__input"
+          placeholder="Search by keyword, company, or topic (e.g. SQLite, Cloud, Apple, #architecture)..."
+          aria-label="Search query"
+        />
+        <button
+          type="button"
+          id="search-page-clear"
+          class="search-page__clear"
+          aria-label="Clear search input"
+          hidden
+        >
+          Clear
+        </button>
+      </div>
+
+      <!-- Type filter tabs -->
+      <div class="search-page__filters" role="tablist" aria-label="Filter results by format">
+        <button type="button" class="filter-tab is-active" data-filter="all" role="tab" aria-selected="true">
+          All Archives (<span id="count-all">0</span>)
+        </button>
+        <button type="button" class="filter-tab" data-filter="story" role="tab" aria-selected="false">
+          Standalone Stories (<span id="count-stories">0</span>)
+        </button>
+        <button type="button" class="filter-tab" data-filter="brief" role="tab" aria-selected="false">
+          Daily Briefs (<span id="count-briefs">0</span>)
+        </button>
+      </div>
+    </div>
+
+    <!-- Topics & Tags Bar -->
+    <div class="search-page__tags-section">
+      <span class="search-page__tags-label">Filter by Tag:</span>
+      <div class="search-page__tags-row" id="tags-cloud">
+        {allTopics.map((t) => (
+          <button
+            type="button"
+            class="topic-filter-btn"
+            data-tag={t.tag}
+          >
+            #{t.tag} <span class="topic-filter-count">{t.count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Live results counter and status -->
+    <div class="search-page__status" id="search-status" aria-live="polite">
+      Showing all archives
+    </div>
+
+    <!-- Results list -->
+    <ul class="entries" id="search-results-list">
+      <!-- Populated via script -->
+    </ul>
+
+    <!-- Empty state -->
+    <div class="search-page__no-results" id="search-no-results" hidden>
+      <h3>No archives match your search</h3>
+      <p>Try searching for a different keyword or select one of the tags above.</p>
+      <button type="button" class="chip chip--reset" id="reset-search-btn">
+        Reset Search Filters
+      </button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ searchDataset }}>
+  (function() {
+    const input = document.getElementById('search-page-input');
+    const clearBtn = document.getElementById('search-page-clear');
+    const status = document.getElementById('search-status');
+    const resultsList = document.getElementById('search-results-list');
+    const noResults = document.getElementById('search-no-results');
+    const resetBtn = document.getElementById('reset-search-btn');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const tagButtons = document.querySelectorAll('.topic-filter-btn');
+
+    let currentTypeFilter = 'all';
+    let selectedTag = '';
+
+    // Initialize from URL params (?q=... or ?tag=...)
+    const params = new URLSearchParams(window.location.search);
+    const initialQ = params.get('q') || '';
+    const initialTag = params.get('tag') || '';
+
+    if (initialQ) input.value = initialQ;
+    if (initialTag) selectedTag = initialTag;
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, function(m) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
+      });
+    }
+
+    function runSearch() {
+      const q = (input.value || '').trim().toLowerCase();
+      clearBtn.hidden = !q;
+
+      // Filter stories
+      const matchedStories = searchDataset.stories.filter(s => {
+        if (selectedTag && !s.topics.map(t => t.toLowerCase()).includes(selectedTag.toLowerCase())) {
+          return false;
+        }
+        if (!q) return true;
+        const titleMatch = s.title.toLowerCase().includes(q);
+        const descMatch = s.description.toLowerCase().includes(q);
+        const catMatch = s.category.toLowerCase().includes(q);
+        const tagMatch = s.topics.some(t => t.toLowerCase().includes(q));
+        return titleMatch || descMatch || catMatch || tagMatch;
+      });
+
+      // Filter briefs
+      const matchedBriefs = searchDataset.briefs.filter(b => {
+        if (selectedTag && !b.topics.map(t => t.toLowerCase()).includes(selectedTag.toLowerCase())) {
+          return false;
+        }
+        if (!q) return true;
+        const titleMatch = b.title.toLowerCase().includes(q);
+        const descMatch = b.description.toLowerCase().includes(q);
+        const headMatch = b.headlines.toLowerCase().includes(q);
+        const tagMatch = b.topics.some(t => t.toLowerCase().includes(q));
+        const dateMatch = b.date.toLowerCase().includes(q) || b.id.includes(q);
+        return titleMatch || descMatch || headMatch || tagMatch || dateMatch;
+      });
+
+      // Update count badges
+      document.getElementById('count-all').textContent = matchedStories.length + matchedBriefs.length;
+      document.getElementById('count-stories').textContent = matchedStories.length;
+      document.getElementById('count-briefs').textContent = matchedBriefs.length;
+
+      // Select list based on current active tab
+      let finalItems = [];
+      if (currentTypeFilter === 'all') {
+        finalItems = [
+          ...matchedStories.map(s => ({ ...s, itemType: 'story' })),
+          ...matchedBriefs.map(b => ({ ...b, itemType: 'brief' }))
+        ];
+      } else if (currentTypeFilter === 'story') {
+        finalItems = matchedStories.map(s => ({ ...s, itemType: 'story' }));
+      } else if (currentTypeFilter === 'brief') {
+        finalItems = matchedBriefs.map(b => ({ ...b, itemType: 'brief' }));
+      }
+
+      // Update status line
+      let statusText = `Showing ${finalItems.length} archive result${finalItems.length === 1 ? '' : 's'}`;
+      if (q) statusText += ` for "${q}"`;
+      if (selectedTag) statusText += ` tagged #${selectedTag}`;
+      status.textContent = statusText;
+
+      // Update Tag Buttons UI
+      tagButtons.forEach(btn => {
+        const tag = btn.dataset.tag;
+        if (tag === selectedTag) {
+          btn.classList.add('is-active');
+        } else {
+          btn.classList.remove('is-active');
+        }
+      });
+
+      if (finalItems.length === 0) {
+        resultsList.innerHTML = '';
+        noResults.hidden = false;
+        return;
+      }
+
+      noResults.hidden = true;
+
+      // Render cards
+      let cardsHtml = '';
+      finalItems.forEach(item => {
+        if (item.itemType === 'story') {
+          cardsHtml += `
+            <li class="entry-card" id="story-${item.id}">
+              <div class="entry__meta-row">
+                <span class="pill-tag pill-tag--category">${escapeHtml(item.category)}</span>
+                <span class="entry__reading-time">${escapeHtml(item.readingTime)}</span>
+              </div>
+              <h3 class="entry__title">
+                <a href="${item.url}">${escapeHtml(item.title)}</a>
+              </h3>
+              <p class="entry__desc">${escapeHtml(item.description)}</p>
+              <div class="entry__topics">
+                ${item.topics.map(t => `<a href="/topics/${t}" class="entry__topic-pill">#${escapeHtml(t)}</a>`).join('')}
+              </div>
+              <div class="entry__footer">
+                <time class="dateline" datetime="${item.isoDate}">${escapeHtml(item.date)}</time>
+                <a href="${item.url}" class="entry__cta">Read Story &rarr;</a>
+              </div>
+            </li>
+          `;
+        } else {
+          cardsHtml += `
+            <li class="entry-card" id="brief-${item.id}">
+              <div class="entry__meta-row">
+                <time class="pill-tag pill-tag--date" datetime="${item.isoDate}">${escapeHtml(item.date)}</time>
+                <span class="entry__reading-time">${item.itemCount} stories</span>
+              </div>
+              <h3 class="entry__title">
+                <a href="${item.url}">${escapeHtml(item.title)}</a>
+              </h3>
+              <p class="entry__desc">${escapeHtml(item.description)}</p>
+              <div class="entry__footer">
+                <span class="entry__meta-note">Daily Dossier</span>
+                <a href="${item.url}" class="entry__cta">Read Brief &rarr;</a>
+              </div>
+            </li>
+          `;
+        }
+      });
+
+      resultsList.innerHTML = cardsHtml;
+    }
+
+    // Input listeners
+    input.addEventListener('input', runSearch);
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      input.focus();
+      runSearch();
+    });
+
+    // Tab filter listeners
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        currentTypeFilter = tab.dataset.filter;
+        runSearch();
+      });
+    });
+
+    // Tag button listeners
+    tagButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tag = btn.dataset.tag;
+        if (selectedTag === tag) {
+          selectedTag = ''; // toggle off
+        } else {
+          selectedTag = tag;
+        }
+        runSearch();
+      });
+    });
+
+    // Reset button
+    resetBtn.addEventListener('click', () => {
+      input.value = '';
+      selectedTag = '';
+      currentTypeFilter = 'all';
+      filterTabs.forEach((t, i) => {
+        if (i === 0) {
+          t.classList.add('is-active');
+          t.setAttribute('aria-selected', 'true');
+        } else {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        }
+      });
+      runSearch();
+    });
+
+    // Initial run
+    runSearch();
+  })();
+</script>
+
+<style>
+  .search-page {
+    margin-top: var(--s4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s5);
+  }
+
+  .search-page__bar-card {
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 18px;
+    padding: var(--s5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s4);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+
+  .search-page__input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-page__icon {
+    position: absolute;
+    left: 16px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .search-page__input {
+    width: 100%;
+    padding: 14px 80px 14px 48px;
+    border-radius: 12px;
+    border: 1.5px solid var(--rule);
+    background: var(--surface-card);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .search-page__input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-subtle);
+  }
+
+  .search-page__clear {
+    position: absolute;
+    right: 14px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .search-page__clear:hover {
+    background: var(--surface-hover);
+    color: var(--ink);
+  }
+
+  .search-page__filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-tab {
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--rule);
+    background: var(--surface-card);
+    color: var(--ink);
+    font-family: var(--display);
+    font-variation-settings: var(--display-normal);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .filter-tab:hover {
+    background: var(--surface-hover);
+    border-color: var(--rule-strong);
+  }
+
+  .filter-tab.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--ground);
+  }
+
+  .search-page__tags-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .search-page__tags-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .search-page__tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .topic-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .topic-filter-btn:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    color: var(--accent-deep);
+  }
+
+  .topic-filter-btn.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--ground);
+  }
+
+  .topic-filter-count {
+    font-size: 10px;
+    opacity: 0.75;
+  }
+
+  .search-page__status {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-bottom: -8px;
+  }
+
+  .search-page__no-results {
+    background: var(--surface);
+    border: 1.5px dashed var(--rule);
+    border-radius: 18px;
+    padding: var(--s7) var(--s5);
+    text-align: center;
+  }
+
+  .search-page__no-results h3 {
+    font-family: var(--display);
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .search-page__no-results p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: var(--s4);
+  }
+
+  .chip--reset {
+    cursor: pointer;
+    padding: 8px 18px;
+  }
+</style>

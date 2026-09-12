@@ -2,6 +2,9 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
+import RelatedArticles from '../components/RelatedArticles.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import { getArticleReadingTime } from '../lib/readingTime';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
@@ -16,6 +19,7 @@ const { story } = Astro.props;
 const { Content } = await render(story);
 const d = story.data;
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
+const readingTime = getArticleReadingTime(story);
 ---
 <BaseLayout
   title={d.title}
@@ -25,7 +29,13 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
   updated={d.updated}
 >
   <article>
-    <div class="page-head">
+    <nav class="article-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">&larr; Front Page</a>
+      <span class="article-breadcrumb__sep">/</span>
+      <span class="article-breadcrumb__curr">{d.category.replace(/-/g, ' ')}</span>
+    </nav>
+
+    <div class="page-head" style="margin-top: var(--s3);">
       <span class="eyebrow">{d.category.replace(/-/g, ' ')}</span>
       <h1>{d.title}</h1>
       <p class="standfirst">{d.description}</p>
@@ -37,16 +47,47 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       {d.updated && (
         <time class="dateline" datetime={d.updated.toISOString()}>Updated {long.format(d.updated)}</time>
       )}
+      <span class="dateline reading-time">{readingTime.text}</span>
     </div>
+
+    <ShareButtons
+      title={d.title}
+      description={d.description}
+    />
 
     <div class="prose"><Content /></div>
 
+    <div class="article-share-end" style="margin-top: var(--s6); margin-bottom: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--rule);">
+      <ShareButtons
+        title={d.title}
+        description={d.description}
+      />
+    </div>
+
     <AdSlot placement="article" />
+
+    <div class="story-footer-card">
+      <div class="story-footer-card__main">
+        <span class="eyebrow">Desk Dispatch</span>
+        <h3 class="story-footer-card__name">Swami Guru</h3>
+        <p class="story-footer-card__bio">Independent technical advisory and clear-eyed analysis on architectures, systems, and product strategy.</p>
+      </div>
+      <div class="story-footer-card__actions">
+        <a href="/daily" class="chip chip--primary">Read Today's Brief &rarr;</a>
+        <a href="/about" class="chip chip--secondary">About Swami</a>
+      </div>
+    </div>
 
     {d.topics.length > 0 && (
       <nav class="chips" aria-label="Topics">
-        {d.topics.map((t) => <a class="chip" href={`/topics/${t}`}>{t}</a>)}
+        {d.topics.map((t) => <a class="chip" href={`/topics/${t}`}>#{t}</a>)}
       </nav>
     )}
+
+    <RelatedArticles
+      currentSlug={d.slug}
+      currentCategory={d.category}
+      currentTopics={d.topics}
+    />
   </article>
 </BaseLayout>

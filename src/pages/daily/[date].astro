@@ -2,22 +2,39 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+import { getArticleReadingTime } from '../../lib/readingTime';
 
 export async function getStaticPaths() {
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
-  return briefs.map((brief) => ({
+  briefs.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const total = briefs.length;
+  return briefs.map((brief, idx) => ({
     params: { date: brief.id.replace(/\.md$/, '') },
-    props: { brief },
+    props: {
+      brief,
+      totalCount: total,
+      prevBrief: briefs[idx + 1] ? {
+        dateStr: briefs[idx + 1].id.replace(/\.md$/, ''),
+        date: briefs[idx + 1].data.date,
+      } : null,
+      nextBrief: briefs[idx - 1] ? {
+        dateStr: briefs[idx - 1].id.replace(/\.md$/, ''),
+        date: briefs[idx - 1].data.date,
+      } : null,
+    },
   }));
 }
 
-const { brief } = Astro.props;
+const { brief, prevBrief, nextBrief, totalCount } = Astro.props;
 const { Content } = await render(brief);
 const d = brief.data;
 const items = [...d.items].sort((a, b) => a.slot - b.slot);
 const OPINION = ['hot-take', 'myth-buster', 'known-issue'];
 const label = (k: string) => k.replace(/-/g, ' ');
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' });
+const shortDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short' });
+const readingTime = getArticleReadingTime(brief);
 
 /** The press-and-hold structure, in reading order. */
 const ANALYSIS = [
@@ -32,8 +49,33 @@ const ANALYSIS = [
     <div class="page-head">
       <span class="eyebrow">The Daily Five</span>
       <h1>{d.title}</h1>
-      <time class="dateline" datetime={d.date.toISOString()}>{long.format(d.date)}</time>
+      <div class="article__meta" style="margin-top: var(--s3); margin-bottom: 0;">
+        <time class="dateline" datetime={d.date.toISOString()}>{long.format(d.date)}</time>
+        <span class="dateline">&middot;</span>
+        <span class="dateline reading-time">{readingTime.text}</span>
+      </div>
       {d.intro && <p class="standfirst" style="margin-top: var(--s4)">{d.intro}</p>}
+
+      {items.length > 1 && (
+        <div class="issue-jump-bar">
+          <span class="issue-jump-bar__label">In this issue:</span>
+          <nav class="issue-jump-bar__nav" aria-label="Stories in this edition">
+            {items.map((item) => (
+              <a href={`#story-${item.slot}`} class="issue-jump-pill">
+                <span class="issue-jump-pill__num">{String(item.slot).padStart(2, '0')}</span>
+                <span class="issue-jump-pill__title">{item.heading}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
+
+      <div style="margin-top: var(--s4);">
+        <ShareButtons
+          title={d.title}
+          description={d.description}
+        />
+      </div>
     </div>
 
     <ol class="brief">
@@ -42,7 +84,7 @@ const ANALYSIS = [
         return (
           <>
             {i === 2 && <li class="ad-row"><AdSlot placement="brief" /></li>}
-            <li class={`brief__item${OPINION.includes(item.kind) ? ' brief__item--opinion' : ''}`}>
+            <li id={`story-${item.slot}`} class={`brief__item${OPINION.includes(item.kind) ? ' brief__item--opinion' : ''}`}>
               <div class="brief__head">
                 <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
                 <div>
@@ -73,10 +115,13 @@ const ANALYSIS = [
               )}
 
               {analysis.length > 0 && (
-                <dl class="analysis">
+                <dl class="analysis" aria-label="Analysis breakdown">
                   {analysis.map(([key, text]) => (
-                    <div class="analysis__cell">
-                      <dt>{text}</dt>
+                    <div class={`analysis__cell analysis__cell--${key}`}>
+                      <dt class={`analysis__pill analysis__pill--${key}`}>
+                        <span class={`pill-dot pill-dot--${key}`} aria-hidden="true" />
+                        <span>{text}</span>
+                      </dt>
                       <dd>{item[key as keyof typeof item]}</dd>
                     </div>
                   ))}
@@ -85,7 +130,9 @@ const ANALYSIS = [
 
               {item.source && (
                 <p class="brief__source">
-                  <a href={item.source} rel="nofollow noopener" target="_blank">Source &nearr;</a>
+                  <a href={item.source} rel="nofollow noopener" target="_blank" class="brief__source-link">
+                    Original Source &nearr;
+                  </a>
                 </p>
               )}
             </li>
@@ -95,6 +142,41 @@ const ANALYSIS = [
     </ol>
 
     <div class="prose" style="margin-top: var(--s7)"><Content /></div>
+
+    <div class="brief-share-end" style="margin-top: var(--s6); margin-bottom: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--rule);">
+      <ShareButtons
+        title={d.title}
+        description={d.description}
+      />
+    </div>
+
+    <nav class="edition-nav" aria-label="Edition Navigation">
+      <div class="edition-nav__col edition-nav__col--prev">
+        {prevBrief ? (
+          <a href={`/daily/${prevBrief.dateStr}`} class="edition-nav__link">
+            <span class="edition-nav__sub">&larr; Previous Brief</span>
+            <span class="edition-nav__title">{shortDate.format(prevBrief.date)}</span>
+          </a>
+        ) : (
+          <span class="edition-nav__disabled">Beginning of archive</span>
+        )}
+      </div>
+
+      <div class="edition-nav__col edition-nav__col--center">
+        <a href="/daily" class="chip chip--secondary">All Issues ({totalCount})</a>
+      </div>
+
+      <div class="edition-nav__col edition-nav__col--next">
+        {nextBrief ? (
+          <a href={`/daily/${nextBrief.dateStr}`} class="edition-nav__link">
+            <span class="edition-nav__sub">Next Brief &rarr;</span>
+            <span class="edition-nav__title">{shortDate.format(nextBrief.date)}</span>
+          </a>
+        ) : (
+          <span class="edition-nav__disabled">Latest edition</span>
+        )}
+      </div>
+    </nav>
   </article>
 </BaseLayout>
 

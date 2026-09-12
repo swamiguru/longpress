@@ -2,11 +2,12 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
+import { getArticleReadingTime } from '../lib/readingTime';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const today = briefs[0];
-const earlier = briefs.slice(1, 6);
+const earlier = briefs.slice(1, 7);
 
 const stories = (await getCollection('stories', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
@@ -19,30 +20,83 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
   title="Long Press - the tech stories that mattered, with an honest take"
   description="Press and hold. Five tech stories every morning, plus explainers and comparisons - written by Swami, eleven years of product at Vogue, GQ and Wired."
   bare
+  wide
 >
-  <div class="page-head">
-    <h1>Press and hold.</h1>
+  <div class="page-head page-head--home" id="homepage-hero">
+    <h1 class="page-head__title">Press and hold.</h1>
     <p class="standfirst">
       Everyone else tells you what happened. We stay on it a beat longer &mdash;
       five stories every morning, with an honest take on which ones actually matter.
     </p>
+    <div class="page-head__values" aria-label="Editorial pillars">
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">⚡</span> 5 Stories Daily</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">⏱️</span> 3-Min Read</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> What It Means For You</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> Zero PR Fluff</span>
+    </div>
   </div>
 
   {today && (
-    <section aria-labelledby="today" class="featured-lead">
+    <section aria-labelledby="today" class="featured-lead" id="today-featured-lead">
       <div class="featured-lead__header">
-        <span class="eyebrow">The Daily Five &middot; Latest Issue</span>
-        <time class="dateline" datetime={today.data.date.toISOString()}>{med.format(today.data.date)}</time>
+        <div class="featured-lead__badge">
+          <span class="featured-lead__badge-dot" aria-hidden="true"></span>
+          <span>Latest Issue &middot; Today</span>
+        </div>
+        <div class="featured-lead__meta">
+          <time class="dateline" datetime={today.data.date.toISOString()}>{med.format(today.data.date)}</time>
+          <span aria-hidden="true">&middot;</span>
+          <span class="reading-time">{getArticleReadingTime(today).text}</span>
+        </div>
       </div>
       <h2 id="today" class="featured-lead__title">
         <a href={path(today)}>{today.data.title}</a>
       </h2>
       <p class="featured-lead__desc">{today.data.description}</p>
-      <div style="margin-top: var(--s4); display: flex; gap: var(--s3); align-items: center; flex-wrap: wrap;">
-        <a href={path(today)} class="chip" style="background: var(--ink); color: #FFF; border-color: var(--ink);">
+
+      {today.data.items && today.data.items.length > 0 && (
+        <div class="featured-lead__dossier" aria-label="Stories in this issue">
+          <div class="featured-lead__dossier-label">
+            <span>Inside Today&rsquo;s Issue</span>
+            <span>5 Stories &middot; Full Dossier</span>
+          </div>
+          <div class="featured-lead__story-grid">
+            {today.data.items.map((item) => (
+              <a href={`${path(today)}#slot-${item.slot}`} class="featured-story-pill" id={`lead-pill-slot-${item.slot}`}>
+                <span class="featured-story-pill__num">0{item.slot}</span>
+                <span class="featured-story-pill__text">{item.heading}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="featured-lead__actions">
+        <a href={path(today)} class="chip chip--primary chip--pill" id="cta-read-today">
           Read Today&rsquo;s Brief &rarr;
         </a>
-        <a href="/daily" class="chip">
+        <button
+          type="button"
+          class="chip chip--secondary chip--pill card-share-btn"
+          data-share-title={`${today.data.title} — Long Press`}
+          data-share-url={path(today)}
+          data-share-desc={today.data.description}
+          aria-label="Quick share today's brief via Web Share"
+          title="Share today's brief"
+        >
+          <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          <span class="card-share-btn__text">Share Issue</span>
+        </button>
+        <a href="/daily" class="chip chip--secondary chip--pill" id="cta-all-issues">
           All Issues ({briefs.length})
         </a>
       </div>
@@ -52,38 +106,106 @@ const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
   <AdSlot placement="hub" />
 
   {stories.length > 0 && (
-    <section class="section" aria-labelledby="reading">
+    <section class="section" aria-labelledby="reading" id="section-worth-your-time">
       <div class="section__head">
-        <h2 id="reading">Worth your time</h2>
-        <a href="/known-issue">Known Issue &rarr;</a>
+        <div>
+          <h2 id="reading">Worth your time</h2>
+          <p class="section__sub">In-depth technical breakdowns, architectural comparisons, and known issues</p>
+        </div>
+        <a href="/known-issue" class="section__link-pill" id="link-known-issue-hub">Known Issue &rarr;</a>
       </div>
-      <ul class="entries">
-        {stories.map((s) => (
-          <li>
-            <span class="eyebrow entry__meta">{s.data.category.replace(/-/g, ' ')}</span>
-            <p class="entry__title"><a href={`/${s.data.slug}`}>{s.data.title}</a></p>
-            <p class="entry__desc">{s.data.description}</p>
-          </li>
-        ))}
+      <ul class="entries" id="worth-your-time-grid">
+        {stories.map((s) => {
+          const reading = getArticleReadingTime(s);
+          return (
+            <li class="entry-card" id={`story-${s.data.slug}`}>
+              <div class="entry__meta-row">
+                <span class="pill-tag pill-tag--category">{s.data.category.replace(/-/g, ' ')}</span>
+                <span class="entry__reading-time">{reading.text}</span>
+              </div>
+              <h3 class="entry__title">
+                <a href={`/${s.data.slug}`} id={`story-title-${s.data.slug}`}>{s.data.title}</a>
+              </h3>
+              <p class="entry__desc">{s.data.description}</p>
+              {s.data.topics && s.data.topics.length > 0 && (
+                <div class="entry__topics">
+                  {s.data.topics.slice(0, 3).map((t: string) => (
+                    <a href={`/topics/${t}`} class="entry__topic-pill">#{t}</a>
+                  ))}
+                </div>
+              )}
+              <div class="entry__footer">
+                <time class="dateline" datetime={s.data.published.toISOString()}>
+                  {med.format(s.data.published)}
+                </time>
+                <div class="entry__actions">
+                  <button
+                    type="button"
+                    class="card-share-btn"
+                    data-share-title={`${s.data.title} — Long Press`}
+                    data-share-url={`/${s.data.slug}`}
+                    data-share-desc={s.data.description}
+                    aria-label={`Share ${s.data.title}`}
+                    title="Share article via Web Share API"
+                  >
+                    <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="18" cy="5" r="3"></circle>
+                      <circle cx="6" cy="12" r="3"></circle>
+                      <circle cx="18" cy="19" r="3"></circle>
+                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    <span class="card-share-btn__text">Share</span>
+                  </button>
+                  <a href={`/${s.data.slug}`} class="entry__cta" id={`story-link-${s.data.slug}`} aria-label={`Read ${s.data.title}`}>
+                    Read Story &rarr;
+                  </a>
+                </div>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </section>
   )}
 
   {earlier.length > 0 && (
-    <section class="section" aria-labelledby="earlier">
+    <section class="section" aria-labelledby="earlier" id="section-earlier-briefs">
       <div class="section__head">
-        <h2 id="earlier">Earlier briefs</h2>
-        <a href="/daily">Archive &rarr;</a>
+        <div>
+          <h2 id="earlier">Earlier briefs</h2>
+          <p class="section__sub">Explore previous morning editions and daily analysis archives</p>
+        </div>
+        <a href="/daily" class="section__link-pill" id="link-all-briefs-archive">All Issues ({briefs.length}) &rarr;</a>
       </div>
-      <ul class="entries">
-        {earlier.map((b) => (
-          <li>
-            <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
-              {med.format(b.data.date)}
-            </time>
-            <p class="entry__title"><a href={path(b)}>{b.data.title}</a></p>
-          </li>
-        ))}
+      <ul class="entries" id="earlier-briefs-grid">
+        {earlier.map((b) => {
+          const reading = getArticleReadingTime(b);
+          const briefSlug = b.id.replace(/\.md$/, '');
+          return (
+            <li class="entry-card" id={`brief-${briefSlug}`}>
+              <div class="entry__meta-row">
+                <time class="pill-tag pill-tag--date" datetime={b.data.date.toISOString()}>
+                  {med.format(b.data.date)}
+                </time>
+                <span class="entry__reading-time">{reading.text}</span>
+              </div>
+              <h3 class="entry__title">
+                <a href={path(b)} id={`brief-title-${briefSlug}`}>{b.data.title}</a>
+              </h3>
+              <p class="entry__desc">{b.data.description}</p>
+              <div class="entry__footer">
+                <span class="entry__meta-note">5 Stories Dossier</span>
+                <a href={path(b)} class="entry__cta" id={`brief-link-${briefSlug}`} aria-label={`Read brief from ${med.format(b.data.date)}`}>
+                  Read Brief &rarr;
+                </a>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </section>
   )}

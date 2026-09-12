@@ -1,6 +1,10 @@
 ---
 import '../styles/global.css';
 import Logo from '../components/Logo.astro';
+import ReadingProgressBar from '../components/ReadingProgressBar.astro';
+import BackToTop from '../components/BackToTop.astro';
+import HeaderSearch from '../components/HeaderSearch.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 export interface Props {
   title: string;
@@ -10,8 +14,16 @@ export interface Props {
   updated?: Date;
   /** Suppress " | Long Press" on the homepage. */
   bare?: boolean;
+  /** Allow wide container (1040px) for multi-column feeds */
+  wide?: boolean;
+  /** Enable scroll-based reading progress bar (defaults to true on NewsArticle pages) */
+  showProgress?: boolean;
+  /** Enable back to top floating button (defaults to true on NewsArticle pages) */
+  showBackToTop?: boolean;
 }
-const { title, description, schema = 'CollectionPage', published, updated, bare = false } = Astro.props;
+const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop } = Astro.props;
+const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');
+const shouldShowBackToTop = showBackToTop ?? (schema === 'NewsArticle');
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const AUTHOR = {
   '@type': 'Person',
@@ -43,6 +55,11 @@ const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
   month: 'short',
   year: 'numeric'
 }).format(new Date());
+
+const currentPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const isDailyActive = currentPath === '/daily' || currentPath.startsWith('/daily/');
+const isKnownIssueActive = currentPath === '/known-issue' || currentPath.startsWith('/known-issue/');
+const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about/');
 ---
 <html lang="en-IN">
   <head>
@@ -83,15 +100,35 @@ const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#F4F1E8" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Anti-FOUC Theme Detection Script -->
+    <script is:inline>
+      (function() {
+        try {
+          var saved = localStorage.getItem('longpress-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', '#0E0F1D');
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', '#F4F1E8');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
 
   <body>
+    {shouldShowProgress && <ReadingProgressBar />}
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W343HCZ5"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <header class="masthead">
+    <header class="masthead" id="masthead">
       <!-- Top Newsroom Utility Strip -->
       <div class="masthead__utility">
         <div class="shell--wide masthead__utility-inner">
@@ -106,6 +143,8 @@ const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
           <div class="utility-group">
             <a class="utility-link" href="/daily">ARCHIVE</a>
             <span aria-hidden="true">&middot;</span>
+            <a class="utility-link" href="/search">SEARCH</a>
+            <span aria-hidden="true">&middot;</span>
             <a class="utility-link" href="/rss.xml">RSS WIRE</a>
           </div>
         </div>
@@ -115,48 +154,232 @@ const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
       <div class="masthead__main">
         <div class="shell--wide masthead__inner">
           <div class="masthead__branding">
-            <a href="/" style="text-decoration: none;">
+            <a href="/" class="masthead__brand-link" aria-label="Long Press front page">
               <Logo variant="masthead" showTagline={true} />
             </a>
-            <span class="masthead__credo">
-              Press and hold. Everyone else tells you what happened.
-            </span>
           </div>
 
-          <nav class="nav" aria-label="Main Sections">
-            <a href="/daily">The Daily Five</a>
-            <a href="/known-issue" class="nav--highlight">Known Issue</a>
-            <a href="/about">About</a>
-          </nav>
+          <div class="masthead__actions">
+            <nav class="nav" aria-label="Main Sections" id="main-navigation">
+              <a
+                href="/daily"
+                class:list={['nav__link', { 'is-active': isDailyActive }]}
+                aria-current={isDailyActive ? 'page' : undefined}
+                id="nav-daily"
+              >
+                The Daily Five
+              </a>
+              <a
+                href="/known-issue"
+                class:list={['nav__link', { 'is-active': isKnownIssueActive }]}
+                aria-current={isKnownIssueActive ? 'page' : undefined}
+                id="nav-known-issue"
+              >
+                Known Issue
+              </a>
+              <a
+                href="/about"
+                class:list={['nav__link', { 'is-active': isAboutActive }]}
+                aria-current={isAboutActive ? 'page' : undefined}
+                id="nav-about"
+              >
+                About
+              </a>
+            </nav>
+
+            <div class="masthead__tools" id="masthead-tools">
+              <HeaderSearch />
+              <ThemeToggle />
+            </div>
+          </div>
         </div>
       </div>
     </header>
 
-    <main class="shell">
+    <main class={`shell ${wide ? 'shell--wide' : ''}`}>
       <slot />
     </main>
 
-    <footer class="footer">
-      <div class="shell--wide footer__grid">
-        <div class="footer__bio">
-          <Logo variant="footer" showTagline={false} />
-          <p>
-            <strong>Long Press</strong> publishes five tech stories every morning, with an honest read
-            on which ones actually matter. Written by Swami Guru &mdash; eleven years running product
-            for Vogue, GQ, and Wired across twenty brand launches.
-          </p>
-          <p class="dateline" style="margin-top: var(--s2)">
-            Published by <a href="https://www.builtbyswami.com">BuiltBySwami</a> &middot; &copy; {year} Long Press
-          </p>
+    <footer class="footer" id="site-footer" role="contentinfo">
+      <div class="shell--wide footer__container">
+        <!-- Main Footer Columns Grid -->
+        <div class="footer__grid">
+          <!-- Column 1: Brand, Tagline, Editorial Cadence & Mission -->
+          <div class="footer__col footer__col--brand">
+            <a href="/" class="footer__brand-link" aria-label="Long Press Home">
+              <Logo variant="footer" showTagline={false} />
+            </a>
+            <p class="footer__tagline">
+              Five tech stories every morning, with an honest read on what actually matters. Written from eleven years of product leadership at Vogue, Wired, and Condé Nast.
+            </p>
+            <div class="footer__badges" aria-label="Publication details">
+              <span class="footer__badge footer__badge--cadence">
+                <span class="footer__badge-dot" aria-hidden="true"></span>
+                Daily &middot; 10:00 IST
+              </span>
+              <span class="footer__badge">Independent &middot; Free</span>
+            </div>
+          </div>
+
+          <!-- Column 2: Coverage & Archives -->
+          <nav class="footer__col" aria-label="Coverage links">
+            <h3 class="footer__col-title">Coverage</h3>
+            <ul class="footer__nav-list">
+              <li><a href="/" class="footer__link">The Daily Five</a></li>
+              <li><a href="/daily" class="footer__link">Daily Archive</a></li>
+              <li><a href="/known-issue" class="footer__link">Known Issue Column</a></li>
+              <li><a href="/search" class="footer__link">Search Archives</a></li>
+            </ul>
+          </nav>
+
+          <!-- Column 3: The Desk -->
+          <nav class="footer__col" aria-label="About the desk">
+            <h3 class="footer__col-title">The Desk</h3>
+            <ul class="footer__nav-list">
+              <li><a href="/about" class="footer__link">About Long Press</a></li>
+              <li><a href="/about#who-writes-it" class="footer__link">Who Writes It</a></li>
+              <li><a href="/about#corrections-and-contact" class="footer__link">Corrections &amp; Contact</a></li>
+              <li>
+                <a href="https://www.builtbyswami.com/work-with-me" target="_blank" rel="noopener noreferrer" class="footer__link footer__link--external">
+                  <span>Product Advisory</span>
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="footer__link-icon" aria-hidden="true">
+                    <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Column 4: Delivery & Syndication -->
+          <nav class="footer__col" aria-label="Syndication and feeds">
+            <h3 class="footer__col-title">Syndication</h3>
+            <ul class="footer__nav-list">
+              <li>
+                <a href="/rss.xml" class="footer__link footer__link--rss">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="footer__rss-icon" aria-hidden="true">
+                    <path d="M4 11a9 9 0 0 1 9 9"></path>
+                    <path d="M4 4a16 16 0 0 1 16 16"></path>
+                    <circle cx="5" cy="19" r="1"></circle>
+                  </svg>
+                  <span>RSS 2.0 Feed</span>
+                </a>
+              </li>
+              <li><a href="/search.json" class="footer__link">Search Index (JSON)</a></li>
+              <li><a href="mailto:builtbyswami@gmail.com" class="footer__link">Desk Email</a></li>
+              <li>
+                <a href="https://www.builtbyswami.com" target="_blank" rel="noopener noreferrer" class="footer__link footer__link--external">
+                  <span>BuiltBySwami</span>
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="footer__link-icon" aria-hidden="true">
+                    <path d="M2.5 9.5L9.5 2.5H4M9.5 2.5V8" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <div class="footer__links">
-          <a href="/daily">Daily Archive</a>
-          <a href="/known-issue">Known Issue Column</a>
-          <a href="/about">About the Desk</a>
-          <a href="/rss.xml">RSS Feed</a>
-          <a href="https://www.builtbyswami.com/work-with-me">Advisory & Consulting</a>
+
+        <!-- Sub-footer bar: Colophon, Publisher credit, Quick Back to Top -->
+        <div class="footer__bottom">
+          <div class="footer__bottom-left">
+            <p class="footer__colophon">
+              &copy; {year} <strong>Long Press</strong> &middot; An independent publication by <a href="https://www.builtbyswami.com" target="_blank" rel="noopener noreferrer">BuiltBySwami</a>
+            </p>
+            <p class="footer__creed">
+              Zero sponsored takes &middot; Zero paywalls &middot; Written for builders, operators &amp; product leaders.
+            </p>
+          </div>
+          <div class="footer__bottom-right">
+            <a href="#masthead" class="footer__top-btn" id="footer-top-btn" aria-label="Back to top of page">
+              <span>Back to top</span>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M8 13V3M3 8l5-5 5 5"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
+    <script is:inline>
+      (function() {
+        var topBtn = document.getElementById('footer-top-btn');
+        if (topBtn) {
+          topBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
+
+        // Web Share API delegation for quick article share buttons
+        function getAbsoluteUrl(urlPath) {
+          if (!urlPath) return window.location.href;
+          if (/^https?:\/\//i.test(urlPath)) return urlPath;
+          return new URL(urlPath, window.location.origin).href;
+        }
+
+        async function copyToClipboard(text) {
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(text);
+              return true;
+            }
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            var res = document.execCommand('copy');
+            document.body.removeChild(ta);
+            return res;
+          } catch(e) {
+            return false;
+          }
+        }
+
+        function triggerFeedback(btn, msg, originalLabel) {
+          btn.classList.add('is-copied');
+          var textEl = btn.querySelector('.card-share-btn__text');
+          if (textEl) textEl.textContent = msg;
+          setTimeout(function() {
+            btn.classList.remove('is-copied');
+            if (textEl) textEl.textContent = originalLabel;
+          }, 2200);
+        }
+
+        document.addEventListener('click', async function(e) {
+          var btn = e.target.closest('.card-share-btn');
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+
+          var rawUrl = btn.getAttribute('data-share-url') || window.location.href;
+          var url = getAbsoluteUrl(rawUrl);
+          var title = btn.getAttribute('data-share-title') || document.title;
+          var desc = btn.getAttribute('data-share-desc') || '';
+          var textEl = btn.querySelector('.card-share-btn__text');
+          var originalLabel = (textEl && textEl.textContent) || 'Share';
+
+          if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+            try {
+              await navigator.share({
+                title: title,
+                text: desc ? (desc + '\n') : title,
+                url: url
+              });
+              triggerFeedback(btn, 'Shared!', originalLabel);
+            } catch(err) {
+              if (err && err.name === 'AbortError') return;
+              var ok = await copyToClipboard(url);
+              if (ok) triggerFeedback(btn, 'Copied!', originalLabel);
+            }
+          } else {
+            var ok = await copyToClipboard(url);
+            if (ok) triggerFeedback(btn, 'Copied!', originalLabel);
+          }
+        });
+      })();
+    </script>
+    {shouldShowBackToTop && <BackToTop />}
   </body>
 </html>
