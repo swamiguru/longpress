@@ -45,11 +45,11 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
         </a>
       )}
       <a href="#all-columns-section" class="column-action-btn column-action-btn--secondary" id="hero-jump-columns">
-        Browse All Pieces ({allStories.length}) &darr;
+        Browse every column ({allStories.length}) &darr;
       </a>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">✍️</span> Operator Perspective</span>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> Unfiltered Point of View</span>
-      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> Zero PR Spin</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">✍️</span> Not today&rsquo;s news</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🎯</span> Ends on a verdict</span>
+      <span class="value-pill"><span class="value-pill__icon" aria-hidden="true">🚫</span> No embargo access</span>
     </div>
 
     <!-- Telemetry strip -->
@@ -157,9 +157,17 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
   <!-- Unified Column Feed -->
   <section class="column-section" id="all-columns-section" aria-labelledby="all-columns-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
-      <h2 id="all-columns-title">All Column Pieces ({allStories.length})</h2>
-      <span>Opinions on Tech, Software, Hardware &amp; AI</span>
+      <h2 id="all-columns-title">Every column ({allStories.length})</h2>
+      <span>Newest first</span>
     </div>
+
+    {allStories.length === 0 && (
+      <p class="standfirst" style="margin: var(--s4) 0 var(--s6);">
+        Nothing here yet. The column starts when there is something worth saying
+        that today&rsquo;s news did not already say. The morning brief runs every
+        day in the meantime.
+      </p>
+    )}
 
     <!-- Quick Topic Filters -->
     <div class="archive-filter-pills" role="tablist" aria-label="Filter columns by topic" style="margin-bottom: var(--s5);">
@@ -169,7 +177,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
         data-filter="all"
         id="btn-filter-all"
       >
-        <span>All Pieces</span>
+        <span>All</span>
         <span class="badge-count">{allStories.length}</span>
       </button>
       {topTopics.map(([tag, count]) => (
@@ -252,9 +260,9 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 
   <!-- Confidential Tips / Topic Proposal Callout -->
   <div class="column-tip-box" id="tips-box">
-    <h3>Have a Topic for the Column?</h3>
+    <h3>Know something that stays broken?</h3>
     <p>
-      Have an industry topic, product launch controversy, or tech narrative you want Swami&rsquo;s honest opinion on? Send suggestions or confidential talking points directly to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
+      Something in a product you use that has been wrong for years and nobody will say so? That is the column. Send it, in confidence if you prefer, to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
     </p>
   </div>
 </BaseLayout>
