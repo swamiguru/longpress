@@ -1224,6 +1224,95 @@ li.brief__item .brief__caption {
   color: var(--ink);
   margin-right: 4px;
 }
+
+/* ============================================================
+   Known Issue index rows — homepage, items 2-5
+   Mirrors .daily-list's row pattern (fixed thumb column, border-
+   bottom dividers, no card chrome) instead of the .entries /
+   .entry-card full-bleed cover-image grid used for the news feed
+   and topic pages. That grid is right for a feed of interchangeable
+   articles; Known Issue is a column with at most 5 items shown
+   here, so it reads as a continuation of the lead story above it,
+   not a second, differently-scaled feed competing with it. Fixes
+   the 13 Sept report: story 1's 220px hero thumb next to story 2's
+   full-bleed .entry-card cover image, two unrelated image scales
+   stacked directly on top of each other.
+   ============================================================ */
+.known-issue-index {
+  list-style: none;
+  margin: var(--s3) 0 0;
+  padding: 0;
+}
+.known-issue-index__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  align-items: start;
+  gap: var(--s4);
+  padding: var(--s5) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.known-issue-index__item:last-child { border-bottom: 0; }
+.known-issue-index__body { min-width: 0; }
+.known-issue-index__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: 8px;
+}
+/* Square, fixed-size, same treatment on every row -- the one thing
+   the old .entry-card grid got wrong. Reserved by the item's own
+   grid column even on rows with no image (same rule .daily-list__thumb
+   already follows), so a row without art doesn't shift the layout. */
+.known-issue-index__thumb {
+  display: block;
+  width: 120px;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--rule);
+  align-self: center;
+}
+.known-issue-index__title {
+  font-family: var(--display);
+  font-variation-settings: var(--display-normal);
+  font-size: clamp(18px, 2vw, 20.5px);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  margin: 0 0 8px;
+}
+.known-issue-index__title a { color: var(--ink); text-decoration: none; }
+.known-issue-index__title a:hover { color: var(--accent-deep); }
+.known-issue-index__desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 var(--s3);
+  max-width: 64ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.known-issue-index__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+.known-issue-index__footer .dateline {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .known-issue-index__item {
+    grid-template-columns: minmax(0, 1fr) 84px;
+    gap: var(--s3);
+    padding: var(--s4) 0;
+  }
+  .known-issue-index__thumb { width: 84px; }
+}
+
 .section__link-pill {
   display: inline-flex;
   align-items: center;
