@@ -129,7 +129,12 @@ function excerpt(text: string | undefined, max = 130): string {
       </div>
 
       {leadStory && (
-        <article class="known-issue-lead" id={`known-issue-lead-${leadStory.data.slug}`}>
+        <a
+          href={`/${leadStory.data.slug}`}
+          class="known-issue-lead"
+          id={`known-issue-lead-${leadStory.data.slug}`}
+          aria-labelledby={`known-issue-lead-title-${leadStory.data.slug}`}
+        >
           <div class="known-issue-lead__eyebrow">
             <span>Known Issue &middot; Opinion</span>
             <span aria-hidden="true">&middot;</span>
@@ -145,39 +150,11 @@ function excerpt(text: string | undefined, max = 130): string {
             </p>
           )}
 
-          <h3 class="known-issue-lead__title">
-            <a href={`/${leadStory.data.slug}`}>{leadStory.data.title}</a>
-          </h3>
+          <h3 id={`known-issue-lead-title-${leadStory.data.slug}`} class="known-issue-lead__title">{leadStory.data.title}</h3>
           <p class="known-issue-lead__desc">{leadStory.data.description}</p>
 
-          {(leadStory.data.whoBenefits || leadStory.data.operatorsRead || leadStory.data.verdict) && (
-            <div class="known-issue-lead__grid">
-              {leadStory.data.whoBenefits && (
-                <div class="known-issue-lead__snippet">
-                  <span class="known-issue-lead__snippet-label">Plain about the money</span>
-                  <p>{leadStory.data.whoBenefits}</p>
-                </div>
-              )}
-              {leadStory.data.operatorsRead && (
-                <div class="known-issue-lead__snippet">
-                  <span class="known-issue-lead__snippet-label">The operator&rsquo;s read</span>
-                  <p>{leadStory.data.operatorsRead}</p>
-                </div>
-              )}
-              {leadStory.data.verdict && (
-                <div class="known-issue-lead__verdict">
-                  <span class="known-issue-lead__snippet-label">The call</span>
-                  <span class={`known-issue-lead__badge known-issue-lead__badge--${leadStory.data.verdict}`}>{leadStory.data.verdict}</span>
-                  {leadStory.data.verdictNote && <p>{leadStory.data.verdictNote}</p>}
-                </div>
-              )}
-            </div>
-          )}
-
-          <a href={`/${leadStory.data.slug}`} class="chip chip--primary chip--pill" id="cta-read-lead-opinion">
-            Read Opinion &rarr;
-          </a>
-        </article>
+          <span class="known-issue-lead__cta" id="cta-read-lead-opinion" aria-hidden="true">Read Opinion &rarr;</span>
+        </a>
       )}
       {restStories.length > 0 && (
         <ul class="entries" id="known-issue-grid">
