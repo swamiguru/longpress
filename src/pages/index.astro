@@ -184,13 +184,43 @@ function excerpt(text: string | undefined, max = 130): string {
                   <a href={`/${s.data.slug}`} id={`story-title-${s.data.slug}`}>{s.data.title}</a>
                 </h3>
                 <p class="known-issue-index__desc">{s.data.description}</p>
+                {s.data.topics && s.data.topics.length > 0 && (
+                  <div class="known-issue-index__topics">
+                    {s.data.topics.slice(0, 3).map((t: string) => (
+                      <a href={`/topics/${t}`} class="entry__topic-pill">#{t}</a>
+                    ))}
+                  </div>
+                )}
                 <div class="known-issue-index__footer">
                   <time class="dateline" datetime={s.data.published.toISOString()}>
                     {med.format(s.data.published)}
                   </time>
-                  <a href={`/${s.data.slug}`} class="entry__cta" id={`story-link-${s.data.slug}`} aria-label={`Read ${s.data.title}`}>
-                    Read Piece &rarr;
-                  </a>
+                  <div class="entry__actions">
+                    <button
+                      type="button"
+                      class="card-share-btn"
+                      data-share-title={`${s.data.title} — Known Issue Opinion by Swami Guru`}
+                      data-share-url={`/${s.data.slug}`}
+                      data-share-desc={s.data.description}
+                      aria-label={`Share ${s.data.title}`}
+                      title="Share article via Web Share API"
+                    >
+                      <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                      </svg>
+                      <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M20 6L9 17l-5-5"/>
+                      </svg>
+                      <span class="card-share-btn__text">Share</span>
+                    </button>
+                    <a href={`/${s.data.slug}`} class="entry__cta" id={`story-link-${s.data.slug}`} aria-label={`Read ${s.data.title}`}>
+                      Read Piece &rarr;
+                    </a>
+                  </div>
                 </div>
               </div>
               {s.data.image && (

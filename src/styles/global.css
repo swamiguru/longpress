@@ -1293,11 +1293,18 @@ li.brief__item .brief__caption {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.known-issue-index__topics {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: var(--s3);
+}
 .known-issue-index__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--s3);
+  flex-wrap: wrap;
 }
 .known-issue-index__footer .dateline {
   font-size: 11px;
