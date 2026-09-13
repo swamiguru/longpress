@@ -1048,7 +1048,9 @@ main { padding-block: var(--s7) var(--s9); }
    click just made the card long without adding anything new.
    ============================================================ */
 .known-issue-lead {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s5);
   background: var(--dark-ground);
   color: var(--dark-soft);
   border-left: 6px solid var(--accent);
@@ -1065,6 +1067,18 @@ main { padding-block: var(--s7) var(--s9); }
 .known-issue-lead:focus-visible {
   outline: 2px solid var(--accent-light);
   outline-offset: -2px;
+}
+.known-issue-lead__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* Illustration sits beside the text at every width -- only its size
+   changes between desktop and mobile, same pattern as .daily-list__thumb. */
+.known-issue-lead__thumb {
+  flex: 0 0 auto;
+  width: 220px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  align-self: center;
 }
 .known-issue-lead__eyebrow {
   display: flex;
@@ -1283,6 +1297,23 @@ main { padding-block: var(--s7) var(--s9); }
   .entries > li:hover .entry__cta {
     transform: translateX(3px);
   }
+
+  .entries > li:hover .entry-card__thumb img {
+    transform: scale(1.03);
+  }
+}
+
+/* Optional square illustration at the top of a card -- only Known Issue
+   entries carry `image` today, so this is a no-op everywhere else that
+   reuses .entry-card (the Daily Five Archive, topic pages). Bled to the
+   card's own edges (negative margin = the card's own padding) so it reads
+   as a cover image rather than an inset icon. */
+.entry-card__thumb {
+  margin: calc(var(--s5) * -1) calc(var(--s5) * -1) var(--s4);
+  overflow: hidden;
+}
+.entry-card__thumb img {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .entry__meta-row {
@@ -3280,8 +3311,9 @@ main { padding-block: var(--s7) var(--s9); }
      dominant element on a ~360px content width, which is the point: at
      64px the illustration's line art was too fine to read at all. */
 
-  .known-issue-lead { padding: 18px 16px; }
+  .known-issue-lead { padding: 18px 16px; gap: var(--s3); }
   .known-issue-lead__trigger { -webkit-line-clamp: 4; }
+  .known-issue-lead__thumb { width: 110px; }
 
   /* Buttons go full width and stack — thumb targets, not links. */
   .chip {

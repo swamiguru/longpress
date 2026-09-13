@@ -73,6 +73,17 @@ const stories = defineCollection({
     heroImageCaption: z.string().optional(),
 
     /**
+     * Square generated illustration (same Gemini pipeline and line-art style
+     * as the Daily Five card art) -- distinct from heroImage, which is a
+     * general-purpose 16:9 slot any story category can use. Rendered at 1:1
+     * on the story page and reused as-is for the homepage thumbnail (lead
+     * card and entry cards), same convention as briefItem.image.
+     */
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    imageCaption: z.string().optional(),
+
+    /**
      * The Known Issue column's four tenets, in reading order. Optional on
      * the schema so any story type could carry a verdict, but in practice
      * these are what make a known-issue piece read as the column rather

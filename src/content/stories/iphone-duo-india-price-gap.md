@@ -5,6 +5,8 @@ description: "The iPhone Duo costs ₹1.09 lakh more in India than a dollar conv
 published: 2026-09-12
 category: "known-issue"
 topics: ["apple", "iphone-duo", "india-pricing"]
+image: "/images/known-issue/iphone-duo-india-price-gap.png"
+imageAlt: "A customs-gate arch with stacked import crates labelled GST, a rising price line, and a phone passing through the gate"
 trigger: >-
   Apple's India pricing story runs on the same yearly cycle: new iPhone, new markup headline, same explanation. What's actually different only shows up once you compare a phone built here against one that isn't, and the Duo is the first device in years to make that comparison possible.
 whoBenefits: >-

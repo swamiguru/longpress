@@ -135,25 +135,38 @@ function excerpt(text: string | undefined, max = 130): string {
           id={`known-issue-lead-${leadStory.data.slug}`}
           aria-labelledby={`known-issue-lead-title-${leadStory.data.slug}`}
         >
-          <div class="known-issue-lead__eyebrow">
-            <span>Known Issue &middot; Opinion</span>
-            <span aria-hidden="true">&middot;</span>
-            <time datetime={leadStory.data.published.toISOString()}>{med.format(leadStory.data.published)}</time>
-            <span aria-hidden="true">&middot;</span>
-            <span>{getArticleReadingTime(leadStory).text}</span>
+          <div class="known-issue-lead__body">
+            <div class="known-issue-lead__eyebrow">
+              <span>Known Issue &middot; Opinion</span>
+              <span aria-hidden="true">&middot;</span>
+              <time datetime={leadStory.data.published.toISOString()}>{med.format(leadStory.data.published)}</time>
+              <span aria-hidden="true">&middot;</span>
+              <span>{getArticleReadingTime(leadStory).text}</span>
+            </div>
+
+            {leadStory.data.trigger && (
+              <p class="known-issue-lead__trigger">
+                <span class="known-issue-lead__trigger-label">Not today&rsquo;s news</span>
+                {leadStory.data.trigger}
+              </p>
+            )}
+
+            <h3 id={`known-issue-lead-title-${leadStory.data.slug}`} class="known-issue-lead__title">{leadStory.data.title}</h3>
+            <p class="known-issue-lead__desc">{leadStory.data.description}</p>
+
+            <span class="known-issue-lead__cta" id="cta-read-lead-opinion" aria-hidden="true">Read Opinion &rarr;</span>
           </div>
 
-          {leadStory.data.trigger && (
-            <p class="known-issue-lead__trigger">
-              <span class="known-issue-lead__trigger-label">Not today&rsquo;s news</span>
-              {leadStory.data.trigger}
-            </p>
+          {leadStory.data.image && (
+            <div class="known-issue-lead__thumb">
+              <ResponsiveImage
+                src={leadStory.data.image}
+                alt=""
+                aspectRatio="1/1"
+                sizes="(max-width: 640px) 110px, 220px"
+              />
+            </div>
           )}
-
-          <h3 id={`known-issue-lead-title-${leadStory.data.slug}`} class="known-issue-lead__title">{leadStory.data.title}</h3>
-          <p class="known-issue-lead__desc">{leadStory.data.description}</p>
-
-          <span class="known-issue-lead__cta" id="cta-read-lead-opinion" aria-hidden="true">Read Opinion &rarr;</span>
         </a>
       )}
       {restStories.length > 0 && (
@@ -162,6 +175,16 @@ function excerpt(text: string | undefined, max = 130): string {
           const reading = getArticleReadingTime(s);
           return (
             <li class="entry-card" id={`story-${s.data.slug}`}>
+              {s.data.image && (
+                <div class="entry-card__thumb">
+                  <ResponsiveImage
+                    src={s.data.image}
+                    alt=""
+                    aspectRatio="1/1"
+                    sizes="(max-width: 640px) 100vw, 320px"
+                  />
+                </div>
+              )}
               <div class="entry__meta-row">
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <span class="pill-tag pill-tag--known-issue">Known Issue &middot; Opinion</span>

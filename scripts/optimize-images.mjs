@@ -74,6 +74,8 @@ async function main() {
   console.log('Optimizing responsive images...');
   await processDir('public/images/stories', STORY_SIZES);
   await processDir('public/images/daily', DAILY_SIZES);
+  // Known Issue illustrations are square, same as Daily Five card art.
+  await processDir('public/images/known-issue', DAILY_SIZES);
   console.log('Responsive image optimization complete.');
 }
 

@@ -28,7 +28,7 @@ const readingTime = getArticleReadingTime(story);
   schema="NewsArticle"
   published={d.published}
   updated={d.updated}
-  image={d.heroImage}
+  image={d.heroImage || d.image}
 >
   <article>
     <nav class="article-breadcrumb" aria-label="Breadcrumb">
@@ -67,12 +67,25 @@ const readingTime = getArticleReadingTime(story);
       description={d.description}
     />
 
-    {d.heroImage && (
+    {d.heroImage ? (
       <ResponsiveImage
         src={d.heroImage}
         alt={d.heroImageAlt || d.title}
         caption={d.heroImageCaption}
         aspectRatio="16/9"
+        loading="eager"
+        fetchpriority="high"
+        figureClass="article-hero"
+        captionClass="article-hero__caption"
+        class="article-hero__image"
+        id="article-lead-image"
+      />
+    ) : d.image && (
+      <ResponsiveImage
+        src={d.image}
+        alt={d.imageAlt || d.title}
+        caption={d.imageCaption}
+        aspectRatio="1/1"
         loading="eager"
         fetchpriority="high"
         figureClass="article-hero"

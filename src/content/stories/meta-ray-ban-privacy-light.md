@@ -5,6 +5,8 @@ description: "The LED that's supposed to warn people they're being filmed only s
 published: 2026-09-13
 category: "known-issue"
 topics: ["meta", "ray-ban", "privacy", "smart-glasses"]
+image: "/images/known-issue/meta-ray-ban-privacy-light.png"
+imageAlt: "An eye with a small padlock on the wire running through it, representing a privacy light that doesn't actually lock anything"
 trigger: >-
   Meta's answer to covert recording has been the same blinking LED since the glasses launched three years ago. What makes this worth writing now, rather than at any of those launches, is what happened right after Meta tightened it. The July update locks the camera if the LED is tampered with or destroyed. A month later, CBS News tested it and found the lock only holds if you cover the light before recording starts. Once the camera is already rolling, covering it does nothing. That's not launch news. That's the company's own patch confirming the design was never built around the moment consent actually matters.
 whoBenefits: >-
