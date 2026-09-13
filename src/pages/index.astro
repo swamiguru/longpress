@@ -150,7 +150,8 @@ function excerpt(text: string | undefined, max = 130): string {
               )}
               {leadStory.data.verdict && (
                 <div class="known-issue-lead__verdict">
-                  <span class={`column-verdict__badge column-verdict__badge--${leadStory.data.verdict}`}>{leadStory.data.verdict}</span>
+                  <span class="known-issue-lead__snippet-label">The call</span>
+                  <span class={`known-issue-lead__badge known-issue-lead__badge--${leadStory.data.verdict}`}>{leadStory.data.verdict}</span>
                   {leadStory.data.verdictNote && <p>{leadStory.data.verdictNote}</p>}
                 </div>
               )}

@@ -1098,11 +1098,32 @@ main { padding-block: var(--s7) var(--s9); }
 }
 .known-issue-lead__verdict {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
 }
-.known-issue-lead .column-verdict__badge {
-  flex-shrink: 0;
+.known-issue-lead__badge {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 6px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.known-issue-lead__badge--buy {
+  background: var(--accent-2);
+  color: #FFFFFF;
+}
+.known-issue-lead__badge--wait {
+  background: var(--accent);
+  color: #111625;
+}
+.known-issue-lead__badge--skip {
+  background: var(--accent-deep);
+  color: #FFFFFF;
 }
 .known-issue-lead__verdict p {
   margin: 0;
