@@ -758,27 +758,33 @@ main { padding-block: var(--s7) var(--s9); }
    this page's -- a rule for .brief__figure written in [date].astro's own
    scoped <style> block silently never matches (see the "General gotcha"
    in claude/longpress-build-status.md re: index.astro/[slug].astro).
-   Must live here, unscoped, same as .article-hero below. */
-.brief__figure {
+   Must live here, unscoped, same as .article-hero below.
+   Specificity note: ResponsiveImage's OWN scoped style sets margin:0 and
+   max-width:100% on .responsive-figure[data-astro-cid-xxx] -- a class
+   plus an attribute selector, specificity (0,2,0). A plain .brief__figure
+   rule (0,1,0) loses that fight regardless of source order, so these are
+   qualified with the li.brief__item ancestor to reach (0,2,1)+ and win
+   without needing !important. */
+li.brief__item .brief__figure {
   margin: 0;
   margin-top: var(--s4);
   margin-bottom: var(--s6);
   width: 100%;
   max-width: 320px;
 }
-.brief__figure .responsive-image-box {
+li.brief__item .brief__figure .responsive-image-box {
   border: 1px solid var(--rule);
   background: var(--surface);
   aspect-ratio: 1 / 1;
   width: 100%;
 }
-.brief__card {
+li.brief__item .brief__card {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.brief__caption {
+li.brief__item .brief__caption {
   font-family: var(--mono);
   font-size: 11.5px;
   color: var(--muted);
