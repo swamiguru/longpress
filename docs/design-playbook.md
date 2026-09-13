@@ -109,6 +109,30 @@ Optional/cosmetic, from the older v1.0 handoff notes, also checked:
 | About page "facts" strip | Added |
 | Category-colored eyebrows on story pages | Added — news: ink, explainer: teal, tip: ink-soft, comparison: muted outline dot, known-issue: default saffron |
 
+## Rule 2 follow-up audit (13 Sep 2026)
+
+A broader sweep for every `background: var(--accent...)` fill turned up five
+more ink-on-accent violations the original patch's scoped fixes had missed:
+
+- `#111625` — a second, inconsistent "near-black" value used in six places
+  (`.hero-preview__tag--accent`, `.analysis__pill--forYou` x2,
+  `.known-issue-lead .chip--primary` x2, `.pill-dot--forYou`) instead of the
+  canonical `#0E0F1D`. Standardized.
+- `::selection` used `var(--ink)` on `var(--accent)` — flips to near-white on
+  saffron in dark mode. Fixed to `#0E0F1D`.
+- `.brief__item--opinion .brief__kind` and `.brief__source-link:hover` used
+  `var(--ink)` on `var(--accent)` for the same reason. Fixed.
+- `.archive-filter-btn.is-active` used `background: var(--accent-deep)` with
+  a hardcoded `color: #FFFFFF`. `--accent-deep` itself flips lightness between
+  themes (dark reddish-brown in light mode, light peach in dark mode) — a
+  fixed white text color reads fine in light mode and fails in dark mode.
+  Changed to `background: var(--accent)` + `color: #0E0F1D`, matching the
+  established pattern on its sibling `.topic-filter-btn.is-active`. Its
+  leftover pre-rebrand blue-tinted box-shadow (`rgba(42, 63, 168, ...)`) was
+  also replaced with `var(--shadow-pop)`, and its nested `.badge-count` child
+  — which had its own hardcoded white text, now illegible against the new
+  fill — was corrected to a dark wash with `color: inherit`.
+
 ## Keeping this current
 
 There's no automatic link between Claude Design and this repo — it's a
