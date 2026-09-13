@@ -1882,11 +1882,21 @@ li.brief__item .brief__caption {
    Article Hero Image & In-Body Figures
    ============================================================ */
 .article-hero {
-  margin: var(--s5) 0 var(--s6);
   padding: 0;
   overflow: hidden;
   border: 1px solid var(--rule);
   background: var(--surface);
+}
+/* margin lives on the id, not the class: ResponsiveImage.astro's own
+   scoped style sets margin:0 on .responsive-figure[data-astro-cid-xxx]
+   (a class + attribute selector, specificity 0,2,0), which silently beat
+   a plain .article-hero rule (0,1,0) regardless of source order -- same
+   bug as .brief__figure above. [slug].astro always passes
+   id="article-lead-image" to this figure, and an id selector (1,0,0)
+   outranks any number of classes, so anchor the margin there instead of
+   playing further specificity games. */
+#article-lead-image {
+  margin: var(--s5) 0 var(--s6);
 }
 .article-hero .responsive-image-box {
   background: rgba(0, 0, 0, 0.04);
