@@ -42,7 +42,7 @@ const readingTime = getArticleReadingTime(story);
     </nav>
 
     <div class="page-head page-head--article" style="margin-top: var(--s3);">
-      <span class="eyebrow">{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
+      <span class="eyebrow" data-category={d.category}>{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
       <h1>{d.title}</h1>
       <p class="standfirst">{d.description}</p>
       {d.trigger && (
