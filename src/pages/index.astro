@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 import { getArticleReadingTime } from '../lib/readingTime';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
@@ -89,6 +90,21 @@ function excerpt(text: string | undefined, max = 130): string {
               <h3><a href={`${path(today)}#story-${item.slot}`}>{item.heading}</a></h3>
               <p class="daily-list__teaser">{excerpt(item.body || item.teaser)}</p>
             </div>
+            {item.image && (
+              <a
+                href={`${path(today)}#story-${item.slot}`}
+                class="daily-list__thumb"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+                <ResponsiveImage
+                  src={item.image}
+                  alt=""
+                  aspectRatio="1/1"
+                  sizes="96px"
+                />
+              </a>
+            )}
           </li>
         ))}
       </ol>

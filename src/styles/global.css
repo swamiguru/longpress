@@ -631,13 +631,23 @@ main { padding-block: var(--s7) var(--s9); }
 }
 .daily-list__item {
   display: grid;
-  grid-template-columns: minmax(0, 46px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 46px) minmax(0, 1fr) 96px;
+  align-items: start;
   gap: var(--s4);
   padding: var(--s5) 0;
   border-bottom: 1px solid var(--rule);
 }
 .daily-list__item:first-child { padding-top: 0; }
 .daily-list__item:last-child { border-bottom: 0; }
+/* Grid always reserves the thumb column so items with and without an
+   illustration still line up; an item with none just leaves it empty. */
+.daily-list__thumb {
+  display: block;
+  width: 96px;
+  border: 1px solid var(--rule);
+  /* --radius-* are all 0 site-wide -- sharp corners are the newsroom
+     identity, do not round this. */
+}
 .daily-list__item h3 {
   font-family: var(--display);
   font-size: clamp(19px, 2.4vw, 23px);
@@ -3271,8 +3281,9 @@ main { padding-block: var(--s7) var(--s9); }
   .hero-preview { padding: 18px 16px; }
   .hero-preview__title { font-size: 20px; line-height: 1.16; }
 
-  .daily-list__item { grid-template-columns: minmax(0, 34px) minmax(0, 1fr); gap: 12px; padding: var(--s4) 0; }
+  .daily-list__item { grid-template-columns: minmax(0, 34px) minmax(0, 1fr) 64px; gap: 12px; padding: var(--s4) 0; }
   .daily-list__item .brief__num { font-size: 26px; min-width: 0; }
+  .daily-list__thumb { width: 64px; }
 
   .known-issue-lead { padding: 18px 16px; }
   .known-issue-lead__grid { grid-template-columns: 1fr; gap: var(--s3); }

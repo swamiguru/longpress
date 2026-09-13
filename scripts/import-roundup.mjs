@@ -130,9 +130,21 @@ for (const file of files) {
     // missing image fails the build, and a missing card is normal: the
     // community/poll slot never gets one.
     const slotKey = String(Number(p.n) || i + 1);
-    if (date >= CARDS_FROM && p.image
-        && existsSync(join(resolve(SRC_REPO), 'public', p.image.replace(/^\//, '')))) {
-      lines.push(`    image: ${quote(`/images/daily/${date}/${basename(p.image)}`)}`);
+    // The generator writes p.image as .../card_N.png -- headline baked in,
+    // meant for social. The site already renders the real headline as text,
+    // so a second copy inside the picture is redundant there; prefer the
+    // text-free illustration_N.png that make_card.py now writes alongside
+    // every card, and only fall back to the social card if that file isn't
+    // there (older days, or a run where illustration generation failed).
+    // Pure naming convention on this side -- nothing upstream has to know.
+    const illusRel = p.image && /\/card_(\d+)\.[^/.]+$/.test(p.image)
+      ? p.image.replace(/\/card_(\d+)\.([^/.]+)$/, '/illustration_$1.$2')
+      : null;
+    const illusExists = illusRel && existsSync(join(resolve(SRC_REPO), 'public', illusRel.replace(/^\//, '')));
+    const chosenImage = illusExists ? illusRel : p.image;
+    if (date >= CARDS_FROM && chosenImage
+        && existsSync(join(resolve(SRC_REPO), 'public', chosenImage.replace(/^\//, '')))) {
+      lines.push(`    image: ${quote(`/images/daily/${date}/${basename(chosenImage)}`)}`);
       const alt = keepArt.get(slotKey)?.filter((l) => !l.startsWith('    image:'));
       if (alt?.length) lines.push(...alt);
     } else if (keepArt.has(slotKey)) {
