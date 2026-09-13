@@ -631,7 +631,7 @@ main { padding-block: var(--s7) var(--s9); }
 }
 .daily-list__item {
   display: grid;
-  grid-template-columns: minmax(0, 46px) minmax(0, 1fr) 96px;
+  grid-template-columns: minmax(0, 46px) minmax(0, 1fr) 148px;
   align-items: start;
   gap: var(--s4);
   padding: var(--s5) 0;
@@ -640,11 +640,19 @@ main { padding-block: var(--s7) var(--s9); }
 .daily-list__item:first-child { padding-top: 0; }
 .daily-list__item:last-child { border-bottom: 0; }
 /* Grid always reserves the thumb column so items with and without an
-   illustration still line up; an item with none just leaves it empty. */
+   illustration still line up; an item with none just leaves it empty.
+   Sized against the text block's real height (heading + a 2-line-clamped
+   teaser), not picked arbitrarily -- centered so it reads as a companion
+   image, not a stranded icon in the corner. */
 .daily-list__thumb {
   display: block;
-  width: 96px;
+  width: 148px;
+  aspect-ratio: 1 / 1;
   border: 1px solid var(--rule);
+  /* The row aligns items to the top (the number belongs flush with the
+     heading, not floating mid-body against a tall image) -- only the
+     thumbnail itself centers within the row's height. */
+  align-self: center;
   /* --radius-* are all 0 site-wide -- sharp corners are the newsroom
      identity, do not round this. */
 }
@@ -663,6 +671,13 @@ main { padding-block: var(--s7) var(--s9); }
   color: var(--ink-soft);
   margin: 0;
   max-width: 64ch;
+  /* Clamped so row height tracks the thumbnail instead of the longest
+     excerpt() ever produces -- a 3-line teaser used to leave the image
+     floating with a lot of dead space beneath it. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ============================================================
@@ -3281,9 +3296,12 @@ main { padding-block: var(--s7) var(--s9); }
   .hero-preview { padding: 18px 16px; }
   .hero-preview__title { font-size: 20px; line-height: 1.16; }
 
-  .daily-list__item { grid-template-columns: minmax(0, 34px) minmax(0, 1fr) 64px; gap: 12px; padding: var(--s4) 0; }
-  .daily-list__item .brief__num { font-size: 26px; min-width: 0; }
-  .daily-list__thumb { width: 64px; }
+  .daily-list__item { grid-template-columns: minmax(0, 28px) minmax(0, 1fr) 100px; gap: 10px; padding: var(--s4) 0; }
+  .daily-list__item .brief__num { font-size: 22px; min-width: 0; }
+  .daily-list__thumb { width: 100px; }
+  /* The number shrinks to make room -- at 100px the thumbnail is still the
+     dominant element on a ~360px content width, which is the point: at
+     64px the illustration's line art was too fine to read at all. */
 
   .known-issue-lead { padding: 18px 16px; }
   .known-issue-lead__grid { grid-template-columns: 1fr; gap: var(--s3); }
