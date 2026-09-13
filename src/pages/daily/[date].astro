@@ -209,31 +209,10 @@ const ANALYSIS = [
   /* The roundup's social cards are 1080x1080. Full width would shout louder
      than the headline, so cap them and let the text lead. Width and height are
      on the tag itself, so the box is reserved before the file loads and the
-     brief never reflows. */
-  .brief__figure {
-    margin: 0;
-    margin-top: var(--s4, 1rem);
-    margin-bottom: var(--s6, 2rem);
-    width: 100%;
-    max-width: 320px;
-  }
-  .brief__figure .responsive-image-box {
-    border: 1px solid var(--rule, rgba(23, 24, 46, 0.12));
-    background: var(--surface, #FFFFFF);
-    aspect-ratio: 1 / 1;
-    width: 100%;
-  }
-  .brief__card {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .brief__caption {
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--muted);
-    margin-top: 8px;
-    line-height: 1.45;
-  }
+     brief never reflows.
+     NOTE: .brief__figure / .brief__card / .brief__caption rules live in
+     global.css, not here -- ResponsiveImage renders the <figure> from its
+     own .astro file, so a scoped rule for it in this file's <style> block
+     never matches the rendered element. See global.css for the actual
+     styling of these classes. */
 </style>
