@@ -1310,6 +1310,30 @@ li.brief__item .brief__caption {
   font-size: 11px;
   color: var(--muted);
 }
+/* The Share control here is geometrically centered against Read Piece
+   (confirmed via computed boxes -- both sit on the same line center at
+   every width), but .card-share-btn's border+padding chip next to
+   .entry__cta's bare text reads as misaligned regardless: two different
+   visual weights on one line. Strip the chip down to matching plain-text
+   typography so the pair reads as one control, not two. */
+.known-issue-index__footer .card-share-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  gap: 4px;
+  color: var(--muted);
+}
+.known-issue-index__footer .card-share-btn:hover {
+  background: none;
+  border: 0;
+  color: var(--accent-deep);
+  transform: none;
+}
+.known-issue-index__footer .card-share-btn.is-copied {
+  background: none;
+  border: 0;
+  color: #065F46;
+}
 
 @media (max-width: 640px) {
   .known-issue-index__item {
