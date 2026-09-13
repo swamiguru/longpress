@@ -62,13 +62,13 @@ jobs:
       - name: Stop here if nothing changed
         id: check
         run: |
-          if git diff --quiet -- src/content/daily && \
-             [ -z "$(git ls-files --others --exclude-standard -- src/content/daily)" ]; then
+          if git diff --quiet -- src/content/daily public/images/daily && \
+             [ -z "$(git ls-files --others --exclude-standard -- src/content/daily public/images/daily)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No new briefs."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            git status --porcelain -- src/content/daily
+            git status --porcelain -- src/content/daily public/images/daily
           fi
 
       - name: Build (routing guard runs first and blocks on a bad slug)
@@ -80,6 +80,11 @@ jobs:
         run: |
           git config user.name  "long-press-bot"
           git config user.email "builtbyswami@gmail.com"
-          git add src/content/daily
+          # public/images/daily: import-roundup.mjs copies each day's cards here
+          # and the build's prebuild (optimize-images.mjs) generates their webp
+          # variants alongside them. Both were being generated on the runner
+          # and then discarded uncommitted - this is why card_2.png etc. 404'd
+          # on the site starting the day card images were turned on (13 Sept).
+          git add src/content/daily public/images/daily
           git commit -m "Daily brief: $(date -u +%Y-%m-%d)"
           git push
