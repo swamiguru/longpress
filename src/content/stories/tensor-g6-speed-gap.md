@@ -5,6 +5,9 @@ description: "The Tensor G6 was built to finally close the speed gap. It still t
 published: 2026-09-14
 category: "known-issue"
 topics: ["google", "tensor-g6", "pixel-11", "chips"]
+heroImage: "/images/stories/tensor-g6-speed-gap.jpg"
+heroImageAlt: "Two hands holding a Pixel 11 Pro XL in Canyon, showing its camera bar and rear glass, against a red backdrop"
+heroImageCaption: "Pixel 11 Pro XL in Canyon. Photo: Google."
 trigger: >-
   Every Tensor chip since 2021 has trailed Qualcomm's flagship on raw speed. The G6, in the Pixel 11 that shipped August 12, was the generation built to finally close that gap. It didn't.
 whoBenefits: >-
