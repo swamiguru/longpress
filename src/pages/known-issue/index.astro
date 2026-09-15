@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
+import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 
 // 1. Fetch all column pieces and analyses unified in reverse chronological order
@@ -11,9 +12,12 @@ const allStories = (await getCollection('stories', ({ data }) => !data.draft))
 const leadStory = allStories[0];
 const feedStories = allStories.slice(1);
 
-// Topic aggregates for filtering
+// Topic aggregates for filtering -- counted against feedStories (the list
+// the filter pills actually toggle), not allStories, so a count next to a
+// pill matches what clicking it will show. The lead piece stays visible
+// regardless of filter selection, so it's excluded from both.
 const topicCounts: Record<string, number> = {};
-for (const s of allStories) {
+for (const s of feedStories) {
   for (const t of s.data.topics || []) {
     topicCounts[t] = (topicCounts[t] || 0) + 1;
   }
@@ -47,6 +51,17 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       </div>
 
       <article class="known-issue-featured" id={`article-${leadStory.data.slug}`}>
+        {leadStory.data.image && (
+          <div class="known-issue-featured__thumb">
+            <ResponsiveImage
+              src={leadStory.data.image}
+              alt={leadStory.data.imageAlt || ''}
+              aspectRatio="1/1"
+              sizes="(max-width: 640px) 140px, 220px"
+            />
+          </div>
+        )}
+        <div class="known-issue-featured__body">
         <div class="known-issue-featured__eyebrow">
           <span class="pill-tag pill-tag--primary">Lead Opinion</span>
           <span>&middot;</span>
@@ -99,6 +114,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
             </a>
           </div>
         </div>
+        </div>
       </article>
     </section>
   )}
@@ -145,42 +161,25 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       </p>
     )}
 
-    <!-- Quick Topic Filters -->
-    <div class="archive-filter-pills" role="tablist" aria-label="Filter columns by topic" style="margin-bottom: var(--s5);">
-      <button
-        type="button"
-        class="archive-filter-btn is-active"
-        data-filter="all"
-        id="btn-filter-all"
-      >
-        <span>All</span>
-        <span class="badge-count">{allStories.length}</span>
-      </button>
-      {topTopics.map(([tag, count]) => (
-        <button
-          type="button"
-          class="archive-filter-btn"
-          data-filter={tag}
-          id={`btn-filter-${tag}`}
-        >
-          <span style="text-transform: capitalize;">{tag}</span>
-          <span class="badge-count">{count}</span>
-        </button>
-      ))}
-    </div>
-
     <ul class="entries" id="column-feed-list">
-      {allStories.map((p, idx) => (
+      {feedStories.map((p) => (
         <li
           class="entry-card"
           id={`story-${p.data.slug}`}
           data-topics={(p.data.topics || []).join(' ')}
         >
+          {p.data.image && (
+            <div class="entry-card__thumb">
+              <ResponsiveImage
+                src={p.data.image}
+                alt={p.data.imageAlt || ''}
+                aspectRatio="1/1"
+                sizes="(max-width: 640px) 100vw, 360px"
+              />
+            </div>
+          )}
           <div class="entry__meta-row">
             <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-              {idx === 0 && (
-                <span class="pill-tag pill-tag--primary" style="font-size: 9.5px;">Latest</span>
-              )}
               <span class="pill-tag pill-tag--known-issue" style="font-size: 9.5px;">Known Issue</span>
               {(p.data.topics || []).slice(0, 2).map((tag) => (
                 <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; text-transform: uppercase;">
@@ -232,6 +231,35 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
         </li>
       ))}
     </ul>
+
+    <!-- Browse by topic -- moved below the list on purpose: it filters what's
+         already on the page rather than loading anything new, so it reads
+         as an exit once you're done, the same spot /daily's Volume
+         Navigator moved to. -->
+    {topTopics.length > 0 && (
+      <div class="archive-filter-pills" role="tablist" aria-label="Filter columns by topic" style="margin-top: var(--s6);">
+        <button
+          type="button"
+          class="archive-filter-btn is-active"
+          data-filter="all"
+          id="btn-filter-all"
+        >
+          <span>All</span>
+          <span class="badge-count">{feedStories.length}</span>
+        </button>
+        {topTopics.map(([tag, count]) => (
+          <button
+            type="button"
+            class="archive-filter-btn"
+            data-filter={tag}
+            id={`btn-filter-${tag}`}
+          >
+            <span style="text-transform: capitalize;">{tag}</span>
+            <span class="badge-count">{count}</span>
+          </button>
+        ))}
+      </div>
+    )}
   </section>
 
   <!-- Confidential Tips / Topic Proposal Callout -->

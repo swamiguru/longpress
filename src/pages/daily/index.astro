@@ -2,10 +2,32 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
+import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Latest issue gets its own featured card up top, same structural idea as
+// /known-issue's featured column -- so it's excluded from the archive list
+// below rather than appearing twice, matching how the homepage already
+// treats `earlier` against `today`.
+const featured = briefs[0];
+const archiveBriefs = briefs.slice(1);
+const featuredSlug = featured?.id.replace(/\.md$/, '');
+const featuredImage = featured?.data.items.find((i) => i.image)?.image;
+const featuredFourPart = featured?.data.items.find(
+  (i) => i.problem || i.breakthrough || i.catch || i.forYou
+);
+const fourPartRows = featuredFourPart
+  ? ([
+      ['The problem', featuredFourPart.problem],
+      ['What changed', featuredFourPart.breakthrough],
+      ['The catch', featuredFourPart.catch],
+      ['For you', featuredFourPart.forYou],
+    ] as const).filter(([, value]) => Boolean(value))
+  : [];
+const firstImage = (b: (typeof briefs)[number]) => b.data.items.find((i) => i.image)?.image;
 
 interface MonthGroup {
   id: string; // e.g. "2026-09"
@@ -19,7 +41,7 @@ interface MonthGroup {
 const monthGroups: MonthGroup[] = [];
 const groupMap = new Map<string, MonthGroup>();
 
-for (const b of briefs) {
+for (const b of archiveBriefs) {
   const d = b.data.date;
   const year = d.getFullYear();
   const monthIdx = d.getMonth();
@@ -52,63 +74,68 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
     </p>
   </div>
 
+  <!-- Latest Edition -- same structural idea as /known-issue's Featured Column -->
+  {featured && (
+    <section class="column-section" aria-labelledby="latest-edition-title">
+      <div class="column-section-title">
+        <h2 id="latest-edition-title">Latest Edition</h2>
+        <span>Today&rsquo;s issue</span>
+      </div>
+
+      <article class="daily-featured" id={`article-${featuredSlug}`}>
+        {featuredImage && (
+          <div class="daily-featured__thumb">
+            <ResponsiveImage
+              src={featuredImage}
+              alt=""
+              aspectRatio="1/1"
+              sizes="(max-width: 640px) 140px, 220px"
+            />
+          </div>
+        )}
+        <div class="daily-featured__body">
+          <div class="daily-featured__eyebrow">
+            <span class="pill-tag pill-tag--primary">Latest Edition</span>
+            <span>&middot;</span>
+            <time datetime={featured.data.date.toISOString()}>{med.format(featured.data.date)}</time>
+            <span>&middot;</span>
+            <span>{getArticleReadingTime(featured).text}</span>
+          </div>
+
+          <h3 class="daily-featured__title">
+            <a href={`/daily/${featuredSlug}`}>{featured.data.title}</a>
+          </h3>
+
+          <p class="daily-featured__desc">{featured.data.description}</p>
+
+          {fourPartRows.length > 0 && (
+            <dl class="daily-featured__fourpart">
+              {fourPartRows.map(([label, value]) => (
+                <div>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          <div class="entry__footer" style="margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--rule);">
+            <span class="entry__meta-note">5 Stories</span>
+            <a href={`/daily/${featuredSlug}`} class="entry__cta" style="font-weight: 700;">
+              Read Today&rsquo;s Issue &rarr;
+            </a>
+          </div>
+        </div>
+      </article>
+    </section>
+  )}
+
   <!-- Built-in Volume Archive Section -->
   <section class="column-section" id="archive-section" aria-labelledby="archive-heading" style="margin-top: var(--s7);">
     <div class="column-section-title" style="margin-bottom: var(--s3);">
       <h2 id="archive-heading">The Daily Five Archive</h2>
       <span>Browse by Monthly Volumes &middot; {briefs.length} Published Issues</span>
     </div>
-
-  <!-- Interactive month pagination bar -->
-  <nav class="archive-pagination-bar" aria-label="Month pagination" id="archive-pagination-bar">
-    <button
-      type="button"
-      class="archive-nav-btn"
-      id="btn-older-month-top"
-      aria-label="Go to older month"
-    >
-      <span aria-hidden="true">&larr;</span>
-      <span id="label-older-month">Older Month</span>
-    </button>
-
-    <div class="archive-filter-pills" role="tablist" id="month-pills-container">
-      {monthGroups.map((g, idx) => (
-        <button
-          type="button"
-          class={`archive-filter-btn ${idx === 0 ? 'is-active' : ''}`}
-          data-month-target={g.id}
-          data-month-index={idx}
-          role="tab"
-          aria-selected={idx === 0 ? 'true' : 'false'}
-          id={`tab-month-${g.id}`}
-        >
-          <span>{g.shortName}</span>
-          <span class="badge-count">{g.briefs.length}</span>
-        </button>
-      ))}
-      <button
-        type="button"
-        class="archive-filter-btn"
-        data-month-target="all"
-        role="tab"
-        aria-selected="false"
-        id="tab-all-months"
-      >
-        <span>All ({briefs.length})</span>
-      </button>
-    </div>
-
-    <button
-      type="button"
-      class="archive-nav-btn"
-      id="btn-newer-month-top"
-      aria-label="Go to newer month"
-      disabled
-    >
-      <span id="label-newer-month">Newer Month</span>
-      <span aria-hidden="true">&rarr;</span>
-    </button>
-  </nav>
 
   <!-- Monthly Stacked & Paginated Sections -->
   <div class="archive-stacks" id="archive-stacks">
@@ -153,6 +180,16 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
                     <li class="ad-row"><AdSlot placement="hub" /></li>
                   )}
                   <li id={`brief-${dateSlug}`} class="entry-card">
+                    {firstImage(b) && (
+                      <div class="entry-card__thumb">
+                        <ResponsiveImage
+                          src={firstImage(b)!}
+                          alt=""
+                          aspectRatio="1/1"
+                          sizes="(max-width: 640px) 100vw, 360px"
+                        />
+                      </div>
+                    )}
                     <div class="entry__meta-row">
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
@@ -254,6 +291,59 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
       );
     })}
   </div>
+
+  <!-- Volume Navigator -- moved to the bottom on purpose: it's how you go
+       looking for more once you're done reading, not a bar to browse past
+       on the way in. Same spot /known-issue's topic filter moved to. -->
+  <nav class="archive-pagination-bar archive-pagination-bar--bottom" aria-label="Month pagination" id="archive-pagination-bar">
+    <button
+      type="button"
+      class="archive-nav-btn"
+      id="btn-older-month-top"
+      aria-label="Go to older month"
+    >
+      <span aria-hidden="true">&larr;</span>
+      <span id="label-older-month">Older Month</span>
+    </button>
+
+    <div class="archive-filter-pills" role="tablist" id="month-pills-container">
+      {monthGroups.map((g, idx) => (
+        <button
+          type="button"
+          class={`archive-filter-btn ${idx === 0 ? 'is-active' : ''}`}
+          data-month-target={g.id}
+          data-month-index={idx}
+          role="tab"
+          aria-selected={idx === 0 ? 'true' : 'false'}
+          id={`tab-month-${g.id}`}
+        >
+          <span>{g.shortName}</span>
+          <span class="badge-count">{g.briefs.length}</span>
+        </button>
+      ))}
+      <button
+        type="button"
+        class="archive-filter-btn"
+        data-month-target="all"
+        role="tab"
+        aria-selected="false"
+        id="tab-all-months"
+      >
+        <span>All ({archiveBriefs.length})</span>
+      </button>
+    </div>
+
+    <button
+      type="button"
+      class="archive-nav-btn"
+      id="btn-newer-month-top"
+      aria-label="Go to newer month"
+      disabled
+    >
+      <span id="label-newer-month">Newer Month</span>
+      <span aria-hidden="true">&rarr;</span>
+    </button>
+  </nav>
   </section>
 
   <script>
