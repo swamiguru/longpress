@@ -170,69 +170,51 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
             </a>
           </div>
 
-          <ul class="entries">
+          <ul class="archive-row-list">
             {group.briefs.map((b, i) => {
               const dateSlug = b.id.replace(/\.md$/, '');
               const dayOfWeek = new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(b.data.date);
+              const rowImage = firstImage(b);
+              const kinds = [...new Set(b.data.items.map((it) => it.kind))].slice(0, 4).join(', ');
               return (
                 <>
                   {group.id === monthGroups[0]?.id && i === 6 && (
                     <li class="ad-row"><AdSlot placement="hub" /></li>
                   )}
-                  <li id={`brief-${dateSlug}`} class="entry-card">
-                    {firstImage(b) && (
-                      <div class="entry-card__thumb">
+                  <li id={`brief-${dateSlug}`} class="archive-row">
+                    {rowImage ? (
+                      <div class="archive-row__thumb">
                         <ResponsiveImage
-                          src={firstImage(b)!}
+                          src={rowImage}
                           alt=""
                           aspectRatio="1/1"
-                          sizes="(max-width: 640px) 100vw, 360px"
+                          sizes="84px"
                         />
                       </div>
+                    ) : (
+                      <div class="archive-row__thumb--empty" aria-hidden="true">No card</div>
                     )}
-                    <div class="entry__meta-row">
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
-                          {med.format(b.data.date)}
-                        </time>
-                        <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
-                          {dayOfWeek}
-                        </span>
-                      </div>
-                      <span class="entry__reading-time">{getArticleReadingTime(b).text}</span>
-                    </div>
-                    <h3 class="entry__title">
-                      <a href={`/daily/${dateSlug}`}>{b.data.title}</a>
-                    </h3>
-                    <p class="entry__desc">{b.data.description}</p>
-                    <div class="entry__footer">
-                      <span class="entry__meta-note">5 Stories</span>
-                      <div class="entry__actions">
-                        <button
-                          type="button"
-                          class="card-share-btn"
-                          data-share-title={`${b.data.title} — Long Press Daily Five`}
-                          data-share-url={`/daily/${dateSlug}`}
-                          data-share-desc={b.data.description}
-                          aria-label={`Share ${b.data.title}`}
-                          title="Share brief via Web Share API"
-                        >
-                          <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <circle cx="18" cy="5" r="3"></circle>
-                            <circle cx="6" cy="12" r="3"></circle>
-                            <circle cx="18" cy="19" r="3"></circle>
-                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                          </svg>
-                          <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M20 6L9 17l-5-5"></path>
-                          </svg>
-                          <span class="card-share-btn__text">Share</span>
-                        </button>
+                    <div class="archive-row__body">
+                      <div class="archive-row__meta-row">
+                        <div class="archive-row__date">
+                          <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
+                            {med.format(b.data.date)}
+                          </time>
+                          <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
+                            {dayOfWeek}
+                          </span>
+                        </div>
                         <a href={`/daily/${dateSlug}`} class="entry__cta" aria-label={`Read brief from ${med.format(b.data.date)}`}>
                           Read Issue &rarr;
                         </a>
                       </div>
+                      <h3 class="archive-row__title">
+                        <a href={`/daily/${dateSlug}`}>{b.data.title}</a>
+                      </h3>
+                      <p class="archive-row__desc">{b.data.description}</p>
+                      <p class="archive-row__footer">
+                        Five stories, {getArticleReadingTime(b).text} &mdash; {kinds}.
+                      </p>
                     </div>
                   </li>
                 </>

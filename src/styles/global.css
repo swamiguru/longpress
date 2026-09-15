@@ -3182,6 +3182,14 @@ li.brief__item .brief__caption {
 @media (min-width: 720px) {
   .daily-featured__fourpart { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+/* Boxed treatment so the four-part breakdown reads as the same shape on
+   /daily as Known Issue's editorial-tenet cards (.column-manifesto__card)
+   -- one visual language for "here is the structure" on both pages. */
+.daily-featured__fourpart div {
+  background: var(--ground);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+}
 .daily-featured__fourpart dt {
   font-family: var(--mono);
   font-size: 9.5px;
@@ -3203,6 +3211,122 @@ li.brief__item .brief__caption {
 .archive-pagination-bar--bottom {
   position: static;
   margin: var(--s7) 0 0;
+}
+
+/* ============================================================
+   Archive row list -- compact single-column list used for the
+   "older" feed on /daily and /known-issue, in place of the 3-column
+   grid (.entries/.entry-card). That grid stays untouched for the
+   homepage and /topics pages, which still use it as-is; this is a
+   separate, denser component built for scanning many issues at once,
+   matching the approved Edition Shell mockup rather than the card grid.
+   ============================================================ */
+.archive-row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.archive-row {
+  display: flex;
+  gap: var(--s4);
+  align-items: flex-start;
+  padding: var(--s4) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.archive-row__thumb {
+  flex: 0 0 auto;
+  width: 84px;
+  border: 1px solid var(--rule);
+  align-self: flex-start;
+}
+
+.archive-row__thumb--empty {
+  flex: 0 0 auto;
+  width: 84px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--surface),
+    var(--surface) 6px,
+    var(--ground) 6px,
+    var(--ground) 12px
+  );
+  border: 1px dashed var(--rule);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+
+.archive-row__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.archive-row__meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.archive-row__date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.archive-row__title {
+  font-family: var(--display);
+  font-variation-settings: var(--display-normal);
+  font-size: clamp(16px, 1.6vw, 18.5px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+}
+.archive-row__title a { color: var(--ink); text-decoration: none; }
+.archive-row__title a:hover { color: var(--accent-deep); }
+
+.archive-row__desc {
+  font-family: var(--body);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.archive-row__footer {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.archive-row__tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .archive-row__thumb,
+  .archive-row__thumb--empty { width: 56px; }
 }
 
 .known-issue-featured__quote {
