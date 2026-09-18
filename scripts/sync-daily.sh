@@ -1,11 +1,23 @@
 #!/usr/bin/env bash
-# Bridge until the daily pipeline writes to Long Press directly.
+# The daily publish step. As of 18 Sept this is run directly by the
+# "Longpress daily social" task on the Mac, as its own last step right after
+# it commits the roundup to the builtbyswami automation clone - not by a
+# GitHub Actions cron. (.github/workflows/sync-daily.yml still exists as a
+# manual-only backstop - see the comment at the top of that file.)
 #
-# The roundup runner still commits to the builtbyswami repo each morning.
-# This pulls that, re-imports into Long Press, and publishes. Idempotent -
-# safe to run twice, and a no-op if there is nothing new.
+# Pulls the automation clone, re-imports into Long Press, builds, commits and
+# pushes. Idempotent - safe to run twice, and a no-op if there is nothing new.
+# No `npm ci`/`npm install` here on purpose: it builds with whatever is
+# already in node_modules on this machine, so a lockfile edit landing from
+# elsewhere (AI Studio has deleted package-lock.json before) can't block this
+# path the way it blocks the GitHub Actions one.
 #
 #   ./scripts/sync-daily.sh [path-to-builtbyswami-repo]
+#
+# The daily task calls this explicitly as:
+#   ./scripts/sync-daily.sh "$HOME/Documents/GitHub/Builtbyswami"
+# (the automation clone it just committed to - NOT this script's own
+# default below, which points at the Cowork-connected clone instead).
 
 set -euo pipefail
 SRC="${1:-$HOME/Builtbyswami-website}"

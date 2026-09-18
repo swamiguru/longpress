@@ -1,31 +1,21 @@
-name: Sync daily brief
+name: Sync daily brief (manual backstop)
 
-# Long Press PULLS the roundup instead of waiting to be pushed to.
-# The existing pipeline keeps committing to the builtbyswami repo, untouched.
-# This notices, imports, and publishes. Vercel deploys on the resulting push.
+# Long Press used to rely on this workflow's own cron to notice new content
+# in the builtbyswami repo and publish it. That cron was unreliable enough to
+# cause real gaps: a 4-hour-late run on 11 Sept, four silently-skipped slots
+# on 16 Sept, and a run of failures through 17 Sept caused by a deleted
+# package-lock.json elsewhere in this repo breaking `npm ci` on every
+# scheduled attempt.
+#
+# As of 18 Sept, the daily generator task on the Mac runs
+# `scripts/sync-daily.sh` itself as its own final step, right after it
+# commits the roundup - so publishing no longer waits on GitHub's scheduler
+# at all. This workflow is kept only as a manual escape hatch (e.g. the Mac
+# is off, or the local sync step itself failed) - trigger it from the
+# Actions tab or `gh workflow run sync-daily.yml --repo swamiguru/longpress`.
 
 on:
-  schedule:
-    # Target: the brief is live before the masthead's EDITION 10:00 IST.
-    #
-    # The roundup generator commits between 03:59 and 05:10 UTC (09:29-10:40
-    # IST), median 04:05. So sweep that window every fifteen minutes and keep a
-    # few afternoon backstops. A run with nothing to import finishes in about
-    # twenty seconds, so the extra attempts cost nothing.
-    #
-    # Minute 0 is deliberately avoided: GitHub's scheduled runs are best-effort
-    # and the top of the hour is the most contended slot. The 11 Sept run set
-    # for 10:00 UTC actually started at 14:07 UTC, four hours late.
-    #
-    # Cron here is always UTC.
-    - cron: '5 4 * * *'
-    - cron: '20 4 * * *'
-    - cron: '35 4 * * *'
-    - cron: '50 4 * * *'
-    - cron: '20 5 * * *'
-    - cron: '20 7 * * *'
-    - cron: '20 12 * * *'
-  workflow_dispatch:        # lets you run it by hand from the Actions tab
+  workflow_dispatch:        # manual only - no schedule; see comment above
 
 concurrency:
   group: sync-daily
