@@ -1398,31 +1398,38 @@ li.brief__item .brief__caption {
   padding: var(--s5) var(--s6);
   margin-bottom: var(--s5);
   border-bottom: none;
+  align-items: flex-end;
 }
 #section-todays-five .column-section-title h2,
 #section-known-issue .section__head h2 {
   color: var(--dark-ink);
 }
+#section-todays-five .section__sub,
 #section-known-issue .section__sub {
   color: var(--dark-soft);
 }
 
 /* Daily Five — sunrise gold. New here: the five kicker dots
-   (one per story) and the "read the full issue" pill. */
-#section-todays-five .column-section-title h2::before {
+   (one per story) on the eyebrow, and the "read the full
+   issue" pill. Mirrors Known Issue's ring-on-eyebrow below,
+   so the two pillar headers read as a matched pair. */
+#section-todays-five .section__eyebrow {
+  color: var(--five-vivid);
+}
+#section-todays-five .section__eyebrow::before {
   content: "";
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 76px;
+  width: 4px;
+  height: 4px;
+  margin-right: 36px;
   vertical-align: middle;
   border-radius: 50%;
   background: var(--five-vivid);
   box-shadow:
-    14px 0 var(--five-vivid),
-    28px 0 var(--five-vivid),
-    42px 0 var(--five-vivid),
-    56px 0 var(--five-vivid);
+    6px 0 var(--five-vivid),
+    12px 0 var(--five-vivid),
+    18px 0 var(--five-vivid),
+    24px 0 var(--five-vivid);
 }
 #section-todays-five .section__link-pill {
   background: var(--dark-surface);

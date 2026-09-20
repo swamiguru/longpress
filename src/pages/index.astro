@@ -76,7 +76,11 @@ function excerpt(text: string | undefined, max = 130): string {
   {today && (
     <section class="section" aria-labelledby="todays-five-heading" id="section-todays-five">
       <div class="column-section-title">
-        <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
+        <div>
+          <span class="section__eyebrow">The morning brief</span>
+          <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
+          <p class="section__sub">Five stories, sourced and broken down the same way, every morning at 10:00 IST.</p>
+        </div>
         <a href={path(today)} class="section__link-pill" id="link-read-full-issue">
           <span>Read the full issue &rarr;</span>
         </a>
