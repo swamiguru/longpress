@@ -776,7 +776,11 @@ li.brief__item .brief__figure {
   margin-top: var(--s4);
   margin-bottom: var(--s6);
   width: 100%;
-  max-width: 320px;
+  /* Full width as of Sept 2026 -- was max-width: 320px. The image now
+     spans the same column as the headline/body text on both mobile
+     and desktop; see optimize-images.mjs DAILY_SIZES for the 1024w
+     variant this needs so it isn't upscaling a 640w source. */
+  max-width: 100%;
 }
 li.brief__item .brief__figure .responsive-image-box {
   border: 1px solid var(--rule);

@@ -12,6 +12,10 @@ const STORY_SIZES = [
 const DAILY_SIZES = [
   { suffix: '320w', width: 320, height: 320 },
   { suffix: '640w', width: 640, height: 640 },
+  // 1024w matches the Gemini illustrations' native output size (see
+  // make_card.py) -- the brief's full-width square treatment (added
+  // Sept 2026) needs a variant past 640w or it upscales on desktop.
+  { suffix: '1024w', width: 1024, height: 1024 },
 ];
 
 async function processDir(dir, sizeConfigs) {
@@ -26,7 +30,7 @@ async function processDir(dir, sizeConfigs) {
       continue;
     }
     // Skip generated variants
-    if (file.includes('-480w.') || file.includes('-800w.') || file.includes('-1200w.') || file.includes('-320w.') || file.includes('-640w.')) {
+    if (file.includes('-480w.') || file.includes('-800w.') || file.includes('-1200w.') || file.includes('-320w.') || file.includes('-640w.') || file.includes('-1024w.')) {
       continue;
     }
 

@@ -67,9 +67,12 @@ export function getResponsiveImage(
     const v800 = path.join(publicDir, `${baseName}-800w.webp`);
     const v1200 = path.join(publicDir, `${baseName}-1200w.webp`);
 
-    // Check for 1:1 daily brief variants: 320w, 640w
+    // Check for 1:1 daily brief variants: 320w, 640w, 1024w (the
+    // illustrations' native size -- added for the full-width square
+    // treatment on /daily/[date], see optimize-images.mjs DAILY_SIZES)
     const v320 = path.join(publicDir, `${baseName}-320w.webp`);
     const v640 = path.join(publicDir, `${baseName}-640w.webp`);
+    const v1024 = path.join(publicDir, `${baseName}-1024w.webp`);
 
     const variants: { url: string; width: number }[] = [];
 
@@ -79,6 +82,7 @@ export function getResponsiveImage(
 
     if (fs.existsSync(v320)) variants.push({ url: `/${dir}/${baseName}-320w.webp`, width: 320 });
     if (fs.existsSync(v640)) variants.push({ url: `/${dir}/${baseName}-640w.webp`, width: 640 });
+    if (fs.existsSync(v1024)) variants.push({ url: `/${dir}/${baseName}-1024w.webp`, width: 1024 });
 
     if (variants.length > 0) {
       // Sort by width ascending
