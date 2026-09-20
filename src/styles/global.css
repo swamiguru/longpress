@@ -43,6 +43,12 @@
   --accent-2:        #3E7C74;   /* teal — the second voice         */
   --accent-2-subtle: rgba(62, 124, 116, 0.10);
 
+  /* Section kickers only — Today's Five / Known Issue dark
+     headers (#section-todays-five, #section-known-issue).
+     Never used on body copy, cards, or verdict badges. */
+  --five-vivid:      #FFC53D;   /* Daily Five — sunrise gold        */
+  --issue-vivid:     #2DD9B8;   /* Known Issue — signal teal        */
+
   /* Legacy aliases from the previous system, remapped so old
      markup keeps working. Prefer --accent-2 / --accent-deep. */
   --signal-blue:        #3E7C74;
@@ -1377,6 +1383,83 @@ li.brief__item .brief__caption {
   text-decoration: none;
 }
 .section__head a:not(.section__link-pill):hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============================================================
+   Section kickers — Today's Five / Known Issue
+   Reuses the --dark-ground register already used by
+   .known-issue-lead and .masthead__utility. Scoped by section
+   id, not by class, so .section__head / .column-section-title
+   stay exactly as they are on the Daily Five Archive section,
+   related articles, and every other page that reuses them.
+   ============================================================ */
+#section-todays-five .column-section-title,
+#section-known-issue .section__head {
+  background: var(--dark-ground);
+  padding: var(--s5) var(--s6);
+  margin-bottom: var(--s5);
+  border-bottom: none;
+}
+#section-todays-five .column-section-title h2,
+#section-known-issue .section__head h2 {
+  color: var(--dark-ink);
+}
+#section-known-issue .section__sub {
+  color: var(--dark-soft);
+}
+
+/* Daily Five — sunrise gold. New here: the five kicker dots
+   (one per story) and the "read the full issue" pill. */
+#section-todays-five .column-section-title h2::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 76px;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: var(--five-vivid);
+  box-shadow:
+    14px 0 var(--five-vivid),
+    28px 0 var(--five-vivid),
+    42px 0 var(--five-vivid),
+    56px 0 var(--five-vivid);
+}
+#section-todays-five .section__link-pill {
+  background: var(--dark-surface);
+  color: var(--dark-utility);
+  border-color: var(--dark-rule);
+}
+#section-todays-five .section__link-pill:hover {
+  background: var(--dark-rule);
+  color: var(--five-vivid);
+  border-color: var(--five-vivid);
+}
+
+/* Known Issue — signal teal. One ring instead of five dots:
+   one standing issue, not five daily ones. */
+#section-known-issue .section__eyebrow {
+  color: var(--issue-vivid);
+}
+#section-known-issue .section__eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 7px;
+  vertical-align: middle;
+  border-radius: 50%;
+  border: 2px solid var(--issue-vivid);
+}
+#section-known-issue .section__link-pill {
+  background: var(--dark-surface);
+  color: var(--dark-utility);
+  border-color: var(--dark-rule);
+}
+#section-known-issue .section__link-pill:hover {
+  background: var(--dark-rule);
+  color: var(--issue-vivid);
+  border-color: var(--issue-vivid);
+}
 
 /* ============================================================
    Article feed & entries — responsive CSS Grid layout
