@@ -76,14 +76,17 @@ function excerpt(text: string | undefined, max = 130): string {
   {today && (
     <section class="section" aria-labelledby="todays-five-heading" id="section-todays-five">
       <div class="column-section-title">
-        <div>
-          <span class="section__eyebrow">The morning brief</span>
-          <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
-          <p class="section__sub">Five stories, sourced and broken down the same way, every morning at 10:00 IST.</p>
+        <span class="kicker-chip">5 Stories &middot; 10:00 IST</span>
+        <div class="column-section-title__row">
+          <div>
+            <span class="section__eyebrow">The morning brief</span>
+            <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
+            <p class="section__sub">Five stories, sourced and broken down the same way, every morning at 10:00 IST.</p>
+          </div>
+          <a href={path(today)} class="section__link-pill" id="link-read-full-issue">
+            <span>Read the full issue &rarr;</span>
+          </a>
         </div>
-        <a href={path(today)} class="section__link-pill" id="link-read-full-issue">
-          <span>Read the full issue &rarr;</span>
-        </a>
       </div>
       <ol class="daily-list">
         {today.data.items.map((item) => (
@@ -122,14 +125,17 @@ function excerpt(text: string | undefined, max = 130): string {
   {stories.length > 0 && (
     <section class="section" aria-labelledby="heading-known-issue" id="section-known-issue">
       <div class="section__head">
-        <div>
-          <span class="section__eyebrow">The column</span>
-          <h2 id="heading-known-issue">Known Issue</h2>
-          <p class="section__sub">The things in Apple, Google, Meta, Android, iOS and everyday apps that have been broken long enough to count as a decision.</p>
+        <span class="kicker-chip">Opinion Column &middot; No Schedule</span>
+        <div class="section__head__row">
+          <div>
+            <span class="section__eyebrow">The column</span>
+            <h2 id="heading-known-issue">Known Issue</h2>
+            <p class="section__sub">The things in Apple, Google, Meta, Android, iOS and everyday apps that have been broken long enough to count as a decision.</p>
+          </div>
+          <a href="/known-issue" class="section__link-pill" id="link-known-issue-hub">
+            <span>Every column ({stories.length}) &rarr;</span>
+          </a>
         </div>
-        <a href="/known-issue" class="section__link-pill" id="link-known-issue-hub">
-          <span>Every column ({stories.length}) &rarr;</span>
-        </a>
       </div>
 
       {leadStory && (

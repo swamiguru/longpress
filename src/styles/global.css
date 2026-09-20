@@ -1395,18 +1395,60 @@ li.brief__item .brief__caption {
 #section-todays-five .column-section-title,
 #section-known-issue .section__head {
   background: var(--dark-ground);
-  padding: var(--s5) var(--s6);
+  padding: var(--s7) var(--s6);
   margin-bottom: var(--s5);
   border-bottom: none;
+  flex-direction: column;
+  align-items: stretch;
+}
+#section-todays-five .column-section-title__row,
+#section-known-issue .section__head__row {
+  display: flex;
   align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s4);
+  flex-wrap: wrap;
 }
 #section-todays-five .column-section-title h2,
 #section-known-issue .section__head h2 {
   color: var(--dark-ink);
+  font-variation-settings: var(--display-wide);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: clamp(32px, 4.2vw, 46px);
 }
 #section-todays-five .section__sub,
 #section-known-issue .section__sub {
   color: var(--dark-soft);
+  font-size: 15.5px;
+  max-width: 620px;
+}
+
+/* Kicker chip — a small "edition" tag above the eyebrow row,
+   one per pillar, in that pillar's vivid color. This is the
+   masthead-per-section move the mockup pitched: a section
+   header that reads as a distinct edition, not just a bigger
+   h2. */
+.kicker-chip {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid;
+  margin-bottom: var(--s5);
+}
+#section-todays-five .kicker-chip {
+  color: var(--five-vivid);
+  border-color: var(--five-vivid);
+}
+#section-known-issue .kicker-chip {
+  color: var(--issue-vivid);
+  border-color: var(--issue-vivid);
 }
 
 /* Daily Five — sunrise gold. New here: the five kicker dots
@@ -1435,6 +1477,8 @@ li.brief__item .brief__caption {
   background: var(--dark-surface);
   color: var(--dark-utility);
   border-color: var(--dark-rule);
+  padding: 9px 18px;
+  font-size: 12px;
 }
 #section-todays-five .section__link-pill:hover {
   background: var(--dark-rule);
@@ -1461,6 +1505,8 @@ li.brief__item .brief__caption {
   background: var(--dark-surface);
   color: var(--dark-utility);
   border-color: var(--dark-rule);
+  padding: 9px 18px;
+  font-size: 12px;
 }
 #section-known-issue .section__link-pill:hover {
   background: var(--dark-rule);
