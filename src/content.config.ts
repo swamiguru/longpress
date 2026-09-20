@@ -48,6 +48,8 @@ const daily = defineCollection({
   schema: z.object({
     date: z.coerce.date(),
     title: z.string(),
+    /** Byline - defaults to Swami Guru so the archive carries it without editing 60+ back issues. */
+    author: z.string().default('Swami Guru'),
     /** Meta description - hard capped so it does not truncate in results. */
     description: z.string().max(160),
     /** The full standfirst, shown on the page. No length limit. */
@@ -63,6 +65,8 @@ const stories = defineCollection({
     /** Explicit and permanent. Never derived from the title at build time. */
     slug: z.string(),
     title: z.string(),
+    /** Byline - defaults to Swami Guru, same as the daily brief. */
+    author: z.string().default('Swami Guru'),
     description: z.string().max(160),
     published: z.coerce.date(),
     updated: z.coerce.date().optional(),

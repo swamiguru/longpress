@@ -51,6 +51,8 @@ const ANALYSIS = [
       <span class="eyebrow">The Daily Five</span>
       <h1>{d.title}</h1>
       <div class="article__meta" style="margin-top: var(--s3); margin-bottom: 0;">
+        <span class="dateline">By {d.author}</span>
+        <span class="dateline">&middot;</span>
         <time class="dateline" datetime={d.date.toISOString()}>{long.format(d.date)}</time>
         <span class="dateline">&middot;</span>
         <span class="dateline reading-time">{readingTime.text}</span>

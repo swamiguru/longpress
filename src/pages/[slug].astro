@@ -54,7 +54,7 @@ const readingTime = getArticleReadingTime(story);
     </div>
 
     <div class="article__meta">
-      <span class="dateline">By Swami</span>
+      <span class="dateline">By {d.author}</span>
       <time class="dateline" datetime={d.published.toISOString()}>{long.format(d.published)}</time>
       {d.updated && (
         <time class="dateline" datetime={d.updated.toISOString()}>Updated {long.format(d.updated)}</time>
