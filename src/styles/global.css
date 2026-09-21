@@ -1489,6 +1489,14 @@ li.brief__item .brief__caption {
   color: var(--dark-ground);
   border-color: var(--five-vivid);
 }
+/* .column-section-title span (legacy eyebrow-label rule, line ~3197)
+   sets color: var(--muted) on ANY span inside the header -- it was
+   catching this pill's inner span too, so the pill text rendered
+   muted gray even though the <a> itself resolved to --five-vivid.
+   Force it back to inherit the anchor's color, both states. */
+#section-todays-five .section__link-pill span {
+  color: inherit;
+}
 
 /* Known Issue — signal teal. One ring instead of five dots:
    one standing issue, not five daily ones. */
