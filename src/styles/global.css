@@ -886,6 +886,12 @@ li.brief__item .brief__caption {
   padding: var(--s6) var(--s5);
   background: var(--dark-ground);
   color: var(--dark-ink);
+  /* dark-ground and the page ground both go near-black in the site's own
+     dark theme, so the band needs its own edge to read as a distinct
+     block rather than melting into the page -- same reason every other
+     "always dark" card in this redesign (analysis cells, archive-row
+     thumbs, the stamp badge) carries a border of its own. */
+  border: 1px solid var(--dark-rule);
 }
 .brief-signoff__mark { color: var(--dark-soft); flex-shrink: 0; opacity: 0.6; }
 .brief-signoff__text {
