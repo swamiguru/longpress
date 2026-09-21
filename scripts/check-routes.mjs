@@ -56,3 +56,23 @@ if (r7) console.log(`  Known Issue rate - last 7: ${r7} | last 30: ${r30}`);
 if (briefs.length && !hasOpinion(briefs[0].text)) {
   console.warn('  ! Latest brief carries no Hot Take or Myth-Buster.');
 }
+
+// --- 3. Illustration coverage on the latest brief (warn only) -------------
+// 21 Sept: every image in a brief silently fell back to the headline-baked
+// social card (card_N.png) for a full day because nothing printed at build
+// time when illustration generation failed upstream. import-roundup.mjs no
+// longer falls back to card_N.png at all (illustration or no image), so this
+// can't recur as a wrong-image bug -- but a slot with NO image is still worth
+// flagging loudly, the same way the opinion rate is, so a bad Gemini day gets
+// noticed same-morning instead of by a screenshot.
+if (briefs.length) {
+  const latest = briefs[0];
+  const slots = [...latest.text.matchAll(/^ {2}- slot: (\d+)/gm)].map((m) => m[1]);
+  const withImage = [...latest.text.matchAll(/^ {4}image: /gm)].length;
+  const withoutImage = slots.length - withImage;
+  // The community/poll slot never gets one by design -- don't cry wolf over
+  // exactly one missing image on a brief that has that slot.
+  if (withoutImage > 1 || (withoutImage === 1 && !/kind:\s*["']?community["']?/.test(latest.text))) {
+    console.warn(`  ! Latest brief: ${withoutImage}/${slots.length} slot(s) shipped with no illustration (Gemini failure or missing mirror -- check the automation clone's public/social/<date>/ for illustration_N.png).`);
+  }
+}

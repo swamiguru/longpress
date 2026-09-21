@@ -132,16 +132,28 @@ for (const file of files) {
     const slotKey = String(Number(p.n) || i + 1);
     // The generator writes p.image as .../card_N.png -- headline baked in,
     // meant for social. The site already renders the real headline as text,
-    // so a second copy inside the picture is redundant there; prefer the
-    // text-free illustration_N.png that make_card.py now writes alongside
-    // every card, and only fall back to the social card if that file isn't
-    // there (older days, or a run where illustration generation failed).
-    // Pure naming convention on this side -- nothing upstream has to know.
+    // so a second copy inside the picture is redundant there; use ONLY the
+    // text-free illustration_N.png that make_card.py writes alongside every
+    // card. 21 Sept: this used to fall back to the headline-baked card_N.png
+    // whenever illustration generation failed upstream (Gemini timeout/outage,
+    // a broken mirror step, etc.) -- and it silently did exactly that for all
+    // 5 slots on 2026-09-21, shipping "Bots Are Moving Into WhatsApp"-style
+    // baked titles to the homepage and brief. That's a worse failure mode
+    // than no image at all, since it violates the one thing this field exists
+    // to guarantee (an illustration, never a second copy of the headline).
+    // So: illustration or nothing. Never the card. Pure naming convention on
+    // this side -- nothing upstream has to know.
     const illusRel = p.image && /\/card_(\d+)\.[^/.]+$/.test(p.image)
       ? p.image.replace(/\/card_(\d+)\.([^/.]+)$/, '/illustration_$1.$2')
       : null;
     const illusExists = illusRel && existsSync(join(resolve(SRC_REPO), 'public', illusRel.replace(/^\//, '')));
-    const chosenImage = illusExists ? illusRel : p.image;
+    const chosenImage = illusExists ? illusRel : null;
+    // Only worth flagging from CARDS_FROM onward -- before that date an image
+    // was never expected (see CARDS_FROM above), so warning about a missing
+    // illustration on the old cyan-branded archive is just noise.
+    if (!illusExists && p.image && date >= CARDS_FROM) {
+      warnings.push(`${date} slot ${slotKey}: no text-free illustration_${slotKey} -- image omitted, not falling back to the headline-baked card`);
+    }
     if (date >= CARDS_FROM && chosenImage
         && existsSync(join(resolve(SRC_REPO), 'public', chosenImage.replace(/^\//, '')))) {
       lines.push(`    image: ${quote(`/images/daily/${date}/${basename(chosenImage)}`)}`);
