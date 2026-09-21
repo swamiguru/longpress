@@ -1479,14 +1479,14 @@ li.brief__item .brief__caption {
 }
 #section-todays-five .section__link-pill {
   background: var(--dark-surface);
-  color: var(--dark-utility);
+  color: var(--five-vivid);
   border-color: var(--dark-rule);
   padding: 9px 18px;
   font-size: 12px;
 }
 #section-todays-five .section__link-pill:hover {
-  background: var(--dark-rule);
-  color: var(--five-vivid);
+  background: var(--five-vivid);
+  color: var(--dark-ground);
   border-color: var(--five-vivid);
 }
 
@@ -1507,14 +1507,14 @@ li.brief__item .brief__caption {
 }
 #section-known-issue .section__link-pill {
   background: var(--dark-surface);
-  color: var(--dark-utility);
+  color: var(--issue-vivid);
   border-color: var(--dark-rule);
   padding: 9px 18px;
   font-size: 12px;
 }
 #section-known-issue .section__link-pill:hover {
-  background: var(--dark-rule);
-  color: var(--issue-vivid);
+  background: var(--issue-vivid);
+  color: var(--dark-ground);
   border-color: var(--issue-vivid);
 }
 
