@@ -735,6 +735,17 @@ main { padding-block: var(--s7) var(--s9); }
   background-color: rgba(224, 85, 43, 0.08);
   padding-inline: var(--s4);
 }
+/* Guard: `.brief__item--opinion` (two classes) is meant to beat this on
+   specificity, but `.brief__item:target` (class + pseudo-class) actually
+   outranks it, so jumping to a hot-take/myth-buster/known-issue item via
+   its #story-N anchor was replacing the dark card background with this
+   light-theme orange wash -- text colours are all set for a dark ground,
+   so they read as near-invisible. Restate the dark ground here at higher
+   specificity and give opinion items their own "you're here" cue instead. */
+.brief__item--opinion:target {
+  background-color: var(--dark-ground);
+  box-shadow: inset 3px 0 0 var(--accent-light);
+}
 .slot-anchor {
   position: absolute;
   top: -80px;
