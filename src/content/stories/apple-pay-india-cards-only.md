@@ -5,9 +5,9 @@ description: "Apple Pay reportedly reaches India in October on Axis Bank credit 
 published: 2026-09-26
 category: "known-issue"
 topics: ["apple", "apple-pay", "upi", "payments", "india"]
-heroImage: "/images/stories/apple-pay-india-bizz-india.png"
-heroImageAlt: "Tim Cook holding an iPhone showing the Apple Pay logo beside an Indian flag, with the headline that Apple Pay will not support UPI at launch"
-heroImageCaption: "Graphic: Bizz India, from its social post on the report. Not affiliated with Long Press."
+heroImage: "/images/stories/apple-pay-india-hero.png"
+heroImageAlt: "A hand holding an iPhone at a card terminal, showing Apple Pay with an Axis Bank Visa card and a Done check mark"
+heroImageCaption: "A mockup of Apple Pay on an Axis Bank Visa card. Apple Pay isn't live in India yet."
 trigger: >-
   Apple hasn't confirmed a date, but reports point to October. The wait started in 2014, and for anyone without an Axis card it isn't over.
 whoBenefits: >-
@@ -33,6 +33,10 @@ The second was the fee. Business Standard reported in August that Apple wants 15
 ## What you get on day one
 
 Reports say Visa and Mastercard credit cards from Axis. No RuPay and no UPI. Bizz India ran it as breaking news on its social channels, and the wire reports say the same.
+
+![Illustration of an iPhone showing Apple Pay with a credit card and a Face ID prompt, held near a card terminal showing a rupee total](/images/stories/apple-pay-india-illustration-1200w.webp)
+
+*Illustration by Long Press. Not an official Apple screen.*
 
 That matters because UPI handles around 85% of digital payment volume in India. A lot of small shops only take UPI. A tap-to-pay feature that works at card terminals, for a few credit cards, reaches iPhone owners (roughly 7 to 9 percent of phones here, by one estimate) who also hold one of those cards and shop somewhere with a terminal. I'd guess that's a small group.
 
