@@ -32,7 +32,7 @@ The second was the fee. Business Standard reported in August that Apple wants 15
 
 ## What you get on day one
 
-Reports say Visa and Mastercard credit cards from Axis. No RuPay and no UPI.
+Reports say Visa and Mastercard credit cards from Axis. No RuPay and no UPI. Bizz India ran it as breaking news on its social channels, and the wire reports say the same.
 
 That matters because UPI handles around 85% of digital payment volume in India. A lot of small shops only take UPI. A tap-to-pay feature that works at card terminals, for a few credit cards, reaches iPhone owners (roughly 7 to 9 percent of phones here, by one estimate) who also hold one of those cards and shop somewhere with a terminal. I'd guess that's a small group.
 
@@ -47,3 +47,11 @@ Which banks sign after Axis. If HDFC Bank, ICICI Bank and SBI Card come on, this
 Whether UPI happens at all. It needs approval from NPCI plus a sponsor bank to route the payments, and Apple has neither. As far as I know UPI is free for most merchants, which means there's no interchange for Apple to share. Apple would be adding a nicer interface to a system it doesn't control and earning nothing from it. That isn't how Apple usually likes to work. NPCI is also reported to have launched its own tap-to-pay on UPI a little over a week before the Reuters story. If that's accurate, the people who run UPI are already building what Apple would have offered.
 
 Whether anyone's habits change. I don't think they will. Most people here already pay with their phone, and they've done it through UPI since 2016. Apple Pay should do fine as a perk for premium cardholders. I'd be surprised if it changes how most of the country pays.
+
+## Sources
+
+- [Apple Pay is heading to India next month with Axis Bank first, Reuters reports](https://thenextweb.com/news/apple-pay-india-launch-axis-bank), The Next Web
+- [Apple Pay launch in October: Cards at launch, but UPI could be big question](https://www.business-standard.com/amp/technology/tech-news/apple-pay-launch-in-october-cards-at-launch-but-upi-could-be-big-question-126092100604_1.html), Business Standard
+- [Apple Pay set to launch in India by October, without UPI support](https://www.medianama.com/2026/08/223-apple-pay-launch-india-without-upi/), MediaNama
+- [Apple restarts talks for Apple Pay launch in India](https://techcrunch.com/2023/06/22/apple-looks-to-resume-talks-for-apple-pay-launch-in-india), TechCrunch, 2023
+- Bizz India carried the cards-only, no-UPI report as a breaking-news graphic on its social channels.
