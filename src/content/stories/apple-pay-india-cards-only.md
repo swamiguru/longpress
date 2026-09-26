@@ -5,9 +5,9 @@ description: "Apple Pay reportedly reaches India in October on Axis Bank credit 
 published: 2026-09-26
 category: "known-issue"
 topics: ["apple", "apple-pay", "upi", "payments", "india"]
-heroImage: "/images/stories/apple-pay-india-cards-only.png"
-heroImageAlt: "An iPhone showing Apple Cash in Messages, with a $65 payment request and a Pay button"
-heroImageCaption: "Apple Cash in Messages. Apple Cash is a US service and isn't part of the India launch. Image: Apple."
+heroImage: "/images/stories/apple-pay-india-bizz-india.png"
+heroImageAlt: "Tim Cook holding an iPhone showing the Apple Pay logo beside an Indian flag, with the headline that Apple Pay will not support UPI at launch"
+heroImageCaption: "Graphic: Bizz India, from its social post on the report. Not affiliated with Long Press."
 trigger: >-
   Apple hasn't confirmed a date, but reports point to October. The wait started in 2014, and for anyone without an Axis card it isn't over.
 whoBenefits: >-
