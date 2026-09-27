@@ -4900,3 +4900,54 @@ html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--
 .pg--ki .page-head--pillar { border-top-color: var(--teal-light); }
 .pg--about .page-head--pillar { border-image: linear-gradient(90deg, var(--accent) 50%, var(--accent-2) 50%) 6 0 0 0; }
 .pg--about .page-head--pillar .eyebrow { background: var(--accent); color: #17182E; }
+
+/* ============================================================
+   Slim hero + slim footer (content first, above the fold)
+   ============================================================ */
+.hp-hero { padding-block: 2px 14px; }
+.hp-hero__grid { gap: 10px; align-items: center; }
+.hp-hero__title { font-size: clamp(26px, 5.6vw, 38px); line-height: 1; letter-spacing: -.01em; }
+.hp-hero__sub { margin-top: 4px; max-width: none; font-size: 13.5px; line-height: 1.35; }
+.hp-doors { grid-template-columns: 1fr 1fr; gap: 10px; }
+.hp-door { padding: 8px 12px 9px; gap: 2px; box-shadow: 3px 3px 0 var(--ink); }
+.hp-door--ki { box-shadow: 3px 3px 0 var(--teal-light); }
+.hp-door:hover, .hp-door--ki:hover { box-shadow: 4px 4px 0 var(--ink); }
+.hp-door--ki:hover { box-shadow: 4px 4px 0 var(--teal-light); }
+.hp-door small { font-size: 9.5px; }
+.hp-door strong { font-size: 16px; white-space: nowrap; }
+@media (min-width: 720px) {
+  .hp-hero__grid { grid-template-columns: 1fr auto; gap: 24px; }
+  .hp-doors { min-width: 420px; }
+}
+.hp-daily { padding-block: 2px 24px; }
+
+/* Footer */
+.footer { padding-block: 32px 20px; margin-top: var(--s7); }
+.footer__grid { gap: 28px; }
+.footer__bottom { margin-top: 24px; padding-top: 16px; }
+@media (max-width: 640px) {
+  .footer { padding-block: 20px 14px; margin-top: var(--s6); font-size: 13px; }
+  .footer__grid { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+  .footer__col--brand { flex: 1 0 100%; flex-direction: row; align-items: center; gap: 0; margin-bottom: 4px; }
+  .footer__tagline, .footer__col-title { display: none; }
+  .footer__col, .footer__nav-list { display: contents; }
+  .footer__nav-list li { display: block; margin: 0; }
+  .footer__link { display: inline-flex; padding: 5px 0; font-size: 13px; }
+  .footer__nav-list li:has(> a[href="/search.json"]),
+  .footer__nav-list li:has(> a[href="/about#who-writes-it"]),
+  .footer__nav-list li:has(> a[href="/search"]) { display: none; }
+  .footer__bottom { flex-direction: row; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; padding-top: 12px; flex-wrap: nowrap; }
+  .footer__bottom-left { gap: 2px; min-width: 0; }
+  .footer__colophon, .footer__creed { font-size: 11.5px; line-height: 1.4; }
+  .footer__top-btn { padding: 8px 10px; }
+  .footer__top-btn span { display: none; }
+}
+@media (max-width: 640px) {
+  .footer .footer__col--brand { display: flex; }
+  .footer__grid { row-gap: 2px; }
+}
+@media (min-width: 720px) { .hp-hero { padding-bottom: 24px; } }
+@media (max-width: 640px) {
+  .footer__nav-list li { display: flex; align-items: center; }
+  .footer__nav-list li:has(> a[href="https://www.builtbyswami.com"]) { display: none; }
+}
