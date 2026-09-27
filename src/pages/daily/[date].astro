@@ -128,7 +128,20 @@ const ANALYSIS = [
                   {analysis.map(([key, text]) => (
                     <div class={`analysis__cell analysis__cell--${key}`}>
                       <dt class={`analysis__pill analysis__pill--${key}`}>
-                        <span class={`pill-dot pill-dot--${key}`} aria-hidden="true" />
+                        <span class="analysis__icon" aria-hidden="true">
+                          {key === 'problem' && (
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2 20.5h20L12 3.5z"></path><path d="M12 10v4.2"></path><circle cx="12" cy="17.6" r="0.6" fill="currentColor" stroke="none"></circle></svg>
+                          )}
+                          {key === 'breakthrough' && (
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"></path><path d="M3 21v-5h5"></path></svg>
+                          )}
+                          {key === 'catch' && (
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"></path></svg>
+                          )}
+                          {key === 'forYou' && (
+                            <svg viewBox="0 0 24 24" width="13" height="13"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="3" fill="currentColor"></circle></svg>
+                          )}
+                        </span>
                         <span>{text}</span>
                       </dt>
                       <dd>{item[key as keyof typeof item]}</dd>

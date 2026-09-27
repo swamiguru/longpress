@@ -975,12 +975,13 @@ li.brief__item .brief__caption {
    "The problem", "What changed", "The catch", "What it means for you"
    ============================================================ */
 .analysis {
+  counter-reset: analysis-idx;
   margin: var(--s5) 0 0;
   padding: 0;
   background: transparent;
   border: 0;
   display: grid;
-  gap: 16px;
+  gap: 18px;
   grid-template-columns: 1fr;
 }
 
@@ -995,101 +996,96 @@ li.brief__item .brief__caption {
 }
 
 .analysis__cell {
+  counter-increment: analysis-idx;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 20px 22px 20px 26px;
+  padding: 20px 22px;
   background: var(--surface);
-  border: 1.5px solid var(--rule);
-  border-left: 5px solid var(--rule-strong);
-  box-shadow: var(--shadow-card);
-  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  border: 2px solid var(--rule-strong);
+  box-shadow: 4px 4px 0 0 rgba(23, 24, 46, 0.14);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.analysis__cell::after {
+  content: counter(analysis-idx, decimal-leading-zero);
+  position: absolute;
+  right: 12px;
+  bottom: 2px;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 118;
+  font-weight: 800;
+  font-size: 46px;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.06;
+  pointer-events: none;
 }
 
 .analysis__cell:hover {
-  border-color: var(--rule-strong);
-  box-shadow: var(--shadow-hard-sm);
   transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 rgba(23, 24, 46, 0.16);
 }
 
-/* Colour-flagged left border, one per fixed label -- chrome only, the
+/* Solid border + shadow tint, one per fixed label -- chrome only, the
    label text itself (The problem / What changed / The catch / What it
-   means for you) stays untouched. Colours match the existing pill dots. */
-.analysis__cell--problem { border-left-color: var(--accent); }
-.analysis__cell--breakthrough { border-left-color: #0D9488; }
-.analysis__cell--catch { border-left-color: #D97706; }
+   means for you) stays untouched. */
+.analysis__cell--problem { border-color: var(--accent); box-shadow: 4px 4px 0 0 rgba(224, 85, 43, 0.28); }
+.analysis__cell--problem:hover { box-shadow: 6px 6px 0 0 rgba(224, 85, 43, 0.3); }
+.analysis__cell--breakthrough { border-color: #0D9488; box-shadow: 4px 4px 0 0 rgba(13, 148, 136, 0.28); }
+.analysis__cell--breakthrough:hover { box-shadow: 6px 6px 0 0 rgba(13, 148, 136, 0.3); }
+.analysis__cell--catch { border-color: #D97706; box-shadow: 4px 4px 0 0 rgba(217, 119, 6, 0.28); }
+.analysis__cell--catch:hover { box-shadow: 6px 6px 0 0 rgba(217, 119, 6, 0.3); }
 
-/* Specific highlight on "WHAT IT MEANS FOR YOU" */
+/* Specific highlight on "WHAT IT MEANS FOR YOU" -- the takeaway, so it
+   gets the stronger stamp treatment: thicker border, rotated corner. */
 .analysis__cell--forYou {
-  background: rgba(224, 85, 43, 0.05);
-  border-color: rgba(224, 85, 43, 0.45);
-  border-left-color: var(--accent);
-  box-shadow: 0 3px 12px rgba(224, 85, 43, 0.07);
+  background: rgba(224, 85, 43, 0.07);
+  border: 3px solid var(--accent);
+  box-shadow: 5px 5px 0 0 rgba(224, 85, 43, 0.32);
 }
-
 .analysis__cell--forYou:hover {
-  border-color: var(--accent);
-  box-shadow: 0 6px 18px rgba(224, 85, 43, 0.12);
+  box-shadow: 7px 7px 0 0 rgba(224, 85, 43, 0.34);
 }
+.analysis__cell--forYou::after { opacity: 0.1; }
 
-/* Pill badge styling for section headers */
+/* Pill badge -- now a solid chip with an icon, not an outline */
 .analysis__pill {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   width: fit-content;
-  padding: 5px 13px;
+  padding: 5px 13px 5px 10px;
   font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: 1.5px solid var(--rule-strong);
-  background: var(--ground);
-  color: var(--ink);
+  border: 0;
   line-height: 1;
 }
-.analysis__pill::before { content: none; }
+.analysis__icon { display: inline-flex; flex-shrink: 0; }
 
-.pill-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
+.analysis__pill--problem { background: var(--accent); color: #17182E; }
+.analysis__pill--breakthrough { background: #0D9488; color: #FFFFFF; }
+.analysis__pill--catch { background: #D97706; color: #17182E; }
 
-/* Pill color coding */
-.analysis__pill--problem {
-  background: rgba(224, 85, 43, 0.08);
-  border-color: rgba(224, 85, 43, 0.28);
-  color: var(--accent-deep);
-}
-.pill-dot--problem { background: var(--accent); }
-
-.analysis__pill--breakthrough {
-  background: rgba(13, 148, 136, 0.08);
-  border-color: rgba(13, 148, 136, 0.28);
-  color: #0F766E;
-}
-.pill-dot--breakthrough { background: #0D9488; }
-
-.analysis__pill--catch {
-  background: rgba(217, 119, 6, 0.08);
-  border-color: rgba(217, 119, 6, 0.28);
-  color: #B45309;
-}
-.pill-dot--catch { background: #D97706; }
-
-/* Highlighted "WHAT IT MEANS FOR YOU" pill */
+/* Highlighted "WHAT IT MEANS FOR YOU" pill: rotated stamp, like the
+   Known Issue verdict badge, so the takeaway reads as a call to act. */
 .analysis__pill--forYou {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0E0F1D;
+  background: #17182E;
+  color: #FFFFFF;
+  padding: 6px 16px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  transform: rotate(-2deg);
+  box-shadow: 3px 3px 0 0 var(--accent);
   font-weight: 800;
   letter-spacing: 0.09em;
-  box-shadow: 0 1px 4px rgba(224, 85, 43, 0.28);
 }
-.pill-dot--forYou { background: #0E0F1D; }
+.analysis__pill--forYou .analysis__icon { color: var(--accent); }
 
 .analysis dd {
   margin: 0;
@@ -1100,6 +1096,8 @@ li.brief__item .brief__caption {
 }
 
 .analysis__cell--forYou dd {
+  position: relative;
+  z-index: 1;
   color: var(--ink);
   font-size: 16px;
   font-weight: 500;
@@ -5097,11 +5095,12 @@ html[data-theme="dark"] .analysis .analysis__pill--catch { color: #FFC53D; }
 .story__text { margin: 0; font-size: 16px; line-height: 1.6; max-width: 66ch; }
 .story .brief__more { margin: 8px 0 0; }
 
-.story .analysis { margin-top: 14px; gap: 10px; grid-template-columns: 1fr; }
-.story .analysis__cell { padding: 10px 12px 11px 14px; gap: 6px; box-shadow: none; border-width: 1px; border-left-width: 5px; }
-.story .analysis__cell:hover { transform: none; box-shadow: none; }
-.story .analysis__cell--forYou { background: var(--accent-subtle, rgba(224,85,43,.07)); box-shadow: none; }
-.story .analysis__pill { padding: 3px 8px; font-size: 10px; }
+.story .analysis { margin-top: 14px; gap: 12px; grid-template-columns: 1fr; }
+.story .analysis__cell { padding: 12px 14px; gap: 6px; border-width: 2px; }
+.story .analysis__cell--forYou { border-width: 2px; }
+.story .analysis__cell::after { font-size: 34px; right: 8px; bottom: 0; }
+.story .analysis__pill { padding: 4px 10px 4px 8px; font-size: 9.5px; }
+.story .analysis__icon svg { width: 10px; height: 10px; }
 .story .analysis dd { font-size: 14px; line-height: 1.5; }
 .story .analysis__cell--forYou dd { font-size: 14.5px; }
 .story .brief__source { margin: 10px 0 0; }
