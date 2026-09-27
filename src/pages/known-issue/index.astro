@@ -179,7 +179,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
               src={p.data.image ?? '/images/fallback/column.png'}
               alt={p.data.imageAlt || ''}
               aspectRatio="1/1"
-              sizes="84px"
+              sizes="(max-width: 480px) 88px, (max-width: 899px) 108px, 128px"
             />
           </div>
           <div class="archive-row__body">

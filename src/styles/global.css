@@ -3646,10 +3646,13 @@ li.brief__item .brief__caption {
   padding: var(--s4) 0;
   border-bottom: 1px solid var(--rule);
 }
+@media (max-width: 480px) {
+  .archive-row { gap: 14px; }
+}
 
 .archive-row__thumb {
   flex: 0 0 auto;
-  width: 84px;
+  width: 108px;
   border: 1px solid var(--rule);
   align-self: flex-start;
   position: relative;
@@ -3680,7 +3683,7 @@ li.brief__item .brief__caption {
 
 .archive-row__thumb--empty {
   flex: 0 0 auto;
-  width: 84px;
+  width: 108px;
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
@@ -3761,7 +3764,13 @@ li.brief__item .brief__caption {
 
 @media (max-width: 480px) {
   .archive-row__thumb,
-  .archive-row__thumb--empty { width: 56px; }
+  .archive-row__thumb--empty { width: 88px; }
+  .archive-row__title { font-size: 15px; }
+  .archive-row__desc { -webkit-line-clamp: 3; }
+}
+@media (min-width: 900px) {
+  .archive-row__thumb,
+  .archive-row__thumb--empty { width: 128px; }
 }
 
 .known-issue-featured__quote {
