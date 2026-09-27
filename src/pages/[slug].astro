@@ -30,6 +30,7 @@ const readingTime = getArticleReadingTime(story);
   updated={d.updated}
   image={d.heroImage || d.image}
 >
+  <div class={`pg ${d.category === 'known-issue' ? 'pg--ki' : 'pg--daily'} pg--article`}>
   <article>
     <nav class="article-breadcrumb" aria-label="Breadcrumb">
       <a href="/">&larr; Front Page</a>
@@ -41,7 +42,7 @@ const readingTime = getArticleReadingTime(story);
       )}
     </nav>
 
-    <div class="page-head page-head--article" style="margin-top: var(--s3);">
+    <div class="page-head page-head--article page-head--pillar" style="margin-top: var(--s3);">
       <span class="eyebrow" data-category={d.category}>{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
       <h1>{d.title}</h1>
       <p class="standfirst">{d.description}</p>
@@ -161,6 +162,7 @@ const readingTime = getArticleReadingTime(story);
       currentTopics={d.topics}
     />
   </article>
+  </div>
 </BaseLayout>
 
 <style>

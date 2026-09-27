@@ -33,8 +33,9 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
   description="Swami's column on the things in Apple, Google, Meta, Android, iOS and everyday apps that have been broken long enough to count as a decision. Not launch reviews."
   wide
 >
+  <div class="pg pg--ki">
   <!-- Masthead -->
-  <div class="page-head page-head--column" id="known-issue-head">
+  <div class="page-head page-head--column page-head--pillar" id="known-issue-head">
     <svg class="page-head--column__ring" width="440" height="440" viewBox="0 0 440 440" aria-hidden="true" focusable="false">
       <circle cx="220" cy="220" r="170" fill="none" stroke="currentColor" stroke-width="2"></circle>
       <circle cx="220" cy="220" r="118" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="8 9"></circle>
@@ -56,10 +57,10 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
       </div>
 
       <article class="known-issue-featured" id={`article-${leadStory.data.slug}`}>
-        {leadStory.data.image && (
+        {(
           <div class="known-issue-featured__thumb">
             <ResponsiveImage
-              src={leadStory.data.image}
+              src={leadStory.data.image ?? '/images/fallback/column.png'}
               alt={leadStory.data.imageAlt || ''}
               aspectRatio="1/1"
               sizes="(max-width: 640px) 140px, 220px"
@@ -173,18 +174,14 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
           id={`story-${p.data.slug}`}
           data-topics={(p.data.topics || []).join(' ')}
         >
-          {p.data.image ? (
-            <div class="archive-row__thumb">
-              <ResponsiveImage
-                src={p.data.image}
-                alt={p.data.imageAlt || ''}
-                aspectRatio="1/1"
-                sizes="84px"
-              />
-            </div>
-          ) : (
-            <div class="archive-row__thumb--empty" aria-hidden="true">No card</div>
-          )}
+          <div class="archive-row__thumb">
+            <ResponsiveImage
+              src={p.data.image ?? '/images/fallback/column.png'}
+              alt={p.data.imageAlt || ''}
+              aspectRatio="1/1"
+              sizes="84px"
+            />
+          </div>
           <div class="archive-row__body">
             <div class="archive-row__meta-row">
               <div class="archive-row__date">
@@ -251,6 +248,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
     <p>
       Something in a product you use that has been wrong for years and nobody will say so? That is the column. Send it, in confidence if you prefer, to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
     </p>
+  </div>
   </div>
 </BaseLayout>
 

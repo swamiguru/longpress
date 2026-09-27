@@ -46,8 +46,9 @@ const ANALYSIS = [
 ] as const;
 ---
 <BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date}>
+  <div class="pg pg--daily pg--article">
   <article>
-    <div class="page-head">
+    <div class="page-head page-head--pillar">
       <span class="eyebrow">The Daily Five</span>
       <h1>{d.title}</h1>
       <div class="article__meta" style="margin-top: var(--s3); margin-bottom: 0;">
@@ -193,6 +194,7 @@ const ANALYSIS = [
       </div>
     </nav>
   </article>
+  </div>
 
   <script is:inline>
     function scrollCurrentHashIntoView() {

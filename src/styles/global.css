@@ -4741,3 +4741,162 @@ html[data-theme="dark"] .hp-door--ki { border-color: var(--teal-light); }
 
 /* Band sits flush on the footer */
 body:has(.hp-band) footer { margin-top: 0; }
+
+/* ============================================================
+   Templates v2 — landing pages, article pages and About
+   follow the homepage: orange = The Daily Five, teal = Known Issue.
+   Everything is scoped under .pg so the homepage and legacy pages
+   (search, topics) are untouched. --pl is the pillar colour.
+   ============================================================ */
+.pg { --pl: var(--accent); --pl-deep: var(--accent-deep); --pl-text: var(--accent-deep); --pl-shadow: var(--accent); }
+.pg--ki { --pl: var(--accent-2); --pl-deep: var(--accent-2); --pl-text: var(--accent-2); --pl-shadow: var(--teal-light); }
+.pg--about { --pl: var(--ink); }
+
+/* --- masthead --------------------------------------------- */
+.pg .page-head {
+  position: relative; border-bottom: 0; margin-bottom: var(--s6);
+  padding: 26px 0 8px; border-top: 6px solid var(--pl);
+}
+.pg--about .page-head { border-image: linear-gradient(90deg, var(--accent) 50%, var(--accent-2) 50%) 6 0 0 0; }
+.pg .page-head .eyebrow {
+  display: inline-flex; align-items: center; margin-bottom: 14px; padding: 6px 10px;
+  background: var(--pl); color: #17182E; font: 700 11px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase;
+}
+.pg--ki .page-head .eyebrow { background: var(--teal-light); }
+.pg .page-head .eyebrow::before { display: none; }
+.pg .page-head h1 {
+  font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900;
+  font-size: clamp(36px, 7vw, 72px); line-height: .95; letter-spacing: -.015em; text-wrap: balance; margin-bottom: 14px;
+}
+.pg--article .page-head h1 { font-size: clamp(28px, 4.6vw, 50px); line-height: 1.04; font-variation-settings: "wdth" 118; }
+.pg .standfirst { font-style: normal; font-size: clamp(16px, 2vw, 19px); line-height: 1.55; color: var(--ink-soft); max-width: 62ch; }
+.pg .column-trigger { color: var(--ink-soft); }
+.pg .column-trigger__label { background: var(--teal-light); border-color: var(--teal-light); color: #17182E; }
+
+/* Known Issue masthead is midnight, edge to edge, like the homepage band */
+.pg--ki .page-head--pillar {
+  background: var(--dark-ground); color: var(--dark-ink); border-top-color: var(--teal-light);
+  padding: 30px 0 30px; box-shadow: 0 0 0 100vmax var(--dark-ground); clip-path: inset(0 -100vmax);
+  margin-bottom: var(--s7);
+}
+.pg--ki .page-head--pillar::before {
+  content: ""; position: absolute; inset: 0 -100vmax; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(124,195,182,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(124,195,182,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.pg--ki .page-head--pillar > * { position: relative; z-index: 1; }
+.pg--ki .page-head--pillar h1 { color: #F4F1E8; }
+.pg--ki .page-head--pillar .standfirst,
+.pg--ki .page-head--pillar .column-trigger { color: var(--dark-soft); }
+.pg--ki .page-head--pillar .page-head--column__ring { position: absolute; z-index: 0; color: var(--teal-light); opacity: .16; }
+/* landing: pull the band up to the header */
+.pg--ki > .page-head--pillar { margin-top: calc(-1 * var(--s7)); }
+
+/* --- section headings ------------------------------------- */
+.pg .column-section-title { border-bottom: 3px solid var(--ink); padding-bottom: 10px; margin: var(--s7) 0 var(--s5); }
+.pg .column-section-title h2 {
+  font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900;
+  font-size: clamp(24px, 4vw, 38px); line-height: 1; letter-spacing: -.01em;
+}
+.pg .column-section-title span { color: var(--pl-text); }
+
+/* --- featured cards (latest issue / lead column) ----------- */
+.pg .daily-featured, .pg .known-issue-featured {
+  border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--pl-shadow); background: var(--surface-card);
+}
+.pg .daily-featured__thumb, .pg .known-issue-featured__thumb { border: 2px solid var(--ink); }
+.pg .daily-featured__title, .pg .known-issue-featured__title {
+  font-variation-settings: "wdth" 118; font-weight: 800; letter-spacing: -.02em;
+}
+.pg .daily-featured__title a:hover, .pg .known-issue-featured__title a:hover { color: var(--pl-text); }
+.pg .daily-featured__eyebrow, .pg .known-issue-featured__eyebrow { color: var(--pl-text); }
+.pg .pill-tag--primary { background: var(--pl); color: #17182E; border-color: var(--pl); }
+.pg--ki .pill-tag--primary { background: var(--teal-light); border-color: var(--teal-light); }
+.pg .pill-tag--known-issue { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+.pg--ki .known-issue-featured { background: var(--dark-ground); border-color: var(--dark-ground); color: var(--dark-ink); }
+.pg--ki .known-issue-featured__title a { color: #F4F1E8; }
+.pg--ki .known-issue-featured__desc { color: var(--dark-soft); }
+.pg--ki .known-issue-featured__eyebrow { color: var(--teal-light); }
+.pg--ki .known-issue-featured .entry__footer { border-top-color: var(--dark-rule) !important; }
+.pg--ki .known-issue-featured .entry__cta { color: var(--teal-light); }
+.pg--ki .known-issue-featured .pill-tag--muted { color: var(--dark-soft); border-color: var(--dark-rule); background: transparent; }
+.pg--ki .known-issue-featured__thumb { border-color: var(--teal-light); }
+html[data-theme="dark"] .pg--ki .known-issue-featured { border-color: var(--teal-light); }
+
+/* --- archive rows ----------------------------------------- */
+.pg .archive-row-list { border-top: 3px solid var(--ink); }
+.pg .archive-row__thumb { border: 2px solid var(--ink); }
+.pg .archive-row__thumb::before { background-color: var(--pl); }
+.pg--ki .archive-row__thumb::before { background-color: var(--teal-light); }
+.pg .archive-row__title a:hover { color: var(--pl-text); }
+.pg .entry__cta { color: var(--pl-text); }
+.pg .archive-month-title { font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900; }
+.pg .archive-filter-btn.is-active { background: var(--pl); border-color: var(--ink); color: #17182E; }
+.pg--ki .archive-filter-btn.is-active { background: var(--teal-light); }
+
+/* --- Known Issue tenets and tip box ------------------------ */
+.pg--ki .column-manifesto--compact .column-manifesto__card { border-top-color: var(--accent-2) !important; }
+.pg--ki .column-tip-box, .pg--about .column-tip-box {
+  background: var(--dark-ground); color: var(--dark-ink); border: 2px solid var(--dark-ground); box-shadow: 6px 6px 0 var(--teal-light);
+}
+.pg--ki .column-tip-box h3, .pg--about .column-tip-box h3 { color: #F4F1E8; }
+.pg--ki .column-tip-box p, .pg--about .column-tip-box p { color: var(--dark-soft); }
+.pg--ki .column-tip-box a, .pg--about .column-tip-box a { color: var(--teal-light); }
+
+/* --- article pages ---------------------------------------- */
+.pg--article .article-breadcrumb a { color: var(--pl-text); }
+.pg--article .article__meta { border-top: 0; }
+.pg--article #article-lead-image.article-hero,
+.pg--article .article-hero { border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--pl-shadow); }
+.pg--article .article-hero__caption { border-top: 2px solid var(--ink); }
+.pg--article .prose a { color: var(--pl-text); text-decoration-color: var(--pl); }
+.pg--article .prose blockquote { border-left: 4px solid var(--pl); }
+.pg--article .prose h2 { font-family: var(--display); font-variation-settings: var(--display-normal); font-weight: 800; }
+.pg--article .chip--primary { background: var(--pl); border-color: var(--ink); color: #17182E; }
+.pg--ki.pg--article .chip--primary { background: var(--teal-light); }
+.pg--article .story-footer-card { border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--pl-shadow); }
+
+/* Known Issue column parts: teal, not the brief's blue/orange */
+.pg--ki .column-callout--money { border: 2px solid var(--accent-2); background: var(--accent-2-subtle); }
+.pg--ki .column-pullquote { border-left: 5px solid var(--accent-2); }
+.pg--ki .column-verdict { border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--teal-light); }
+
+/* Daily Five issue: numbered, image-first stories */
+.pg--daily .brief__item { border-top: 3px solid var(--ink); }
+.pg--daily .brief__item .brief__num { background: var(--accent); color: #17182E; border: 2px solid var(--ink); }
+.pg--daily .brief__figure, .pg--daily .brief__card { border: 2px solid var(--ink); }
+.pg--daily .brief__head h2 { font-variation-settings: "wdth" 118; font-weight: 800; letter-spacing: -.015em; }
+.pg--daily .brief__more a { color: var(--accent-deep); }
+.pg--daily .issue-jump-pill__num { background: var(--accent); color: #17182E; }
+.pg--daily .edition-nav__link:hover .edition-nav__title { color: var(--accent-deep); }
+
+/* --- About ------------------------------------------------- */
+.pg--about .about-pillar-card { border: 2px solid var(--ink); position: relative; }
+.pg--about .about-pillar-card--daily { border-top: 8px solid var(--accent); box-shadow: 6px 6px 0 var(--accent); background: var(--surface-card); }
+.pg--about .about-pillar-card--ki {
+  border-color: var(--dark-ground); border-top: 8px solid var(--teal-light); box-shadow: 6px 6px 0 var(--teal-light);
+  background: var(--dark-ground); color: var(--dark-ink);
+}
+html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--teal-light); }
+.pg--about .about-pillar-card--ki h3, .pg--about .about-pillar-card--ki strong { color: #F4F1E8; }
+.pg--about .about-pillar-card--ki p, .pg--about .about-pillar-card--ki li,
+.pg--about .about-pillar-card--ki .about-pillar-card__philosophy h4 { color: var(--dark-soft) !important; }
+.pg--about .about-pillar-card--ki .about-pillar-card__eyebrow { color: var(--teal-light); }
+.pg--about .about-pillar-card--ki .dispatch-card__link { color: var(--teal-light); }
+.pg--about .about-pillar-card--daily .about-pillar-card__eyebrow { color: var(--accent-deep); }
+.pg--about .about-pillar-card h3 { font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900; font-size: clamp(24px, 3vw, 32px); }
+.pg--about .about-profile { border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
+.pg--about .about-standards-card, .pg--about .column-manifesto__card { border: 2px solid var(--ink); }
+.pg--about .dispatch-card__link { font-weight: 700; }
+@media (max-width: 640px) { .pg--ki > .page-head--pillar { margin-top: calc(-1 * var(--s6)); } }
+
+/* Legacy .page-head--column is midnight; only Known Issue keeps that. */
+.pg--daily .page-head--pillar, .pg--about .page-head--pillar { background: transparent; color: var(--ink); box-shadow: none; clip-path: none; }
+.pg--daily .page-head--pillar h1, .pg--about .page-head--pillar h1 { color: var(--ink); }
+.pg--daily .page-head--pillar .standfirst, .pg--about .page-head--pillar .standfirst { color: var(--ink-soft); }
+.pg--daily .page-head--pillar .eyebrow { color: #17182E; }
+.pg .daily-featured__fourpart dd { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.pg .page-head--pillar { border: 0; border-top: 6px solid var(--pl); overflow: visible; padding-inline: 0; }
+.pg--ki .page-head--pillar { border-top-color: var(--teal-light); }
+.pg--about .page-head--pillar { border-image: linear-gradient(90deg, var(--accent) 50%, var(--accent-2) 50%) 6 0 0 0; }
+.pg--about .page-head--pillar .eyebrow { background: var(--accent); color: #17182E; }

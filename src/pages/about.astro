@@ -6,8 +6,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   description="Long Press is a daily tech brief by Swami, eleven years leading product at Condé Nast and Newsweek. Five stories each morning, plus a column on what stays broken."
   wide
 >
+  <div class="pg pg--about">
   <!-- Masthead -->
-  <div class="page-head" id="about-head">
+  <div class="page-head page-head--pillar" id="about-head">
     <span class="eyebrow">Masthead</span>
     <h1>About Long Press</h1>
     <p class="standfirst">
@@ -52,7 +53,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <div class="about-pillars-grid">
       <!-- Pillar 1: The Daily Five -->
-      <div class="about-pillar-card" id="cadence">
+      <div class="about-pillar-card about-pillar-card--daily" id="cadence">
         <span class="about-pillar-card__eyebrow">Pillar 01 &middot; The morning brief</span>
         <h3>The Daily Five</h3>
         <p>
@@ -74,7 +75,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
 
       <!-- Pillar 2: Known Issue -->
-      <div class="about-pillar-card" id="known-issue">
+      <div class="about-pillar-card about-pillar-card--ki" id="known-issue">
         <span class="about-pillar-card__eyebrow">Pillar 02 &middot; The column</span>
         <h3>Known Issue</h3>
         <p>
@@ -158,5 +159,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p>
       Tips, corrections, or a story about something quietly broken where you work: <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>. Published from Bengaluru (IST).
     </p>
+  </div>
   </div>
 </BaseLayout>
