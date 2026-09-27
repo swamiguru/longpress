@@ -4951,3 +4951,8 @@ html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--
   .footer__nav-list li { display: flex; align-items: center; }
   .footer__nav-list li:has(> a[href="https://www.builtbyswami.com"]) { display: none; }
 }
+
+/* Band meets the footer exactly: no negative margin tied to main's padding,
+   which differs on mobile and let the band cover the footer's top edge. */
+main:has(.hp-band) { padding-bottom: 0; }
+.hp-band { margin-bottom: 0; }
