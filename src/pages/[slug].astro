@@ -87,19 +87,30 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
       <div class="column-structure" aria-label="Known Issue analysis">
         {d.whoBenefits && (
           <div class="column-callout column-callout--money">
-            <span class="column-callout__label">Plain about the money</span>
+            <span class="column-callout__label">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7v10M9 9.5c0-1.1 1.3-2 3-2s3 .9 3 2-1.3 1.7-3 2-3 .9-3 2 1.3 2 3 2 3-.9 3-2"></path></svg>
+              Plain about the money
+            </span>
             <p>{d.whoBenefits}</p>
+            <span class="column-structure__mark" aria-hidden="true">01</span>
           </div>
         )}
         {d.operatorsRead && (
           <div class="column-pullquote">
+            <span class="column-pullquote__mark" aria-hidden="true">&ldquo;</span>
             <span class="column-pullquote__label">The operator&rsquo;s read</span>
             <p>{d.operatorsRead}</p>
+            <span class="column-structure__mark" aria-hidden="true">02</span>
           </div>
         )}
         {d.verdict && (
           <div class="column-verdict">
-            <span class={`column-verdict__badge column-verdict__badge--${d.verdict}`}>{d.verdict}</span>
+            <div class={`column-verdict__stamp column-verdict__stamp--${d.verdict}`}>
+              <span class="column-verdict__ring" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="3" fill="currentColor"></circle></svg>
+              </span>
+              <span class="column-verdict__badge">{d.verdict}</span>
+            </div>
             {d.verdictNote && <p class="column-verdict__note">{d.verdictNote}</p>}
           </div>
         )}
@@ -181,33 +192,58 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
     vertical-align: middle;
   }
 
+  /* ============================================================
+     Known Issue structure v2: a dossier, not a form -- each block
+     carries its own color, a ghost index number, and a distinct
+     shape so the four-part read scans at a glance.
+     ============================================================ */
   .column-structure {
     display: flex;
     flex-direction: column;
-    gap: var(--s5);
+    gap: 18px;
     margin-top: var(--s6);
   }
 
-  .column-callout {
-    padding: var(--s5);
-    background: var(--surface);
-    border: 1.5px solid var(--rule);
+  .column-structure__mark {
+    position: absolute;
+    right: 14px;
+    bottom: 6px;
+    font-family: var(--display);
+    font-variation-settings: "wdth" 118;
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--ink);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
   }
-  .column-callout--money {
+
+  .column-callout {
+    position: relative;
+    overflow: hidden;
+    padding: 20px 22px;
     background: var(--accent-2-subtle);
-    border-color: rgba(62, 124, 116, 0.35);
+    border: 2px solid var(--accent-2);
+    box-shadow: 4px 4px 0 0 rgba(62, 124, 116, 0.22);
   }
   .column-callout__label {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     margin-bottom: 10px;
+    padding: 4px 10px;
+    background: var(--accent-2);
     font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: var(--accent-2);
+    color: #FFFFFF;
   }
   .column-callout p {
+    position: relative;
+    z-index: 1;
     margin: 0;
     font-size: 16px;
     line-height: 1.62;
@@ -216,11 +252,27 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
   }
 
   .column-pullquote {
-    padding: var(--s5) var(--s5);
-    border-left: 4px solid var(--ink-soft);
+    position: relative;
+    overflow: hidden;
+    padding: 22px 26px 22px 30px;
+    border: 2px solid var(--ink);
+    border-left: 8px solid var(--ink);
     background: var(--surface);
   }
+  .column-pullquote__mark {
+    position: absolute;
+    top: -18px;
+    left: 8px;
+    font-family: var(--display);
+    font-size: 100px;
+    line-height: 1;
+    color: var(--ink);
+    opacity: 0.08;
+    pointer-events: none;
+  }
   .column-pullquote__label {
+    position: relative;
+    z-index: 1;
     display: inline-block;
     margin-bottom: 10px;
     font-family: var(--mono);
@@ -231,6 +283,8 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
     color: var(--muted);
   }
   .column-pullquote p {
+    position: relative;
+    z-index: 1;
     margin: 0;
     font-style: italic;
     font-size: 1.08em;
@@ -241,47 +295,55 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 
   .column-verdict {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: var(--s5);
-    border: 1.5px solid var(--rule-strong);
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 22px;
+    border: 2px dashed var(--rule-strong);
     background: var(--ground);
   }
-  .column-verdict__badge {
+  .column-verdict__stamp {
     display: inline-flex;
     align-items: center;
-    padding: 7px 18px;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 9px 20px 9px 14px;
+    border: 3px solid currentColor;
+    border-radius: 999px;
+    transform: rotate(-3deg);
+    box-shadow: 3px 3px 0 0 currentColor;
+  }
+  .column-verdict__ring { display: inline-flex; }
+  .column-verdict__badge {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
-  .column-verdict__badge--buy {
-    background: var(--accent-2);
-    color: #FFFFFF;
-  }
-  .column-verdict__badge--wait {
-    background: var(--accent);
-    color: #111625;
-  }
-  .column-verdict__badge--skip {
-    background: var(--accent-deep);
-    color: #FFFFFF;
-  }
+  .column-verdict__stamp--buy { color: var(--accent-2); }
+  .column-verdict__stamp--wait { color: var(--accent-deep); }
+  .column-verdict__stamp--skip { color: #B3261E; }
   .column-verdict__note {
+    flex: 1 1 220px;
     margin: 0;
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.62;
+    line-height: 1.55;
     color: var(--ink);
     max-width: var(--measure);
   }
 
+  html[data-theme="dark"] .column-callout { background: rgba(62, 124, 116, 0.16); }
+  html[data-theme="dark"] .column-pullquote { border-color: var(--dark-rule, #3A3B5C); border-left-color: var(--teal-light); }
+  html[data-theme="dark"] .column-verdict__stamp--skip { color: #FF6B5E; }
+
   @media (max-width: 640px) {
     .column-callout,
-    .column-verdict { padding: var(--s4); }
-    .column-pullquote { padding: var(--s4); }
+    .column-pullquote { padding: 16px 18px; }
+    .column-callout { border-left-width: 2px; }
+    .column-pullquote { border-left-width: 6px; padding-left: 22px; }
+    .column-verdict { padding: 14px 16px; gap: 14px; }
+    .column-structure__mark { font-size: 42px; right: 10px; }
   }
 </style>
