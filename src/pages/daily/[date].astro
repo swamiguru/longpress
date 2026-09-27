@@ -5,6 +5,8 @@ import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
+import { getResponsiveImage } from '../../lib/images';
+import { fallbackFor } from '../../lib/fallbacks';
 
 export async function getStaticPaths() {
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
@@ -31,7 +33,7 @@ const { brief, prevBrief, nextBrief, totalCount } = Astro.props;
 const { Content } = await render(brief);
 const d = brief.data;
 const items = [...d.items].sort((a, b) => a.slot - b.slot);
-const OPINION = ['hot-take', 'myth-buster', 'known-issue'];
+const OPINION = ['commentary', 'hot-take', 'myth-buster', 'known-issue'];
 const label = (k: string) => k.replace(/-/g, ' ');
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' });
 const shortDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short' });
@@ -48,21 +50,19 @@ const ANALYSIS = [
 <BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date}>
   <div class="pg pg--daily pg--article">
   <article>
-    <div class="page-head page-head--pillar">
+    <div class="page-head page-head--pillar page-head--brief">
       <span class="eyebrow">The Daily Five</span>
       <h1>{d.title}</h1>
-      <div class="article__meta" style="margin-top: var(--s3); margin-bottom: 0;">
-        <span class="dateline">By {d.author}</span>
-        <span class="dateline">&middot;</span>
-        <time class="dateline" datetime={d.date.toISOString()}>{long.format(d.date)}</time>
-        <span class="dateline">&middot;</span>
-        <span class="dateline reading-time">{readingTime.text}</span>
-      </div>
-      {d.intro && <p class="standfirst" style="margin-top: var(--s4)">{d.intro}</p>}
+      <p class="brief-meta">
+        <span>By {d.author}</span>
+        <time datetime={d.date.toISOString()}>{long.format(d.date)}</time>
+        <span>{readingTime.text}</span>
+      </p>
+      {d.intro && <p class="standfirst">{d.intro}</p>}
 
       {items.length > 1 && (
         <div class="issue-jump-bar">
-          <span class="issue-jump-bar__label">In this issue:</span>
+          <span class="issue-jump-bar__label">In this issue</span>
           <nav class="issue-jump-bar__nav" aria-label="Stories in this edition">
             {items.map((item) => (
               <a href={`#story-${item.slot}`} class="issue-jump-pill">
@@ -73,54 +73,51 @@ const ANALYSIS = [
           </nav>
         </div>
       )}
-
-      <div style="margin-top: var(--s4);">
-        <ShareButtons
-          title={d.title}
-          description={d.description}
-        />
-      </div>
     </div>
 
-    <ol class="brief">
+    <ol class="stories">
       {items.map((item, i) => {
         const analysis = ANALYSIS.filter(([k]) => item[k as keyof typeof item]);
+        const img = getResponsiveImage(item.image ?? fallbackFor(item.kind, d.date), {
+          aspectRatio: '1/1',
+          customSizes: '(max-width: 859px) 100vw, 250px',
+        });
+        const heading = item.heading;
         return (
           <>
             {i === 2 && <li class="ad-row"><AdSlot placement="brief" /></li>}
-            <li id={`story-${item.slot}`} class={`brief__item${OPINION.includes(item.kind) ? ' brief__item--opinion' : ''}`}>
+            <li id={`story-${item.slot}`} class={`story${OPINION.includes(item.kind) ? ' story--opinion' : ''}`}>
               <span id={`slot-${item.slot}`} class="slot-anchor" aria-hidden="true"></span>
-              <span id={item.heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} class="slot-anchor" aria-hidden="true"></span>
-              <div class="brief__head">
-                <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
-                <div>
-                  <span class="eyebrow brief__kind">{label(item.kind)}</span>
-                  <h2>{item.heading}</h2>
+              <span id={heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} class="slot-anchor" aria-hidden="true"></span>
+              <div class="story__grid">
+                <div class="story__media">
+                  <img
+                    class="story__img"
+                    src={img.src}
+                    srcset={img.srcset}
+                    sizes={img.sizes}
+                    width={img.width}
+                    height={img.height}
+                    alt={item.imageAlt || ''}
+                    loading={i < 1 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                  <div class="story__chips">
+                    <span class="story__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
+                    <span class="story__kind">{label(item.kind)}</span>
+                  </div>
+                </div>
+                <h2 class="story__title">{heading}</h2>
+                <div class="story__body">
+                  {item.body && <p class="story__text">{item.body}</p>}
+                  {item.story && (
+                    <>
+                      <p class="story__text">{item.teaser}</p>
+                      <p class="brief__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
+                    </>
+                  )}
                 </div>
               </div>
-
-              {item.image && (
-                <ResponsiveImage
-                  src={item.image}
-                  alt={item.imageAlt || item.heading}
-                  caption={item.imageCaption}
-                  aspectRatio="1/1"
-                  sizes="(max-width: 640px) 100vw, 792px"
-                  loading="lazy"
-                  figureClass="brief__figure"
-                  captionClass="brief__caption"
-                  class="brief__card"
-                />
-              )}
-
-              {item.body && <p class="brief__body">{item.body}</p>}
-
-              {item.story && (
-                <>
-                  <p class="brief__body">{item.teaser}</p>
-                  <p class="brief__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
-                </>
-              )}
 
               {analysis.length > 0 && (
                 <dl class="analysis" aria-label="Analysis breakdown">

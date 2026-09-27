@@ -1,10 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ResponsiveImage from '../components/ResponsiveImage.astro';
 import AdSlot from '../components/AdSlot.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
 import ShareButtons from '../components/ShareButtons.astro';
+import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
 
 export async function getStaticPaths() {
@@ -21,6 +21,11 @@ const { Content } = await render(story);
 const d = story.data;
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 const readingTime = getArticleReadingTime(story);
+const leadSrc = d.image ?? d.heroImage ?? (d.category === 'known-issue' ? '/images/fallback/column.png' : '/images/fallback/news.png');
+const leadIsSquare = !!d.image;
+const lead = getResponsiveImage(leadSrc, { aspectRatio: leadIsSquare || !d.heroImage ? '1/1' : '16/9', customSizes: '(max-width: 759px) 100vw, 260px' });
+const leadAlt = (d.image ? d.imageAlt : d.heroImageAlt) || '';
+const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 ---
 <BaseLayout
   title={d.title}
@@ -43,58 +48,32 @@ const readingTime = getArticleReadingTime(story);
     </nav>
 
     <div class="page-head page-head--article page-head--pillar" style="margin-top: var(--s3);">
-      <span class="eyebrow" data-category={d.category}>{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
-      <h1>{d.title}</h1>
-      <p class="standfirst">{d.description}</p>
-      {d.trigger && (
-        <p class="column-trigger">
-          <span class="column-trigger__label">Not today&rsquo;s news</span>
-          {d.trigger}
-        </p>
-      )}
+      <div class={`art-head${leadSrc ? ' art-head--media' : ''}`}>
+        <div class="art-head__text">
+          <span class="eyebrow" data-category={d.category}>{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
+          <h1>{d.title}</h1>
+          <p class="standfirst">{d.description}</p>
+          {d.trigger && (
+            <p class="column-trigger">
+              <span class="column-trigger__label">Not today&rsquo;s news</span>
+              {d.trigger}
+            </p>
+          )}
+          <p class="art-meta">
+            <span>By {d.author}</span>
+            <time datetime={d.published.toISOString()}>{long.format(d.published)}</time>
+            {d.updated && <time datetime={d.updated.toISOString()}>Updated {long.format(d.updated)}</time>}
+            <span>{readingTime.text}</span>
+          </p>
+        </div>
+        {leadSrc && (
+          <figure class="art-head__media">
+            <img src={lead.src} srcset={lead.srcset} sizes={lead.sizes} width={lead.width} height={lead.height} alt={leadAlt} loading="eager" fetchpriority="high" decoding="async" id="article-lead-image" />
+            {leadCaption && <figcaption>{leadCaption}</figcaption>}
+          </figure>
+        )}
+      </div>
     </div>
-
-    <div class="article__meta">
-      <span class="dateline">By {d.author}</span>
-      <time class="dateline" datetime={d.published.toISOString()}>{long.format(d.published)}</time>
-      {d.updated && (
-        <time class="dateline" datetime={d.updated.toISOString()}>Updated {long.format(d.updated)}</time>
-      )}
-      <span class="dateline reading-time">{readingTime.text}</span>
-    </div>
-
-    <ShareButtons
-      title={d.title}
-      description={d.description}
-    />
-
-    {d.heroImage ? (
-      <ResponsiveImage
-        src={d.heroImage}
-        alt={d.heroImageAlt || d.title}
-        caption={d.heroImageCaption}
-        aspectRatio="16/9"
-        loading="eager"
-        fetchpriority="high"
-        figureClass="article-hero"
-        captionClass="article-hero__caption"
-        class="article-hero__image"
-        id="article-lead-image"
-      />
-    ) : d.image && (
-      <ResponsiveImage
-        src={d.image}
-        alt={d.imageAlt || d.title}
-        caption={d.imageCaption}
-        aspectRatio="1/1"
-        loading="eager"
-        fetchpriority="high"
-        figureClass="article-hero"
-        captionClass="article-hero__caption"
-        class="article-hero__image"
-        id="article-lead-image"
-      />
-    )}
 
     <div class="prose"><Content /></div>
 
