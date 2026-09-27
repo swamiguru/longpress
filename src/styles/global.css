@@ -4834,6 +4834,10 @@ html[data-theme="dark"] .pg--ki .known-issue-featured { border-color: var(--teal
 
 /* --- archive rows ----------------------------------------- */
 .pg .archive-row-list { border-top: 3px solid var(--ink); }
+/* Don't double the rule when a header/section-title right above already
+   draws its own bottom border -- collapse to that one line. */
+.pg .archive-month-header + .archive-row-list,
+.pg .column-section-title + .archive-row-list { border-top: 0; }
 .pg .archive-row__thumb { border: 2px solid var(--ink); }
 .pg .archive-row__thumb::before { background-color: var(--pl); }
 .pg--ki .archive-row__thumb::before { background-color: var(--teal-light); }
@@ -5081,7 +5085,7 @@ html[data-theme="dark"] .analysis .analysis__pill--catch { color: #FFC53D; }
 .story { border-top: 3px solid var(--ink); padding-top: 14px; scroll-margin-top: 84px; }
 .story:target { box-shadow: inset 0 3px 0 var(--accent); }
 .story__grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "stack" "body"; gap: 12px; }
-.story__media { grid-area: stack; position: relative; aspect-ratio: 4 / 3; border: 2px solid var(--ink); overflow: hidden; background: #0E0F1D; }
+.story__media { grid-area: stack; position: relative; aspect-ratio: 1 / 1; border: 2px solid var(--ink); overflow: hidden; background: #0E0F1D; }
 .story__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,15,29,.92) 0%, rgba(14,15,29,.45) 45%, rgba(14,15,29,0) 75%); pointer-events: none; }
 .story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .story__chips { position: absolute; z-index: 2; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: flex-start; }
