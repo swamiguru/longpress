@@ -25,7 +25,7 @@
   /* --- Ink -------------------------------------------------- */
   --ink:             #17182E;
   --ink-soft:        #3B3A50;
-  --muted:           #6C6A7E;
+  --muted:           #5F5D72;
   --muted-light:     #9A97A8;
 
   /* --- Rules ------------------------------------------------ */
@@ -111,7 +111,7 @@ html[data-theme="dark"] {
   --ink:             #F5F3FB;
   --ink-soft:        #D2CFE4;
   --muted:           #9895AE;
-  --muted-light:     #6D6B82;
+  --muted-light:     #8886A0;
 
   /* --- Rules ------------------------------------------------ */
   --rule:            #2C2D4A;
@@ -5014,3 +5014,44 @@ main:has(.hp-hero) { padding-top: 0; }
 @media (max-width: 640px) {
   .footer .footer__col.footer__col--brand:nth-child(n) { grid-column: 1 / -1; padding-bottom: 14px; margin-bottom: 2px; border-bottom: 1px solid var(--dark-rule); }
 }
+
+/* ============================================================
+   QA pass — responsive header, contrast, dark theme
+   ============================================================ */
+/* Teal as TEXT: --accent-2 is 4.3:1 on cream, so text gets its own token */
+:root { --teal-text: #2E675F; }
+html[data-theme="dark"] { --teal-text: var(--teal-light); }
+.pg--ki { --pl-text: var(--teal-text); }
+.pg--about .column-callout__label, .pg--ki .column-callout__label, .column-callout__label { color: var(--teal-text); }
+.hp-hero__sub { color: var(--ink-soft); }
+.edition-nav__disabled { color: var(--muted); }
+html[data-theme="dark"] .pg .pill-tag--known-issue { background: var(--teal-light); border-color: var(--teal-light); color: #17182E; }
+
+/* Analysis labels were dim on dark: lift each to its own light tone */
+html[data-theme="dark"] .analysis .analysis__pill--problem { color: var(--accent-light); }
+html[data-theme="dark"] .analysis .analysis__pill--breakthrough { color: var(--teal-light); }
+html[data-theme="dark"] .analysis .analysis__pill--catch { color: #FFC53D; }
+
+/* Phone header: logo + three tools were 376px in a 358px row, so the
+   hamburger was clipped. Scale the logo and tap targets down together.
+   !important because Logo.astro and the toggles ship scoped styles. */
+@media (max-width: 480px) {
+  .masthead .masthead__inner { gap: 6px !important; }
+  .masthead .brand-logo__title { font-size: 20px !important; }
+  .masthead .brand-logo__mark, .masthead .brand-logo__mark svg { width: 30px !important; height: 30px !important; }
+  .masthead .masthead__tools, .masthead .masthead__actions { gap: 4px !important; }
+  .masthead .header-search-trigger, .masthead .theme-toggle, .masthead .mobile-menu-toggle { width: 40px !important; height: 40px !important; }
+}
+@media (max-width: 370px) {
+  .masthead .brand-logo__title { font-size: 18px !important; }
+  .masthead .brand-logo__mark, .masthead .brand-logo__mark svg { width: 26px !important; height: 26px !important; }
+  .masthead .header-search-trigger, .masthead .theme-toggle, .masthead .mobile-menu-toggle { width: 36px !important; height: 36px !important; }
+}
+@media (max-width: 340px) {
+  .masthead .brand-logo__title { font-size: 16px !important; }
+  .masthead .brand-logo__mark, .masthead .brand-logo__mark svg { width: 22px !important; height: 22px !important; }
+  .masthead .header-search-trigger, .masthead .theme-toggle, .masthead .mobile-menu-toggle { width: 34px !important; height: 34px !important; }
+}
+.hp-hero__title { white-space: nowrap; }
+@media (min-width: 720px) and (max-width: 1023px) { .hp-door small { display: none; } }
+.pg--about .about-pillar-card__philosophy p { max-width: none; }
