@@ -64,20 +64,3 @@ Then there is India. It is not on the launch list, and [Business Standard](https
 Google is unlikely to drop the Googlebook the way it dropped Stadia or the Pixelbook, so that is not the reason to hold off. The reason is that the ten years cannot be checked yet.
 
 If you are in India, wait for a date and a price. Elsewhere, read the support page for your exact model before you buy.
-
-Sources:
-
-- [Googlebook pre-order announcement, Google](https://blog.google/products-and-platforms/devices/googlebook/pre-order-googlebook/)
-- [Google launches Googlebook laptops, Digit](https://www.digit.in/news/laptops/google-launches-googlebook-laptops-price-features-and-all-details.html)
-- [Googlebook launch, Business Standard](https://www.business-standard.com/technology/tech-news/googlebook-android-laptops-gemini-hp-dell-asus-acer-lenovo-launch-126092200274_1.html)
-- [What happens to Chromebooks now that Googlebooks are coming, Android Authority](https://www.androidauthority.com/google-chromebooks-future-3664970/)
-- [What the Googlebook announcement means for your ChromeOS devices, Google](https://support.google.com/chrome/a/answer/16634428)
-- [Check your Chromebook's update schedule, Google](https://support.google.com/chromebook/answer/9367166?hl=en)
-- [How many years of updates Googlebook gets, Chrome Unboxed](https://chromeunboxed.com/with-the-googlebook-launch-the-length-of-the-support-window-will-matter-a-great-deal/)
-- [Google's Pixelbook is canceled, Laptop Under Budget](https://laptopunderbudget.com/google-pixelbook-canceled/)
-- [Pixel Slate, Wikipedia](https://en.wikipedia.org/wiki/Pixel_Slate)
-- [Google reportedly cancels plans to release Pixelbook in 2023, GSMArena](https://m.gsmarena.com/google_reportedly_cancels_plans_to_release_pixelbook_in_2023-news-55759.php)
-- [Don't worry, Google won't kill Pixel the way it killed Stadia, TechRadar](https://www.techradar.com/features/dont-worry-google-wont-kill-pixel-the-way-it-killed-stadia)
-- [Leaked Aluminium OS reveals Google's Android desktop future, Forbes](https://www.forbes.com/sites/paulmonckton/2026/01/31/goodbye-chromeos-leaked-aluminium-os-reveals-googles-android-desktop-future/)
-- [Google fully details Googlebooks, 9to5Google](https://9to5google.com/2026/09/21/googlebook-launch/)
-- [Googlebook release date, price and specs, Cashify](https://www.cashify.in/googlebook-release-date-price-specs-all-details)
