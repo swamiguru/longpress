@@ -72,6 +72,7 @@ const files = readdirSync(SRC).filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)
 if (!existsSync(OUT)) mkdirSync(OUT, { recursive: true });
 
 let written = 0, skipped = 0;
+const illusStats = new Map();
 const kinds = new Map();
 const warnings = [];
 
@@ -151,6 +152,16 @@ for (const file of files) {
     // Only worth flagging from CARDS_FROM onward -- before that date an image
     // was never expected (see CARDS_FROM above), so warning about a missing
     // illustration on the old cyan-branded archive is just noise.
+    // Count generated illustrations per issue for the run summary. The homepage
+    // draws a stock fallback for any slot without one (see index.astro), so a
+    // Gemini failure never leaves a hole, but it should never go unnoticed either.
+    // The community slot never gets an illustration by design, so it is not counted.
+    if (date >= CARDS_FROM && kind !== 'community') {
+      const s = illusStats.get(date) || { ok: 0, total: 0 };
+      s.total++;
+      if (illusExists) s.ok++;
+      illusStats.set(date, s);
+    }
     if (!illusExists && p.image && date >= CARDS_FROM) {
       warnings.push(`${date} slot ${slotKey}: no text-free illustration_${slotKey} -- image omitted, not falling back to the headline-baked card`);
     }
@@ -195,4 +206,9 @@ console.log(`  kind distribution:`);
 for (const [k, v] of [...kinds].sort((a, b) => b[1] - a[1])) console.log(`     ${String(v).padStart(4)}  ${k}`);
 const opinion = (kinds.get('hot-take') || 0) + (kinds.get('myth-buster') || 0) + (kinds.get('known-issue') || 0);
 console.log(`  opinion items: ${opinion} across ${written} issues`);
+const latestIllus = [...illusStats.keys()].sort().pop();
+if (latestIllus) {
+  const { ok, total } = illusStats.get(latestIllus);
+  console.log(`  illustrations ${latestIllus}: ${ok}/${total} generated, ${total - ok} fallback${total - ok ? '  <-- Gemini fell short, check the run' : ''}`);
+}
 if (warnings.length) { console.log(`\n  warnings (${warnings.length}):`); warnings.forEach((w) => console.log(`     ! ${w}`)); }

@@ -80,6 +80,8 @@ async function main() {
   await processDir('public/images/daily', DAILY_SIZES);
   // Known Issue illustrations are square, same as Daily Five card art.
   await processDir('public/images/known-issue', DAILY_SIZES);
+  // Fallback illustrations (scripts/make-fallbacks.mjs) are square too.
+  await processDir('public/images/fallback', DAILY_SIZES);
   console.log('Responsive image optimization complete.');
 }
 

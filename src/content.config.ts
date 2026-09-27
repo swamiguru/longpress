@@ -94,6 +94,13 @@ const stories = defineCollection({
      * than a longer news item. Never flatten these into body prose - they
      * are the structure, not decoration.
      */
+    /**
+     * Year the problem started, e.g. 2014. Optional. When set, the homepage's
+     * featured column shows "N years open" on its image. Leave it out and
+     * nothing renders.
+     */
+    openSince: z.number().int().min(1990).optional(),
+
     /** "Not today's news." What's been true for months, and why this is worth saying now rather than at launch. */
     trigger: z.string().optional(),
     /** "Plain about the money." Who benefits from the thing staying broken - usually the part nobody prints. */

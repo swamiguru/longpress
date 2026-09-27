@@ -2,35 +2,79 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
-import ResponsiveImage from '../components/ResponsiveImage.astro';
+import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const today = briefs[0];
-const earlier = briefs.slice(1, 7);
+const archive = briefs.slice(1, 5);
 
-const stories = (await getCollection('stories', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  .slice(0, 5);
-const leadStory = stories[0];
-const restStories = stories.slice(1);
+const allStories = (await getCollection('stories', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const featured = allStories[0];
+const earlier = allStories.slice(1, 4);
 
-const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' });
+const dayFmt = new Intl.DateTimeFormat('en-IN', { day: '2-digit', timeZone: 'UTC' });
+const monFmt = new Intl.DateTimeFormat('en-IN', { month: 'short', timeZone: 'UTC' });
+const wdFmt = new Intl.DateTimeFormat('en-IN', { weekday: 'short', timeZone: 'UTC' });
 const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
 const label = (k: string) => k.replace(/-/g, ' ');
-const OPINION = ['hot-take', 'myth-buster', 'known-issue'];
-const hasOpinionToday = Boolean(today?.data.items.some((i) => OPINION.includes(i.kind)));
+const OPINION_TAG = ['commentary', 'hot-take', 'myth-buster', 'known-issue'];
 
 /** Short one-line teaser for a brief item that has no dedicated `teaser` field. */
-function excerpt(text: string | undefined, max = 130): string {
+function excerpt(text: string | undefined, max = 150): string {
   if (!text) return '';
   const clean = text.replace(/\s+/g, ' ').trim();
   if (clean.length <= max) return clean;
   const cut = clean.slice(0, max);
   const lastSpace = cut.lastIndexOf(' ');
-  return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}\u2026`;
+  return `${cut.slice(0, lastSpace > 0 ? lastSpace : max)}…`;
 }
+
+/**
+ * Fallback illustrations (public/images/fallback, drawn by scripts/make-fallbacks.mjs).
+ * Used whenever a story has no generated illustration: a Gemini timeout or outage,
+ * a missing file, or the community poll slot, which never gets one. NEVER the
+ * headline-baked card_N, which would print the title twice under the overlay.
+ */
+const FALLBACK_BY_KIND: Record<string, string> = {
+  commentary: 'commentary',
+  'hot-take': 'commentary',
+  'known-issue': 'commentary',
+  'myth-buster': 'myth',
+  tip: 'tip',
+};
+const dayNumber = (d: Date) => Math.floor(d.getTime() / 86_400_000);
+function fallbackFor(kind: string, date: Date): string {
+  // Community rotates through three images by date, so it never repeats two days running.
+  if (kind === 'community') return `/images/fallback/community-${(dayNumber(date) % 3) + 1}.png`;
+  return `/images/fallback/${FALLBACK_BY_KIND[kind] ?? 'news'}.png`;
+}
+
+const tiles = today
+  ? today.data.items.slice(0, 5).map((item, i) => {
+      const generated = Boolean(item.image);
+      const src = item.image ?? fallbackFor(item.kind, today.data.date);
+      const sizes = i === 0 ? '(max-width: 719px) 100vw, 520px' : '(max-width: 719px) 50vw, 256px';
+      return { item, generated, img: getResponsiveImage(src, { aspectRatio: '1/1', customSizes: sizes }) };
+    })
+  : [];
+const communityCount = tiles.filter((t) => t.item.kind === 'community').length;
+const fallbackCount = tiles.filter((t) => !t.generated && t.item.kind !== 'community').length;
+if (today && fallbackCount > 0) {
+  console.warn(`[homepage] ${today.id}: ${fallbackCount} of ${tiles.length - communityCount} Daily Five illustrations fell back to a stock illustration`);
+}
+
+/** Known Issue image: square illustration, else the 16:9 hero, else the column fallback. */
+function kiImage(s: (typeof allStories)[number], sizes: string) {
+  if (s.data.image) return getResponsiveImage(s.data.image, { aspectRatio: '1/1', customSizes: sizes });
+  if (s.data.heroImage) return getResponsiveImage(s.data.heroImage, { aspectRatio: '16/9', customSizes: sizes });
+  return getResponsiveImage('/images/fallback/column.png', { aspectRatio: '1/1', customSizes: sizes });
+}
+const featuredImg = featured ? kiImage(featured, '(max-width: 719px) 100vw, 600px') : null;
+const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured.data.openSince : null;
 ---
 <BaseLayout
   title="Long Press - five tech stories every morning, with an honest take"
@@ -38,310 +82,200 @@ function excerpt(text: string | undefined, max = 130): string {
   bare
   wide
 >
-  <!-- Hero: intro + today's issue preview -->
-  <div class="hero-grid" id="homepage-hero">
-    <div class="hero-intro">
-      <span class="stamp-badge" style="display: block; width: fit-content; margin-bottom: var(--s3);">Issue {briefs.length}</span>
-      <span class="eyebrow">The Daily Five &middot; Latest issue</span>
-      <h1 class="page-head__title">Press and hold.</h1>
-      <p class="standfirst">
-        Everyone else tells you what happened. We stay on it a beat longer &mdash;
-        five stories every morning, with an honest take on which ones actually matter.
-      </p>
-      {today && (
-        <div class="hero-intro__actions">
-          <a href={path(today)} class="chip chip--primary chip--pill" id="cta-read-today">
-            Read Today&rsquo;s Brief &rarr;
-          </a>
-          <a href="/daily" class="chip chip--secondary chip--pill" id="cta-all-issues">
-            All Issues ({briefs.length})
-          </a>
-        </div>
-      )}
-    </div>
-
-    {today && (
-      <a href={path(today)} class="hero-preview" id="today-hero-preview" aria-labelledby="today-hero-preview-title">
-        <span class="hero-preview__eyebrow">Today&rsquo;s issue &middot; {med.format(today.data.date)}</span>
-        <h2 id="today-hero-preview-title" class="hero-preview__title">{today.data.title}</h2>
-        <p class="hero-preview__desc">{today.data.description}</p>
-        <div class="hero-preview__tags">
-          {hasOpinionToday && <span class="hero-preview__tag hero-preview__tag--accent">Hot take inside</span>}
-          <span class="hero-preview__tag">{today.data.items.length} items &middot; {getArticleReadingTime(today).text}</span>
-        </div>
-      </a>
-    )}
-  </div>
-
-  <!-- 1. Today's Five — every item in this morning's brief, as a real list -->
-  {today && (
-    <section class="section" aria-labelledby="todays-five-heading" id="section-todays-five">
-      <div class="column-section-title">
-        <span class="kicker-chip">5 Stories &middot; 10:00 IST</span>
-        <div class="column-section-title__row">
-          <div>
-            <span class="section__eyebrow">The morning brief</span>
-            <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
-            <p class="section__sub">Five stories, sourced and broken down the same way, every morning at 10:00 IST.</p>
-          </div>
-          <a href={path(today)} class="section__link-pill" id="link-read-full-issue">
-            <span>Read the full issue &rarr;</span>
-          </a>
-        </div>
+<div class="hp">
+  <!-- Hero: the two ways in -->
+  <section class="hp-hero" id="homepage-hero" aria-label="Long Press">
+    <div class="hp-hero__grid">
+      <div>
+        <h1 class="hp-hero__title">Press <span>and</span> hold.</h1>
+        <p class="hp-hero__sub">Everyone else tells you what happened. We stay on it a beat longer.</p>
       </div>
-      <ol class="daily-list">
-        {today.data.items.map((item) => (
-          <li class="daily-list__item" id={`daily-list-slot-${item.slot}`}>
-            <span class="brief__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
-            <div>
-              <span class="eyebrow brief__kind">{label(item.kind)}</span>
-              <h3><a href={`${path(today)}#story-${item.slot}`}>{item.heading}</a></h3>
-              <p class="daily-list__teaser">{excerpt(item.body || item.teaser)}</p>
-            </div>
-            {item.image && (
-              <a
-                href={`${path(today)}#story-${item.slot}`}
-                class="daily-list__thumb"
-                aria-hidden="true"
-                tabindex="-1"
-              >
-                <ResponsiveImage
-                  src={item.image}
-                  alt=""
-                  aspectRatio="1/1"
-                  sizes="96px"
-                />
-              </a>
-            )}
+      <div class="hp-doors">
+        <a class="hp-door hp-door--daily" href={today ? path(today) : '/daily'} id="cta-read-today">
+          <small>Happened this morning</small>
+          <strong>The Daily Five &rarr;</strong>
+          <span>Five stories at 10:00 IST.</span>
+        </a>
+        <a class="hp-door hp-door--ki" href="/known-issue" id="cta-known-issue-door">
+          <small>Broken for months</small>
+          <strong>Known Issue &rarr;</strong>
+          <span>Written by Swami. No schedule.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Today's Five -->
+  {today && (
+    <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
+      <div class="hp-shead">
+        <div>
+          <p class="hp-kick hp-kick--daily"><i aria-hidden="true"></i>Today &middot; {med.format(today.data.date)} &middot; 10:00 IST</p>
+          <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
+          <p class="hp-shead__sub">Five tech stories every morning at 10:00 IST, each one taken apart the same way.</p>
+          <p class="hp-labels"><b>The problem</b> &middot; <b>What changed</b> &middot; <b>The catch</b> &middot; <b>What it means for you</b></p>
+        </div>
+        <a href={path(today)} class="hp-btn" id="link-read-full-issue">Read the full issue &rarr;</a>
+      </div>
+
+      <ol class="hp-bento" data-count={tiles.length} id="daily-list">
+        {tiles.map(({ item, img }, i) => (
+          <li class:list={['hp-tile', { 'hp-tile--lead': i === 0 }]} id={`daily-list-slot-${item.slot}`}>
+            <a class="hp-tile__a" href={`${path(today)}#story-${item.slot}`}>
+              <img
+                class="hp-tile__img"
+                src={img.src}
+                srcset={img.srcset}
+                sizes={img.sizes}
+                width={img.width}
+                height={img.height}
+                alt=""
+                loading={i === 0 ? 'eager' : 'lazy'}
+                fetchpriority={i === 0 ? 'high' : 'auto'}
+                decoding="async"
+              />
+              <span class="hp-tile__scrim" aria-hidden="true"></span>
+              <span class="hp-tile__top">
+                <span class="hp-tile__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
+                <span class:list={['hp-tag', { 'hp-tag--op': OPINION_TAG.includes(item.kind) }]}>{label(item.kind)}</span>
+              </span>
+              <div class="hp-tile__tx">
+                <h3 class="hp-tile__title">{item.heading}</h3>
+                {i === 0 && <p class="hp-tile__ex">{excerpt(item.body || item.teaser)}</p>}
+              </div>
+            </a>
           </li>
         ))}
       </ol>
     </section>
   )}
 
-  <!-- Ad Slot -->
-  <AdSlot placement="hub" />
-
-  <!-- 2. Known Issue — The Standing Opinion Column -->
-  {stories.length > 0 && (
-    <section class="section" aria-labelledby="heading-known-issue" id="section-known-issue">
-      <div class="section__head">
-        <span class="kicker-chip">Opinion Column &middot; No Schedule</span>
-        <div class="section__head__row">
-          <div>
-            <span class="section__eyebrow">The column</span>
-            <h2 id="heading-known-issue">Known Issue</h2>
-            <p class="section__sub">The things in Apple, Google, Meta, Android, iOS and everyday apps that have been broken long enough to count as a decision.</p>
-          </div>
-          <a href="/known-issue" class="section__link-pill" id="link-known-issue-hub">
-            <span>Every column ({stories.length}) &rarr;</span>
-          </a>
-        </div>
+  <!-- 2. The Daily Five Archive -->
+  {archive.length > 0 && (
+    <section class="hp-archive" aria-labelledby="heading-daily-archive" id="section-daily-archive">
+      <div class="hp-shead">
+        <h2 id="heading-daily-archive">The Daily Five Archive</h2>
+        <a href="/daily" class="hp-btn" id="link-all-daily-archive">All {briefs.length} issues &rarr;</a>
       </div>
-
-      {leadStory && (
-        <a
-          href={`/${leadStory.data.slug}`}
-          class="known-issue-lead"
-          id={`known-issue-lead-${leadStory.data.slug}`}
-          aria-labelledby={`known-issue-lead-title-${leadStory.data.slug}`}
-        >
-          <div class="known-issue-lead__body">
-            <div class="known-issue-lead__eyebrow">
-              <span>Known Issue &middot; Opinion</span>
-              <span aria-hidden="true">&middot;</span>
-              <time datetime={leadStory.data.published.toISOString()}>{med.format(leadStory.data.published)}</time>
-              <span aria-hidden="true">&middot;</span>
-              <span>{getArticleReadingTime(leadStory).text}</span>
-            </div>
-
-            {leadStory.data.trigger && (
-              <p class="known-issue-lead__trigger">
-                <span class="known-issue-lead__trigger-label">Not today&rsquo;s news</span>
-                {leadStory.data.trigger}
-              </p>
-            )}
-
-            <h3 id={`known-issue-lead-title-${leadStory.data.slug}`} class="known-issue-lead__title">{leadStory.data.title}</h3>
-            <p class="known-issue-lead__desc">{leadStory.data.description}</p>
-
-            <span class="known-issue-lead__cta" id="cta-read-lead-opinion" aria-hidden="true">Read Opinion &rarr;</span>
-          </div>
-
-          {leadStory.data.image && (
-            <div class="known-issue-lead__thumb">
-              <ResponsiveImage
-                src={leadStory.data.image}
-                alt=""
-                aspectRatio="1/1"
-                sizes="(max-width: 640px) 110px, 220px"
-              />
-            </div>
-          )}
-        </a>
-      )}
-      {restStories.length > 0 && (
-        <ol class="known-issue-index" id="known-issue-index">
-          {restStories.map((s) => {
-          const reading = getArticleReadingTime(s);
-          return (
-            <li class="known-issue-index__item" id={`story-${s.data.slug}`}>
-              <div class="known-issue-index__body">
-                <div class="known-issue-index__meta">
-                  <span class="pill-tag pill-tag--known-issue">Known Issue &middot; Opinion</span>
-                  <span class="entry__reading-time">{reading.text}</span>
-                </div>
-                <h3 class="known-issue-index__title">
-                  <a href={`/${s.data.slug}`} id={`story-title-${s.data.slug}`}>{s.data.title}</a>
-                </h3>
-                <p class="known-issue-index__desc">{s.data.description}</p>
-                {s.data.topics && s.data.topics.length > 0 && (
-                  <div class="known-issue-index__topics">
-                    {s.data.topics.slice(0, 3).map((t: string) => (
-                      <a href={`/topics/${t}`} class="entry__topic-pill">#{t}</a>
-                    ))}
-                  </div>
-                )}
-                <div class="known-issue-index__footer">
-                  <time class="dateline" datetime={s.data.published.toISOString()}>
-                    {med.format(s.data.published)}
-                  </time>
-                  <div class="entry__actions">
-                    <button
-                      type="button"
-                      class="card-share-btn"
-                      data-share-title={`${s.data.title} — Known Issue Opinion by Swami Guru`}
-                      data-share-url={`/${s.data.slug}`}
-                      data-share-desc={s.data.description}
-                      aria-label={`Share ${s.data.title}`}
-                      title="Share article via Web Share API"
-                    >
-                      <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="18" cy="5" r="3"></circle>
-                        <circle cx="6" cy="12" r="3"></circle>
-                        <circle cx="18" cy="19" r="3"></circle>
-                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                      </svg>
-                      <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 6L9 17l-5-5"/>
-                      </svg>
-                      <span class="card-share-btn__text">Share</span>
-                    </button>
-                    <a href={`/${s.data.slug}`} class="entry__cta" id={`story-link-${s.data.slug}`} aria-label={`Read ${s.data.title}`}>
-                      Read Piece &rarr;
-                    </a>
-                  </div>
-                </div>
-              </div>
-              {s.data.image && (
-                <a
-                  href={`/${s.data.slug}`}
-                  class="known-issue-index__thumb"
-                  aria-hidden="true"
-                  tabindex="-1"
-                >
-                  <ResponsiveImage
-                    src={s.data.image}
-                    alt=""
-                    aspectRatio="1/1"
-                    sizes="(max-width: 640px) 84px, 120px"
-                  />
-                </a>
-              )}
-            </li>
-          );
-        })}
-        </ol>
-      )}
-
-      <div class="known-issue-strip" id="known-issue-desk-callout">
-        <div class="known-issue-strip__text">
-          <strong>Known Issue Column:</strong>
-          <span>The things in Apple, Google, Meta and the apps you use daily that stay broken.</span>
-        </div>
-        <a href="/known-issue" class="entry__cta" style="font-weight: 700; white-space: nowrap;">
-          About the Column &rarr;
-        </a>
-      </div>
-    </section>
-  )}
-
-  <!-- 3. The Daily Five Archive — Past Morning Editions -->
-  {earlier.length > 0 && (
-    <section class="section" aria-labelledby="heading-daily-archive" id="section-daily-archive">
-      <div class="section__head">
-        <div>
-          <span class="section__eyebrow">The morning brief</span>
-          <h2 id="heading-daily-archive">The Daily Five Archive</h2>
-          <p class="section__sub">Five tech stories every morning at 10:00 IST, each one taken apart the same way: the problem, what changed, the catch, and what it means for you.</p>
-        </div>
-        <a href="/daily" class="section__link-pill" id="link-all-daily-archive">
-          <span>All Issues ({briefs.length}) &rarr;</span>
-        </a>
-      </div>
-      <ul class="entries" id="daily-archive-grid">
-        {earlier.map((b) => {
-          const reading = getArticleReadingTime(b);
+      <ul class="hp-arch" id="daily-archive-grid">
+        {archive.map((b) => {
           const briefSlug = b.id.replace(/\.md$/, '');
-          const dayOfWeek = new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(b.data.date);
           return (
-            <li class="entry-card" id={`brief-${briefSlug}`}>
-              <div class="entry__meta-row">
-                <div style="display: flex; align-items: center; gap: 7px;">
-                  <time class="pill-tag pill-tag--date" datetime={b.data.date.toISOString()}>
-                    {med.format(b.data.date)}
-                  </time>
-                  <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
-                    {dayOfWeek}
-                  </span>
-                </div>
-                <span class="entry__reading-time">{reading.text}</span>
-              </div>
-              <h3 class="entry__title">
-                <a href={path(b)} id={`brief-title-${briefSlug}`}>{b.data.title}</a>
-              </h3>
-              <p class="entry__desc">{b.data.description}</p>
-              <div class="entry__footer">
-                <span class="entry__meta-note">The Daily Five &middot; 5 Stories</span>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                  <button
-                    type="button"
-                    class="card-share-btn"
-                    data-share-title={`${b.data.title} — Long Press Daily Five`}
-                    data-share-url={path(b)}
-                    data-share-desc={b.data.description}
-                    aria-label={`Share ${b.data.title}`}
-                    title="Share brief via Web Share API"
-                  >
-                    <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <circle cx="18" cy="5" r="3"></circle>
-                      <circle cx="6" cy="12" r="3"></circle>
-                      <circle cx="18" cy="19" r="3"></circle>
-                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                    </svg>
-                    <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M20 6L9 17l-5-5"/>
-                    </svg>
-                    <span class="card-share-btn__text">Share</span>
-                  </button>
-                  <a href={path(b)} class="entry__cta" id={`brief-link-${briefSlug}`} aria-label={`Read brief from ${med.format(b.data.date)}`}>
-                    Read Issue &rarr;
-                  </a>
-                </div>
-              </div>
+            <li id={`brief-${briefSlug}`}>
+              <a class="hp-ai" href={path(b)} id={`brief-link-${briefSlug}`}>
+                <time class="hp-ai__date" datetime={b.data.date.toISOString()}>
+                  <b>{dayFmt.format(b.data.date)}</b>
+                  <span>{monFmt.format(b.data.date)} &middot; {wdFmt.format(b.data.date)}</span>
+                </time>
+                <h3 class="hp-ai__t" id={`brief-title-${briefSlug}`}>{b.data.title}</h3>
+                <span class="hp-ai__meta">
+                  <span class="hp-pips" aria-hidden="true">{b.data.items.map(() => <i></i>)}</span>
+                  {b.data.items.length} stories &middot; {getArticleReadingTime(b).text}
+                </span>
+              </a>
             </li>
           );
         })}
       </ul>
+    </section>
+  )}
 
-      <div style="margin-top: var(--s6); text-align: center;">
-        <a href="/daily" class="chip chip--secondary chip--pill" style="padding: 12px 24px; font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;" id="cta-view-full-daily-archive">
-          <span>Browse All {briefs.length} Issues in The Daily Five Archive</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
+  <!-- Ad Slot -->
+  <AdSlot placement="hub" />
+
+  <!-- 3. Known Issue -->
+  {featured && featuredImg && (
+    <section class="hp-band" aria-labelledby="heading-known-issue" id="section-known-issue">
+      <div class="hp-band__in">
+        <div class="hp-shead">
+          <div>
+            <p class="hp-kick"><i aria-hidden="true"></i>Still open &middot; No schedule</p>
+            <h2 id="heading-known-issue">Known Issue</h2>
+            <p class="hp-shead__sub">The things in Apple, Google, Meta, Android, iOS and everyday apps that have been broken long enough to count as a decision.</p>
+          </div>
+          <a href="/known-issue" class="hp-btn" id="link-known-issue-hub">All {allStories.length} columns &rarr;</a>
+        </div>
+
+        <div class="hp-ki">
+          <a
+            href={`/${featured.data.slug}`}
+            class="hp-kf"
+            id={`known-issue-lead-${featured.data.slug}`}
+            aria-labelledby={`known-issue-lead-title-${featured.data.slug}`}
+          >
+            <div class="hp-kf__img">
+              <img
+                src={featuredImg.src}
+                srcset={featuredImg.srcset}
+                sizes={featuredImg.sizes}
+                width={featuredImg.width}
+                height={featuredImg.height}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="hp-kf__shade" aria-hidden="true"></div>
+              <div class="hp-chips">
+                <span class="hp-chip hp-chip--f"><i aria-hidden="true"></i>Still open</span>
+                {featured.data.trigger && <span class="hp-chip">Not today&rsquo;s news</span>}
+              </div>
+              {yearsOpen && yearsOpen > 0 && (
+                <div class="hp-years"><b>{yearsOpen}</b><span>Years since {featured.data.openSince}</span></div>
+              )}
+            </div>
+            <div class="hp-kf__body">
+              <h3 id={`known-issue-lead-title-${featured.data.slug}`} class="hp-kf__title">{featured.data.title}</h3>
+              <p class="hp-kf__desc">{featured.data.description}</p>
+              <div class="hp-kf__foot">
+                <span>
+                  <time datetime={featured.data.published.toISOString()}>{med.format(featured.data.published)}</time>
+                  &middot; {getArticleReadingTime(featured).text}
+                </span>
+                <b id="cta-read-lead-opinion">Read opinion &rarr;</b>
+              </div>
+            </div>
+          </a>
+
+          {earlier.length > 0 && (
+            <div class="hp-ke">
+              <h3 class="hp-ke__label">Earlier</h3>
+              <ol id="known-issue-index">
+                {earlier.map((s) => {
+                  const thumb = kiImage(s, '84px');
+                  return (
+                    <li class="hp-kr" id={`story-${s.data.slug}`}>
+                      <time class="hp-kd" datetime={s.data.published.toISOString()}>
+                        <b>{dayFmt.format(s.data.published)}</b>{monFmt.format(s.data.published)}
+                      </time>
+                      <div>
+                        <h3 class="hp-kr__t">
+                          <a class="hp-kr__a" href={`/${s.data.slug}`} id={`story-title-${s.data.slug}`}>{s.data.title}</a>
+                        </h3>
+                        {s.data.topics && s.data.topics.length > 0 && (
+                          <p class="hp-kr__tags">{s.data.topics.slice(0, 2).map((t: string) => `#${t}`).join(' ')}</p>
+                        )}
+                      </div>
+                      <div class="hp-kt" aria-hidden="true">
+                        <img
+                          src={thumb.src}
+                          srcset={thumb.srcset}
+                          sizes={thumb.sizes}
+                          width={thumb.width}
+                          height={thumb.height}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )}
+</div>
 </BaseLayout>
