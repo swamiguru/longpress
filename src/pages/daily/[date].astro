@@ -37,6 +37,7 @@ const OPINION = ['commentary', 'hot-take', 'myth-buster', 'known-issue'];
 const label = (k: string) => k.replace(/-/g, ' ');
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' });
 const shortDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short' });
+const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(brief);
 
 /** The press-and-hold structure, in reading order. */
@@ -53,11 +54,14 @@ const ANALYSIS = [
     <div class="page-head page-head--pillar page-head--brief">
       <span class="eyebrow">The Daily Five</span>
       <h1>{d.title}</h1>
-      <p class="brief-meta">
-        <span>By {d.author}</span>
-        <time datetime={d.date.toISOString()}>{long.format(d.date)}</time>
-        <span>{readingTime.text}</span>
-      </p>
+      <div class="byline">
+        <span class="byline__mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"></circle><circle cx="12" cy="12" r="3.2" fill="currentColor"></circle></svg></span>
+        <span class="byline__who">
+          <strong class="byline__name">{d.author}</strong>
+          <time class="byline__date" datetime={d.date.toISOString()}>{short.format(d.date)}</time>
+        </span>
+        <span class="byline__read">{readingTime.text}</span>
+      </div>
       {d.intro && <p class="standfirst">{d.intro}</p>}
 
       {items.length > 1 && (

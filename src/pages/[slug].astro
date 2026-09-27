@@ -20,6 +20,7 @@ const { story } = Astro.props;
 const { Content } = await render(story);
 const d = story.data;
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
+const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(story);
 const leadSrc = d.image ?? d.heroImage ?? (d.category === 'known-issue' ? '/images/fallback/column.png' : '/images/fallback/news.png');
 const leadIsSquare = !!d.image;
@@ -59,12 +60,17 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
               {d.trigger}
             </p>
           )}
-          <p class="art-meta">
-            <span>By {d.author}</span>
-            <time datetime={d.published.toISOString()}>{long.format(d.published)}</time>
-            {d.updated && <time datetime={d.updated.toISOString()}>Updated {long.format(d.updated)}</time>}
-            <span>{readingTime.text}</span>
-          </p>
+          <div class="byline">
+            <span class="byline__mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"></circle><circle cx="12" cy="12" r="3.2" fill="currentColor"></circle></svg></span>
+            <span class="byline__who">
+              <strong class="byline__name">{d.author}</strong>
+              <span class="byline__date">
+                <time datetime={d.published.toISOString()}>{short.format(d.published)}</time>
+                {d.updated && <> &middot; <time datetime={d.updated.toISOString()}>Updated {short.format(d.updated)}</time></>}
+              </span>
+            </span>
+            <span class="byline__read">{readingTime.text}</span>
+          </div>
         </div>
         {leadSrc && (
           <figure class="art-head__media">
