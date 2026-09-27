@@ -5160,3 +5160,10 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 .pg--article .page-head--pillar { padding-block: 18px 20px; }
 .pg--article .page-head--pillar.page-head--article { margin-top: var(--s2) !important; }
 .pg--article .article-breadcrumb { margin-bottom: 0; }
+
+/* Jump bar: constrain to the head width so the pill row scrolls */
+.pg--daily .issue-jump-bar { flex-direction: column; align-items: stretch; align-self: stretch; width: 100%; max-width: 100%; min-width: 0; gap: 8px; }
+.pg--daily .issue-jump-bar__label { text-align: left; }
+.pg--daily .issue-jump-bar__nav { width: 100%; max-width: 100%; min-width: 0; justify-content: flex-start; overflow-x: auto; overscroll-behavior-x: contain; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; padding-bottom: 6px; scroll-snap-type: x proximity; }
+.pg--daily .issue-jump-pill { scroll-snap-align: start; }
+@media (min-width: 900px) { .pg--daily .issue-jump-bar { flex-direction: row; align-items: center; gap: 12px; } .pg--daily .issue-jump-bar__nav { width: auto; flex: 1 1 auto; } }
