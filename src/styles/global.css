@@ -5120,14 +5120,17 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 .pg--article .page-head--pillar h1 { font-size: clamp(26px, 4.2vw, 42px); line-height: 1.08; }
 .pg--article .page-head--pillar .standfirst { font-size: 16px; margin-top: 10px; }
 .pg--article .column-trigger { margin-top: 10px; font-size: 13.5px; }
-/* mobile: wide banner crop above the text */
+/* mobile: full image, no crop, above the text */
 @media (max-width: 759px) {
   .art-head--media .art-head__media { order: -1; }
-  .art-head__media img { aspect-ratio: 21 / 9; }
+  .art-head__media img { aspect-ratio: 1 / 1; max-height: 78vw; }
 }
 @media (min-width: 760px) {
-  .art-head--media { grid-template-columns: minmax(0, 1fr) 240px; gap: 28px; align-items: center; }
+  .art-head--media { grid-template-columns: minmax(0, 1fr) 340px; gap: 32px; align-items: center; }
   .art-head__media img { aspect-ratio: 1 / 1; }
+}
+@media (min-width: 1100px) {
+  .art-head--media { grid-template-columns: minmax(0, 1fr) 400px; }
 }
 /* slimmer column structure */
 .pg--article .column-structure { gap: 12px; margin-top: var(--s5); }

@@ -24,7 +24,7 @@ const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric
 const readingTime = getArticleReadingTime(story);
 const leadSrc = d.image ?? d.heroImage ?? (d.category === 'known-issue' ? '/images/fallback/column.png' : '/images/fallback/news.png');
 const leadIsSquare = !!d.image;
-const lead = getResponsiveImage(leadSrc, { aspectRatio: leadIsSquare || !d.heroImage ? '1/1' : '16/9', customSizes: '(max-width: 759px) 100vw, 260px' });
+const lead = getResponsiveImage(leadSrc, { aspectRatio: leadIsSquare || !d.heroImage ? '1/1' : '16/9', customSizes: '(max-width: 759px) 100vw, (max-width: 1099px) 340px, 400px' });
 const leadAlt = (d.image ? d.imageAlt : d.heroImageAlt) || '';
 const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 ---
