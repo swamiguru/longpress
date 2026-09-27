@@ -4956,3 +4956,42 @@ html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--
    which differs on mobile and let the band cover the footer's top edge. */
 main:has(.hp-band) { padding-bottom: 0; }
 .hp-band { margin-bottom: 0; }
+
+/* ============================================================
+   Hero strip v3 — a quiet full-width ribbon, clearly separate from
+   the Today's Five section under it. Tinted ground, ink rule below,
+   small wordmark, single-line door pills.
+   ============================================================ */
+main:has(.hp-hero) { padding-top: 0; }
+.hp-hero {
+  position: relative; padding-block: 14px; margin-bottom: 30px;
+  background: var(--surface); border-bottom: 2px solid var(--ink);
+  box-shadow: 0 0 0 100vmax var(--surface); clip-path: inset(0 -100vmax);
+}
+.hp-hero::after { /* the strip's own edge, extended to the viewport */
+  content: ""; position: absolute; left: -100vmax; right: -100vmax; bottom: -2px; height: 2px; background: var(--ink);
+}
+.hp-hero__grid { gap: 12px; }
+.hp-hero__title { font-size: clamp(20px, 5vw, 26px); line-height: 1.05; letter-spacing: 0; }
+.hp-hero__sub { margin-top: 3px; font-size: 13px; line-height: 1.35; color: var(--muted); }
+.hp-doors { gap: 8px; }
+.hp-door { flex-direction: row; display: flex; align-items: baseline; gap: 8px; padding: 9px 12px; box-shadow: 3px 3px 0 var(--ink); }
+.hp-door strong { order: 1; font-size: 15px; }
+.hp-door small { order: 2; display: none; }
+.hp-door--ki { box-shadow: 3px 3px 0 var(--teal-light); }
+@media (min-width: 720px) {
+  .hp-hero__grid { grid-template-columns: 1fr auto; align-items: center; }
+  .hp-doors { min-width: 0; display: flex; }
+  .hp-door { padding: 10px 14px; }
+  .hp-door small { display: inline; font-size: 9.5px; opacity: .8; }
+  .hp-door strong { font-size: 16px; }
+}
+@media (max-width: 719px) {
+  .hp-doors { display: grid; grid-template-columns: 1fr 1fr; }
+  .hp-door { justify-content: center; }
+  .hp-door strong { font-size: 14.5px; }
+}
+.hp-daily { padding-top: 0; }
+@media (min-width: 720px) { .hp-hero__sub { white-space: nowrap; max-width: none; } }
+@media (min-width: 720px) { .hp-door, .hp-door small { white-space: nowrap; } .hp-hero__grid { grid-template-columns: minmax(0, 1fr) max-content; } }
+@media (min-width: 720px) { .hp-hero__grid { column-gap: 32px; } }
