@@ -5285,3 +5285,25 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 
 /* Homepage h1: kept for SEO and screen readers, no visible hero strip */
 .hp-h1 { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Homepage doors: mobile only. Desktop already has both links in the nav. */
+.hp-doors-m { display: none; }
+@media (max-width: 719px) {
+  main:has(.hp-doors-m) { padding-top: 0; }
+  .hp-doors-m {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    padding: 8px 0; margin-bottom: 16px;
+    background: var(--surface); border-bottom: 2px solid var(--ink);
+    box-shadow: 0 0 0 100vmax var(--surface); clip-path: inset(0 -100vmax);
+  }
+  .hp-door-m {
+    display: flex; align-items: center; justify-content: center; height: 36px;
+    font-family: var(--display); font-variation-settings: var(--display-normal); font-weight: 800; font-size: 14px; line-height: 1;
+    white-space: nowrap; text-decoration: none;
+    border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink);
+  }
+  .hp-door-m--daily, .hp .hp-door-m--daily { background: var(--accent); color: #17182E; }
+  .hp-door-m--ki, .hp .hp-door-m--ki { background: #17182E; color: #EFEDF5; box-shadow: 2px 2px 0 var(--teal-light); }
+  html[data-theme="dark"] .hp-door-m--ki { border-color: var(--teal-light); }
+  .hp-door-m:active { transform: translate(2px, 2px); box-shadow: none; }
+}

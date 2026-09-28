@@ -84,6 +84,11 @@ const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured
 >
 <div class="hp">
   <h1 class="hp-h1">Long Press: five tech stories every morning</h1>
+  <!-- Mobile only: the nav is behind the hamburger, so keep both doors in reach -->
+  <nav class="hp-doors-m" aria-label="Sections">
+    <a class="hp-door-m hp-door-m--daily" href={today ? path(today) : '/daily'} id="cta-read-today">The Daily Five &rarr;</a>
+    <a class="hp-door-m hp-door-m--ki" href="/known-issue" id="cta-known-issue-door">Known Issue &rarr;</a>
+  </nav>
 
   <!-- 1. Today's Five -->
   {today && (
