@@ -24,6 +24,9 @@ const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric
 const readingTime = getArticleReadingTime(story);
 const leadSrc = d.image ?? d.heroImage ?? (d.category === 'known-issue' ? '/images/fallback/column.png' : '/images/fallback/news.png');
 const leadIsSquare = !!d.image;
+// heroImage (no square `image` set) renders as a 16:9 crop; give it a
+// wide box to match, or the fixed square box crops its sides off.
+const leadIsWide = !leadIsSquare && !!d.heroImage;
 const lead = getResponsiveImage(leadSrc, { aspectRatio: leadIsSquare || !d.heroImage ? '1/1' : '16/9', customSizes: '(max-width: 759px) 100vw, (max-width: 1099px) 340px, 400px' });
 const leadAlt = (d.image ? d.imageAlt : d.heroImageAlt) || '';
 const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
@@ -71,9 +74,15 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
             </span>
             <span class="byline__read">{readingTime.text}</span>
           </div>
+          <ShareButtons
+            title={d.title}
+            description={d.description}
+            compact
+            class="share-bar--top"
+          />
         </div>
         {leadSrc && (
-          <figure class="art-head__media">
+          <figure class={`art-head__media${leadIsWide ? ' art-head__media--wide' : ''}`}>
             <img src={lead.src} srcset={lead.srcset} sizes={lead.sizes} width={lead.width} height={lead.height} alt={leadAlt} loading="eager" fetchpriority="high" decoding="async" id="article-lead-image" />
             {leadCaption && <figcaption>{leadCaption}</figcaption>}
           </figure>

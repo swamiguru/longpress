@@ -290,6 +290,15 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
   .share-bar--compact .share-pill.is-copied {
     width: 32px;
   }
+
+  /* Above the headline media, not after a block of copy -- the dashed
+     rule reads as a leftover divider up there, so drop it and tighten
+     the gap to the byline it sits under. */
+  .share-bar--compact.share-bar--top {
+    margin-top: var(--s3);
+    padding-top: 0;
+    border-top: 0;
+  }
 </style>
 
 <script>
