@@ -49,21 +49,23 @@ const ANALYSIS = [
   ['forYou', 'What it means for you'],
 ] as const;
 ---
-<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date}>
+<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date} wide>
   <div class="pg pg--daily pg--article">
   <article>
     <div class="page-head page-head--pillar page-head--brief">
-      <span class="eyebrow">The Daily Five</span>
-      <h1>{d.title}</h1>
-      <div class="byline">
-        <span class="byline__mark"><img src="/images/about/swami-headshot.jpg" alt="" width="38" height="38" loading="lazy" decoding="async" /></span>
-        <span class="byline__who">
-          <strong class="byline__name">{d.author}</strong>
-          <time class="byline__date" datetime={d.date.toISOString()}>{short.format(d.date)}</time>
-        </span>
-        <span class="byline__read">{readingTime.text}</span>
+      <div class="brief-head__text">
+        <span class="eyebrow">The Daily Five</span>
+        <h1>{d.title}</h1>
+        <div class="byline">
+          <span class="byline__mark"><img src="/images/about/swami-headshot.jpg" alt="" width="38" height="38" loading="lazy" decoding="async" /></span>
+          <span class="byline__who">
+            <strong class="byline__name">{d.author}</strong>
+            <time class="byline__date" datetime={d.date.toISOString()}>{short.format(d.date)}</time>
+          </span>
+          <span class="byline__read">{readingTime.text}</span>
+        </div>
+        {d.intro && <p class="standfirst">{d.intro}</p>}
       </div>
-      {d.intro && <p class="standfirst">{d.intro}</p>}
 
       {items.length > 1 && (
         <div class="issue-jump-bar">
