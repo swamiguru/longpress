@@ -5272,6 +5272,13 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 .pg--article .page-head--pillar { padding-block: 18px 20px; }
 .pg--article .page-head--pillar.page-head--article { margin-top: var(--s2) !important; }
 .pg--article .article-breadcrumb { margin-bottom: 0; }
+/* main's shared top padding (var(--s7), 48px) reads as a dead gap
+   above the breadcrumb on article pages -- everything else in .pg
+   either bleeds flush to the masthead or sits inside a colored
+   header block. Tighten it to match the 24px mobile already gets. */
+@media (min-width: 641px) {
+  .pg--article { margin-top: calc(-1 * var(--s5)); }
+}
 
 /* Jump bar: constrain to the head width so the pill row scrolls */
 .pg--daily .issue-jump-bar { flex-direction: column; align-items: stretch; align-self: stretch; width: 100%; max-width: 100%; min-width: 0; gap: 8px; }
@@ -5361,3 +5368,34 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 .byline__mark::before { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 2px solid var(--pl); }
 .byline__mark img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; display: block; }
 @media (max-width: 380px) { .byline__mark img { width: 34px; height: 34px; } }
+
+/* ============================================================
+   Hero strip v4 -- one slim row. Wordmark + tagline left, two
+   small pills right. Desktop ~44px, mobile ~52px (pills only;
+   the h1 stays in the DOM, visually hidden, for SEO and a11y).
+   Keep this block last so it wins over strip v3 above.
+   ============================================================ */
+.hp-hero { padding-block: 7px; margin-bottom: 20px; }
+.hp-hero__grid { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.hp-hero__grid > div:first-child { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+.hp-hero__title { font-size: 15px; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; flex: none; }
+.hp-hero__sub { margin: 0; font-size: 13px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.hp-doors { display: flex; gap: 8px; flex: none; min-width: 0; }
+.hp-door { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; box-shadow: 2px 2px 0 var(--ink); border-width: 2px; }
+.hp-door--ki { box-shadow: 2px 2px 0 var(--teal-light); }
+.hp-door strong { font-size: 13px; line-height: 1; }
+.hp-door small { display: none; font-size: 9.5px; line-height: 1; opacity: .85; }
+.hp-door:hover, .hp-door--ki:hover { transform: none; box-shadow: 3px 3px 0 var(--ink); }
+.hp-door--ki:hover { box-shadow: 3px 3px 0 var(--teal-light); }
+.hp-door:active { transform: translate(2px, 2px); box-shadow: none; }
+@media (min-width: 1100px) { .hp-door small { display: inline; } }
+@media (max-width: 899px) { .hp-hero__sub { display: none; } }
+@media (max-width: 719px) {
+  .hp-hero { padding-block: 8px; margin-bottom: 16px; }
+  .hp-hero__grid { display: block; }
+  .hp-hero__grid > div:first-child { display: block; }
+  .hp-hero__title { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .hp-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .hp-door { justify-content: center; height: 36px; }
+  .hp-door strong { font-size: 14px; }
+}
