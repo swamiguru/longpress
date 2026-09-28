@@ -5307,3 +5307,15 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
   html[data-theme="dark"] .hp-door-m--ki { border-color: var(--teal-light); }
   .hp-door-m:active { transform: translate(2px, 2px); box-shadow: none; }
 }
+
+/* ============================================================
+   Sticky masthead, all widths (mobile already had it at <=768px).
+   body's overflow-x:hidden makes body a scroll container, which
+   pins sticky to a box that never scrolls -- clip does not.
+   ============================================================ */
+@supports (overflow: clip) {
+  body { overflow-x: clip; }
+}
+.masthead { position: sticky; top: 0; z-index: 50; }
+/* Month pagination bar used to stick at 16px; sit below the masthead now */
+.archive-pagination-bar { top: 84px; }
