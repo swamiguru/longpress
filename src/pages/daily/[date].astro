@@ -32,6 +32,7 @@ export async function getStaticPaths() {
 const { brief, prevBrief, nextBrief, totalCount } = Astro.props;
 const { Content } = await render(brief);
 const d = brief.data;
+const dateStr = brief.id.replace(/\.md$/, '');
 const items = [...d.items].sort((a, b) => a.slot - b.slot);
 const OPINION = ['commentary', 'hot-take', 'myth-buster', 'known-issue'];
 const label = (k: string) => k.replace(/-/g, ' ');
@@ -149,6 +150,13 @@ const ANALYSIS = [
                   ))}
                 </dl>
               )}
+
+              <ShareButtons
+                title={heading}
+                description={item.forYou || item.body || item.teaser || ''}
+                url={`/daily/${dateStr}#story-${item.slot}`}
+                compact
+              />
 
               {item.source && (
                 <p class="brief__source">

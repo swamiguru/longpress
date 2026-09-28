@@ -4,9 +4,12 @@ interface Props {
   url?: string;
   description?: string;
   class?: string;
+  /** Icon-only, smaller footprint — for a share row repeated per story
+      (e.g. one under each Daily Five item) instead of once per page. */
+  compact?: boolean;
 }
 
-const { title, url, description = '', class: className = '' } = Astro.props;
+const { title, url, description = '', class: className = '', compact = false } = Astro.props;
 const currentUrl = url || (Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname);
 const encodedUrl = encodeURIComponent(currentUrl);
 const fullTitle = `${title} — Long Press`;
@@ -17,13 +20,13 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
 ---
 
 <aside
-  class={`share-bar ${className}`}
-  aria-label="Share this article"
+  class={`share-bar ${compact ? 'share-bar--compact' : ''} ${className}`}
+  aria-label="Share this story"
   data-url={currentUrl}
   data-title={fullTitle}
   data-description={description}
 >
-  <span class="share-bar__label">Share</span>
+  <span class="share-bar__label">{compact ? 'Share this one' : 'Share'}</span>
   <div class="share-bar__group">
     <!-- Web Share API Button (Native device share sheet) -->
     <button
@@ -248,6 +251,41 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
       font-size: 10.5px;
       padding: 6px 11px;
     }
+  }
+
+  /* --- Compact: per-story row, four icon-only squares -------- */
+  .share-bar--compact {
+    margin-top: var(--s4);
+    margin-bottom: 0;
+    padding-top: var(--s4);
+    border-top: 1px dashed var(--rule);
+  }
+  .share-bar--compact .share-bar__label {
+    font-size: 10px;
+  }
+  .share-bar--compact .share-pill {
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    gap: 0;
+  }
+  .share-bar--compact .share-pill__text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  /* The copy/webshare pills swap an icon for a text label on success
+     (share-pill__text) -- compact mode keeps that swap screen-reader-only
+     too, via the status live region, rather than growing the pill. */
+  .share-bar--compact .share-pill.is-copied {
+    width: 32px;
   }
 </style>
 
