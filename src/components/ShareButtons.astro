@@ -10,7 +10,12 @@ interface Props {
 }
 
 const { title, url, description = '', class: className = '', compact = false } = Astro.props;
-const currentUrl = url || (Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname);
+// `url` may be a relative path (e.g. a per-story "/daily/<date>#story-<slot>"
+// passed in compact mode) -- resolve it against the site origin here so the
+// static X/LinkedIn hrefs get an absolute URL too, not just the client-side
+// webshare/copy handlers below, which already did their own resolution.
+const rawUrl = url || Astro.url.pathname;
+const currentUrl = Astro.site ? new URL(rawUrl, Astro.site).href : rawUrl;
 const encodedUrl = encodeURIComponent(currentUrl);
 const fullTitle = `${title} — Long Press`;
 const encodedTitle = encodeURIComponent(fullTitle);
