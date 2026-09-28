@@ -27,7 +27,7 @@ const leadIsSquare = !!d.image;
 // heroImage (no square `image` set) renders as a 16:9 crop; give it a
 // wide box to match, or the fixed square box crops its sides off.
 const leadIsWide = !leadIsSquare && !!d.heroImage;
-const lead = getResponsiveImage(leadSrc, { aspectRatio: leadIsSquare || !d.heroImage ? '1/1' : '16/9', customSizes: '(max-width: 759px) 100vw, (max-width: 1099px) 340px, 400px' });
+const lead = getResponsiveImage(leadSrc, { aspectRatio: leadIsSquare || !d.heroImage ? '1/1' : '16/9', customSizes: '(max-width: 759px) 100vw, 46vw' });
 const leadAlt = (d.image ? d.imageAlt : d.heroImageAlt) || '';
 const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 ---
@@ -38,6 +38,7 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
   published={d.published}
   updated={d.updated}
   image={d.heroImage || d.image}
+  wide
 >
   <div class={`pg ${d.category === 'known-issue' ? 'pg--ki' : 'pg--daily'} pg--article`}>
   <article>
