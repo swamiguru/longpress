@@ -4550,37 +4550,6 @@ li.brief__item .brief__caption {
 .hp img { display: block; }
 
 /* --- hero ------------------------------------------------- */
-.hp-hero { padding-block: 4px 26px; }
-.hp-hero__grid { display: grid; gap: 20px; }
-.hp-hero__title {
-  font-family: var(--display); font-variation-settings: var(--display-wide);
-  font-weight: 900; font-size: clamp(40px, 8vw, 84px); line-height: .92;
-  letter-spacing: -.015em; text-wrap: balance; color: var(--ink);
-}
-.hp-hero__title span { color: var(--accent); }
-.hp-hero__sub { margin-top: 12px; max-width: 38ch; color: var(--ink-soft); font-size: 15px; line-height: 1.5; }
-.hp-doors { display: grid; gap: 12px; }
-.hp-door {
-  display: grid; gap: 4px; padding: 14px 16px 15px;
-  border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink);
-  transition: transform .15s, box-shadow .15s;
-}
-.hp-door:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
-.hp-door small { font: 700 11px/1.2 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
-.hp-door strong { font-family: var(--display); font-variation-settings: var(--display-normal); font-weight: 800; font-size: 22px; line-height: 1.1; }
-.hp-door span { font-size: 13.5px; line-height: 1.4; }
-.hp-door--daily { background: var(--accent); color: #17182E; }
-.hp-door--ki { background: #17182E; color: #EFEDF5; border-color: #17182E; box-shadow: 4px 4px 0 var(--teal-light); }
-html[data-theme="dark"] .hp-door--ki { border-color: var(--teal-light); }
-.hp-door--ki:hover { box-shadow: 6px 6px 0 var(--teal-light); }
-.hp-door--ki small { color: var(--teal-light); }
-.hp-door--ki span { color: #B9B6C8; }
-.hp .hp-door--daily { color: #17182E; }
-.hp .hp-door--ki { color: #EFEDF5; }
-@media (min-width: 720px) {
-  .hp-hero__grid { grid-template-columns: 1fr 1.3fr; align-items: end; gap: 36px; }
-  .hp-doors { grid-template-columns: 1fr 1fr; }
-}
 
 /* --- section heads --------------------------------------- */
 .hp-shead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; margin-bottom: 16px; }
@@ -4732,7 +4701,7 @@ html[data-theme="dark"] .hp-door--ki { border-color: var(--teal-light); }
 
 @media (prefers-reduced-motion: reduce) {
   .hp-kick i { animation: none; }
-  .hp-door, .hp-tile, .hp-btn, .hp-kf { transition: none; }
+  .hp-tile, .hp-btn, .hp-kf { transition: none; }
 }
 
 /* Band sits flush on the footer */
@@ -5008,21 +4977,6 @@ html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--
 /* ============================================================
    Slim hero + slim footer (content first, above the fold)
    ============================================================ */
-.hp-hero { padding-block: 2px 14px; }
-.hp-hero__grid { gap: 10px; align-items: center; }
-.hp-hero__title { font-size: clamp(26px, 5.6vw, 38px); line-height: 1; letter-spacing: -.01em; }
-.hp-hero__sub { margin-top: 4px; max-width: none; font-size: 13.5px; line-height: 1.35; }
-.hp-doors { grid-template-columns: 1fr 1fr; gap: 10px; }
-.hp-door { padding: 8px 12px 9px; gap: 2px; box-shadow: 3px 3px 0 var(--ink); }
-.hp-door--ki { box-shadow: 3px 3px 0 var(--teal-light); }
-.hp-door:hover, .hp-door--ki:hover { box-shadow: 4px 4px 0 var(--ink); }
-.hp-door--ki:hover { box-shadow: 4px 4px 0 var(--teal-light); }
-.hp-door small { font-size: 9.5px; }
-.hp-door strong { font-size: 16px; white-space: nowrap; }
-@media (min-width: 720px) {
-  .hp-hero__grid { grid-template-columns: 1fr auto; gap: 24px; }
-  .hp-doors { min-width: 420px; }
-}
 .hp-daily { padding-block: 2px 24px; }
 
 /* Footer */
@@ -5050,7 +5004,6 @@ html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--
   .footer .footer__col--brand { display: flex; }
   .footer__grid { row-gap: 2px; }
 }
-@media (min-width: 720px) { .hp-hero { padding-bottom: 24px; } }
 @media (max-width: 640px) {
   .footer__nav-list li { display: flex; align-items: center; }
   .footer__nav-list li:has(> a[href="https://www.builtbyswami.com"]) { display: none; }
@@ -5061,44 +5014,7 @@ html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--
 main:has(.hp-band) { padding-bottom: 0; }
 .hp-band { margin-bottom: 0; }
 
-/* ============================================================
-   Hero strip v3 — a quiet full-width ribbon, clearly separate from
-   the Today's Five section under it. Tinted ground, ink rule below,
-   small wordmark, single-line door pills.
-   ============================================================ */
-main:has(.hp-hero) { padding-top: 0; }
-.hp-hero {
-  position: relative; padding-block: 14px; margin-bottom: 30px;
-  background: var(--surface); border-bottom: 2px solid var(--ink);
-  box-shadow: 0 0 0 100vmax var(--surface); clip-path: inset(0 -100vmax);
-}
-.hp-hero::after { /* the strip's own edge, extended to the viewport */
-  content: ""; position: absolute; left: -100vmax; right: -100vmax; bottom: -2px; height: 2px; background: var(--ink);
-}
-.hp-hero__grid { gap: 12px; }
-.hp-hero__title { font-size: clamp(20px, 5vw, 26px); line-height: 1.05; letter-spacing: 0; }
-.hp-hero__sub { margin-top: 3px; font-size: 13px; line-height: 1.35; color: var(--muted); }
-.hp-doors { gap: 8px; }
-.hp-door { flex-direction: row; display: flex; align-items: baseline; gap: 8px; padding: 9px 12px; box-shadow: 3px 3px 0 var(--ink); }
-.hp-door strong { order: 1; font-size: 15px; }
-.hp-door small { order: 2; display: none; }
-.hp-door--ki { box-shadow: 3px 3px 0 var(--teal-light); }
-@media (min-width: 720px) {
-  .hp-hero__grid { grid-template-columns: 1fr auto; align-items: center; }
-  .hp-doors { min-width: 0; display: flex; }
-  .hp-door { padding: 10px 14px; }
-  .hp-door small { display: inline; font-size: 9.5px; opacity: .8; }
-  .hp-door strong { font-size: 16px; }
-}
-@media (max-width: 719px) {
-  .hp-doors { display: grid; grid-template-columns: 1fr 1fr; }
-  .hp-door { justify-content: center; }
-  .hp-door strong { font-size: 14.5px; }
-}
 .hp-daily { padding-top: 0; }
-@media (min-width: 720px) { .hp-hero__sub { white-space: nowrap; max-width: none; } }
-@media (min-width: 720px) { .hp-door, .hp-door small { white-space: nowrap; } .hp-hero__grid { grid-template-columns: minmax(0, 1fr) max-content; } }
-@media (min-width: 720px) { .hp-hero__grid { column-gap: 32px; } }
 
 /* Mobile footer v2: brand row, then links on a strict 2-column ruled grid */
 @media (max-width: 640px) {
@@ -5127,7 +5043,6 @@ main:has(.hp-hero) { padding-top: 0; }
 html[data-theme="dark"] { --teal-text: var(--teal-light); }
 .pg--ki { --pl-text: var(--teal-text); }
 .pg--about .column-callout__label, .pg--ki .column-callout__label, .column-callout__label { color: var(--teal-text); }
-.hp-hero__sub { color: var(--ink-soft); }
 .edition-nav__disabled { color: var(--muted); }
 html[data-theme="dark"] .pg .pill-tag--known-issue { background: var(--teal-light); border-color: var(--teal-light); color: #17182E; }
 
@@ -5156,8 +5071,6 @@ html[data-theme="dark"] .analysis .analysis__pill--catch { color: #FFC53D; }
   .masthead .brand-logo__mark, .masthead .brand-logo__mark svg { width: 22px !important; height: 22px !important; }
   .masthead .header-search-trigger, .masthead .theme-toggle, .masthead .mobile-menu-toggle { width: 34px !important; height: 34px !important; }
 }
-.hp-hero__title { white-space: nowrap; }
-@media (min-width: 720px) and (max-width: 1023px) { .hp-door small { display: none; } }
 .pg--about .about-pillar-card__philosophy p { max-width: none; }
 
 /* ============================================================
@@ -5369,32 +5282,6 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 .byline__mark img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; display: block; }
 @media (max-width: 380px) { .byline__mark img { width: 34px; height: 34px; } }
 
-/* ============================================================
-   Hero strip v4 -- one slim row. Wordmark + tagline left, two
-   small pills right. Desktop ~44px, mobile ~52px (pills only;
-   the h1 stays in the DOM, visually hidden, for SEO and a11y).
-   Keep this block last so it wins over strip v3 above.
-   ============================================================ */
-.hp-hero { padding-block: 7px; margin-bottom: 20px; }
-.hp-hero__grid { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.hp-hero__grid > div:first-child { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
-.hp-hero__title { font-size: 15px; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; flex: none; }
-.hp-hero__sub { margin: 0; font-size: 13px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.hp-doors { display: flex; gap: 8px; flex: none; min-width: 0; }
-.hp-door { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; box-shadow: 2px 2px 0 var(--ink); border-width: 2px; }
-.hp-door--ki { box-shadow: 2px 2px 0 var(--teal-light); }
-.hp-door strong { font-size: 13px; line-height: 1; }
-.hp-door small { display: none; font-size: 9.5px; line-height: 1; opacity: .85; }
-.hp-door:hover, .hp-door--ki:hover { transform: none; box-shadow: 3px 3px 0 var(--ink); }
-.hp-door--ki:hover { box-shadow: 3px 3px 0 var(--teal-light); }
-.hp-door:active { transform: translate(2px, 2px); box-shadow: none; }
-@media (max-width: 1099px) { .hp-hero__sub { display: none; } }
-@media (max-width: 719px) {
-  .hp-hero { padding-block: 8px; margin-bottom: 16px; }
-  .hp-hero__grid { display: block; }
-  .hp-hero__grid > div:first-child { display: block; }
-  .hp-hero__title { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .hp-doors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .hp-door { justify-content: center; height: 36px; }
-  .hp-door strong { font-size: 14px; }
-}
+
+/* Homepage h1: kept for SEO and screen readers, no visible hero strip */
+.hp-h1 { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

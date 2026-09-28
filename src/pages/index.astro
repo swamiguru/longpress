@@ -83,25 +83,7 @@ const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured
   wide
 >
 <div class="hp">
-  <!-- Hero: the two ways in -->
-  <section class="hp-hero" id="homepage-hero" aria-label="Long Press">
-    <div class="hp-hero__grid">
-      <div>
-        <h1 class="hp-hero__title">Press <span>and</span> hold.</h1>
-        <p class="hp-hero__sub">Everyone else tells you what happened. We stay on it a beat longer.</p>
-      </div>
-      <div class="hp-doors">
-        <a class="hp-door hp-door--daily" href={today ? path(today) : '/daily'} id="cta-read-today">
-          <small>Happened this morning</small>
-          <strong>The Daily Five &rarr;</strong>
-        </a>
-        <a class="hp-door hp-door--ki" href="/known-issue" id="cta-known-issue-door">
-          <small>Broken for months</small>
-          <strong>Known Issue &rarr;</strong>
-        </a>
-      </div>
-    </div>
-  </section>
+  <h1 class="hp-h1">Long Press: five tech stories every morning</h1>
 
   <!-- 1. Today's Five -->
   {today && (
