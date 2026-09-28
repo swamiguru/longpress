@@ -270,20 +270,18 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     justify-content: center;
     gap: 0;
   }
-  .share-bar--compact .share-pill__text {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+  /* Icon-only: every pill's accessible name already comes from its
+     aria-label, so the visible label text -- .share-pill__text on the
+     webshare/copy buttons, and the bare <span>X</span> / <span>LinkedIn</span>
+     on the link pills -- can just be hidden rather than clipped offscreen.
+     Without this, "X" and "LinkedIn" text sat on top of the icon inside
+     the fixed 32px box instead of being removed from flow. */
+  .share-bar--compact .share-pill > span {
+    display: none;
   }
-  /* The copy/webshare pills swap an icon for a text label on success
-     (share-pill__text) -- compact mode keeps that swap screen-reader-only
-     too, via the status live region, rather than growing the pill. */
+  /* The copy/webshare pills swap an icon for a text label on success;
+     compact mode keeps that swap screen-reader-only, via the status
+     live region, rather than growing the pill to fit the word. */
   .share-bar--compact .share-pill.is-copied {
     width: 32px;
   }
