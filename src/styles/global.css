@@ -5251,10 +5251,12 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 @media (max-width: 759px) {
   .art-head--media .art-head__media { order: -1; }
   .art-head__media img { aspect-ratio: 1 / 1; max-height: 78vw; }
+  .art-head__media--wide img { aspect-ratio: 16 / 9; max-height: none; }
 }
 @media (min-width: 760px) {
   .art-head--media { grid-template-columns: minmax(0, 1fr) 340px; gap: 32px; align-items: center; }
   .art-head__media img { aspect-ratio: 1 / 1; }
+  .art-head__media--wide img { aspect-ratio: 16 / 9; }
 }
 @media (min-width: 1100px) {
   .art-head--media { grid-template-columns: minmax(0, 1fr) 400px; }
