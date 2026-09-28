@@ -4097,6 +4097,17 @@ li.brief__item .brief__caption {
   font-weight: 700;
   margin: 0 0 10px;
   color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-standards-card__icon {
+  flex-shrink: 0;
+  color: var(--accent-deep);
+}
+.about-standards-card:nth-child(2) .about-standards-card__icon {
+  color: var(--accent-2);
 }
 
 .about-standards-card p {
@@ -4899,6 +4910,110 @@ html[data-theme="dark"] .pg--about .about-pillar-card--ki { border-color: var(--
 .pg--about .about-profile { border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
 .pg--about .about-standards-card, .pg--about .column-manifesto__card { border: 2px solid var(--ink); }
 .pg--about .dispatch-card__link { font-weight: 700; }
+
+/* --- About: vibrant treatment to match today's Daily Five / Known
+   Issue redesign — ghost watermark numerals, hover lift, colour-coded
+   hard-edge shadows. Same idiom as .analysis__cell and
+   .column-manifesto--compact, applied to the about page's own cards. */
+.about-pillars-grid { counter-reset: pillar-idx; }
+.pg--about .about-pillar-card {
+  counter-increment: pillar-idx;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.pg--about .about-pillar-card > * { position: relative; z-index: 1; }
+.pg--about .about-pillar-card::after {
+  content: counter(pillar-idx, decimal-leading-zero);
+  position: absolute;
+  right: 14px;
+  bottom: -6px;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 118;
+  font-weight: 800;
+  font-size: 76px;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+.pg--about .about-pillar-card--ki::after { color: #F4F1E8; opacity: 0.08; }
+.pg--about .about-pillar-card:hover { transform: translate(-3px, -3px); }
+.pg--about .about-pillar-card--daily:hover { box-shadow: 9px 9px 0 var(--accent); }
+.pg--about .about-pillar-card--ki:hover { box-shadow: 9px 9px 0 var(--teal-light); }
+
+.about-pillar-card__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+}
+.about-pillar-card__eyebrow-icon { flex-shrink: 0; }
+
+.about-standards-grid { counter-reset: standards-idx; }
+.pg--about .about-standards-card {
+  counter-increment: standards-idx;
+  position: relative;
+  overflow: hidden;
+  border-top: 6px solid var(--accent);
+  box-shadow: 5px 5px 0 0 rgba(224, 85, 43, 0.22);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.pg--about .about-standards-card:nth-child(2) {
+  border-top-color: var(--accent-2);
+  box-shadow: 5px 5px 0 0 rgba(62, 124, 116, 0.22);
+}
+.pg--about .about-standards-card:hover { transform: translate(-2px, -2px); }
+.pg--about .about-standards-card:nth-child(1):hover { box-shadow: 7px 7px 0 0 rgba(224, 85, 43, 0.28); }
+.pg--about .about-standards-card:nth-child(2):hover { box-shadow: 7px 7px 0 0 rgba(62, 124, 116, 0.28); }
+.pg--about .about-standards-card > * { position: relative; z-index: 1; }
+.pg--about .about-standards-card::after {
+  content: counter(standards-idx, decimal-leading-zero);
+  position: absolute;
+  right: 12px;
+  bottom: -8px;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 118;
+  font-weight: 800;
+  font-size: 58px;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* "Read it elsewhere" manifesto cards: the full-size .column-manifesto
+   variant used only here gets the same ghost-numeral treatment as the
+   compact one on /known-issue, plus a hover lift. */
+.pg--about .column-manifesto { counter-reset: about-manifesto; }
+.pg--about .column-manifesto__card {
+  counter-increment: about-manifesto;
+  position: relative;
+  overflow: hidden;
+  border-top: 5px solid var(--accent);
+  box-shadow: 5px 5px 0 0 rgba(23, 24, 46, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.pg--about .column-manifesto__card:nth-child(2) { border-top-color: var(--accent-2); }
+.pg--about .column-manifesto__card:nth-child(3) { border-top-color: var(--ink); }
+.pg--about .column-manifesto__card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 0 rgba(23, 24, 46, 0.16); }
+.pg--about .column-manifesto__card > * { position: relative; z-index: 1; }
+.pg--about .column-manifesto__card::after {
+  content: counter(about-manifesto, decimal-leading-zero);
+  position: absolute;
+  right: 10px;
+  bottom: -8px;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 118;
+  font-weight: 800;
+  font-size: 54px;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
 @media (max-width: 640px) { .pg--ki > .page-head--pillar { margin-top: calc(-1 * var(--s6)); } }
 
 /* Legacy .page-head--column is midnight; only Known Issue keeps that. */
