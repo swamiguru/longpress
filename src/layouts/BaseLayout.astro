@@ -6,7 +6,7 @@ import BackToTop from '../components/BackToTop.astro';
 import HeaderSearch from '../components/HeaderSearch.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import MobileMenu from '../components/MobileMenu.astro';
-import { canonicalUrl, cleanPath } from '../lib/seo/url.mjs';
+import { canonicalUrl, cleanPath, headlineOf } from '../lib/seo/url.mjs';
 
 export interface Props {
   title: string;
@@ -79,7 +79,7 @@ const jsonLd = {
           '@id': `${canonical}#article`,
           mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
           url: canonical,
-          headline: title,
+          headline: headlineOf(title),
           description,
           inLanguage: 'en-IN',
           isAccessibleForFree: true,

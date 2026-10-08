@@ -16,3 +16,14 @@ export function cleanPath(pathname) {
 export function canonicalUrl(pathname, site) {
   return new URL(cleanPath(pathname), site).href;
 }
+
+// Google's NewsArticle guidance caps `headline` at 110 characters. Longer ones
+// are cut at a word boundary with an ellipsis. Page <title> and the visible h1
+// are untouched; this only shapes the structured data.
+export function headlineOf(title, max = 110) {
+  const t = String(title || '').trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max - 1);
+  const sp = cut.lastIndexOf(' ');
+  return (sp > 60 ? cut.slice(0, sp) : cut).replace(/[\s,;:.\-]+$/, '') + '…';
+}
