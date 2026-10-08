@@ -18,19 +18,34 @@ operatorsRead: >-
 verdict: "buy"
 verdictNote: >-
   Buy iCloud+ the day you set up the phone: ₹75 for 50GB if your photo library is small, ₹219 for 200GB if it is not. Do not spend ₹25,000 on a bigger iPhone as a storage fix. The 200GB plan would take more than nine years to cost that much, and phone storage is not a backup.
+sources:
+  - label: "Apple Support"
+    url: "https://support.apple.com/en-in/108047"
+  - label: "Apple India Store"
+    url: "https://www.apple.com/in/shop/buy-iphone/iphone-17"
+  - label: "Apple Newsroom"
+    url: "https://www.apple.com/newsroom/2011/06/06Apple-Introduces-iCloud/"
+  - label: "TechCrunch"
+    url: "https://techcrunch.com/?p=1500325"
+  - label: "AppleInsider"
+    url: "https://appleinsider.com/articles/23/06/27/apple-raises-icloud-pricing-in-the-uk-and-other-markets"
+  - label: "Google Account Help"
+    url: "https://support.google.com/accounts/answer/9312312"
+  - label: "Microsoft OneDrive"
+    url: "https://www.microsoft.com/en-in/microsoft-365/onedrive/free-online-cloud-storage"
 draft: false
 ---
 
-A new iPhone setup often goes the same way. You sign in, iCloud starts backing up, and within days a banner says storage is almost full. Apple's iCloud+ support page, published 24 September 2026, still opens with the same offer: 5GB of storage for free.
+A new iPhone setup often goes the same way. You sign in, iCloud starts backing up, and within days a banner says storage is almost full. [Apple's iCloud+ support page](https://support.apple.com/en-in/108047) still opens with the same offer: 5GB of storage for free.
 
 ![Illustration of an iPhone alert reading "Your iCloud Storage is Full", with a Manage Storage prompt](/images/stories/icloud-5gb-free-tier-full.png)
 *Illustration, not an actual iOS alert.*
 
-iCloud launched in 2011, when the base iPhone was the 16GB iPhone 4S. Five gigabytes was about a third of the phone. The base iPhone is now 256GB, so the same 5GB is about 2 percent of it. The phone is 16 times bigger. The free tier is the same size.
+iCloud [launched in 2011](https://www.apple.com/newsroom/2011/06/06Apple-Introduces-iCloud/), when the base iPhone was the 16GB iPhone 4S. Five gigabytes was about a third of the phone. The base iPhone is now 256GB, so the same 5GB is about 2 percent of it. The phone is 16 times bigger. The free tier is the same size.
 
-Apple has changed plenty around that number. In 2017 it doubled its top plan from 1TB to 2TB at the same price and left the free tier alone. In 2023 it raised iCloud+ prices in the UK, parts of Europe, Asia and the Americas. India was not one of them: the plans are still ₹75, ₹219 and ₹749, and they have been since at least then.
+Apple has changed plenty around that number. In 2017 it [doubled its top plan](https://techcrunch.com/?p=1500325) from 1TB to 2TB at the same price and left the free tier alone. In 2023 it [raised iCloud+ prices](https://appleinsider.com/articles/23/06/27/apple-raises-icloud-pricing-in-the-uk-and-other-markets) in the UK, parts of Europe and the Americas. India was not one of them: the plans are still ₹75, ₹219 and ₹749, and they have been since at least then.
 
-Apple's allowance is also smaller than Google's. Google gives every account 15GB free, three times as much, though it is shared across Gmail, Drive and Photos. Microsoft OneDrive gives 5GB, the same as Apple. The difference is that Apple's 5GB backs up an iPhone 17 that starts at ₹99,900 in India today.
+Apple's allowance is also smaller than Google's. [Google](https://support.google.com/accounts/answer/9312312) gives every account 15GB free, three times as much, though it is shared across Gmail, Drive and Photos. [Microsoft OneDrive](https://www.microsoft.com/en-in/microsoft-365/onedrive/free-online-cloud-storage) gives 5GB, the same as Apple. The difference is that Apple's 5GB backs up an iPhone 17 that [starts at ₹99,900](https://www.apple.com/in/shop/buy-iphone/iphone-17) in India today.
 
 Here is what the paid ladder costs in India, taxes included, per Apple's own listing.
 

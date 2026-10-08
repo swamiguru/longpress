@@ -123,6 +123,9 @@ const stories = defineCollection({
     /** One or two sentences backing the verdict call. */
     verdictNote: z.string().optional(),
 
+    /** Where the claims come from: primary pages first. Absolute http(s) URLs only. */
+    sources: z.array(z.object({ label: z.string().optional(), url: z.string().url() })).max(8).optional(),
+
     draft: z.boolean().default(false),
   }),
 });

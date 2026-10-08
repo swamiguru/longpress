@@ -16,23 +16,40 @@ operatorsRead: >-
 verdict: "skip"
 verdictNote: >-
   Skip trusting the light as the safeguard, whether you're wearing the glasses or standing near someone who is. It was tightened to stop tampering, not to stop the thing everyone's actually upset about, and Meta's own prototype work shows the company will turn it off entirely the moment it's inconvenient.
+sources:
+  - label: "CBS News"
+    url: "https://www.cbsnews.com/news/meta-ai-smart-glasses-covert-filming-privacy/"
+  - label: "University of Sydney"
+    url: "https://www.sydney.edu.au/news-opinion/news/2026/08/11/smart-glasses-pose-new-harassment-risks-for-women-research-meta.html"
+  - label: "STV News"
+    url: "https://news.stv.tv/scotland/smart-glasses-banned-from-upcoming-scottish-comic-con-to-stop-secret-filming"
+  - label: "Engadget"
+    url: "https://engadget.com/2210283/meta-disable-camera-glasses-tamper-with-recording-led"
+  - label: "MediaPost"
+    url: "https://www.mediapost.com/publications/article/413283/"
+  - label: "9to5Google (citing the FT)"
+    url: "https://9to5google.com/2026/07/09/meta-smart-glasses-privacy-light-always-on/"
+  - label: "IDC"
+    url: "https://www.idc.com/resource-center/blog/smart-glasses-surge-the-xr-market-is-rewriting-its-own-rules/"
+  - label: "TechRepublic"
+    url: "https://www.techrepublic.com/article/news-meta-instagram-ray-ban-smart-glasses-harassment-policy/"
 draft: false
 ---
 
-Toluwa Omitowoju found out she'd been recorded the way most people do now: from the outside. A stranger wearing Meta's Ray-Ban glasses filmed her in a pickup-line prank video, and by the time anyone told her it existed, it had passed 200,000 views across social platforms. Nobody had asked her first. Nobody had said anything to her at all. "If someone sees a phone in front of their face, they have the opportunity to step away," she told CBS News. "With these smart glasses, you're taking away the right of refusal."
+Toluwa Omitowoju found out she'd been recorded the way most people do now: from the outside. A stranger wearing Meta's Ray-Ban glasses filmed her in a pickup-line prank video, and by the time anyone told her it existed, it had, by her estimate, passed 200,000 views. Nobody had asked her first. Nobody had said anything to her at all. "If someone sees a phone in front of their face, they have the opportunity to step away," she told [CBS News](https://www.cbsnews.com/news/meta-ai-smart-glasses-covert-filming-privacy/). "With these smart glasses and the smart technology, you're taking away the right of refusal."
 
-She isn't the only one. A University of Sydney review of more than 350 "pick-up artist" videos filmed with the glasses found that roughly 60 percent involved behavior researchers flagged as potentially harassing. The nickname that's stuck to the product online, fairly or not, is "pervert glasses." Comic-Con UK has banned them outright, along with anything else that can record a crowd without anyone in it knowing.
+She isn't the only one. A [University of Sydney study](https://www.sydney.edu.au/news-opinion/news/2026/08/11/smart-glasses-pose-new-harassment-risks-for-women-research-meta.html) of 350 public Instagram videos found that, in a subset of covert point-of-view clips, around 60 percent of interactions were classed as potential harassment. The nickname that's stuck to the product online, fairly or not, is "pervert glasses." Monopoly Events, the promoter behind Comic Con Scotland and other UK Comic Cons, has [banned them](https://news.stv.tv/scotland/smart-glasses-banned-from-upcoming-scottish-comic-con-to-stop-secret-filming), along with other wearable recording devices.
 
-Meta's answer to all of this has always been the same one: a small white LED on the frame that blinks while the camera is recording. In July, the company tightened it, updating the second-generation glasses so the camera shuts off if the LED is tampered with or physically destroyed. Meta framed it as a safeguard, and said it would go after people selling LED-disabling mods on Facebook Marketplace.
+Meta's answer to all of this has always been the same one: a small white LED on the frame that blinks while the camera is recording. In July, the company [tightened it](https://engadget.com/2210283/meta-disable-camera-glasses-tamper-with-recording-led), pushing an update so the camera shuts off if the LED is tampered with or physically destroyed. Meta framed it as a safeguard, and said it would go after people selling LED-disabling mods on Facebook Marketplace.
 
-Then CBS News tested it. Covering the light works, but only if you cover it before recording starts. Once the camera is already rolling, blocking the LED with a finger or a piece of tape changes nothing. The one moment the light is supposed to matter, when someone notices it and asks the wearer to stop, is the moment the safeguard stops applying.
+Then [CBS News](https://www.cbsnews.com/news/meta-ai-smart-glasses-covert-filming-privacy/) tested it. Covering the light works, but only if you cover it before recording starts. Once the camera is already rolling, blocking the LED with a finger or a piece of tape changes nothing. The one moment the light is supposed to matter, when someone notices it and asks the wearer to stop, is the moment the safeguard stops applying.
 
 Even when it's visible, plenty of people don't know what it means. It's a thin ring of light on the corner of a normal-looking pair of Ray-Bans, dim enough to wash out in daylight and unfamiliar enough that most bystanders have no reason to connect it to a camera. Meta calls a blinking LED "an appropriate visual warning." Whether it functions as one for a stranger in a coffee line is a different question, and the company hasn't had to answer it.
 
-The footage doesn't necessarily stay between the person filming and whoever they post it to, either. A lawsuit filed in March alleged that subcontractors reviewing footage to help train Meta's AI models, working out of Kenya, had seen intimate recordings, including footage from bathrooms and people undressing. A recording light is supposed to be the whole consent mechanism here. It says nothing about who else eventually watches what it lets through.
+The footage doesn't necessarily stay between the person filming and whoever they post it to, either. A lawsuit filed in March alleged, [citing a Swedish investigation](https://www.mediapost.com/publications/article/413283/), that subcontractors reviewing footage to help train Meta's AI models, working out of Kenya, had seen intimate recordings, including footage from bathrooms and people undressing. Meta disputes this. A recording light is supposed to be the whole consent mechanism here. It says nothing about who else eventually watches what it lets through.
 
-Meta clearly doesn't treat the light as essential, either. The Financial Times reported that the company is testing a "super-sensing" prototype that would record audio continuously and take photos every few seconds, and that executives had discussed not lighting the LED at all while that mode runs. Nothing about it is final. But the fact that turning off the one visible cue is even on the table shows how disposable it already is inside the company that built it.
+Meta clearly doesn't treat the light as essential, either. The Financial Times reported, [via 9to5Google](https://9to5google.com/2026/07/09/meta-smart-glasses-privacy-light-always-on/), that the company is testing a "super-sensing" prototype that would record audio continuously and take photos every few seconds, and that executives had discussed not lighting the LED at all while that mode runs. Nothing about it is final. But the fact that turning off the one visible cue is even on the table shows how disposable it already is inside the company that built it.
 
-None of this is shrinking. Meta controls roughly 69 percent of the smart glasses market, and shipments were up 167 percent year over year in the first quarter of 2026. More of these on more faces means more of the specific failure above repeating, not less, because the fix Meta shipped addresses tampering, not timing. Instagram has started taking down the worst harassment content after the fact, which helps once a video gets reported and does nothing for the people who never learn one exists.
+None of this is shrinking. [IDC](https://www.idc.com/resource-center/blog/smart-glasses-surge-the-xr-market-is-rewriting-its-own-rules/) puts Meta at roughly 69 percent of the display-less smart glasses market, with shipments up 167 percent year over year in the first quarter of 2026. More of these on more faces means more of the specific failure above repeating, not less, because the fix Meta shipped addresses tampering, not timing. [Instagram has started removing](https://www.techrepublic.com/article/news-meta-instagram-ray-ban-smart-glasses-harassment-policy/) harassing videos made with the glasses after the fact, which helps once a video gets reported and does nothing for the people who never learn one exists.
 
 Next time you're standing in a queue, at a conference, or at your kid's football match, look for the light. Then ask yourself honestly whether you'd have noticed it if you weren't looking for it.

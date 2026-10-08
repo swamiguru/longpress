@@ -1,0 +1,21 @@
+# Long Press
+
+> A daily consumer tech publication from India. Five stories every morning at 10:00 IST, plus a column on the things that stay broken. Written by Swami Guru, who led product at Condé Nast for eleven years.
+
+Each Daily Five story is split the same way: the problem, what changed, the catch, and what it means for you. Known Issue columns carry a verdict (buy, skip or wait) and a Sources row linking to the pages they draw on.
+
+## Sections
+
+- [The Daily Five](https://longpress.news/daily): Five tech stories every morning at 10:00 IST. Five is a cap, not a target.
+- [Known Issue](https://longpress.news/known-issue): A column on things in Apple, Google, Meta, Android, iOS and everyday apps that have been wrong long enough to count as a decision rather than an oversight.
+- [About](https://longpress.news/about): Who writes it, how it works, and how to send a correction.
+
+## Machine-readable
+
+- [Sitemap](https://longpress.news/sitemap-index.xml)
+- [RSS feed](https://longpress.news/rss.xml): Summaries, not full text.
+- [Search index](https://longpress.news/search.json): The site's own search index, not an API.
+
+## Notes for citing
+
+- Each story page has one canonical URL with no .html suffix.
