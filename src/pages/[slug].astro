@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
 import PreviouslyOn from '../components/PreviouslyOn.astro';
+import { relatedFor } from '../lib/related';
 import ShareButtons from '../components/ShareButtons.astro';
 import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
@@ -21,6 +22,8 @@ export async function getStaticPaths() {
 const { story } = Astro.props;
 const { Content } = await render(story);
 const d = story.data;
+// Stories already linked by "Previously on Long Press" are left out of Related Articles.
+const previouslySlugs = (await relatedFor(`story:${d.slug}`)).flatMap((l) => (l.slug ? [l.slug] : []));
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(story);
@@ -181,6 +184,7 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
       currentSlug={d.slug}
       currentCategory={d.category}
       currentTopics={d.topics}
+      exclude={previouslySlugs}
     />
   </article>
   </div>

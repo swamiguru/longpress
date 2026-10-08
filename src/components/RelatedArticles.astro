@@ -6,14 +6,16 @@ interface Props {
   currentSlug: string;
   currentCategory: string;
   currentTopics?: string[];
+  /** Slugs already shown elsewhere on the page (e.g. by Previously on Long Press). */
+  exclude?: string[];
 }
 
-const { currentSlug, currentCategory, currentTopics = [] } = Astro.props;
+const { currentSlug, currentCategory, currentTopics = [], exclude = [] } = Astro.props;
 
 const allStories = await getCollection('stories', ({ data }) => !data.draft);
 
 // Exclude current story from suggestions
-const candidates = allStories.filter((s) => s.data.slug !== currentSlug);
+const candidates = allStories.filter((s) => s.data.slug !== currentSlug && !exclude.includes(s.data.slug));
 
 // Dynamically rank candidates:
 // 1. Same category receives primary priority (+100)

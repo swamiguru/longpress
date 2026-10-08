@@ -20,6 +20,8 @@ const entries: Record<string, Link[]> = Object.values(files)[0]?.default?.entrie
 
 export interface RelatedLink {
   href: string;
+  /** Set for links to standalone stories, so other blocks can avoid repeating them. */
+  slug?: string;
   title: string;
   /** "Known Issue", "Daily Five", or the story category. */
   tag: string;
@@ -63,6 +65,7 @@ export async function relatedFor(id: string): Promise<RelatedLink[]> {
         const isColumn = s.category === 'known-issue';
         out.push({
           href: `/${l.slug}`,
+          slug: l.slug,
           title: s.title,
           tag: isColumn ? 'Known Issue' : s.category.charAt(0).toUpperCase() + s.category.slice(1),
           isColumn,
