@@ -6,6 +6,7 @@ import BackToTop from '../components/BackToTop.astro';
 import HeaderSearch from '../components/HeaderSearch.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import MobileMenu from '../components/MobileMenu.astro';
+import { canonicalUrl, cleanPath } from '../lib/seo/url.mjs';
 
 export interface Props {
   title: string;
@@ -27,26 +28,81 @@ export interface Props {
 const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image } = Astro.props;
 const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');
 const shouldShowBackToTop = showBackToTop ?? (schema === 'NewsArticle');
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const canonical = canonicalUrl(Astro.url.pathname, Astro.site);
 const resolvedImage = image
   ? (image.startsWith('http') ? image : new URL(image, Astro.site).href)
   : new URL('/og-default.png', Astro.site).href;
-const AUTHOR = {
-  '@type': 'Person',
-  name: 'Swami Guru',
-  url: 'https://www.builtbyswami.com/about',
-};
+// Structured data: one @graph per page. The Organization, Person and WebSite
+// nodes carry stable @ids so every page points at the same entities. That is
+// what lets a search or answer engine tell this publication apart from the
+// Android "long press" help vocabulary. Only claims that are on the site go
+// in here: the corrections policy and byline both live on /about.
+const SITE_URL = 'https://longpress.news';
+const ORG_ID = `${SITE_URL}/#organization`;
+const SITE_ID = `${SITE_URL}/#website`;
+const PERSON_ID = `${SITE_URL}/about#swami-guru`;
+const isArticle = schema === 'NewsArticle';
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': schema,
-  headline: title,
-  description,
-  url: canonical,
-  author: AUTHOR,
-  publisher: { '@type': 'Organization', name: 'Long Press', url: 'https://longpress.news' },
-  ...(published && { datePublished: published.toISOString() }),
-  ...(updated && { dateModified: updated.toISOString() }),
-  ...(image && { image: [resolvedImage] }),
+  '@graph': [
+    {
+      '@type': 'NewsMediaOrganization',
+      '@id': ORG_ID,
+      name: 'Long Press',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon-512.png`, width: 512, height: 512 },
+      sameAs: ['https://www.instagram.com/longpressnews', 'https://www.builtbyswami.com'],
+      founder: { '@id': PERSON_ID },
+      publishingPrinciples: `${SITE_URL}/about`,
+      correctionsPolicy: `${SITE_URL}/about#corrections-and-contact`,
+    },
+    {
+      '@type': 'Person',
+      '@id': PERSON_ID,
+      name: 'Swami Guru',
+      url: 'https://www.builtbyswami.com/about',
+      sameAs: ['https://www.builtbyswami.com', 'https://www.linkedin.com/in/swaminathanguru'],
+      jobTitle: 'Editor and publisher',
+      worksFor: { '@id': ORG_ID },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': SITE_ID,
+      url: SITE_URL,
+      name: 'Long Press',
+      inLanguage: 'en-IN',
+      publisher: { '@id': ORG_ID },
+    },
+    isArticle
+      ? {
+          '@type': 'NewsArticle',
+          '@id': `${canonical}#article`,
+          mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+          url: canonical,
+          headline: title,
+          description,
+          inLanguage: 'en-IN',
+          isAccessibleForFree: true,
+          author: { '@id': PERSON_ID },
+          publisher: { '@id': ORG_ID },
+          isPartOf: { '@id': SITE_ID },
+          image: [resolvedImage],
+          ...(published && { datePublished: published.toISOString() }),
+          // No edit history is tracked, so an unrevised piece is "modified"
+          // when it was published rather than carrying no date at all.
+          ...((updated || published) && { dateModified: (updated ?? published)!.toISOString() }),
+        }
+      : {
+          '@type': 'CollectionPage',
+          '@id': `${canonical}#webpage`,
+          url: canonical,
+          name: title,
+          description,
+          inLanguage: 'en-IN',
+          isPartOf: { '@id': SITE_ID },
+          publisher: { '@id': ORG_ID },
+        },
+  ],
 };
 // The masthead's daily promise, and the only place it is written down.
 // The upstream roundup generator commits between 09:29 and 10:40 IST (median
@@ -63,7 +119,7 @@ const todayHeaderDate = new Intl.DateTimeFormat('en-IN', {
   year: 'numeric'
 }).format(new Date());
 
-const currentPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const currentPath = cleanPath(Astro.url.pathname);
 const isDailyActive = currentPath === '/daily' || currentPath.startsWith('/daily/');
 const isKnownIssueActive = currentPath === '/known-issue' || currentPath.startsWith('/known-issue/');
 const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about/');
