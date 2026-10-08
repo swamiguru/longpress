@@ -5,15 +5,15 @@ description: "Apple charges ₹36,900 to replace an iPhone 18 Pro screen, 22% of
 published: 2026-10-08
 category: "known-issue"
 topics: ["apple", "samsung", "repair-costs", "india-pricing"]
+image: "/images/known-issue/flagship-repair-fees-india.png"
+imageAlt: "A smartphone with a spiderweb-cracked screen on a workbench, a huge stack of coins swinging on a chain above it, and a small coral umbrella held over the phone"
 trigger: >-
   Apple posts a new repair table with every iPhone, and the coverage is always about what moved: this year it was a ₹1,000 battery increase. What has stayed true across several Pro generations is how large the screen and other-damage lines are against the phone's price, and that no one sets them beside a rival's.
 whoBenefits: >-
-  Apple, twice. It sets the out-of-warranty fee and it sells the plan that shrinks the fee, so the bigger the first number looks, the easier the second is to sell.
-operatorsRead: >-
-  Publishing has the same device. A rate card is a price almost nobody pays, and it exists so the real price feels like a deal. ₹36,900 works like a rate card. Most buyers will never be charged it, but they see it at the moment they decide about the plan.
+  Apple. It sets the out-of-warranty fee and also sells the plan that cuts it, so a higher fee makes the plan easier to sell.
 verdict: "buy"
 verdictNote: >-
-  Buy AppleCare+ with the phone, inside Apple's 60-day window. One cracked screen costs ₹36,900 without it and ₹2,500 with it, so a single incident pays for any plan priced under ₹34,400 for its term. TODO before publishing: add the plan's current price from apple.com/in/applecare, which loads it by model.
+  Buy AppleCare+ with the phone, inside Apple's 60-day window. One cracked screen costs ₹36,900 without it and ₹2,500 with it, so any plan priced under ₹34,400 for its term pays for itself after a single incident. Check the plan's price on Apple's page for your model.
 sources:
   - label: "Apple India: AppleCare"
     url: "https://www.apple.com/in/applecare/"
@@ -31,7 +31,7 @@ sources:
     url: "https://ianslive.in/samsung-launches-galaxy-s26-series-in-india-starting-at-rs-87999--20260226130524"
   - label: "Communications Today: repairability index"
     url: "https://www.communicationstoday.co.in/india-plans-repairability-index-for-mobile-phones-to-tackle-e-waste/"
-draft: true
+draft: false
 ---
 
 Apple's out-of-warranty fee to replace an iPhone 18 Pro screen in India is [₹36,900](https://trak.in/stories/apple-increases-iphone-18-pro-battery-replacement-fee-to-rs-13900/). The phone starts at ₹1,64,900, so the screen alone is about 22% of the price. On the Pro Max the fee is ₹42,900 against a ₹1,79,900 starting price, about 24%. Crack the back glass as well and the bill is ₹44,900 on the Pro and ₹51,900 on the Pro Max. The battery is ₹13,900, which is ₹1,000 more than last year's Pro and about 8% of the phone.
@@ -40,10 +40,12 @@ Then there is the category Apple calls other damage, which includes liquid damag
 
 Samsung publishes its numbers differently, so the comparison is imperfect. What it lists in India is the cost of spare parts. For the Galaxy S26 Ultra, [the display is ₹14,760 and the battery is ₹3,030](https://www.sammyfans.com/2026/03/07/samsung-galaxy-s26-spare-parts-expensive/), against a [launch price of ₹1,39,999](https://ianslive.in/samsung-launches-galaxy-s26-series-in-india-starting-at-rs-87999--20260226130524). That is about 10% and 2% of the phone. A second outlet [lists the main screen at ₹16,010](https://telecomtalk.info/samsung-galaxy-s26-ultra-battery-replacement-is/1008941/) and notes a service charge may be added on top. Even at that higher figure, a service charge would have to exceed ₹20,000 to bring Samsung's screen up to Apple's.
 
-The same company sells the way out. [AppleCare+ cuts a screen or back glass repair to ₹2,500 per incident](https://www.apple.com/in/applecare/), other damage to ₹8,900, and replaces the battery at no charge once it drops below 80%. On a ₹36,900 screen that saves ₹34,400. Apple's page also names Apple India Private Limited as the party responsible for the plan, apart from theft and loss cover, which is insured by Tata AIG. One company sets the fee schedule and sells the plan that makes most of it moot.
+![A balance scale tipped by a tall, wobbling stack of coins beside a cracked phone on one side, against a small neat stack of coins beside an intact phone on the other](/images/known-issue/flagship-repair-fees-india-body.webp)
+
+The same company sells the way out. [AppleCare+ cuts a screen or back glass repair to ₹2,500 per incident](https://www.apple.com/in/applecare/), other damage to ₹8,900, and replaces the battery at no charge once it drops below 80%. On a ₹36,900 screen that saves ₹34,400. Apple's page also names Apple India Private Limited as the party responsible for the plan, apart from theft and loss cover, which is insured by Tata AIG.
 
 Two caveats. These are published lists, not quotes. Apple's own page says its estimates [may be subject to tax and that authorized service providers set their own fees](https://support.apple.com/en-in/iphone/repair). Check your model's figure there before relying on any number here, since the table changes with each new phone.
 
 India has said it wants this to be comparable. In August 2024 the Consumer Affairs Ministry said it was [planning a repairability index](https://www.communicationstoday.co.in/india-plans-repairability-index-for-mobile-phones-to-tackle-e-waste/) that would score phones on criteria including spare-part availability and pricing. No published index turned up in a search for one since.
 
-That is the known issue. A buyer weighing a ₹1,64,900 iPhone against a ₹1,39,999 Galaxy compares sticker prices. The number that decides what a drop costs sits on a separate page, set by the same company that sells the cover for it.
+That is the known issue. A buyer comparing a ₹1,64,900 iPhone with a ₹1,39,999 Galaxy sees two sticker prices. The repair costs are on separate pages, and one brand lists a service fee while the other lists parts.
