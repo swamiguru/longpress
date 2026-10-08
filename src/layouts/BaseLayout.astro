@@ -51,7 +51,12 @@ const jsonLd = {
       name: 'Long Press',
       url: SITE_URL,
       logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon-512.png`, width: 512, height: 512 },
-      sameAs: ['https://www.instagram.com/longpressnews', 'https://www.builtbyswami.com'],
+      sameAs: [
+        'https://www.instagram.com/longpressnews',
+        'https://www.threads.com/@longpressnews',
+        'https://x.com/longpressnews',
+        'https://www.builtbyswami.com',
+      ],
       founder: { '@id': PERSON_ID },
       publishingPrinciples: `${SITE_URL}/about`,
       correctionsPolicy: `${SITE_URL}/about#corrections-and-contact`,
