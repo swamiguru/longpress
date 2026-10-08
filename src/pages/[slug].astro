@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
+import PreviouslyOn from '../components/PreviouslyOn.astro';
 import ShareButtons from '../components/ShareButtons.astro';
 import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
@@ -173,6 +174,8 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
         {d.topics.map((t) => <a class="chip" href={`/topics/${t}`}>#{t}</a>)}
       </nav>
     )}
+
+    <PreviouslyOn id={`story:${d.slug}`} />
 
     <RelatedArticles
       currentSlug={d.slug}

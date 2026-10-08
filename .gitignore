@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # roundup source checkout used by the sync workflow
 .source/
+
+# local embedding step for related coverage (own package, never installed by Vercel)
+scripts/related/node_modules/
+scripts/related/.cache/

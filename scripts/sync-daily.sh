@@ -44,7 +44,16 @@ if git diff --quiet -- src/content/daily && \
 fi
 
 NEW=$(git status --porcelain -- src/content/daily | wc -l | tr -d ' ')
-echo "-> $NEW brief(s) changed; building"
+echo "-> $NEW brief(s) changed"
+
+# Previously on Long Press: embed the new items and refresh src/data/related.json.
+# Local-only (its model and deps live in scripts/related/, never installed by Vercel).
+# Never blocks a publish: on any failure it warns and the build ships with the
+# links it already has.
+echo "-> related coverage"
+node scripts/related/related.mjs || echo "   ! related: skipped, building without new links" >&2
+
+echo "-> building"
 npm run build
 
 git add -A

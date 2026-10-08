@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import AdSlot from '../../components/AdSlot.astro';
+import PreviouslyOn from '../../components/PreviouslyOn.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 import { getResponsiveImage } from '../../lib/images';
@@ -178,6 +179,8 @@ const ANALYSIS = [
                   ))}
                 </p>
               )}
+
+              <PreviouslyOn id={`daily:${dateStr}#${item.slot}`} />
             </li>
           </>
         );

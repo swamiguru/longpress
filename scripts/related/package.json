@@ -1,0 +1,10 @@
+{
+  "name": "longpress-related",
+  "private": true,
+  "type": "module",
+  "description": "Local-only embedding step for src/data/related.json. Not installed by Vercel.",
+  "dependencies": {
+    "@huggingface/transformers": "^3.7.0",
+    "yaml": "^2.9.1"
+  }
+}
