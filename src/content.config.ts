@@ -124,7 +124,7 @@ const stories = defineCollection({
     verdictNote: z.string().optional(),
 
     /** Where the claims come from: primary pages first. Absolute http(s) URLs only. */
-    sources: z.array(z.object({ label: z.string().optional(), url: z.string().url() })).max(8).optional(),
+    sources: z.array(z.object({ label: z.string().optional(), url: z.string().url() })).max(12).optional(),
 
     draft: z.boolean().default(false),
   }),
