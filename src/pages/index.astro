@@ -14,7 +14,7 @@ const archive = briefs.slice(1, 5);
 const allStories = (await getCollection('stories', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const featured = allStories[0];
-const earlier = allStories.slice(1, 4);
+const earlier = allStories.slice(1, 6);
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' });
 const dayFmt = new Intl.DateTimeFormat('en-IN', { day: '2-digit', timeZone: 'UTC' });
