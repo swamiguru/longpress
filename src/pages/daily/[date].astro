@@ -7,6 +7,14 @@ import ShareButtons from '../../components/ShareButtons.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 import { getResponsiveImage } from '../../lib/images';
 import { fallbackFor } from '../../lib/fallbacks';
+import { linkify, stripLinks, hostLabel } from '../../lib/text/inline.mjs';
+
+/** Every link an item cites: the `sources` list plus the legacy single `source`, de-duplicated. */
+function sourcesOf(item: { source?: string; sources?: { label?: string; url: string }[] }) {
+  const all = [...(item.sources ?? []), ...(item.source ? [{ url: item.source }] : [])];
+  const seen = new Set<string>();
+  return all.filter((s) => !seen.has(s.url) && seen.add(s.url));
+}
 
 export async function getStaticPaths() {
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
@@ -116,10 +124,10 @@ const ANALYSIS = [
                 </div>
                 <h2 class="story__title">{heading}</h2>
                 <div class="story__body">
-                  {item.body && <p class="story__text">{item.body}</p>}
+                  {item.body && <p class="story__text" set:html={linkify(item.body)} />}
                   {item.story && (
                     <>
-                      <p class="story__text">{item.teaser}</p>
+                      <p class="story__text" set:html={linkify(item.teaser)} />
                       <p class="brief__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
                     </>
                   )}
@@ -147,7 +155,7 @@ const ANALYSIS = [
                         </span>
                         <span>{text}</span>
                       </dt>
-                      <dd>{item[key as keyof typeof item]}</dd>
+                      <dd set:html={linkify(String(item[key as keyof typeof item] ?? ''))} />
                     </div>
                   ))}
                 </dl>
@@ -155,16 +163,19 @@ const ANALYSIS = [
 
               <ShareButtons
                 title={heading}
-                description={item.forYou || item.body || item.teaser || ''}
+                description={stripLinks(item.forYou || item.body || item.teaser || '')}
                 url={`/daily/${dateStr}#story-${item.slot}`}
                 compact
               />
 
-              {item.source && (
+              {sourcesOf(item).length > 0 && (
                 <p class="brief__source">
-                  <a href={item.source} rel="nofollow noopener" target="_blank" class="brief__source-link">
-                    Original Source &nearr;
-                  </a>
+                  <span class="brief__source-label">Sources</span>
+                  {sourcesOf(item).map((s) => (
+                    <a href={s.url} rel="noopener" target="_blank" class="brief__source-link">
+                      {s.label || hostLabel(s.url)} &nearr;
+                    </a>
+                  ))}
                 </p>
               )}
             </li>

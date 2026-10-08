@@ -18,7 +18,18 @@ const briefItem = z
     story: z.string().optional(),
     /** Two-line teaser - required when `story` is set. */
     teaser: z.string().optional(),
+    /** Legacy single link. Prefer `sources`; both render, de-duplicated. */
     source: z.string().url().optional(),
+    /**
+     * Where the claims in this item come from. Pages the generator actually
+     * opened that run, never URLs reconstructed from memory. Rendered as a
+     * Sources row under the item. Inline [label](url) links in the prose cite
+     * a specific claim; this row lists everything the item rests on.
+     */
+    sources: z
+      .array(z.object({ label: z.string().optional(), url: z.string().url() }))
+      .max(6)
+      .optional(),
     /** Square social card or diagram for this item, e.g. /images/daily/card_1.webp */
     image: z.string().optional(),
     imageAlt: z.string().optional(),

@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
+import { stripLinks } from '../../lib/text/inline.mjs';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -114,7 +115,7 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
               {fourPartRows.map(([label, value]) => (
                 <div>
                   <dt>{label}</dt>
-                  <dd>{value}</dd>
+                  <dd>{stripLinks(value)}</dd>
                 </div>
               ))}
             </dl>

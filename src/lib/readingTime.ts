@@ -2,6 +2,7 @@
  * Utility to calculate and format estimated reading time for articles
  * based on word count.
  */
+import { stripLinks } from './text/inline.mjs';
 
 export interface ReadingTimeResult {
   /** Estimated word count */
@@ -97,12 +98,12 @@ export function getArticleReadingTime(
     if (Array.isArray(article.data.items)) {
       for (const item of article.data.items) {
         if (item.heading) parts.push(item.heading);
-        if (item.body) parts.push(item.body);
-        if (item.teaser) parts.push(item.teaser);
-        if (item.problem) parts.push(item.problem);
-        if (item.breakthrough) parts.push(item.breakthrough);
-        if (item.catch) parts.push(item.catch);
-        if (item.forYou) parts.push(item.forYou);
+        if (item.body) parts.push(stripLinks(item.body));
+        if (item.teaser) parts.push(stripLinks(item.teaser));
+        if (item.problem) parts.push(stripLinks(item.problem));
+        if (item.breakthrough) parts.push(stripLinks(item.breakthrough));
+        if (item.catch) parts.push(stripLinks(item.catch));
+        if (item.forYou) parts.push(stripLinks(item.forYou));
       }
     }
   }

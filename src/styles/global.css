@@ -898,7 +898,20 @@ li.brief__item .brief__caption {
 
 .brief__source {
   margin-top: var(--s4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
+.brief__source-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.brief__item--opinion .brief__source-label { color: var(--dark-utility); }
 .brief__source-link {
   display: inline-flex;
   align-items: center;

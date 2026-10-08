@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
+import { stripLinks } from '../lib/text/inline.mjs';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -26,7 +27,7 @@ const OPINION_TAG = ['commentary', 'hot-take', 'myth-buster', 'known-issue'];
 /** Short one-line teaser for a brief item that has no dedicated `teaser` field. */
 function excerpt(text: string | undefined, max = 150): string {
   if (!text) return '';
-  const clean = text.replace(/\s+/g, ' ').trim();
+  const clean = stripLinks(text).replace(/\s+/g, ' ').trim();
   if (clean.length <= max) return clean;
   const cut = clean.slice(0, max);
   const lastSpace = cut.lastIndexOf(' ');

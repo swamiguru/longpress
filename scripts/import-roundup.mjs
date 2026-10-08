@@ -51,6 +51,27 @@ function toKind(pillar = '') {
   return 'news';
 }
 
+/**
+ * Source links for one post, from either shape the generator may emit:
+ *   sources: [{ label, url }]  (or bare URL strings)   and/or   source: "url"
+ * Only absolute http(s) URLs survive, de-duplicated, capped at 6. Anything else
+ * is dropped rather than guessed at: a wrong link is worse than no link.
+ */
+function normSources(p) {
+  const raw = [...(Array.isArray(p.sources) ? p.sources : []), ...(p.source ? [p.source] : [])];
+  const seen = new Set();
+  const out = [];
+  for (const r of raw) {
+    const o = typeof r === 'string' ? { url: r } : r || {};
+    let u;
+    try { u = new URL(String(o.url || '').trim()); } catch { continue; }
+    if (!/^https?:$/.test(u.protocol) || seen.has(u.href)) continue;
+    seen.add(u.href);
+    out.push({ label: o.label ? String(o.label).replace(/\s+/g, ' ').trim().slice(0, 60) : '', url: u.href });
+  }
+  return out.slice(0, 6);
+}
+
 /** Trim to <=160 at a word boundary, for the meta description. */
 function meta(text = '', cap = 160) {
   const t = text.replace(/\s+/g, ' ').trim();
@@ -73,6 +94,7 @@ if (!existsSync(OUT)) mkdirSync(OUT, { recursive: true });
 
 let written = 0, skipped = 0;
 const illusStats = new Map();
+const sourceStats = new Map();
 const kinds = new Map();
 const warnings = [];
 
@@ -176,6 +198,23 @@ for (const file of files) {
     for (const [src, dest] of [['problem','problem'],['breakthrough','breakthrough'],['catch','catch'],['forYou','forYou']]) {
       if (p[src]) lines.push(block(dest, p[src], 4));
     }
+    const sources = normSources(p);
+    if (sources.length) {
+      lines.push('    sources:');
+      for (const s of sources) {
+        lines.push(s.label ? `      - label: ${quote(s.label)}` : `      - url: ${quote(s.url)}`);
+        if (s.label) lines.push(`        url: ${quote(s.url)}`);
+      }
+    }
+    // Same bookkeeping as illustrations: the run summary says how many items
+    // carried a source, so a generator that stops emitting them is noticed.
+    // The community/poll slot is never expected to cite anything.
+    if (kind !== 'community') {
+      const st = sourceStats.get(date) || { ok: 0, total: 0 };
+      st.total++;
+      if (sources.length) st.ok++;
+      sourceStats.set(date, st);
+    }
   });
 
   lines.push('draft: false');
@@ -210,5 +249,10 @@ const latestIllus = [...illusStats.keys()].sort().pop();
 if (latestIllus) {
   const { ok, total } = illusStats.get(latestIllus);
   console.log(`  illustrations ${latestIllus}: ${ok}/${total} generated, ${total - ok} fallback${total - ok ? '  <-- Gemini fell short, check the run' : ''}`);
+}
+const latestSrc = [...sourceStats.keys()].sort().pop();
+if (latestSrc) {
+  const { ok, total } = sourceStats.get(latestSrc);
+  console.log(`  sources ${latestSrc}: ${ok}/${total} items cited${ok === 0 ? '  <-- the generator is not emitting sources (see claude/longpress-source-links.md)' : ok < total ? '  <-- some items have no source' : ''}`);
 }
 if (warnings.length) { console.log(`\n  warnings (${warnings.length}):`); warnings.forEach((w) => console.log(`     ! ${w}`)); }
