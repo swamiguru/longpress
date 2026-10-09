@@ -5432,3 +5432,10 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
   .wa-strip__icon { background: #0B1F14; color: var(--wa-green); }
   .wa-strip .wa-btn { background: #0B1F14; border-color: #0B1F14; color: #fff; box-shadow: none; }
 }
+
+/* Specificity guards: `.hp a { color: inherit }` (homepage) and the global
+   `p { max-width }` were beating the CTA's own rules. */
+a.wa-btn { color: var(--ground); }
+a.wa-btn--footer { color: var(--dark-ground); }
+a.wa-header { color: var(--ground); }
+.wa-strip__text { max-width: none; }
