@@ -5358,12 +5358,12 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 /* Header pill (desktop only: the mobile header has no room, the drawer carries it) */
 .wa-header {
   display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px 7px 9px;
-  background: var(--ink); color: var(--ground); border: 1.5px solid var(--ink); text-decoration: none;
+  background: var(--surface-card); color: var(--ink); border: 1.5px solid var(--ink); text-decoration: none;
   font-family: var(--display); font-variation-settings: var(--display-normal);
   font-weight: 700; font-size: 12px; line-height: 1; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap;
-  transition: background-color .18s, border-color .18s, transform .18s;
+  transition: background-color .18s, border-color .18s, color .18s, transform .18s;
 }
-.wa-header .wa-icon { color: var(--wa-green); }
+.wa-header .wa-icon { color: #1FA855; }
 .wa-header:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-1px); }
 .wa-header:hover .wa-icon { color: #fff; }
 @media (min-width: 769px) and (max-width: 1040px) {
@@ -5437,5 +5437,6 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
    `p { max-width }` were beating the CTA's own rules. */
 a.wa-btn { color: var(--ground); }
 a.wa-btn--footer { color: var(--dark-ground); }
-a.wa-header { color: var(--ground); }
+a.wa-header { color: var(--ink); }
+a.wa-header:hover { color: #fff; }
 .wa-strip__text { max-width: none; }
