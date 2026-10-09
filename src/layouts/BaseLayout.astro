@@ -387,6 +387,18 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
           });
         });
 
+        // WhatsApp share clicks (per story or per page) -> GTM.
+        document.addEventListener('click', function(e) {
+          var a = e.target.closest && e.target.closest('[data-wa-share]');
+          if (!a) return;
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'whatsapp_share_click',
+            share_scope: a.getAttribute('data-wa-share'),
+            page_path: window.location.pathname
+          });
+        });
+
         // Web Share API delegation for quick article share buttons
         function getAbsoluteUrl(urlPath) {
           if (!urlPath) return window.location.href;

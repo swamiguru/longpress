@@ -1,5 +1,6 @@
 ---
 import { cleanPath } from '../lib/seo/url.mjs';
+import { WHATSAPP_ICON_PATH } from '../lib/channels.mjs';
 
 interface Props {
   title: string;
@@ -23,6 +24,9 @@ const fullTitle = `${title} — Long Press`;
 const encodedTitle = encodeURIComponent(fullTitle);
 
 const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+// wa.me opens the WhatsApp app on phones and WhatsApp Web on desktop; the
+// recipient picks the chat or group. Title and link only.
+const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${fullTitle}\n${currentUrl}`)}`;
 const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
 ---
 
@@ -55,6 +59,22 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
       </svg>
       <span class="share-pill__text">Share</span>
     </button>
+
+    <!-- WhatsApp -->
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-pill share-pill--whatsapp"
+      data-wa-share={compact ? 'story' : 'page'}
+      aria-label="Share on WhatsApp"
+      title="Share on WhatsApp"
+    >
+      <svg class="share-pill__icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+        <path d={WHATSAPP_ICON_PATH}/>
+      </svg>
+      <span>WhatsApp</span>
+    </a>
 
     <!-- Twitter / X -->
     <a
@@ -201,6 +221,12 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
   .share-pill--twitter:hover {
     border-color: var(--ink);
     color: var(--ink);
+  }
+
+  .share-pill--whatsapp .share-pill__icon { color: #1FA855; }
+  .share-pill--whatsapp:hover {
+    border-color: #1FA855;
+    color: #0F7A3C;
   }
 
   .share-pill--linkedin:hover {
