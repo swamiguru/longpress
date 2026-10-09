@@ -5332,3 +5332,103 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 .masthead { position: sticky; top: 0; z-index: 50; }
 /* Month pagination bar used to stick at 16px; sit below the masthead now */
 .archive-pagination-bar { top: 84px; }
+
+/* ============================================================
+   WhatsApp channel CTA  (src/components/WhatsAppCta.astro)
+   One filled ink button is the house CTA; the only green on the
+   site is the WhatsApp mark itself, so it reads as the channel.
+   ============================================================ */
+:root { --wa-green: #25D366; }
+
+.wa-icon { flex-shrink: 0; display: block; }
+
+.wa-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 18px; white-space: nowrap; text-decoration: none;
+  background: var(--ink); color: var(--ground); border: 2px solid var(--ink);
+  font-family: var(--display); font-variation-settings: var(--display-normal);
+  font-weight: 700; font-size: 13px; line-height: 1; text-transform: uppercase; letter-spacing: .03em;
+  box-shadow: 3px 3px 0 var(--accent);
+  transition: transform .15s, box-shadow .15s;
+}
+.wa-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--accent); }
+.wa-btn:focus-visible, .wa-header:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.wa-btn--sm { padding: 10px 14px; }
+
+/* Header pill (desktop only: the mobile header has no room, the drawer carries it) */
+.wa-header {
+  display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px 7px 9px;
+  background: var(--ink); color: var(--ground); border: 1.5px solid var(--ink); text-decoration: none;
+  font-family: var(--display); font-variation-settings: var(--display-normal);
+  font-weight: 700; font-size: 12px; line-height: 1; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap;
+  transition: background-color .18s, border-color .18s, transform .18s;
+}
+.wa-header .wa-icon { color: var(--wa-green); }
+.wa-header:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-1px); }
+.wa-header:hover .wa-icon { color: #fff; }
+@media (min-width: 769px) and (max-width: 1040px) {
+  .wa-header { padding: 7px 8px; }
+  .wa-header__label { display: none; }
+}
+@media (max-width: 768px) { .wa-header { display: none; } }
+
+/* Strip: top of a brief, homepage, mobile drawer */
+.wa-strip {
+  display: flex; align-items: center; gap: 14px; margin-block: var(--s5);
+  padding: 12px 14px; background: var(--surface-card); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink);
+}
+.wa-strip__icon, .wa-card__icon {
+  background: var(--wa-green); color: #fff; border-radius: 50%; box-sizing: border-box;
+}
+.wa-strip__icon { width: 38px; height: 38px; padding: 7px; }
+.wa-strip__text { flex: 1; min-width: 0; margin: 0; font-size: 14.5px; line-height: 1.4; color: var(--ink-soft); }
+.wa-strip__text strong {
+  display: block; color: var(--ink);
+  font-family: var(--display); font-variation-settings: var(--display-normal); font-weight: 800; font-size: 15px; line-height: 1.2;
+}
+@media (max-width: 640px) {
+  .wa-strip { gap: 10px; padding: 10px 12px; margin-block: var(--s4); }
+  .wa-strip__icon { width: 34px; height: 34px; padding: 6px; }
+  .wa-strip__text span { display: none; }
+  .wa-strip__text strong { font-size: 14px; }
+}
+
+/* Card: the closing ask */
+.wa-card {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px;
+  margin-block: var(--s6); padding: var(--s5);
+  background: var(--surface-card); border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink);
+}
+.wa-card__icon { width: 56px; height: 56px; padding: 11px; }
+.wa-card__heading {
+  margin: 0 0 4px; color: var(--ink);
+  font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 800;
+  font-size: clamp(20px, 3.4vw, 26px); line-height: 1.1; letter-spacing: -.005em; text-wrap: balance;
+}
+.wa-card__text { margin: 0; max-width: 48ch; color: var(--ink-soft); font-size: 15px; line-height: 1.5; }
+@media (max-width: 640px) {
+  .wa-card { grid-template-columns: auto 1fr; gap: 14px; padding: var(--s4); box-shadow: 4px 4px 0 var(--ink); }
+  .wa-card__icon { width: 44px; height: 44px; padding: 9px; }
+  .wa-card .wa-btn { grid-column: 1 / -1; width: 100%; }
+}
+
+/* Footer: sits on midnight in both themes */
+.wa-btn--footer {
+  align-self: flex-start; margin-top: 4px; padding: 11px 14px;
+  background: var(--dark-ink); color: var(--dark-ground); border-color: var(--dark-ink); box-shadow: 3px 3px 0 var(--accent);
+}
+.wa-btn--footer .wa-icon { color: #128C4A; }
+@media (max-width: 640px) { .footer__col--brand .wa-btn--footer { display: none; } }
+
+/* Mobile drawer: strip sits at the top of the body */
+.mobile-drawer-body > .wa-strip { margin-block: 0 var(--s4); }
+.mobile-drawer-body > .wa-strip .wa-strip__text span { display: block; font-size: 13px; }
+
+/* Strips go loud on mobile */
+@media (max-width: 768px) {
+  /* strips go loud on mobile too */
+  .wa-strip { background: var(--wa-green); border-color: var(--ink); color: #0B1F14; }
+  .wa-strip__text, .wa-strip__text strong { color: #0B1F14; }
+  .wa-strip__icon { background: #0B1F14; color: var(--wa-green); }
+  .wa-strip .wa-btn { background: #0B1F14; border-color: #0B1F14; color: #fff; box-shadow: none; }
+}

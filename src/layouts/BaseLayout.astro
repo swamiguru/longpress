@@ -6,6 +6,7 @@ import BackToTop from '../components/BackToTop.astro';
 import HeaderSearch from '../components/HeaderSearch.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import MobileMenu from '../components/MobileMenu.astro';
+import WhatsAppCta from '../components/WhatsAppCta.astro';
 import { canonicalUrl, cleanPath, headlineOf } from '../lib/seo/url.mjs';
 
 export interface Props {
@@ -238,6 +239,8 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
               </a>
             </nav>
 
+            <WhatsAppCta variant="header" location="header" />
+
             <div class="masthead__tools" id="masthead-tools">
               <HeaderSearch />
               <ThemeToggle />
@@ -272,6 +275,7 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
             <p class="footer__tagline">
               Five tech stories every morning, with an honest read on what actually matters. Written from eleven years leading product at Condé Nast.
             </p>
+            <WhatsAppCta variant="footer" location="footer_button" />
           </div>
 
           <!-- Column 2: Coverage & Archives -->
@@ -315,6 +319,14 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
                     <circle cx="5" cy="19" r="1"></circle>
                   </svg>
                   <span>RSS 2.0 Feed</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://whatsapp.com/channel/0029Vb9DINGJf05fzD9slF3A" target="_blank" rel="noopener" class="footer__link footer__link--external" data-wa-cta="footer_link">
+                  <span>WhatsApp Channel</span>
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="footer__link-icon" aria-hidden="true">
+                    <path d="M2.5 9.5L9.5 2.5H4M9.5 2.5V8" />
+                  </svg>
                 </a>
               </li>
               <li><a href="/search.json" class="footer__link">Search Index (JSON)</a></li>
@@ -361,6 +373,19 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
             window.scrollTo({ top: 0, behavior: 'smooth' });
           });
         }
+
+        // WhatsApp channel clicks -> GTM. In GTM: Custom Event trigger
+        // `whatsapp_channel_click` -> GA4 event, then mark it a key event.
+        document.addEventListener('click', function(e) {
+          var a = e.target.closest && e.target.closest('[data-wa-cta]');
+          if (!a) return;
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'whatsapp_channel_click',
+            cta_location: a.getAttribute('data-wa-cta'),
+            page_path: window.location.pathname
+          });
+        });
 
         // Web Share API delegation for quick article share buttons
         function getAbsoluteUrl(urlPath) {

@@ -21,6 +21,7 @@ const {
 } = Astro.props;
 
 const isSearchActive = currentPath === '/search';
+import WhatsAppCta from './WhatsAppCta.astro';
 ---
 
 <!-- Mobile Menu Component Wrap -->
@@ -102,6 +103,8 @@ const isSearchActive = currentPath === '/search';
 
     <!-- Scrollable Drawer Body -->
     <div class="mobile-drawer-body" id="mobile-drawer-body">
+      <WhatsAppCta variant="strip" location="drawer" />
+
       <!-- Section 1: Primary Editorial Coverage -->
       <div class="drawer-group" id="drawer-group-primary">
         <div class="drawer-group__label">Core Coverage</div>

@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
 import PreviouslyOn from '../components/PreviouslyOn.astro';
+import WhatsAppCta from '../components/WhatsAppCta.astro';
 import { relatedFor } from '../lib/related';
 import ShareButtons from '../components/ShareButtons.astro';
 import { getResponsiveImage } from '../lib/images';
@@ -151,6 +152,13 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
     </div>
 
     <AdSlot placement="article" />
+
+    <WhatsAppCta
+      variant="card"
+      location={d.category === 'known-issue' ? 'known_issue_end' : 'story_end'}
+      heading="Follow Long Press on WhatsApp"
+      text="New briefs and columns, posted to the channel."
+    />
 
     <div class="story-footer-card">
       <div class="story-footer-card__main">

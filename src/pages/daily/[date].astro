@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import PreviouslyOn from '../../components/PreviouslyOn.astro';
+import WhatsAppCta from '../../components/WhatsAppCta.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 import { getResponsiveImage } from '../../lib/images';
@@ -90,6 +91,8 @@ const ANALYSIS = [
         </div>
       )}
     </div>
+
+    <WhatsAppCta variant="strip" location="brief_top" />
 
     <ol class="stories">
       {items.map((item, i) => {
@@ -196,6 +199,8 @@ const ANALYSIS = [
       </svg>
       <span class="brief-signoff__text">That's the five. Press and hold tomorrow.</span>
     </div>
+
+    <WhatsAppCta variant="card" location="brief_end" />
 
     <div class="brief-share-end" style="margin-top: var(--s6); margin-bottom: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--rule);">
       <ShareButtons
