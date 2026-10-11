@@ -50,6 +50,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' });
 const shortDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short' });
 const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(brief);
+const taps = d.taps ?? [];
 
 /** The press-and-hold structure, in reading order. */
 const ANALYSIS = [
@@ -124,6 +125,7 @@ const ANALYSIS = [
                   <div class="story__chips">
                     <span class="story__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
                     <span class="story__kind">{label(item.kind)}</span>
+                    {item.region === 'india' && <span class="story__kind story__region">India</span>}
                   </div>
                 </div>
                 <h2 class="story__title">{heading}</h2>
@@ -189,6 +191,31 @@ const ANALYSIS = [
         );
       })}
     </ol>
+
+    {taps.length > 0 && (
+      <section class="taps" id="taps" aria-labelledby="taps-title">
+        <div class="taps__head">
+          <h2 class="taps__title" id="taps-title">Taps</h2>
+          <p class="taps__sub">Quick hits. One line each, for when a long press is too much.</p>
+        </div>
+        <ul class="taps__list">
+          {taps.map((t) => (
+            <li class="tap">
+              {t.region && <span class={`tap__region tap__region--${t.region}`}>{t.region === 'india' ? 'India' : 'Global'}</span>}
+              <div class="tap__text">
+                <p class="tap__headline">{t.headline}</p>
+                {t.line && <p class="tap__line" set:html={linkify(t.line)} />}
+              </div>
+              {t.source && (
+                <a class="tap__source" href={t.source.url} rel="noopener" target="_blank">
+                  {t.source.label || hostLabel(t.source.url)} &nearr;
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <div class="prose" style="margin-top: var(--s7)"><Content /></div>
 

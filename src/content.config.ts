@@ -6,11 +6,27 @@ const ITEM_KINDS = [
   'myth-buster', 'hot-take', 'known-issue', 'community', 'security', 'ai',
 ] as const;
 
+const REGIONS = ['india', 'global'] as const;
+
+/**
+ * A Tap: the quick hit under the Daily Five. One headline, at most one line
+ * of context, one source. No card, no four-part analysis - a tap, not a
+ * long press.
+ */
+const tap = z.object({
+  region: z.enum(REGIONS).optional(),
+  headline: z.string().min(3),
+  line: z.string().optional(),
+  source: z.object({ label: z.string().optional(), url: z.string().url() }).optional(),
+});
+
 /** One item inside a daily brief. */
 const briefItem = z
   .object({
     slot: z.number().int().min(1),
     kind: z.enum(ITEM_KINDS),
+    /** Where the story is centred. Drives the India chip; older issues have none. */
+    region: z.enum(REGIONS).optional(),
     heading: z.string().min(3),
     /** Full text - use ONLY when this item is not promoted to its own page. */
     body: z.string().optional(),
@@ -66,6 +82,8 @@ const daily = defineCollection({
     /** The full standfirst, shown on the page. No length limit. */
     intro: z.string().optional(),
     items: z.array(briefItem).min(1),
+    /** Quick hits under the five. Optional: issues before 12 Oct 2026 have none. */
+    taps: z.array(tap).max(8).optional(),
     draft: z.boolean().default(false),
   }),
 });

@@ -89,6 +89,14 @@ function block(key, text, indent) {
 
 function quote(s) { return JSON.stringify(String(s)); }
 
+/** 'india' | 'global' | null. Anything else from the generator is dropped, not guessed. */
+function normRegion(r) {
+  const s = String(r || '').trim().toLowerCase();
+  return s === 'india' || s === 'global' ? s : null;
+}
+const tapStats = new Map();
+const regionStats = new Map();
+
 const files = readdirSync(SRC).filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort();
 if (!existsSync(OUT)) mkdirSync(OUT, { recursive: true });
 
@@ -147,6 +155,8 @@ for (const file of files) {
 
     lines.push(`  - slot: ${Number(p.n) || i + 1}`);
     lines.push(`    kind: ${kind}`);
+    const region = normRegion(p.region);
+    if (region) lines.push(`    region: ${region}`);
     lines.push(`    heading: ${quote(heading)}`);
     lines.push(block('body', p.body || heading, 4));
     // Only emit the card if the file is really there. A frontmatter path to a
@@ -217,6 +227,31 @@ for (const file of files) {
     }
   });
 
+  // Taps: the quick hits under the five. Each needs a headline; a source is
+  // kept only if it is an absolute http(s) URL, same rule as item sources.
+  const taps = (Array.isArray(d.taps) ? d.taps : [])
+    .filter((t) => t && typeof t.headline === 'string' && t.headline.trim().length >= 3)
+    .slice(0, 8);
+  if (taps.length) {
+    lines.push('taps:');
+    for (const t of taps) {
+      lines.push(`  - headline: ${quote(t.headline.trim())}`);
+      const r = normRegion(t.region);
+      if (r) lines.push(`    region: ${r}`);
+      if (t.line) lines.push(`    line: ${quote(String(t.line).trim())}`);
+      const src = t.source && typeof t.source === 'object' ? t.source : (typeof t.source === 'string' ? { url: t.source } : null);
+      if (src && /^https?:\/\/\S+$/.test(String(src.url || ''))) {
+        lines.push('    source:');
+        if (src.label) lines.push(`      label: ${quote(src.label)}`);
+        lines.push(`      url: ${quote(src.url)}`);
+      } else {
+        warnings.push(`${date} tap "${t.headline.slice(0, 40)}": no valid source`);
+      }
+    }
+  }
+  tapStats.set(date, taps.length);
+  regionStats.set(date, posts.filter((p) => normRegion(p.region) === 'india').length);
+
   lines.push('draft: false');
   lines.push('---');
   lines.push('');
@@ -254,5 +289,11 @@ const latestSrc = [...sourceStats.keys()].sort().pop();
 if (latestSrc) {
   const { ok, total } = sourceStats.get(latestSrc);
   console.log(`  sources ${latestSrc}: ${ok}/${total} items cited${ok === 0 ? '  <-- the generator is not emitting sources (see claude/longpress-source-links.md)' : ok < total ? '  <-- some items have no source' : ''}`);
+}
+const latestDate = [...tapStats.keys()].sort().pop();
+if (latestDate) {
+  const indiaN = regionStats.get(latestDate) || 0;
+  console.log(`  india-led ${latestDate}: ${indiaN}/5 items${indiaN < 2 ? '  <-- below the India quota of 2' : ''}`);
+  console.log(`  taps ${latestDate}: ${tapStats.get(latestDate)}`);
 }
 if (warnings.length) { console.log(`\n  warnings (${warnings.length}):`); warnings.forEach((w) => console.log(`     ! ${w}`)); }
