@@ -151,3 +151,18 @@ html[data-theme="dark"] .fp {
 .fp h1, .fp h2, .fp-mark__word { text-transform: none; color: var(--fp-ink); }
 .fp-fine .fp-h2 { color: var(--fp-on-hl); }
 .fp-card__title { color: var(--fp-ink); }
+
+/* Landing header: compact, like the Daily Five and Known Issue heads (12 Oct 2026). */
+.fp-index { padding-top: 28px; }
+.fp-ihead { max-width: 760px; padding-bottom: 20px; border-bottom: 2px solid var(--fp-ink); }
+.fp-ihead__title { display: flex; align-items: center; gap: 12px; margin: 10px 0 0; font-family: var(--fp-display); font-weight: 900; font-variation-settings: "wdth" 112; font-size: clamp(36px, 5vw, 52px); line-height: 1; letter-spacing: -.02em; text-transform: none; color: var(--fp-ink); }
+.fp-ihead__title svg { flex: none; width: .8em; height: .8em; }
+.fp-ihead__stand { margin: 12px 0 0; font-size: 18px; line-height: 1.5; color: var(--fp-ink-soft); }
+.fp-ihead__promise { margin: 10px 0 0; font-family: var(--fp-mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--fp-ink); }
+.fp-index .fp-grid { margin-top: 24px; }
+@media (max-width: 720px) {
+  .fp-index { padding-top: 18px; }
+  .fp-ihead__stand { font-size: 16px; }
+  .fp-index .fp-grid { margin-top: 18px; }
+  .fp-card { padding: 18px 18px 16px; }
+}
