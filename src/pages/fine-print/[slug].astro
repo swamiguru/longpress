@@ -2,6 +2,9 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FinePrintMast from '../../components/FinePrintMast.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+import WhatsAppCta from '../../components/WhatsAppCta.astro';
+import { fpPlain } from '../../lib/text/finePrint';
 import { fpInline, FP_STATUS } from '../../lib/text/finePrint';
 import '../../styles/fine-print.css';
 
@@ -51,6 +54,9 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
 
       <h1 class="fp-title">{d.title}</h1>
       <p class="fp-byline">By {d.author} · Published {dateFmt.format(d.published)}</p>
+      <div class="fp-share">
+        <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} compact />
+      </div>
 
       <section class="fp-oneline" aria-labelledby="fp-oneline">
         <h2 id="fp-oneline" class="fp-label">In one line</h2>
@@ -122,6 +128,8 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
         </section>
       )}
 
+      <WhatsAppCta variant="strip" location="fine_print_mid" heading="Fine Print on WhatsApp" text="One explainer every Saturday, on the Long Press channel." />
+
       <section class="fp-section fp-fine" aria-labelledby="fp-fine">
         <div class="fp-fine__head">
           <svg width="22" height="22" viewBox="0 0 40 40" aria-hidden="true"><g stroke="currentColor" stroke-width="6" stroke-linecap="round"><line x1="20" y1="5" x2="20" y2="35"></line><line x1="7" y1="12.5" x2="33" y2="27.5"></line><line x1="7" y1="27.5" x2="33" y2="12.5"></line></g></svg>
@@ -166,6 +174,12 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
           ))}
         </ol>
       </section>
+
+      <WhatsAppCta variant="card" location="fine_print_end" heading="Follow Long Press on WhatsApp" text="Next Saturday's Fine Print, and the Daily Five every morning at 10:00 IST." />
+
+      <div class="fp-share">
+        <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} />
+      </div>
 
       {(d.video || others.length > 0) && (
         <section class="fp-end">

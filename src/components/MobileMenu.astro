@@ -176,7 +176,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
             <div class="drawer-card__content">
               <div class="drawer-card__header">
                 <span class="drawer-card__title">Fine Print</span>
-                <span class="drawer-card__badge">Explainers</span>
+                <span class="drawer-card__badge drawer-card__badge--fp">Explainers</span>
               </div>
               <p class="drawer-card__desc">The rules, prices and services that changed, explained in rupees.</p>
             </div>
@@ -766,6 +766,12 @@ import WhatsAppCta from './WhatsAppCta.astro';
     background: var(--surface-hover);
     color: var(--ink-soft);
     border: 1px solid var(--rule);
+  }
+
+  .drawer-card__badge--fp {
+    background: #FFE14D;
+    color: #111111;
+    border: 1px solid #111111;
   }
 
   .drawer-card__badge--desk {
