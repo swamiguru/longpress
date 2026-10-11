@@ -90,12 +90,12 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
 
       {d.costs && (
         <section class="fp-section" aria-labelledby="fp-costs">
-          <h2 id="fp-costs" class="fp-h2">What it costs, in rupees</h2>
+          <h2 id="fp-costs" class="fp-h2">{d.costs.title}</h2>
           {d.costs.note && <p class="fp-lede" set:html={t(d.costs.note)} />}
           <div class="fp-table-wrap">
             <table class="fp-table">
               <thead>
-                <tr><th scope="col">Payment</th><th scope="col">Rule</th><th scope="col">{d.costs.payerLabel}</th></tr>
+                <tr><th scope="col">{d.costs.itemLabel}</th><th scope="col">{d.costs.ruleLabel}</th><th scope="col">{d.costs.payerLabel}</th></tr>
               </thead>
               <tbody>
                 {d.costs.rows.map((r) => (

@@ -192,7 +192,11 @@ const finePrint = defineCollection({
     /** Worked rupee examples. Optional for pieces with no money angle. */
     costs: z
       .object({
+        /** Section heading; defaults to the payment framing. */
+        title: z.string().default('What it costs, in rupees'),
         note: z.string().optional(),
+        itemLabel: z.string().default('Payment'),
+        ruleLabel: z.string().default('Rule'),
         payerLabel: z.string().default('Cost'),
         rows: z
           .array(
