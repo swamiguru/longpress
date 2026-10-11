@@ -150,3 +150,14 @@ html[data-theme="dark"] .fp {
 @media (max-width: 720px) {
   .fp-card { padding: 18px 18px 16px; }
 }
+
+/* Yellow as highlighter, a little more of it (11 Oct 2026).
+   Always behind ink, never as a text colour. */
+.fp-steps__n { background: var(--fp-hl); color: var(--fp-on-hl); }
+.fp-h2::after { content: ""; display: block; width: 44px; height: 5px; margin-top: 10px; background: var(--fp-hl); }
+.fp-fine .fp-h2::after { display: none; }
+.fp-take { border-left: 6px solid var(--fp-hl); padding-left: 20px; }
+.fp-card--lead { box-shadow: 8px 8px 0 var(--fp-hl); }
+.fp-card__more { align-self: flex-start; padding: 2px 6px; margin: 0 0 -2px -6px; transition: background .15s ease; }
+.fp-card:hover .fp-card__more, .fp-card:focus-visible .fp-card__more { background: var(--fp-hl); color: var(--fp-on-hl); }
+@media (max-width: 720px) { .fp-card--lead { box-shadow: 5px 5px 0 var(--fp-hl); } }
