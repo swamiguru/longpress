@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+// Update this date whenever the policy changes. It is shown on the page.
+const UPDATED = 'October 11, 2026';
+---
+<BaseLayout
+  title="Editorial Policy"
+  description="How Long Press chooses what to publish, which parts are automated, how sources are linked, how money stays separate from the writing, and how corrections work."
+>
+  <div class="legal">
+    <div class="page-head">
+      <span class="eyebrow">Standards</span>
+      <h1>Editorial Policy</h1>
+      <p class="standfirst">
+        How Long Press decides what to publish, who writes it, what is automated, and what happens when it is wrong.
+      </p>
+      <p class="legal__updated">Last updated {UPDATED}</p>
+    </div>
+
+    <div class="prose">
+      <h2 id="publishes">What Long Press publishes</h2>
+      <p>
+        Three things: <a href="/daily">The Daily Five</a>, <a href="/known-issue">Known Issue</a> and <a href="/fine-print">Fine Print</a>. How each one is built is described on the <a href="/about">About page</a>. This page covers the rules that apply to all three.
+      </p>
+
+      <h2 id="who-writes">Who writes it, and what is automated</h2>
+      <p>
+        <strong>The Daily Five is automated.</strong> Each morning, AI software gathers the day's news, drafts the five items and publishes them at 10:00 IST. A person sets the rules: what counts as a story, the cap of five, and the four-part format every item follows. Issues are not read by a person before they go live, and mistakes are fixed when they are found or reported.
+      </p>
+      <p>
+        <strong>Known Issue is written by hand.</strong> Swami Guru writes it, and it is reviewed before it is published. It is opinion, and it says so.
+      </p>
+      <p>
+        <strong>Fine Print explainers are tied to a source document.</strong> Each one goes back to the circular, notice or policy behind the change, and carries a "last checked" date.
+      </p>
+
+      <h2 id="sources">Sources</h2>
+      <p>
+        Items in the Daily Five link to the pages they rely on: the original article, or a primary document such as a filing, press release or support page. If a real source page was not found for an item, it carries no source link rather than a guessed one. Issues published before October 8, 2026 name their sources in the text without links.
+      </p>
+
+      <h2 id="money">Money and independence</h2>
+      <ul>
+        <li>Ads, when they run, are labeled "Advertisement" and sit apart from the writing.</li>
+        <li>Anything sponsored is labeled as sponsored. The opinion is not part of any deal.</li>
+        <li>Long Press has no embargo access, so nothing is held back for a launch date.</li>
+        <li>Long Press does not currently use affiliate links. If that changes, links will be marked on the page and this policy will be updated.</li>
+      </ul>
+      <p>
+        The commercial side is described on the <a href="/about#corrections-and-contact">About page</a>.
+      </p>
+
+      <h2 id="corrections">Corrections</h2>
+      <p>
+        Mistakes are fixed on the page, with a line saying what changed and when. To report one, write to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a> with the page link and what is wrong. Details are on the <a href="/about#corrections-and-contact">About page</a> and the <a href="/contact">Contact page</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

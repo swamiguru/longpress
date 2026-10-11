@@ -37,7 +37,8 @@ const resolvedImage = image
 // nodes carry stable @ids so every page points at the same entities. That is
 // what lets a search or answer engine tell this publication apart from the
 // Android "long press" help vocabulary. Only claims that are on the site go
-// in here: the corrections policy and byline both live on /about.
+// in here: publishing principles live on /editorial-policy, the corrections
+// policy and byline on /about.
 const SITE_URL = 'https://longpress.news';
 const ORG_ID = `${SITE_URL}/#organization`;
 const SITE_ID = `${SITE_URL}/#website`;
@@ -59,7 +60,7 @@ const jsonLd = {
         'https://www.builtbyswami.com',
       ],
       founder: { '@id': PERSON_ID },
-      publishingPrinciples: `${SITE_URL}/about`,
+      publishingPrinciples: `${SITE_URL}/editorial-policy`,
       correctionsPolicy: `${SITE_URL}/about#corrections-and-contact`,
     },
     {
@@ -136,6 +137,30 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Consent Mode v2 defaults. These MUST run before the GTM snippet below.
+         EEA, UK and Switzerland start with every Google storage type denied
+         until a consent message grants it (Google's Privacy & messaging CMP
+         does that once AdSense is set up). Everywhere else starts granted.
+         Change the second call, not the first, to tighten the rest of the world. -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500,
+        region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+      });
+      gtag('consent', 'default', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted'
+      });
+    </script>
+
     <!-- Google Tag Manager -->
     <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -153,11 +178,12 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,700;125,700;125,800;100,400;100,500&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap"
-    />
+    <!-- Fonts are self-hosted (public/fonts). Nothing here calls Google Fonts,
+         so a visitor's IP address is not sent to Google before they can consent.
+         Regenerate with the Fontsource packages if the type system changes. -->
+    <link rel="preload" href="/fonts/archivo-latin-standard-normal.e3a28ead.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/public-sans-latin-wght-normal.5ed4d31c.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/fonts.css" />
 
     <link rel="alternate" type="application/rss+xml" title="Long Press" href="/rss.xml" />
     <meta property="og:site_name" content="Long Press" />
@@ -308,6 +334,8 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
               <li><a href="/about" class="footer__link">About Long Press</a></li>
               <li><a href="/about#who-writes-it" class="footer__link">Who Writes It</a></li>
               <li><a href="/about#corrections-and-contact" class="footer__link">Corrections &amp; Contact</a></li>
+              <li><a href="/editorial-policy" class="footer__link">Editorial Policy</a></li>
+              <li><a href="/contact" class="footer__link">Contact</a></li>
               <li>
                 <a href="https://www.builtbyswami.com/work-with-me" target="_blank" rel="noopener noreferrer" class="footer__link footer__link--external">
                   <span>Product Advisory</span>
@@ -364,6 +392,11 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
             <p class="footer__creed">
               No paywall &middot; Anything sponsored is labelled &middot; The opinion is not for sale.
             </p>
+            <nav class="footer__legal" aria-label="Legal">
+              <a href="/privacy">Privacy</a>
+              <a href="/terms">Terms</a>
+              <a href="/privacy#privacy-choices" data-privacy-choices>Privacy choices</a>
+            </nav>
           </div>
           <div class="footer__bottom-right">
             <a href="#masthead" class="footer__top-btn" id="footer-top-btn" aria-label="Back to top of page">
@@ -409,6 +442,20 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
             share_scope: a.getAttribute('data-wa-share'),
             page_path: window.location.pathname
           });
+        });
+
+        // "Privacy choices" reopens Google's consent message once it exists
+        // (Privacy & messaging in AdSense). Until then, or if the message is
+        // not on this page, the link just goes to /privacy#privacy-choices.
+        document.addEventListener('click', function(e) {
+          var a = e.target.closest && e.target.closest('[data-privacy-choices]');
+          if (!a) return;
+          try {
+            if (window.googlefc && typeof window.googlefc.showRevocationMessage === 'function') {
+              e.preventDefault();
+              window.googlefc.showRevocationMessage();
+            }
+          } catch (err) {}
         });
 
         // Web Share API delegation for quick article share buttons

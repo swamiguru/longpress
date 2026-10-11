@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+// Update this date whenever the policy changes. It is shown on the page.
+const UPDATED = 'October 11, 2026';
+---
+<BaseLayout
+  title="Privacy Policy"
+  description="What Long Press collects when you visit, who else receives it, and how to say no. Plain language, last updated October 11, 2026."
+>
+  <div class="legal">
+    <div class="page-head">
+      <span class="eyebrow">Privacy</span>
+      <h1>Privacy Policy</h1>
+      <p class="standfirst">
+        Long Press collects very little. This page says exactly what it collects, who else receives it, and how to opt out.
+      </p>
+      <p class="legal__updated">Last updated {UPDATED}</p>
+    </div>
+
+    <div class="prose">
+      <h2 id="who">Who runs this site</h2>
+      <p>
+        Long Press is published by Swami Guru under BuiltBySwami, from Bengaluru, India. For anything in this policy, including data requests and complaints, write to <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
+      </p>
+
+      <h2 id="collected">What Long Press collects</h2>
+      <p>
+        <strong>Visit data.</strong> The site uses Google Analytics, loaded through Google Tag Manager. It records which pages you view, the site you came from, your device and browser type, and your approximate location, worked out at city level from your IP address. Google Analytics does not store the IP address itself. It also records clicks on the WhatsApp channel and share buttons. It does not record your name or email address, because Long Press has no accounts, comments or sign-up forms.
+      </p>
+      <p>
+        <strong>Cookies.</strong> Google Analytics sets two cookies, <code>_ga</code> and one beginning <code>_ga_</code>. They hold a random ID so a repeat visit can be counted as the same browser. Google's default lifetime for them is up to two years.
+      </p>
+      <p>
+        <strong>Server logs.</strong> The site is hosted by Vercel. Like any host, Vercel records the IP address, time and page requested for each visit, to keep the site running and to block abuse. Long Press does not use those logs to identify readers.
+      </p>
+      <p>
+        <strong>Email.</strong> If you write to the desk, Long Press keeps your address and message for as long as it is useful for replying or recording a correction.
+      </p>
+      <p>
+        <strong>Your own browser.</strong> If you switch between light and dark mode, the choice is saved in your browser's local storage under the name <code>longpress-theme</code>. It stays on your device and is not sent anywhere.
+      </p>
+
+      <h2 id="not-collected">What Long Press does not do</h2>
+      <p>
+        It does not sell personal data. It does not run session recordings or heatmaps. It does not use Vercel Analytics. It does not load fonts from Google, so your browser does not contact Google Fonts when you read a page.
+      </p>
+
+      <h2 id="why">Why it is collected</h2>
+      <p>
+        Visit data shows which stories get read, which tells the desk what to write more of and what to drop. Server logs keep the site working and secure. When ads run, Google also uses some of this data to show and measure them.
+      </p>
+      <p>
+        For readers in the European Economic Area, the United Kingdom and Switzerland, the legal basis for analytics cookies and ads is your consent. For server logs and security it is legitimate interest. For readers in India, Long Press asks for your consent under the Digital Personal Data Protection Act, 2023, and processes data only for the purposes on this page.
+      </p>
+
+      <h2 id="ads">Ads</h2>
+      <p>
+        Long Press is applying to show ads through Google AdSense. Ads are not live yet. This section describes what changes once they are.
+      </p>
+      <ul>
+        <li>Third-party vendors, including Google, use cookies to serve ads based on a person's earlier visits to this site or other sites.</li>
+        <li>Google's advertising cookies let Google and its partners show ads based on visits to this site and to other sites on the internet.</li>
+        <li>You can opt out of personalized advertising in <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google's Ads Settings</a>. You can also opt out of some third-party vendors' cookies at <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer">aboutads.info</a>.</li>
+        <li>Google explains how it uses data from sites like this one at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">policies.google.com/technologies/partner-sites</a>.</li>
+        <li>Readers in the EEA, the UK and Switzerland will see a consent message first. Until you answer it, Google tags on this site run with all storage denied.</li>
+        <li>Every ad is labeled "Advertisement" and sits apart from the writing.</li>
+      </ul>
+
+      <h2 id="recipients">Who else receives data</h2>
+      <ul>
+        <li><strong>Google</strong> for Analytics, Tag Manager and, once live, AdSense.</li>
+        <li><strong>Vercel</strong> for hosting.</li>
+        <li><strong>WhatsApp (Meta)</strong>, only if you click the channel link or a share button. That click takes you off Long Press, and WhatsApp's own policy applies from there.</li>
+      </ul>
+      <p>
+        Links to other sites are covered by those sites' policies. Google and Vercel process data on servers outside India, including in the United States, under their own transfer safeguards.
+      </p>
+
+      <h2 id="retention">How long it is kept</h2>
+      <p>
+        Analytics data is kept for no longer than 14 months. Server logs follow Vercel's retention period. Emails are covered above.
+      </p>
+
+      <h2 id="privacy-choices">Your choices</h2>
+      <ul>
+        <li><strong>Consent message.</strong> Once Long Press's consent message is live, the "Privacy choices" link in the footer reopens it so you can change your answer at any time.</li>
+        <li><strong>Block Analytics.</strong> Google offers a <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">browser add-on</a> that stops Google Analytics from recording your visits.</li>
+        <li><strong>Cookies.</strong> You can block or delete cookies in your browser settings. The site still works without them.</li>
+        <li><strong>Ads.</strong> Use the links in the Ads section above.</li>
+      </ul>
+
+      <h2 id="rights">Your rights</h2>
+      <p>
+        Under India's Digital Personal Data Protection Act, 2023, you can ask for a summary of the personal data processed about you, ask for it to be corrected or erased, withdraw consent, nominate someone to act for you, and complain to the contact below. Readers in the EEA and the UK also have the rights to access, correct, erase, restrict, move and object to the use of their data, and to complain to their local data protection authority.
+      </p>
+      <p>
+        To use any of these, email the address below. Analytics data is tied to a random cookie ID, not to your name, so the desk can only find it if you send that ID from your <code>_ga</code> cookie. The aim is to reply within 30 days.
+      </p>
+
+      <h2 id="children">Children</h2>
+      <p>
+        Long Press is written for adults and is not aimed at anyone under 18. It does not knowingly collect children's personal data. If you think a child's data has reached the site, write to the address below and it will be removed.
+      </p>
+
+      <h2 id="changes">Changes to this policy</h2>
+      <p>
+        The date at the top changes whenever this page does. If a change affects how your data is used, it will be stated here, not buried.
+      </p>
+
+      <h2 id="contact">Contact for privacy questions</h2>
+      <p>
+        Swami Guru, Editor and Publisher, Long Press (BuiltBySwami), Bengaluru, India. Email: <a href="mailto:builtbyswami@gmail.com">builtbyswami@gmail.com</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

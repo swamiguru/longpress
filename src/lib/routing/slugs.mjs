@@ -1,6 +1,8 @@
 // Route segments the site owns. A story slug may never equal one of these.
 export const RESERVED_ROOT = new Set([
-  'daily', 'archive', 'known-issue', 'topics', 'tags', 'about',
+  'daily', 'archive', 'known-issue', 'fine-print', 'topics', 'tags', 'about',
+  'privacy', 'terms', 'contact', 'editorial-policy', 'privacy-policy',
+  'cookies', 'cookie-policy', 'disclosure', 'corrections', 'advertise',
   'search', 'feed', 'api', 'assets', 'static', 'admin', 'preview',
   'rss.xml', 'sitemap.xml', 'sitemap-index.xml', 'robots.txt',
   'ads.txt', 'favicon.ico', 'manifest.webmanifest', '404', '500',
