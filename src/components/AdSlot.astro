@@ -1,15 +1,18 @@
 ---
 /**
- * Reserved ad slot. Renders an empty, correctly-sized box until AdSense
- * is approved - then drop the <ins> unit inside .ad__unit and nothing
- * on the page moves.
+ * Reserved ad slot. Hidden until AdSense is approved, so readers and
+ * reviewers never see an empty "Advertisement" box. After approval:
+ * set ADS_LIVE to true and drop the <ins> unit inside .ad__unit. The slot
+ * then appears at its reserved height and nothing on the page moves.
  */
+const ADS_LIVE = false;
+
 interface Props {
   placement: 'brief' | 'article' | 'hub';
 }
 const { placement } = Astro.props;
 ---
-<aside class="ad" data-placement={placement} aria-label="Advertisement">
+<aside class="ad" data-placement={placement} aria-label="Advertisement" hidden={!ADS_LIVE}>
   <span class="ad__label">Advertisement</span>
   <div class="ad__unit">
     {/* AdSense <ins class="adsbygoogle"> goes here after approval */}

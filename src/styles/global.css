@@ -2632,6 +2632,9 @@ li.brief__item .brief__caption {
   background: var(--surface);
   border: 1px dashed var(--rule);
 }
+/* .ad sets display:flex, which would override the hidden attribute. */
+.ad[hidden] { display: none; }
+.ad-row:has(> .ad[hidden]) { display: none; }
 .ad__label {
   font-family: var(--mono);
   font-size: 9px;
