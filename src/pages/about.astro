@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout
   title="About"
-  description="Long Press is a daily tech brief by Swami, eleven years leading product at Condé Nast. Five stories each morning, plus a column on what stays broken."
+  description="Long Press is a daily tech brief by Swami, ex-Condé Nast product lead: five stories each morning, a column on what stays broken, and Fine Print explainers."
   wide
 >
   <div class="pg pg--about">
@@ -12,7 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <span class="eyebrow">Masthead</span>
     <h1>About Long Press</h1>
     <p class="standfirst">
-      Long Press publishes two things. <strong>The Daily Five</strong> lands at 10:00 IST with the five tech stories worth your time, each one taken apart the same way. <strong>Known Issue</strong> is the column, and it goes after the things that have been broken for a while that nobody is fixing.
+      Long Press publishes three things. <strong>The Daily Five</strong> lands at 10:00 IST with the five tech stories worth your time, each one taken apart the same way. <strong>Known Issue</strong> is the column, and it goes after the things that have been broken for a while that nobody is fixing. <strong>Fine Print</strong> explains the rules, prices and service changes in India that most people skip, read from the source document and kept up to date.
     </p>
   </div>
 
@@ -44,10 +44,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </div>
 
-  <!-- The Two Core Editorial Pillars & Philosophies -->
+  <!-- The Three Core Editorial Pillars & Philosophies -->
   <section class="about-section" aria-labelledby="products-title" style="margin-top: var(--s7);">
     <div class="column-section-title">
-      <h2 id="products-title">The two things Long Press publishes</h2>
+      <h2 id="products-title">The three things Long Press publishes</h2>
       <span>How each one works</span>
     </div>
 
@@ -99,6 +99,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <a href="/known-issue" class="dispatch-card__link" style="margin-top: auto; padding-top: 12px;">
           Read the column &rarr;
+        </a>
+      </div>
+
+      <!-- Pillar 3: Fine Print -->
+      <div class="about-pillar-card about-pillar-card--fp" id="fine-print">
+        <span class="about-pillar-card__eyebrow">
+          <svg class="about-pillar-card__eyebrow-icon" viewBox="0 0 40 40" width="12" height="12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" aria-hidden="true"><line x1="20" y1="5" x2="20" y2="35"></line><line x1="7" y1="12.5" x2="33" y2="27.5"></line><line x1="7" y1="27.5" x2="33" y2="12.5"></line></svg>
+          Pillar 03 &middot; The explainers
+        </span>
+        <h3>Fine Print</h3>
+        <p>
+          Fine print is the part of a contract, a bill or a government circular that most people skip, and it's usually where the catch is. These explainers read it for you: a rule, price or service change from a bank, telecom company, regulator or app you use in India, taken back to the source document. One a week, on Saturdays.
+        </p>
+        <div class="about-pillar-card__philosophy">
+          <h4>Every explainer, built the same way</h4>
+          <p style="font-size: 13.5px; margin-bottom: 8px;">The same blocks, in the same order, every time:</p>
+          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6;">
+            <li><strong>Does this apply to you?</strong> A quick check, so most readers know in ten seconds whether to keep reading.</li>
+            <li><strong>The rule, quoted.</strong> A line from the circular, gazette or official FAQ, with the plain version beside it.</li>
+            <li><strong>The rupee maths.</strong> Worked examples of what it costs you, if anything.</li>
+            <li><strong>Kept current.</strong> A "last checked" date on every page and a public change log when the rules move.</li>
+          </ul>
+        </div>
+        <a href="/fine-print" class="dispatch-card__link" style="margin-top: auto; padding-top: 12px;">
+          Read the explainers &rarr;
         </a>
       </div>
     </div>

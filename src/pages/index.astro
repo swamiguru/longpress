@@ -6,6 +6,7 @@ import WhatsAppCta from '../components/WhatsAppCta.astro';
 import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
 import { stripLinks } from '../lib/text/inline.mjs';
+import { fpPlain, FP_STATUS } from '../lib/text/finePrint';
 
 const briefs = (await getCollection('daily', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -16,6 +17,13 @@ const allStories = (await getCollection('stories', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const featured = allStories[0];
 const earlier = allStories.slice(1, 6);
+
+// Fine Print: newest first; same-day pieces fall back to the most recently checked.
+const finePrint = (await getCollection('finePrint', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf() || b.data.lastChecked.valueOf() - a.data.lastChecked.valueOf());
+const fpLead = finePrint[0];
+const fpMore = finePrint.slice(1, 5);
+const fpLatestCheck = finePrint.reduce<Date | null>((m, f) => (!m || f.data.lastChecked > m ? f.data.lastChecked : m), null);
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' });
 const dayFmt = new Intl.DateTimeFormat('en-IN', { day: '2-digit', timeZone: 'UTC' });
@@ -80,16 +88,20 @@ const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured
 ---
 <BaseLayout
   title="Long Press - five tech stories every morning, with an honest take"
-  description="Press and hold. Five tech stories every morning at 10:00 IST in The Daily Five, plus Known Issue, Swami's column on the things that stay broken."
+  description="Five tech stories every morning at 10:00 IST in The Daily Five, Known Issue on what stays broken, and Fine Print explainers on India's rules and prices."
   bare
   wide
 >
+  <Fragment slot="head">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,700..900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" />
+  </Fragment>
 <div class="hp">
   <h1 class="hp-h1">Long Press: five tech stories every morning</h1>
   <!-- Mobile only: the nav is behind the hamburger, so keep both doors in reach -->
   <nav class="hp-doors-m" aria-label="Sections">
     <a class="hp-door-m hp-door-m--daily" href={today ? path(today) : '/daily'} id="cta-read-today">The Daily Five &rarr;</a>
     <a class="hp-door-m hp-door-m--ki" href="/known-issue" id="cta-known-issue-door">Known Issue &rarr;</a>
+    <a class="hp-door-m hp-door-m--fp" href="/fine-print" id="cta-fine-print-door">Fine Print &rarr;</a>
   </nav>
 
   <!-- 1. Today's Five -->
@@ -261,6 +273,65 @@ const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured
                 })}
               </ol>
             </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 4. Fine Print -->
+  {fpLead && (
+    <section class="hp-fp" aria-labelledby="heading-fine-print" id="section-fine-print">
+      <div class="hp-fp__in">
+        <div class="hp-shead">
+          <div>
+            <p class="hp-kick hp-fp__kick">
+              <svg width="13" height="13" viewBox="0 0 40 40" aria-hidden="true"><g stroke="currentColor" stroke-width="6" stroke-linecap="round"><line x1="20" y1="5" x2="20" y2="35"></line><line x1="7" y1="12.5" x2="33" y2="27.5"></line><line x1="7" y1="27.5" x2="33" y2="12.5"></line></g></svg>
+              Explainers{fpLatestCheck && <> &middot; Last checked {med.format(fpLatestCheck)}</>}
+            </p>
+            <h2 id="heading-fine-print">Fine Print</h2>
+            <p class="hp-shead__sub">The rules, prices and service changes in India that most people skip, read from the source document and worked out in rupees.</p>
+          </div>
+          <a href="/fine-print" class="hp-btn" id="link-fine-print-hub">All {finePrint.length} explainers &rarr;</a>
+        </div>
+
+        <div class="hp-fpg">
+          <a href={`/fine-print/${fpLead.data.slug}`} class="hp-fpl" id={`fine-print-lead-${fpLead.data.slug}`}>
+            <span class="hp-fpl__meta">
+              <span>{fpLead.data.category}</span>
+              <span class="hp-fpl__stamp">Last checked {med.format(fpLead.data.lastChecked)}</span>
+            </span>
+            <h3 class="hp-fpl__title">{fpLead.data.title}</h3>
+            <p class="hp-fpl__line">{fpPlain(fpLead.data.oneLine)}</p>
+            <span class="hp-fpl__check">
+              <span class="hp-fpl__checkh">Does this apply to you?</span>
+              {fpLead.data.applies.slice(0, 3).map((a) => {
+                const st = FP_STATUS[a.status];
+                return (
+                  <span class="hp-fpl__row">
+                    <span class="hp-fpl__who">{a.who}</span>
+                    <span class={`hp-fpl__chip hp-fpl__chip--${st.tone}`}>{st.label}</span>
+                  </span>
+                );
+              })}
+            </span>
+            <b class="hp-fpl__more">Read the explainer &rarr;</b>
+          </a>
+
+          {fpMore.length > 0 && (
+            <ol class="hp-fpo" id="fine-print-index">
+              {fpMore.map((f, i) => (
+                <li>
+                  <a class="hp-fpo__a" href={`/fine-print/${f.data.slug}`} id={`fine-print-${f.data.slug}`}>
+                    <span class="hp-fpo__n" aria-hidden="true">{String(i + 2).padStart(2, '0')}</span>
+                    <span class="hp-fpo__tx">
+                      <span class="hp-fpo__cat">{f.data.category} &middot; Checked {med.format(f.data.lastChecked)}</span>
+                      <span class="hp-fpo__t">{f.data.title}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
           )}
         </div>
       </div>
