@@ -1,0 +1,146 @@
+/* ============================================================
+   Page head system. One skeleton, three identities.
+
+   Daily Five, Known Issue and Fine Print share the same geometry
+   on every landing page and every story page:
+
+     nav rule
+       --head-gap                      (same on all six templates)
+     [breadcrumb]                        story pages only
+     6px pillar bar
+       --head-pad
+     tag chip  ->  title  ->  standfirst  ->  byline  ->  share
+       --head-after
+     first section
+
+   Identity stays per pillar: bar colour, chip colour, and whether the
+   head is cream, midnight (Known Issue) or paper (Fine Print). Type
+   voice stays per pillar too (Fine Print is serif and sentence case).
+   Only spacing, rules, widths and type scale are shared, so change
+   them here and nowhere else.
+
+   Replaces the per-template head rules that used to be scattered
+   through global.css (.page-head--pillar, .pg--article margin hacks,
+   the Known Issue 100vmax bleed, .fp-mast and .fp-ihead).
+   ============================================================ */
+
+:root {
+  --head-gap: var(--s6);       /* nav rule to the first element, every pillar page */
+  --head-bar: 6px;             /* pillar bar */
+  --head-pad: var(--s5);       /* bar to tag chip (cream and paper heads) */
+  --head-after: var(--s6);     /* head to the first block, story pages */
+  --head-inset: var(--s6);     /* side padding of the midnight panel */
+}
+@media (max-width: 640px) {
+  :root {
+    --head-gap: var(--s4);
+    --head-pad: var(--s4);
+    --head-after: var(--s5);
+    --head-inset: var(--s4);
+  }
+}
+
+/* main supplies the nav gap on pillar pages. Nothing below may pull
+   itself up with a negative margin to cancel it. */
+main:has(> :is(.pg--daily, .pg--ki, .fp)) { padding-block-start: var(--head-gap); }
+.pg--article { margin-top: 0; }
+
+/* Fine Print paper ground + pillar colour */
+.fp { --pl: var(--fp-hl); --pl-text: var(--fp-ink); }
+
+/* --- breadcrumb ---------------------------------------------------- */
+.article-breadcrumb.ph-crumb { margin: 0 0 var(--s3); }
+.ph-crumb a { text-decoration: none; }
+.ph-crumb .article-breadcrumb__curr { color: var(--pl-text, var(--accent-deep)); }
+.ph-crumb a.article-breadcrumb__curr { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--pl); }
+.fp .ph-crumb { font-family: var(--fp-mono); }
+.fp .ph-crumb a { color: var(--fp-muted); }
+.fp .ph-crumb a:hover, .fp .ph-crumb a.article-breadcrumb__curr { color: var(--fp-ink); }
+.fp .ph-crumb .article-breadcrumb__sep { color: var(--fp-rule-strong); }
+
+/* --- the head ------------------------------------------------------ */
+.ph {
+  --bar: var(--pl);
+  position: relative;
+  margin: 0 0 var(--head-after);
+  padding: var(--head-pad) 0 0;
+  border-top: var(--head-bar) solid var(--bar);
+}
+.ph--landing { margin-bottom: 0; }   /* the first section brings its own 48px */
+
+.ph__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; }
+.ph__tag {
+  display: inline-flex; align-items: center; margin: 0 0 14px; padding: 6px 10px;
+  background: var(--pl); color: #17182E;
+  font: 700 11px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase;
+}
+.ph__tags .ph__tag { margin: 0; }
+
+.ph__title {
+  margin: 0 0 var(--s3);
+  font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900;
+  line-height: 1.04; letter-spacing: -.015em; text-wrap: balance; color: var(--ink);
+}
+.ph--landing .ph__title { font-size: clamp(34px, 5.4vw, 56px); }
+.ph--story .ph__title { font-size: clamp(28px, 4.4vw, 44px); }
+
+.ph__stand {
+  margin: 0; max-width: 62ch;
+  font-size: clamp(16px, 1.9vw, 19px); line-height: 1.55; font-style: normal; color: var(--ink-soft);
+}
+.ph .column-trigger { margin-top: 10px; font-size: 13.5px; }
+.ph .byline { margin-top: var(--s4); }
+.ph .share-bar--top, .ph .fp-share { margin-top: var(--s3); }
+
+/* --- midnight panel: Known Issue ------------------------------------ */
+.ph--dark {
+  --bar: var(--teal-light);
+  background: var(--dark-ground); color: var(--dark-ink);
+  padding: var(--s6) var(--head-inset); overflow: hidden;
+}
+.ph--dark::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(124,195,182,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(124,195,182,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.ph--dark > * { position: relative; z-index: 1; }
+.ph--dark .ph__tag { background: var(--teal-light); }
+.ph--dark .ph__title { color: #F4F1E8; }
+.ph--dark .ph__stand, .ph--dark .column-trigger { color: var(--dark-soft); }
+.ph__ring { position: absolute !important; z-index: 0 !important; top: -120px; right: -110px; color: var(--teal-light); opacity: .16; pointer-events: none; }
+
+/* --- Daily Five issue page: head text + "In this issue" card -------- */
+.ph--brief { display: block; }
+@media (min-width: 900px) {
+  .ph--brief { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; align-items: start; }
+}
+@media (min-width: 1100px) {
+  .ph--brief { grid-template-columns: minmax(0, 1fr) 320px; gap: 36px; }
+}
+.ph--brief .ph__body { min-width: 0; }
+
+/* --- Fine Print: paper, ink and a highlighter ----------------------- */
+.fp .ph__tag { font-family: var(--fp-mono); background: var(--fp-hl); color: var(--fp-on-hl); }
+.fp .ph__tags .fp-stamp {
+  padding: 6px 10px; font: 700 11px/1 var(--fp-mono); letter-spacing: .09em; text-transform: uppercase;
+}
+.fp .ph__title {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--fp-display); font-weight: 850; font-variation-settings: "wdth" 108;
+  letter-spacing: -.015em; text-transform: none;
+}
+.fp .ph__title svg { flex: none; width: .8em; height: .8em; }
+.fp .ph__stand { font-family: var(--fp-serif); color: var(--fp-ink-soft); }
+.fp .ph__promise {
+  margin: var(--s3) 0 0; font-family: var(--fp-mono); font-size: 12px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--fp-ink);
+}
+.fp .ph .byline { color: var(--fp-ink); }
+
+/* --- tablet / phone ------------------------------------------------- */
+@media (max-width: 640px) {
+  .ph--dark { padding-block: var(--s5); }
+  .ph__ring { display: none; }
+  /* Known Issue's standfirst is long; cap it on phones as before */
+  .ph--landing.ph--dark .ph__stand { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+}

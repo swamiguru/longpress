@@ -1,0 +1,11 @@
+---
+/** Breadcrumb row shared by every pillar story page: Front page / <pillar>.
+ *  Sits directly under the nav gap and above the page head (see page-head.css). */
+export interface Props { label: string; href?: string }
+const { label, href } = Astro.props;
+---
+<nav class="article-breadcrumb ph-crumb" aria-label="Breadcrumb">
+  <a href="/">&larr; Front Page</a>
+  <span class="article-breadcrumb__sep" aria-hidden="true">/</span>
+  {href ? <a href={href} class="article-breadcrumb__curr">{label}</a> : <span class="article-breadcrumb__curr">{label}</span>}
+</nav>

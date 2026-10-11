@@ -42,20 +42,14 @@ html[data-theme="dark"] .fp {
 .fp-hl { background: var(--fp-hl); color: var(--fp-on-hl); padding: 0 .18em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .fp a.fp-fn { font-family: var(--fp-mono); font-size: .62em; font-weight: 600; vertical-align: super; line-height: 0; margin-left: 1px; text-decoration: none; }
 
-/* ---- Pillar masthead ---- */
-.fp-mast { border-bottom: 1px solid var(--fp-rule); }
-.fp-mast__inner { max-width: 1120px; margin: 0 auto; padding: 22px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px 16px; flex-wrap: wrap; }
-.fp-mark { display: flex; align-items: center; gap: 12px; color: var(--fp-ink); text-decoration: none; }
-.fp-mark svg { flex: none; }
-.fp-mark__word { font-family: var(--fp-display); font-weight: 900; font-size: 30px; font-variation-settings: "wdth" 112; letter-spacing: -.01em; line-height: 1; }
-.fp-tagline { font-style: italic; font-size: 18px; color: var(--fp-ink-soft); }
+/* ---- Pillar masthead: retired, see page-head.css ---- */
 
 /* ---- Article ---- */
-.fp-article { max-width: 760px; margin: 0 auto; padding-top: 48px; }
+.fp-article { max-width: none; }
+.fp-article > * { max-width: 760px; }
+.fp-article > .fp-oneline:first-child { margin-top: 0; }
 .fp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; font-family: var(--fp-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--fp-muted); }
 .fp-stamp { background: var(--fp-ink); color: var(--fp-paper); padding: 2px 8px; }
-.fp-title { margin: 18px 0 0; font-family: var(--fp-display); font-weight: 850; font-variation-settings: "wdth" 108; font-size: clamp(34px, 5.6vw, 54px); line-height: 1.04; letter-spacing: -.015em; text-wrap: balance; color: var(--fp-ink); }
-.fp-byline { margin: 20px 0 0; font-family: var(--fp-mono); font-size: 14px; color: var(--fp-muted); }
 
 .fp-section { margin-top: 56px; }
 .fp-h2 { margin: 0; font-family: var(--fp-display); font-weight: 800; font-size: 28px; font-variation-settings: "wdth" 106; line-height: 1.15; color: var(--fp-ink); }
@@ -123,7 +117,7 @@ html[data-theme="dark"] .fp {
 .fp-end__list { margin: 8px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 17px; line-height: 1.45; }
 
 /* ---- Index ---- */
-.fp-index { max-width: 1120px; margin: 0 auto; padding-top: 48px; }
+.fp-index { max-width: none; }
 .fp-index__hero { max-width: 760px; }
 .fp-index__title { margin: 0; font-family: var(--fp-display); font-weight: 900; font-variation-settings: "wdth" 110; font-size: clamp(38px, 6vw, 64px); line-height: 1.02; letter-spacing: -.02em; color: var(--fp-ink); }
 .fp-index__stand { margin: 18px 0 0; font-size: 20px; line-height: 1.55; color: var(--fp-ink-soft); }
@@ -148,21 +142,11 @@ html[data-theme="dark"] .fp {
 }
 
 /* Site-wide h1 is uppercase wide Archivo; Fine Print headlines are sentence case. */
-.fp h1, .fp h2, .fp-mark__word { text-transform: none; color: var(--fp-ink); }
+.fp h1, .fp h2 { text-transform: none; color: var(--fp-ink); }
 .fp-fine .fp-h2 { color: var(--fp-on-hl); }
 .fp-card__title { color: var(--fp-ink); }
 
-/* Landing header: compact, like the Daily Five and Known Issue heads (12 Oct 2026). */
-.fp-index { padding-top: 28px; }
-.fp-ihead { max-width: 760px; padding-bottom: 20px; border-bottom: 2px solid var(--fp-ink); }
-.fp-ihead__title { display: flex; align-items: center; gap: 12px; margin: 10px 0 0; font-family: var(--fp-display); font-weight: 900; font-variation-settings: "wdth" 112; font-size: clamp(36px, 5vw, 52px); line-height: 1; letter-spacing: -.02em; text-transform: none; color: var(--fp-ink); }
-.fp-ihead__title svg { flex: none; width: .8em; height: .8em; }
-.fp-ihead__stand { margin: 12px 0 0; font-size: 18px; line-height: 1.5; color: var(--fp-ink-soft); }
-.fp-ihead__promise { margin: 10px 0 0; font-family: var(--fp-mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--fp-ink); }
-.fp-index .fp-grid { margin-top: 24px; }
+/* Landing header now comes from page-head.css. */
 @media (max-width: 720px) {
-  .fp-index { padding-top: 18px; }
-  .fp-ihead__stand { font-size: 16px; }
-  .fp-index .fp-grid { margin-top: 18px; }
   .fp-card { padding: 18px 18px 16px; }
 }

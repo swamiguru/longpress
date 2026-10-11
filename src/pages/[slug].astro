@@ -7,6 +7,7 @@ import PreviouslyOn from '../components/PreviouslyOn.astro';
 import WhatsAppCta from '../components/WhatsAppCta.astro';
 import { relatedFor } from '../lib/related';
 import ShareButtons from '../components/ShareButtons.astro';
+import PageCrumb from '../components/PageCrumb.astro';
 import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
 import { hostLabel } from '../lib/text/inline.mjs';
@@ -48,22 +49,16 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 >
   <div class={`pg ${d.category === 'known-issue' ? 'pg--ki' : 'pg--daily'} pg--article`}>
   <article>
-    <nav class="article-breadcrumb" aria-label="Breadcrumb">
-      <a href="/">&larr; Front Page</a>
-      <span class="article-breadcrumb__sep">/</span>
-      {d.category === 'known-issue' ? (
-        <a href="/known-issue" class="article-breadcrumb__curr" style="color: inherit; text-decoration: underline;">Known Issue &middot; Opinion</a>
-      ) : (
-        <span class="article-breadcrumb__curr">{d.category.replace(/-/g, ' ')}</span>
-      )}
-    </nav>
+    {d.category === 'known-issue'
+      ? <PageCrumb label="Known Issue" href="/known-issue" />
+      : <PageCrumb label={d.category.replace(/-/g, ' ')} />}
 
-    <div class="page-head page-head--article page-head--pillar" style="margin-top: var(--s3);">
+    <header class={`ph ph--story${d.category === 'known-issue' ? ' ph--dark' : ''}`}>
       <div class={`art-head${leadSrc ? ' art-head--media' : ''}`}>
         <div class="art-head__text">
-          <span class="eyebrow" data-category={d.category}>{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
-          <h1>{d.title}</h1>
-          <p class="standfirst">{d.description}</p>
+          <span class="ph__tag">{d.category === 'known-issue' ? 'Known Issue \u00b7 Opinion' : d.category.replace(/-/g, ' ')}</span>
+          <h1 class="ph__title">{d.title}</h1>
+          <p class="ph__stand">{d.description}</p>
           {d.trigger && (
             <p class="column-trigger">
               <span class="column-trigger__label">Not today&rsquo;s news</span>
@@ -95,7 +90,7 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
           </figure>
         )}
       </div>
-    </div>
+    </header>
 
     <div class="prose"><Content /></div>
 

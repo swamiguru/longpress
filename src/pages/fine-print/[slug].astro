@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import FinePrintMast from '../../components/FinePrintMast.astro';
+import PageCrumb from '../../components/PageCrumb.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import WhatsAppCta from '../../components/WhatsAppCta.astro';
 import { fpPlain } from '../../lib/text/finePrint';
@@ -40,20 +40,28 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
 <BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={d.lastChecked} wide>
 
   <div class="fp">
-    <FinePrintMast />
+    <PageCrumb label="Fine Print" href="/fine-print" />
 
-    <article class="fp-article">
-      <div class="fp-meta">
-        <span>Explainer · {d.category}</span>
+    <header class="ph ph--story">
+      <div class="ph__tags">
+        <span class="ph__tag">Explainer &middot; {d.category}</span>
         <span class="fp-stamp">Last checked <time datetime={d.lastChecked.toISOString()}>{dateFmt.format(d.lastChecked)}</time></span>
-        <span>{minutes} min read</span>
       </div>
-
-      <h1 class="fp-title">{d.title}</h1>
-      <p class="fp-byline">By {d.author} · Published {dateFmt.format(d.published)}</p>
+      <h1 class="ph__title">{d.title}</h1>
+      <div class="byline">
+        <span class="byline__mark"><img src="/images/about/swami-headshot.jpg" alt="" width="38" height="38" loading="lazy" decoding="async" /></span>
+        <span class="byline__who">
+          <strong class="byline__name">{d.author}</strong>
+          <span class="byline__date">Published <time datetime={d.published.toISOString()}>{dateFmt.format(d.published)}</time></span>
+        </span>
+        <span class="byline__read">{minutes} min read</span>
+      </div>
       <div class="fp-share">
         <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} compact />
       </div>
+    </header>
+
+    <article class="fp-article">
 
       <section class="fp-oneline" aria-labelledby="fp-oneline">
         <h2 id="fp-oneline" class="fp-label">In one line</h2>

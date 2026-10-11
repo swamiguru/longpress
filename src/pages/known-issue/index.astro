@@ -35,18 +35,18 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 >
   <div class="pg pg--ki">
   <!-- Masthead -->
-  <div class="page-head page-head--column page-head--pillar" id="known-issue-head">
-    <svg class="page-head--column__ring" width="440" height="440" viewBox="0 0 440 440" aria-hidden="true" focusable="false">
+  <header class="ph ph--landing ph--dark" id="known-issue-head">
+    <svg class="ph__ring" width="440" height="440" viewBox="0 0 440 440" aria-hidden="true" focusable="false">
       <circle cx="220" cy="220" r="170" fill="none" stroke="currentColor" stroke-width="2"></circle>
       <circle cx="220" cy="220" r="118" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="8 9"></circle>
       <circle cx="220" cy="220" r="34" fill="currentColor"></circle>
     </svg>
-    <span class="eyebrow">The column &middot; By Swami Guru</span>
-    <h1>Known Issue</h1>
-    <p class="standfirst">
+    <span class="ph__tag">The column &middot; By Swami Guru</span>
+    <h1 class="ph__title">Known Issue</h1>
+    <p class="ph__stand">
       In software, a known issue is the bug everyone has agreed to live with. This column is about the other kind: the things in Apple, Google, Meta, Android, iOS and the apps you open every day that have been wrong long enough to count as a decision rather than an oversight. The morning brief covers what happened today. This covers what has been true for months and still is.
     </p>
-  </div>
+  </header>
 
   <!-- Lead / Featured Column Piece -->
   {leadStory && (
