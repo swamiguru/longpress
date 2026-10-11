@@ -129,6 +129,7 @@ const currentPath = cleanPath(Astro.url.pathname);
 const isDailyActive = currentPath === '/daily' || currentPath.startsWith('/daily/');
 const isKnownIssueActive = currentPath === '/known-issue' || currentPath.startsWith('/known-issue/');
 const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about/');
+const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWith('/fine-print/');
 ---
 <html lang="en-IN">
   <head>
@@ -192,6 +193,7 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
         } catch (e) {}
       })();
     </script>
+    <slot name="head" />
   </head>
 
   <body>
@@ -230,6 +232,14 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
                 Known Issue
               </a>
               <a
+                href="/fine-print"
+                class:list={['nav__link', { 'is-active': isFinePrintActive }]}
+                aria-current={isFinePrintActive ? 'page' : undefined}
+                id="nav-fine-print"
+              >
+                Fine Print
+              </a>
+              <a
                 href="/about"
                 class:list={['nav__link', { 'is-active': isAboutActive }]}
                 aria-current={isAboutActive ? 'page' : undefined}
@@ -248,6 +258,7 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
                 currentPath={currentPath}
                 isDailyActive={isDailyActive}
                 isKnownIssueActive={isKnownIssueActive}
+                isFinePrintActive={isFinePrintActive}
                 isAboutActive={isAboutActive}
                 todayHeaderDate={todayHeaderDate}
                 edition={EDITION}
@@ -285,6 +296,7 @@ const isAboutActive = currentPath === '/about' || currentPath.startsWith('/about
               <li><a href="/" class="footer__link">The Daily Five</a></li>
               <li><a href="/daily" class="footer__link">Daily Archive</a></li>
               <li><a href="/known-issue" class="footer__link">Known Issue Column</a></li>
+              <li><a href="/fine-print" class="footer__link">Fine Print Explainers</a></li>
               <li><a href="/search" class="footer__link">Search Archives</a></li>
             </ul>
           </nav>

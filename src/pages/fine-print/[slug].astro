@@ -1,0 +1,190 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FinePrintMast from '../../components/FinePrintMast.astro';
+import { fpInline, FP_STATUS } from '../../lib/text/finePrint';
+import '../../styles/fine-print.css';
+
+export async function getStaticPaths() {
+  const all = await getCollection('finePrint', ({ data }) => !data.draft);
+  const sorted = all.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+  return sorted.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: {
+      entry,
+      others: sorted.filter((o) => o.data.slug !== entry.data.slug).slice(0, 3),
+    },
+  }));
+}
+
+const { entry, others } = Astro.props;
+const d = entry.data;
+const n = d.sources.length;
+const t = (s: string) => fpInline(s, n);
+const dateFmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+// Reading time across every text field: ~220 words a minute, never under 2.
+const words = [
+  d.oneLine, d.take,
+  ...d.applies.map((a) => `${a.who} ${a.text}`),
+  ...d.rules.map((r) => `${r.quote} ${r.plain}`),
+  ...(d.costs?.rows ?? []).map((r) => `${r.item} ${r.rule} ${r.amount}`),
+  ...d.steps, ...d.finePrint, ...d.unknowns,
+].join(' ').split(/\s+/).filter(Boolean).length;
+const minutes = Math.max(2, Math.round(words / 220));
+const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+---
+<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={d.lastChecked} wide>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,700..900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" />
+  </Fragment>
+
+  <div class="fp">
+    <FinePrintMast />
+
+    <article class="fp-article">
+      <div class="fp-meta">
+        <span>Explainer · {d.category}</span>
+        <span class="fp-stamp">Last checked <time datetime={d.lastChecked.toISOString()}>{dateFmt.format(d.lastChecked)}</time></span>
+        <span>{minutes} min read</span>
+      </div>
+
+      <h1 class="fp-title">{d.title}</h1>
+      <p class="fp-byline">By {d.author} · Published {dateFmt.format(d.published)}</p>
+
+      <section class="fp-oneline" aria-labelledby="fp-oneline">
+        <h2 id="fp-oneline" class="fp-label">In one line</h2>
+        <p set:html={t(d.oneLine)} />
+      </section>
+
+      <section class="fp-section" aria-labelledby="fp-applies">
+        <h2 id="fp-applies" class="fp-h2">Does this apply to you?</h2>
+        <p class="fp-lede">Find yourself in the list.</p>
+        <div class="fp-checks">
+          {d.applies.map((a) => {
+            const s = FP_STATUS[a.status];
+            return (
+              <div class="fp-check">
+                <div class="fp-check__who">{a.who}</div>
+                <div class="fp-body"><span class={`fp-chip fp-chip--${s.tone}`}>{s.label}</span><span set:html={t(a.text)} /></div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {d.rules.length > 0 && (
+        <section class="fp-section" aria-labelledby="fp-rules">
+          <h2 id="fp-rules" class="fp-h2">What the rule actually says</h2>
+          <p class="fp-lede">From the primary document, with the plain version beside it.</p>
+          <div class="fp-rules">
+            {d.rules.map((r) => (
+              <div class="fp-rule">
+                <div class="fp-rule__quote" set:html={t(r.quote)} />
+                <div class="fp-rule__plain" set:html={t(r.plain)} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {d.costs && (
+        <section class="fp-section" aria-labelledby="fp-costs">
+          <h2 id="fp-costs" class="fp-h2">What it costs, in rupees</h2>
+          {d.costs.note && <p class="fp-lede" set:html={t(d.costs.note)} />}
+          <div class="fp-table-wrap">
+            <table class="fp-table">
+              <thead>
+                <tr><th scope="col">Payment</th><th scope="col">Rule</th><th scope="col">{d.costs.payerLabel}</th></tr>
+              </thead>
+              <tbody>
+                {d.costs.rows.map((r) => (
+                  <tr>
+                    <td set:html={t(r.item)} />
+                    <td class="fp-rulecol" set:html={t(r.rule)} />
+                    <td class="fp-num">{r.highlight ? <span class="fp-hl">{r.amount}</span> : r.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {d.steps.length > 0 && (
+        <section class="fp-section" aria-labelledby="fp-steps">
+          <h2 id="fp-steps" class="fp-h2">What to do</h2>
+          <ol class="fp-steps">
+            {d.steps.map((s, i) => (
+              <li><span class="fp-steps__n" aria-hidden="true">{i + 1}</span><span set:html={t(s)} /></li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      <section class="fp-section fp-fine" aria-labelledby="fp-fine">
+        <div class="fp-fine__head">
+          <svg width="22" height="22" viewBox="0 0 40 40" aria-hidden="true"><g stroke="currentColor" stroke-width="6" stroke-linecap="round"><line x1="20" y1="5" x2="20" y2="35"></line><line x1="7" y1="12.5" x2="33" y2="27.5"></line><line x1="7" y1="27.5" x2="33" y2="12.5"></line></g></svg>
+          <h2 id="fp-fine" class="fp-h2">The fine print</h2>
+        </div>
+        <ul class="fp-list">
+          {d.finePrint.map((f) => <li set:html={t(f)} />)}
+        </ul>
+      </section>
+
+      {d.unknowns.length > 0 && (
+        <section class="fp-section" aria-labelledby="fp-unknowns">
+          <h2 id="fp-unknowns" class="fp-h2" style="margin-bottom:14px">What we don't know yet</h2>
+          <ul class="fp-list">
+            {d.unknowns.map((u) => <li set:html={t(u)} />)}
+          </ul>
+        </section>
+      )}
+
+      <section class="fp-section fp-take" aria-labelledby="fp-take">
+        <h2 id="fp-take" class="fp-label">Our take</h2>
+        <p set:html={t(d.take)} />
+      </section>
+
+      <section class="fp-log" aria-labelledby="fp-log">
+        <h2 id="fp-log" class="fp-label">Change log</h2>
+        <div class="fp-log__rows">
+          {lastLog.map((c) => (
+            <div class="fp-log__row"><span class="fp-log__date">{dateFmt.format(c.date)}</span><span set:html={t(c.text)} /></div>
+          ))}
+          {d.nextCheck && (
+            <div class="fp-log__row fp-log__row--next"><span class="fp-log__date">Next check</span><span>{dateFmt.format(d.nextCheck)}, or sooner if the rules change.</span></div>
+          )}
+        </div>
+      </section>
+
+      <section class="fp-sources" aria-labelledby="fp-sources">
+        <h2 id="fp-sources" class="fp-label">Sources</h2>
+        <ol>
+          {d.sources.map((s, i) => (
+            <li id={`fp-src-${i + 1}`}><a href={s.url} rel="noopener" target="_blank">{s.label}</a></li>
+          ))}
+        </ol>
+      </section>
+
+      {(d.video || others.length > 0) && (
+        <section class="fp-end">
+          {d.video && (
+            <a class="fp-end__video" href={d.video.url} rel="noopener" target="_blank">
+              <span class="fp-end__eyebrow">Watch in Hindi</span>
+              <span class="fp-end__title">{d.video.title}</span>
+            </a>
+          )}
+          {others.length > 0 && (
+            <div class="fp-end__box">
+              <span class="fp-end__eyebrow">More in Fine Print</span>
+              <ul class="fp-end__list">
+                {others.map((o) => <li><a href={`/fine-print/${o.data.slug}`}>{o.data.title}</a></li>)}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
+    </article>
+  </div>
+</BaseLayout>

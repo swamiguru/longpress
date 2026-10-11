@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FinePrintMast from '../../components/FinePrintMast.astro';
+import { fpPlain } from '../../lib/text/finePrint';
+import '../../styles/fine-print.css';
+
+const pieces = (await getCollection('finePrint', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const dateFmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+<BaseLayout
+  title="Fine Print: India's tech rules and prices, explained"
+  description="Plain-language explainers of the rules, prices and services that change things for people in India. Primary documents, rupee maths, kept current."
+  wide
+>
+  <Fragment slot="head">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,700..900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" />
+  </Fragment>
+
+  <div class="fp">
+    <FinePrintMast />
+
+    <div class="fp-index">
+      <div class="fp-index__hero">
+        <span class="fp-meta">Pillar 03 · Explainers · By Swami Guru</span>
+        <h1 class="fp-index__title" style="margin-top:14px">What changed, who pays, what to do.</h1>
+        <p class="fp-index__stand">The Daily Five tells you what happened. Known Issue is the opinion column. Fine Print explains the rules, prices and services that change things for you in India, read straight from the source document and kept up to date.</p>
+      </div>
+
+      <div class="fp-promises">
+        <div class="fp-promise">
+          <div class="fp-promise__t">Primary documents</div>
+          <p class="fp-promise__d">We quote the circular, the gazette or the official FAQ, not another site's summary of it.</p>
+        </div>
+        <div class="fp-promise">
+          <div class="fp-promise__t">Rupee maths</div>
+          <p class="fp-promise__d">Worked examples in rupees, so you know exactly what it costs you, if anything.</p>
+        </div>
+        <div class="fp-promise">
+          <div class="fp-promise__t">Kept current</div>
+          <p class="fp-promise__d">Every page carries a "last checked" date and a public change log.</p>
+        </div>
+      </div>
+
+      {pieces.length === 0 ? (
+        <p class="fp-empty">The first explainers land soon. Follow the WhatsApp channel to get them first.</p>
+      ) : (
+        <div class="fp-grid">
+          {pieces.map((p, i) => (
+            <a href={`/fine-print/${p.data.slug}`} class:list={['fp-card', { 'fp-card--lead': i === 0 }]}>
+              <span class="fp-meta">
+                <span>{p.data.category}</span>
+                <span class="fp-stamp">Last checked {dateFmt.format(p.data.lastChecked)}</span>
+              </span>
+              <h2 class="fp-card__title">{p.data.title}</h2>
+              <p class="fp-card__line">{fpPlain(p.data.oneLine)}</p>
+              <span class="fp-card__more">Read the explainer &rarr;</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>

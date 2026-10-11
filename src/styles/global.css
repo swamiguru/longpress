@@ -4555,6 +4555,7 @@ li.brief__item .brief__caption {
 /* Nav markers: the same two colours the homepage uses */
 .nav__link#nav-daily { padding-bottom: 5.5px; border-bottom: 3px solid var(--accent); }
 .nav__link#nav-known-issue { padding-bottom: 5.5px; border-bottom: 3px solid var(--accent-2); }
+.nav__link#nav-fine-print { padding-bottom: 5.5px; border-bottom: 3px solid #E8C21A; }
 
 .hp a { color: inherit; text-decoration: none; }
 .hp a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }

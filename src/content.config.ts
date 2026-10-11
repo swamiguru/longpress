@@ -148,4 +148,78 @@ const stories = defineCollection({
   }),
 });
 
-export const collections = { daily, stories };
+/**
+ * Fine Print - the third pillar. Plain-language explainers of the rules,
+ * prices and services that change things for people in India, kept current.
+ * Every block below is the format, not decoration: a piece without
+ * "does this apply to you", rupee maths where money is involved, the
+ * fine print and a change log is not a Fine Print piece.
+ *
+ * Inline markers in the text fields: [^n] links to source n, ==text== is
+ * a highlighter sweep. Nothing else is interpreted; everything is escaped.
+ */
+const finePrint = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/fine-print' }),
+  schema: z.object({
+    /** Explicit and permanent: the URL is /fine-print/<slug>. */
+    slug: z.string(),
+    title: z.string(),
+    /** Meta description - hard capped so it does not truncate in results. */
+    description: z.string().max(160),
+    /** Short beat label shown as the eyebrow, e.g. "Payments". */
+    category: z.string(),
+    author: z.string().default('Swami Guru'),
+    published: z.coerce.date(),
+    /** When the facts were last re-checked against the sources. Shown as a stamp. */
+    lastChecked: z.coerce.date(),
+    nextCheck: z.coerce.date().optional(),
+    /** The whole answer in one sentence. */
+    oneLine: z.string(),
+    /** "Does this apply to you?" - one row per kind of reader. */
+    applies: z
+      .array(
+        z.object({
+          who: z.string(),
+          status: z.enum(['no-change', 'you-pay', 'act', 'check']),
+          text: z.string(),
+        }),
+      )
+      .min(1),
+    /** The rule quoted from the primary document, beside the plain version. */
+    rules: z
+      .array(z.object({ quote: z.string(), plain: z.string() }))
+      .default([]),
+    /** Worked rupee examples. Optional for pieces with no money angle. */
+    costs: z
+      .object({
+        note: z.string().optional(),
+        payerLabel: z.string().default('Cost'),
+        rows: z
+          .array(
+            z.object({
+              item: z.string(),
+              rule: z.string(),
+              amount: z.string(),
+              highlight: z.boolean().default(false),
+            }),
+          )
+          .min(1),
+      })
+      .optional(),
+    steps: z.array(z.string()).default([]),
+    /** The catches. The section the pillar is named after. */
+    finePrint: z.array(z.string()).min(1),
+    unknowns: z.array(z.string()).default([]),
+    /** One paragraph of opinion. */
+    take: z.string(),
+    changelog: z.array(z.object({ date: z.coerce.date(), text: z.string() })).min(1),
+    /** Numbered in order; [^1] in the text points at the first. Primary documents first. */
+    sources: z.array(z.object({ label: z.string(), url: z.string().url() })).min(1).max(12),
+    /** The Hindi long-form on @builtbyswami, when there is one. */
+    video: z.object({ title: z.string(), url: z.string().url() }).optional(),
+    topics: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { daily, stories, finePrint };

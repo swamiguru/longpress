@@ -4,6 +4,7 @@ export interface Props {
   currentPath?: string;
   isDailyActive?: boolean;
   isKnownIssueActive?: boolean;
+  isFinePrintActive?: boolean;
   isAboutActive?: boolean;
   todayHeaderDate?: string;
   edition?: string;
@@ -14,6 +15,7 @@ const {
   currentPath = '/',
   isDailyActive = false,
   isKnownIssueActive = false,
+  isFinePrintActive = false,
   isAboutActive = false,
   todayHeaderDate = '',
   edition = 'EDITION 10:00 IST',
@@ -153,6 +155,30 @@ import WhatsAppCta from './WhatsAppCta.astro';
                 <span class="drawer-card__badge drawer-card__badge--opinion">Opinion Column</span>
               </div>
               <p class="drawer-card__desc">The things that have been broken long enough to count as a decision.</p>
+            </div>
+            <span class="drawer-card__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+
+          <!-- Fine Print Explainers -->
+          <a
+            href="/fine-print"
+            class:list={['drawer-card', { 'is-active': isFinePrintActive }]}
+            aria-current={isFinePrintActive ? 'page' : undefined}
+            id="drawer-nav-fine-print"
+          >
+            <div class="drawer-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
+                <line x1="20" y1="5" x2="20" y2="35"></line>
+                <line x1="7" y1="12.5" x2="33" y2="27.5"></line>
+                <line x1="7" y1="27.5" x2="33" y2="12.5"></line>
+              </svg>
+            </div>
+            <div class="drawer-card__content">
+              <div class="drawer-card__header">
+                <span class="drawer-card__title">Fine Print</span>
+                <span class="drawer-card__badge">Explainers</span>
+              </div>
+              <p class="drawer-card__desc">The rules, prices and services that changed, explained in rupees.</p>
             </div>
             <span class="drawer-card__arrow" aria-hidden="true">&rarr;</span>
           </a>

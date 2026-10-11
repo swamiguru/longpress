@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 export async function GET() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
+  const finePrint = await getCollection('finePrint', ({ data }) => !data.draft);
 
   const dtf = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 
@@ -16,6 +17,21 @@ export async function GET() {
     date: dtf.format(s.data.published),
     url: `/${s.data.slug}`,
   }));
+
+  // Fine Print explainers ride in the stories list (category 'explainer')
+  // so the existing search UI finds them without changes.
+  for (const f of finePrint) {
+    storyItems.push({
+      type: 'story' as const,
+      id: `fine-print-${f.data.slug}`,
+      title: f.data.title,
+      description: f.data.description,
+      category: 'explainer',
+      topics: f.data.topics || [],
+      date: dtf.format(f.data.published),
+      url: `/fine-print/${f.data.slug}`,
+    });
+  }
 
   const briefItems = briefs.map((b) => {
     const slug = b.id.replace(/\.md$/, '');
