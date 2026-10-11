@@ -175,3 +175,37 @@ html:not([data-theme="dark"]):has(.fp--doc) body {
   background-color: #F2E8CE;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .14 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
+/* Story pages: newspaper and typewriter typography (11 Oct 2026).
+   Source Serif 4 (already self-hosted) for headlines, IBM Plex Mono for
+   everything that should read as typed: labels, bylines, quotes, numbers. */
+.fp--doc .ph__title { font-family: var(--fp-serif); font-weight: 900; font-variation-settings: normal; letter-spacing: -.012em; line-height: 1.06; }
+.fp--doc .fp-h2 { font-family: var(--fp-serif); font-weight: 800; font-variation-settings: normal; letter-spacing: -.005em; }
+.fp--doc .fp-label { letter-spacing: .18em; }
+
+/* Newspaper byline in typed capitals */
+.fp--doc .byline__name { font-family: var(--fp-mono); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+.fp--doc .byline__date { font-family: var(--fp-mono); }
+
+/* Double rule closes the head, like under a masthead */
+.fp--doc .ph { border-bottom: 4px double var(--fp-ink); padding-bottom: var(--s5); }
+
+/* "In one line" becomes the lead paragraph: double rules, drop cap */
+.fp--doc .fp-oneline { border: 0; border-block: 4px double var(--fp-ink); background: transparent; padding: 22px 0; }
+.fp--doc .fp-oneline p::first-letter {
+  float: left; font-family: var(--fp-serif); font-weight: 900; font-size: 3.6em; line-height: .8;
+  padding: 6px 10px 0 0; color: var(--fp-ink);
+}
+
+/* Quoted rule text reads like a typed exhibit */
+.fp--doc .fp-rule__quote { background: rgba(60, 40, 10, .045); }
+
+/* Cost table: ledger lines */
+.fp--doc .fp-table td { border-top-style: dotted; border-top-color: var(--fp-rule-strong); }
+
+/* "Last checked" as a rubber stamp (light mode only; dark keeps ink) */
+.fp--doc .ph__tags .fp-stamp {
+  background: transparent; color: var(--fp-ink); border: 2px solid currentColor; padding: 4px 9px;
+  transform: rotate(-1.5deg);
+}
+html:not([data-theme="dark"]) .fp--doc .ph__tags .fp-stamp { color: #9B2226; }
