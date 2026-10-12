@@ -48,7 +48,7 @@ html[data-theme="dark"] .hp-daily .hp-kick--daily { color: var(--accent-light, #
 .hp-dhead__when i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: hp-pulse 1.8s ease-in-out infinite; }
 .hp-dhead__when em { padding: 5px 8px; font: 700 10px/1 var(--mono); letter-spacing: 0.14em; font-style: normal; background: #17182E; color: #FF9D7A; }
 html[data-theme="dark"] .hp-dhead__when em { background: var(--accent); color: #fff; }
-.hp-dhead h2 { margin: 0; font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900; font-size: clamp(34px, 5.4vw, 64px); line-height: 1; letter-spacing: -0.01em; text-wrap: balance; }
+.hp-dhead h2 { margin: 0; font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900; font-size: clamp(34px, 3.4vw, 48px); line-height: 1; letter-spacing: -0.01em; text-wrap: balance; }
 .hp-dhead__sub { margin: 0; max-width: 46ch; color: var(--ink-soft, var(--muted)); font-size: 16px; line-height: 1.5; }
 .hp-dhead .hp-btn { margin-top: 6px; }
 
@@ -83,3 +83,4 @@ html[data-theme="dark"] .hp-key__k { --c: #E8B94F; }
   .hp-key ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { .hp-dhead__when i { animation: none; } }
+@media (min-width: 1021px) { .hp-dhead h2 { white-space: nowrap; } }
