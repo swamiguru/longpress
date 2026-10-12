@@ -59,31 +59,31 @@
   <text x="66" y="452" font-family="Georgia, Times New Roman, serif" font-style="italic" font-size="21" fill="#3A3B57">Everyone else tells you what happened.</text>
   <text x="66" y="480" font-family="Georgia, Times New Roman, serif" font-style="italic" font-size="21" fill="#3A3B57">We stay on it a beat longer.</text>
 
-  <g transform="translate(220,522) rotate(-3)">
-    <rect x="6" y="6" width="252" height="58" fill="#E0552B"/>
-    <rect x="0" y="0" width="252" height="58" fill="#17182E" stroke="#E0552B" stroke-width="3"/>
-    <circle cx="30" cy="29" r="10" fill="none" stroke="#E0552B" stroke-width="2"/>
-    <circle cx="30" cy="29" r="3.6" fill="#E0552B"/>
-    <text x="52" y="24" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="11.5" letter-spacing="1.4" fill="#E0552B">THE DAILY FIVE</text>
-    <text x="52" y="44" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="11.5" letter-spacing="1.4" fill="#F4F1E8" opacity="0.75">EVERY MORNING</text>
+  <g transform="translate(172,514) rotate(-3)">
+    <rect x="6" y="6" width="290" height="68" fill="#E0552B"/>
+    <rect x="0" y="0" width="290" height="68" fill="#17182E" stroke="#E0552B" stroke-width="3"/>
+    <circle cx="32" cy="34" r="11.5" fill="none" stroke="#E0552B" stroke-width="2"/>
+    <circle cx="32" cy="34" r="4.2" fill="#E0552B"/>
+    <text x="58" y="29" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="14.5" letter-spacing="1" fill="#FF9D7A">THE DAILY FIVE</text>
+    <text x="58" y="53" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="14.5" letter-spacing="1" fill="#F4F1E8">EVERY MORNING</text>
   </g>
 
-  <g transform="translate(500,530) rotate(2.4)">
-    <rect x="6" y="6" width="252" height="58" fill="#7CC3B6"/>
-    <rect x="0" y="0" width="252" height="58" fill="#17182E" stroke="#7CC3B6" stroke-width="3" stroke-dasharray="7 5"/>
-    <circle cx="30" cy="29" r="10" fill="none" stroke="#7CC3B6" stroke-width="2"/>
-    <circle cx="30" cy="29" r="3.6" fill="#7CC3B6"/>
-    <text x="52" y="24" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="11.5" letter-spacing="1.4" fill="#7CC3B6">KNOWN ISSUE</text>
-    <text x="52" y="44" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="11.5" letter-spacing="1.4" fill="#F4F1E8" opacity="0.75">STILL OPEN NO SCHEDULE</text>
+  <g transform="translate(476,524) rotate(2.4)">
+    <rect x="6" y="6" width="290" height="68" fill="#7CC3B6"/>
+    <rect x="0" y="0" width="290" height="68" fill="#17182E" stroke="#7CC3B6" stroke-width="3" stroke-dasharray="7 5"/>
+    <circle cx="32" cy="34" r="11.5" fill="none" stroke="#7CC3B6" stroke-width="2"/>
+    <circle cx="32" cy="34" r="4.2" fill="#7CC3B6"/>
+    <text x="58" y="29" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="14.5" letter-spacing="1" fill="#8FE0D0">KNOWN ISSUE</text>
+    <text x="58" y="53" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="14.5" letter-spacing="1" fill="#F4F1E8">STILL OPEN NO SCHEDULE</text>
   </g>
 
-  <g transform="translate(784,524) rotate(-2)">
-    <rect x="6" y="6" width="252" height="58" fill="#F4F1E8"/>
-    <rect x="0" y="0" width="252" height="58" fill="#17182E" stroke="#F4F1E8" stroke-width="3"/>
-    <circle cx="30" cy="29" r="10" fill="none" stroke="#F4F1E8" stroke-width="2"/>
-    <circle cx="30" cy="29" r="3.6" fill="#F4F1E8"/>
-    <text x="52" y="24" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="11.5" letter-spacing="1.4" fill="#F4F1E8">FINE PRINT</text>
-    <text x="52" y="44" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="11.5" letter-spacing="1.4" fill="#F4F1E8" opacity="0.75">INDIA RULES, PRICES</text>
+  <g transform="translate(782,518) rotate(-2)">
+    <rect x="6" y="6" width="290" height="68" fill="#F4F1E8"/>
+    <rect x="0" y="0" width="290" height="68" fill="#17182E" stroke="#F4F1E8" stroke-width="3"/>
+    <circle cx="32" cy="34" r="11.5" fill="none" stroke="#F4F1E8" stroke-width="2"/>
+    <circle cx="32" cy="34" r="4.2" fill="#F4F1E8"/>
+    <text x="58" y="29" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="14.5" letter-spacing="1" fill="#F4F1E8">FINE PRINT</text>
+    <text x="58" y="53" font-family="Menlo, Consolas, monospace" font-weight="700" font-size="14.5" letter-spacing="1" fill="#F4F1E8">INDIA RULES, PRICES</text>
   </g>
 
   <rect x="0" y="624" width="600" height="6" fill="#B8340F"/>
