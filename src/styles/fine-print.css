@@ -190,8 +190,9 @@ html:not([data-theme="dark"]):has(.fp--doc) body {
 /* Double rule closes the head, like under a masthead */
 .fp--doc .ph { border-bottom: 4px double var(--fp-ink); padding-bottom: var(--s5); }
 
-/* "In one line" becomes the lead paragraph: double rules, drop cap */
-.fp--doc .fp-oneline { border: 0; border-block: 4px double var(--fp-ink); background: transparent; padding: 22px 0; }
+/* "In one line" becomes the lead paragraph: drop cap, double rule below only.
+   The head's own double rule already sits directly above it, so no top rule here. */
+.fp--doc .fp-oneline { border: 0; border-bottom: 4px double var(--fp-ink); background: transparent; padding: 22px 0; }
 .fp--doc .fp-oneline p::first-letter {
   float: left; font-family: var(--fp-serif); font-weight: 900; font-size: 3.6em; line-height: .8;
   padding: 6px 10px 0 0; color: var(--fp-ink);
