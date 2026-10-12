@@ -4863,10 +4863,6 @@ html[data-theme="dark"] .pg--ki .known-issue-featured { border-color: var(--teal
 .pg--ki.pg--article .chip--primary { background: var(--teal-light); }
 .pg--article .story-footer-card { border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--pl-shadow); }
 
-/* Known Issue column parts: teal, not the brief's blue/orange */
-.pg--ki .column-callout--money { border: 2px solid var(--accent-2); background: var(--accent-2-subtle); }
-.pg--ki .column-pullquote { border-left: 5px solid var(--accent-2); }
-.pg--ki .column-verdict { border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--teal-light); }
 
 /* Daily Five issue: numbered, image-first stories */
 .pg--daily .brief__item { border-top: 3px solid var(--ink); }
@@ -5080,7 +5076,7 @@ main:has(.hp-band) { padding-bottom: 0; }
 :root { --teal-text: #2E675F; }
 html[data-theme="dark"] { --teal-text: var(--teal-light); }
 .pg--ki { --pl-text: var(--teal-text); }
-.pg--about .column-callout__label, .pg--ki .column-callout__label, .column-callout__label { color: var(--teal-text); }
+.pg--about .column-callout__label, .column-callout__label { color: var(--teal-text); }
 .edition-nav__disabled { color: var(--muted); }
 html[data-theme="dark"] .pg .pill-tag--known-issue { background: var(--teal-light); border-color: var(--teal-light); color: #17182E; }
 
@@ -5192,12 +5188,6 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 @media (min-width: 1100px) {
   .art-head--media { gap: 48px; }
 }
-/* slimmer column structure */
-.pg--article .column-structure { gap: 12px; margin-top: var(--s5); }
-.pg--article .column-callout, .pg--article .column-pullquote, .pg--article .column-verdict { padding: 14px 16px; }
-.pg--article .column-callout__label, .pg--article .column-pullquote__label { margin-bottom: 6px; }
-.pg--article .column-callout p, .pg--article .column-verdict__note { font-size: 15px; line-height: 1.55; }
-@media (min-width: 900px) { .pg--article .column-verdict { flex-direction: row; align-items: center; gap: 16px; } }
 .pg--article .article-share-end { margin-block: var(--s5) !important; padding-top: var(--s4) !important; }
 .pg--article .story-footer-card { padding: 16px 18px; gap: 12px; }
 .pg--article .story-footer-card__bio { font-size: 14px; margin: 4px 0 0; }
