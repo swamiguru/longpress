@@ -10,6 +10,7 @@ import PageCrumb from '../../components/PageCrumb.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 import { getResponsiveImage } from '../../lib/images';
 import { fallbackFor } from '../../lib/fallbacks';
+import '../../styles/daily-five.css';
 import { linkify, stripLinks, hostLabel } from '../../lib/text/inline.mjs';
 
 /** Every link an item cites: the `sources` list plus the legacy single `source`, de-duplicated. */
@@ -52,6 +53,11 @@ const shortDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'sho
 const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(brief);
 const taps = d.taps ?? [];
+/** Publish time promised in the head and strips. Keep in step with EDITION in BaseLayout.astro. */
+const EDITION_TIME = '10:00';
+const NUM_WORD = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five'];
+const countWord = NUM_WORD[items.length] ?? String(items.length);
+const dayLabel = new Intl.DateTimeFormat('en-IN', { weekday: 'long', day: 'numeric', month: 'long' }).format(d.date);
 
 /** The press-and-hold structure, in reading order. */
 const ANALYSIS = [
@@ -68,7 +74,14 @@ const ANALYSIS = [
 
     <header class="ph ph--story ph--brief">
       <div class="ph__body">
-        <span class="ph__tag">The Daily Five</span>
+        <div class="df-clock">
+          <span class="df-clock__time" aria-label={`${EDITION_TIME} IST edition`}>{EDITION_TIME}</span>
+          <span class="df-clock__meta">
+            <b>IST · The Daily Five</b>
+            <span>{dayLabel}</span>
+            <span>{countWord} {items.length === 1 ? 'story' : 'stories'}. Never six.</span>
+          </span>
+        </div>
         <h1 class="ph__title">{d.title}</h1>
         {d.intro && <p class="ph__stand">{d.intro}</p>}
         <div class="byline">
@@ -99,97 +112,92 @@ const ANALYSIS = [
 
     <WhatsAppCta variant="strip" location="brief_top" />
 
-    <ol class="stories">
+    <ol class="df-stack">
       {items.map((item, i) => {
         const analysis = ANALYSIS.filter(([k]) => item[k as keyof typeof item]);
         const img = getResponsiveImage(item.image ?? fallbackFor(item.kind, d.date), {
-          aspectRatio: '1/1',
-          customSizes: '(max-width: 859px) 100vw, 250px',
+          aspectRatio: '4/3',
+          customSizes: '(max-width: 759px) 100vw, 260px',
         });
         const heading = item.heading;
+        const num = String(item.slot).padStart(2, '0');
+        const isOpinion = OPINION.includes(item.kind);
+        const cites = sourcesOf(item);
         return (
           <>
-            {i === 2 && <li class="ad-row"><AdSlot placement="brief" /></li>}
-            <li id={`story-${item.slot}`} class={`story${OPINION.includes(item.kind) ? ' story--opinion' : ''}`}>
+            {i === 2 && <li class="df-ad"><AdSlot placement="brief" /></li>}
+            <li id={`story-${item.slot}`} class="df-row">
               <span id={`slot-${item.slot}`} class="slot-anchor" aria-hidden="true"></span>
               <span id={heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} class="slot-anchor" aria-hidden="true"></span>
-              <div class="story__grid">
-                <div class="story__media">
-                  <img
-                    class="story__img"
-                    src={img.src}
-                    srcset={img.srcset}
-                    sizes={img.sizes}
-                    width={img.width}
-                    height={img.height}
-                    alt={item.imageAlt || ''}
-                    loading={i < 1 ? 'eager' : 'lazy'}
-                    decoding="async"
-                  />
-                  <div class="story__chips">
-                    <span class="story__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
-                    <span class="story__kind">{label(item.kind)}</span>
-                    {item.region === 'india' && <span class="story__kind story__region">India</span>}
+              <span class="df-node" aria-hidden="true">{item.slot}</span>
+              <div class="df-card">
+                <div class="df-strip">
+                  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#ECEAF4" stroke-width="2"></circle><path d="M12 3a9 9 0 0 1 0 18" fill="none" stroke="#E0552B" stroke-width="2.6"></path><circle cx="12" cy="12" r="2.6" fill="#ECEAF4"></circle></svg>
+                  <span>Long Press · Daily Five</span>
+                  <span class="df-strip__time">{EDITION_TIME} IST</span>
+                  <span class="df-strip__n"><b>{num}</b> / {String(items.length).padStart(2, '0')}</span>
+                </div>
+                <div class="df-story">
+                  <div class="df-story__media">
+                    <img
+                      src={img.src}
+                      srcset={img.srcset}
+                      sizes={img.sizes}
+                      width={img.width}
+                      height={img.height}
+                      alt={item.imageAlt || ''}
+                      loading={i < 1 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                    <div class="df-story__chips">
+                      <span class={`df-chip${isOpinion ? ' df-chip--opinion' : ''}`}>{label(item.kind)}</span>
+                      {item.region === 'india' && <span class="df-chip df-chip--india">India</span>}
+                    </div>
+                  </div>
+                  <div class="df-story__text">
+                    <h2 class="df-story__title">{heading}</h2>
+                    <div class="df-story__body">
+                      {item.body && <p set:html={linkify(item.body)} />}
+                      {item.story && (
+                        <>
+                          <p set:html={linkify(item.teaser)} />
+                          <p class="df-story__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <h2 class="story__title">{heading}</h2>
-                <div class="story__body">
-                  {item.body && <p class="story__text" set:html={linkify(item.body)} />}
-                  {item.story && (
-                    <>
-                      <p class="story__text" set:html={linkify(item.teaser)} />
-                      <p class="brief__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
-                    </>
-                  )}
+
+                {analysis.length > 0 && (
+                  <dl class="df-parts" aria-label="Analysis breakdown">
+                    {analysis.map(([key, text]) => (
+                      <div class={`df-part df-part--${key}`}>
+                        <dt>{text}</dt>
+                        <dd set:html={linkify(String(item[key as keyof typeof item] ?? ''))} />
+                      </div>
+                    ))}
+                  </dl>
+                )}
+
+                <div class="df-foot">
+                  {cites.length > 0 ? (
+                    <p class="df-source">
+                      <span class="df-source__label">Sources</span>
+                      {cites.map((s) => (
+                        <a href={s.url} rel="noopener" target="_blank">{s.label || hostLabel(s.url)} &nearr;</a>
+                      ))}
+                    </p>
+                  ) : <span></span>}
+                  <ShareButtons
+                    title={heading}
+                    description={stripLinks(item.forYou || item.body || item.teaser || '')}
+                    url={`/daily/${dateStr}#story-${item.slot}`}
+                    compact
+                  />
                 </div>
+
+                <div class="df-prev"><PreviouslyOn id={`daily:${dateStr}#${item.slot}`} /></div>
               </div>
-
-              {analysis.length > 0 && (
-                <dl class="analysis" aria-label="Analysis breakdown">
-                  {analysis.map(([key, text]) => (
-                    <div class={`analysis__cell analysis__cell--${key}`}>
-                      <dt class={`analysis__pill analysis__pill--${key}`}>
-                        <span class="analysis__icon" aria-hidden="true">
-                          {key === 'problem' && (
-                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2 20.5h20L12 3.5z"></path><path d="M12 10v4.2"></path><circle cx="12" cy="17.6" r="0.6" fill="currentColor" stroke="none"></circle></svg>
-                          )}
-                          {key === 'breakthrough' && (
-                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-15.3 6.4L3 16"></path><path d="M3 21v-5h5"></path></svg>
-                          )}
-                          {key === 'catch' && (
-                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"></path></svg>
-                          )}
-                          {key === 'forYou' && (
-                            <svg viewBox="0 0 24 24" width="13" height="13"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="3" fill="currentColor"></circle></svg>
-                          )}
-                        </span>
-                        <span>{text}</span>
-                      </dt>
-                      <dd set:html={linkify(String(item[key as keyof typeof item] ?? ''))} />
-                    </div>
-                  ))}
-                </dl>
-              )}
-
-              <ShareButtons
-                title={heading}
-                description={stripLinks(item.forYou || item.body || item.teaser || '')}
-                url={`/daily/${dateStr}#story-${item.slot}`}
-                compact
-              />
-
-              {sourcesOf(item).length > 0 && (
-                <p class="brief__source">
-                  <span class="brief__source-label">Sources</span>
-                  {sourcesOf(item).map((s) => (
-                    <a href={s.url} rel="noopener" target="_blank" class="brief__source-link">
-                      {s.label || hostLabel(s.url)} &nearr;
-                    </a>
-                  ))}
-                </p>
-              )}
-
-              <PreviouslyOn id={`daily:${dateStr}#${item.slot}`} />
             </li>
           </>
         );
@@ -223,12 +231,10 @@ const ANALYSIS = [
 
     <div class="prose" style="margin-top: var(--s7)"><Content /></div>
 
-    <div class="brief-signoff">
-      <svg width="28" height="28" viewBox="0 0 24 24" class="brief-signoff__mark" aria-hidden="true">
-        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="12" cy="12" r="3" fill="currentColor"></circle>
-      </svg>
-      <span class="brief-signoff__text">That's the five. Press and hold tomorrow.</span>
+    <div class="df-cap">
+      <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="3" fill="currentColor"></circle></svg>
+      <span>That's {items.length === 5 ? 'all five' : `all ${countWord.toLowerCase()}`}. Next edition tomorrow, {EDITION_TIME} IST.</span>
+      <small>Press and hold</small>
     </div>
 
     <WhatsAppCta variant="card" location="brief_end" />

@@ -1,0 +1,112 @@
+/* The Daily Five brief page: "Morning Stack".
+   All classes are df-* on purpose. global.css still carries legacy .story /
+   .analysis / .stories rules for the old layout, and new names sidestep them. */
+
+/* ---------- Clock block in the head ---------- */
+.df-clock { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 18px; }
+.df-clock__time {
+  font: 900 clamp(76px, 15vw, 150px)/0.86 var(--display);
+  letter-spacing: -0.04em;
+  color: var(--accent-light, #FF9D7A);
+  font-variant-numeric: tabular-nums;
+}
+.df-clock__meta { display: grid; gap: 6px; padding-bottom: 8px; font: 600 12px/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-soft, #C9C7DB); }
+.df-clock__meta b { color: var(--dark-ink, #ECEAF4); font-weight: 700; }
+
+/* ---------- The stack ---------- */
+.df-stack { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 40px; }
+.df-ad { list-style: none; }
+
+.df-row { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); scroll-margin-top: 80px; }
+@media (min-width: 900px) {
+  .df-row { grid-template-columns: 64px minmax(0, 1fr); column-gap: 8px; }
+  .df-row::before {
+    content: ""; position: absolute; left: 21px; top: 44px; bottom: -40px; width: 0;
+    border-left: 3px dotted var(--accent);
+  }
+  .df-row:last-of-type::before { display: none; }
+}
+.df-node {
+  display: none; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--accent); color: #fff; place-items: center;
+  font: 900 18px/1 var(--display); position: relative; z-index: 1;
+  box-shadow: 0 0 0 5px var(--ground);
+}
+@media (min-width: 900px) { .df-node { display: grid; } }
+
+.df-card {
+  min-width: 0; background: var(--surface, #fff); color: var(--ink);
+  border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink);
+}
+html[data-theme="dark"] .df-card { box-shadow: 6px 6px 0 var(--accent); border-color: var(--dark-rule, #34376a); }
+
+.df-strip {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: #17182E; color: #ECEAF4; padding: 10px 16px;
+  font: 600 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase;
+}
+.df-strip svg { flex: none; }
+.df-strip__time { margin-left: auto; color: #FF9D7A; }
+.df-strip__n { font-variant-numeric: tabular-nums; }
+.df-strip__n b { color: #FF9D7A; font-weight: 700; }
+
+.df-chip { display: inline-block; padding: 4px 8px; font: 700 10px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; background: #17182E; color: #ECEAF4; }
+.df-chip--opinion { background: var(--accent); color: #fff; }
+.df-chip--india { background: #2F6A62; color: #fff; }
+
+.df-story { display: grid; gap: 0; }
+.df-story__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--ground); border-bottom: 2px solid var(--ink); }
+.df-story__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.df-story__chips { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+.df-story__text { padding: 20px 18px 22px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.df-story__title { font: 900 clamp(24px, 3.4vw, 34px)/1.1 var(--display); letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
+.df-story__body { display: grid; gap: 10px; }
+.df-story__body p { margin: 0; font-size: 17px; line-height: 1.65; max-width: 62ch; }
+.df-story__body a, .df-part dd a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
+html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part dd a { color: var(--accent-light, #FF9D7A); }
+.df-story__more { font-weight: 600; }
+@media (min-width: 760px) {
+  .df-story { grid-template-columns: 260px minmax(0, 1fr); }
+  .df-story__media { aspect-ratio: auto; min-height: 100%; border-bottom: 0; border-right: 2px solid var(--ink); }
+  .df-story__text { padding: 24px 24px 26px; }
+}
+
+/* ---------- The four labelled rows ---------- */
+.df-parts { margin: 0; border-top: 2px solid var(--ink); }
+.df-part {
+  --c: var(--accent-deep);
+  display: grid; gap: 8px; padding: 14px 18px 16px;
+  border-left: 6px solid var(--c); border-bottom: 1px solid var(--rule, #CFC8B3);
+}
+.df-part:last-child { border-bottom: 0; }
+.df-part--problem { --c: #A83D18; }
+.df-part--breakthrough { --c: #3E7C74; }
+.df-part--catch { --c: #B7791F; }
+.df-part--forYou { --c: var(--accent); }
+.df-part dt { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c); }
+html[data-theme="dark"] .df-part--problem dt { color: #FF9D7A; }
+html[data-theme="dark"] .df-part--breakthrough dt { color: #7CC0B6; }
+html[data-theme="dark"] .df-part--catch dt { color: #E8B94F; }
+.df-part dd { margin: 0; font-size: 16px; line-height: 1.6; max-width: 64ch; }
+.df-part--forYou { background: #17182E; color: #ECEAF4; }
+.df-part--forYou dt { color: #FF9D7A; }
+.df-part--forYou dd { font-size: 17px; font-weight: 500; }
+.df-part--forYou dd a { color: #FF9D7A; }
+html[data-theme="dark"] .df-part--forYou { background: #0E0F22; }
+
+.df-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 18px; border-top: 2px solid var(--ink); }
+.df-source { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 14px; }
+.df-source__label { font: 700 10px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.df-source a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.df-prev { padding: 0 18px 16px; }
+.df-prev:empty { display: none; }
+
+/* ---------- End cap ---------- */
+.df-cap {
+  display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+  margin: 48px 0 8px; padding: 22px 18px; background: #17182E; color: #ECEAF4;
+  border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--accent); text-align: center;
+  font: 800 clamp(18px, 2.6vw, 24px)/1.25 var(--display);
+}
+.df-cap svg { color: #FF9D7A; flex: none; }
+.df-cap small { display: block; width: 100%; font: 600 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: #C9C7DB; }
