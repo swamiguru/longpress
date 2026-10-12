@@ -129,6 +129,16 @@ const stories = defineCollection({
      * nothing renders.
      */
     openSince: z.number().int().min(1990).optional(),
+    /**
+     * Date the problem was first reported or shipped, e.g. 2011-10-12.
+     * Optional. On a Known Issue page it drives the "Open for N days"
+     * counter in the head. Must be a real, checkable date. Without it the
+     * head falls back to openSince (years), and without either the
+     * strip is not rendered.
+     */
+    reportedOn: z.coerce.date().optional(),
+    /** One line on what a reader can do about it today. Shown in the head strip. Optional. */
+    workaround: z.string().optional(),
 
     /** "Not today's news." What's been true for months, and why this is worth saying now rather than at launch. */
     trigger: z.string().optional(),

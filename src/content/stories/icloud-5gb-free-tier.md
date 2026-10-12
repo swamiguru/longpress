@@ -9,6 +9,8 @@ heroImage: "/images/stories/icloud-5gb-free-tier-hero.png"
 heroImageAlt: "Illustration of an iPhone showing 5GB of 5GB iCloud storage used, surrounded by icons for photos, backups and documents"
 heroImageCaption: "Illustration, not an actual iOS screen."
 openSince: 2011
+reportedOn: 2011-06-06
+workaround: "iCloud+ from ₹75 a month"
 trigger: >-
   Not this week's news. Apple's free iCloud tier has been 5GB since 2011, and its own support page still says so today. Written now because new iPhones ship every September, and setup is where the 5GB runs out.
 whoBenefits: >-
@@ -36,7 +38,7 @@ sources:
 draft: false
 ---
 
-A new iPhone setup often goes the same way. You sign in, iCloud starts backing up, and within days a banner says storage is almost full. [Apple's iCloud+ support page](https://support.apple.com/en-in/108047) still opens with the same offer: 5GB of storage for free.
+A new iPhone setup often goes the same way. You sign in, iCloud starts backing up, and within days <mark>a banner says storage is almost full</mark>. [Apple's iCloud+ support page](https://support.apple.com/en-in/108047) still opens with the same offer: 5GB of storage for free.
 
 ![Illustration of an iPhone alert reading "Your iCloud Storage is Full", with a Manage Storage prompt](/images/stories/icloud-5gb-free-tier-full.png)
 *Illustration, not an actual iOS alert.*
