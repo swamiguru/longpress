@@ -302,6 +302,10 @@ const ANALYSIS = [
 </BaseLayout>
 
 <style>
+  /* Google preferred-sources button beside the WhatsApp strip. Wraps below
+     ~900px so the strip never gets squeezed. */
+  .top-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-block: var(--s4); }
+  .top-actions :global(.wa-strip) { flex: 1 1 380px; margin-block: 0; }
   /* The roundup's social cards are 1080x1080. Full width would shout louder
      than the headline, so cap them and let the text lead. Width and height are
      on the tag itself, so the box is reserved before the file loads and the
