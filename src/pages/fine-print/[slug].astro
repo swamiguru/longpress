@@ -58,11 +58,11 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
         <span class="byline__read">{minutes} min read</span>
       </div>
       <div class="fp-share">
-        <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} compact />
+        <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} compact>
+          <PreferredSource />
+        </ShareButtons>
       </div>
     </header>
-
-    <PreferredSource />
 
     <article class="fp-article">
 

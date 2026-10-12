@@ -128,7 +128,9 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
             description={d.description}
             compact
             class="share-bar--top"
-          />
+          >
+            <PreferredSource theme={d.category === 'known-issue' ? 'dark' : 'light'} />
+          </ShareButtons>
         </div>
         {leadSrc && (
           <figure class={`art-head__media${leadIsWide ? ' art-head__media--wide' : ''}`}>
@@ -138,8 +140,6 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
         )}
       </div>
     </header>
-
-    <PreferredSource />
 
     <div class="prose"><Content /></div>
 

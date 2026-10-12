@@ -124,6 +124,7 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
       <span class="share-pill__text">Copy Link</span>
     </button>
   </div>
+  {Astro.slots.has('default') && <div class="share-bar__extra"><slot /></div>}
   <span class="sr-only" role="status" aria-live="polite"></span>
 </aside>
 
@@ -150,6 +151,12 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+  }
+
+  .share-bar__extra {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--s2);
   }
 
   .share-pill {
