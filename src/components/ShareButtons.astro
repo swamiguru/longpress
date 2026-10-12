@@ -153,10 +153,11 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     flex-wrap: wrap;
   }
 
+  /* Sits after the icon group. The row's own gap spaces it on one line;
+     when it wraps it starts flush with the label, so no margin here. */
   .share-bar__extra {
     display: inline-flex;
     align-items: center;
-    margin-left: var(--s2);
   }
 
   .share-pill {
