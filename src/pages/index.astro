@@ -113,11 +113,11 @@ import '../styles/landing-heads.css';
   {today && (
     <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
       <div class="hp-dhead">
-        <p class="hp-dhead__num" aria-hidden="true">{dayFmt.format(today.data.date)}</p>
         <div class="hp-dhead__main">
-          <p class="hp-dhead__when" aria-label={`Today, ${med.format(today.data.date)}`}>
+          <p class="hp-dateline" aria-label={`Today, ${med.format(today.data.date)}`}>
             <i aria-hidden="true"></i>
-            <span>{monFmt.format(today.data.date)} &middot; {wdLong.format(today.data.date)}</span>
+            <b>{dayFmt.format(today.data.date)}</b>
+            <span>{monFmt.format(today.data.date)}<br />{wdLong.format(today.data.date)}</span>
             <em>New today</em>
           </p>
           <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
