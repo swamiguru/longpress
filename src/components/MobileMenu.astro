@@ -18,7 +18,7 @@ const {
   isFinePrintActive = false,
   isAboutActive = false,
   todayHeaderDate = '',
-  edition = 'EDITION 10:00 IST',
+  edition = 'DAILY EDITION',
   year = new Date().getFullYear(),
 } = Astro.props;
 
@@ -96,7 +96,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     <div class="mobile-drawer-telemetry" aria-label="Editorial edition info">
       <span class="drawer-telemetry-item">
         <span class="drawer-live-dot" aria-hidden="true"></span>
-        <span>Daily at 10:00 IST</span>
+        <span>New every morning</span>
       </span>
       {todayHeaderDate && (
         <span class="drawer-telemetry-date">{todayHeaderDate}</span>
@@ -131,7 +131,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
                 <span class="drawer-card__title">The Daily Five</span>
                 <span class="drawer-card__badge drawer-card__badge--brief">Morning Brief</span>
               </div>
-              <p class="drawer-card__desc">Five tech stories every morning at 10:00 IST, each taken apart the same way.</p>
+              <p class="drawer-card__desc">Five tech stories every morning, each taken apart the same way.</p>
             </div>
             <span class="drawer-card__arrow" aria-hidden="true">&rarr;</span>
           </a>
