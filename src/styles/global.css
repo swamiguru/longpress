@@ -1596,6 +1596,7 @@ main { padding-block: var(--s7) var(--s9); }
   text-underline-offset: 4px;
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
+.footer__preferred { min-height: 44px; }
 .footer__link:hover { color: var(--dark-ink); text-decoration-color: var(--accent); }
 .footer__link:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 2px; color: var(--dark-ink); }
 .footer__link-icon { flex-shrink: 0; color: var(--dark-soft); transition: color 0.15s ease, transform 0.15s ease; }

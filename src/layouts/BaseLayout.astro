@@ -217,6 +217,9 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
         } catch (e) {}
       })();
     </script>
+    <!-- Google "Add to preferred sources" button library. Renders the
+         <div google-add-preferred-source-btn> in the footer. -->
+    <script async src="https://news.google.com/swg/js/v1/publisher.js"></script>
     <slot name="head" />
   </head>
 
@@ -309,6 +312,9 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
               Five tech stories every morning, with an honest read on what actually matters. Written from eleven years leading product at Condé Nast.
             </p>
             <WhatsAppCta variant="footer" location="footer_button" />
+            <div class="footer__preferred" aria-label="Add Long Press as a preferred source on Google">
+              <div google-add-preferred-source-btn data-theme="dark" data-lang="en"></div>
+            </div>
           </div>
 
           <nav class="footer__col" aria-labelledby="footer-h-coverage">
