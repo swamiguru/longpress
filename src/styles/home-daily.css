@@ -12,8 +12,6 @@ html[data-theme="dark"] .hp-daily .hp-tile:hover { box-shadow: 8px 8px 0 var(--a
   box-shadow: 0 0 0 3px #17182E;
 }
 .hp-daily .hp-tag--op { background: var(--accent); color: #fff; }
-.hp-daily .hp-kick--daily { color: var(--accent-deep); }
-html[data-theme="dark"] .hp-daily .hp-kick--daily { color: var(--accent-light, #FF9D7A); }
 @media (min-width: 720px) { .hp-daily .hp-bento { gap: 20px; } }
 
 /* ---------- Lead tile: the take, not an excerpt ---------- */

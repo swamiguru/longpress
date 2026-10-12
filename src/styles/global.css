@@ -35,7 +35,6 @@
 
   /* --- Accents ---------------------------------------------- */
   --accent:          #E0552B;   /* large type, fills, rules        */
-  --accent-hover:    #C4441F;   /* pressed / hover fill            */
   --accent-deep:     #A83D18;   /* accent at paragraph size        */
   --accent-light:    #FF9D7A;   /* accent on midnight grounds      */
   --accent-subtle:   rgba(224, 85, 43, 0.09);
@@ -46,15 +45,9 @@
   /* Section kickers only — Today's Five / Known Issue dark
      headers (#section-todays-five, #section-known-issue).
      Never used on body copy, cards, or verdict badges. */
-  --five-vivid:      #FFC53D;   /* Daily Five — sunrise gold        */
-  --issue-vivid:     #2DD9B8;   /* Known Issue — signal teal        */
 
   /* Legacy aliases from the previous system, remapped so old
      markup keeps working. Prefer --accent-2 / --accent-deep. */
-  --signal-blue:        #3E7C74;
-  --signal-blue-subtle: rgba(62, 124, 116, 0.10);
-  --signal-lime:        #3E7C74;
-  --signal-amber:       #E0552B;
 
   /* --- Reverse register (Known Issue, footer) --------------- */
   --dark-ground:     #17182E;
@@ -89,9 +82,6 @@
 
   /* Square corners are the house style. Radius lives on the app
      tile only — these stay at 0 so legacy var() refs go square. */
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
 }
 
 /* ============================================================
@@ -120,7 +110,6 @@ html[data-theme="dark"] {
 
   /* --- Accents ---------------------------------------------- */
   --accent:          #F06236;
-  --accent-hover:    #FF7D54;
   --accent-deep:     #FFA07E;
   --accent-light:    #FFBDB0;
   --accent-subtle:   rgba(240, 98, 54, 0.16);
@@ -275,8 +264,6 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
    Masthead
    ============================================================ */
 .masthead { background: var(--ground); border-bottom: 4px solid var(--rule-strong); position: relative; }
-
-.live-indicator { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--accent); }
 .live-dot {
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--accent);
@@ -286,12 +273,6 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   0%, 100% { transform: scale(1);    opacity: 1; }
   50%      { transform: scale(1.28); opacity: .55; }
 }
-
-.masthead__utility .live-indicator { color: var(--accent-light); }
-.masthead__utility .live-dot { background: var(--accent-light); }
-
-.utility-link { color: var(--dark-utility); text-decoration: none; }
-.utility-link:hover { color: var(--accent-light); }
 
 .masthead__main { padding-block: 14px; position: relative; }
 .masthead__inner {
@@ -468,24 +449,6 @@ body.mobile-menu-open .back-to-top {
   pointer-events: none !important;
 }
 
-.masthead__ticker { border-top: 1px solid var(--rule); padding-block: 8px; background: var(--surface); }
-.ticker-content { display: flex; align-items: center; gap: var(--s4); font-size: 13.5px; overflow: hidden; white-space: nowrap; }
-.ticker-badge {
-  font-family: var(--mono); font-size: 9.5px; font-weight: 700;
-  letter-spacing: 0.16em; text-transform: uppercase;
-  /* #0E0F1D, not var(--ink): ink flips to near-white in dark mode and
-     white-on-saffron is 2.6:1. This reads 6.4:1 light / 7.0:1 dark. */
-  color: #0E0F1D; background: var(--accent);
-  padding: 3px 8px; flex-shrink: 0;
-}
-.ticker-text {
-  font-family: var(--display);
-  font-variation-settings: var(--display-normal);
-  font-weight: 700; color: var(--ink); text-decoration: none;
-  overflow: hidden; text-overflow: ellipsis;
-}
-.ticker-text:hover { color: var(--accent-deep); }
-
 /* ============================================================
    Page furniture
    ============================================================ */
@@ -496,7 +459,6 @@ main { padding-block: var(--s7) var(--s9); }
 .page-head h1 { margin-bottom: var(--s4); }
 
 /* Article page head variant: eliminates duplicate divider line between subtitle and byline */
-.page-head--article,
 .page-head:has(+ .article__meta) {
   border-bottom: none;
   margin-bottom: var(--s5);
@@ -514,115 +476,9 @@ main { padding-block: var(--s7) var(--s9); }
 }
 
 /* Page head home variant */
-.page-head--home {
-  padding-bottom: var(--s6);
-}
-.page-head__eyebrow-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: var(--s4);
-}
-.page-head__title {
-  font-size: clamp(38px, 5.5vw, 54px);
-  line-height: 0.96;
-  letter-spacing: -0.04em;
-  margin-bottom: var(--s3);
-}
 /* ============================================================
    Hero: intro + today's issue preview
    ============================================================ */
-.hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 1fr);
-  gap: var(--s6);
-  align-items: start;
-  margin-bottom: var(--s7);
-}
-.hero-intro__actions {
-  display: flex;
-  gap: var(--s3);
-  flex-wrap: wrap;
-  margin-top: var(--s4);
-}
-
-.hero-preview {
-  display: block;
-  position: relative;
-  background: var(--dark-ground);
-  color: var(--dark-soft);
-  border-left: 6px solid var(--accent);
-  padding: var(--s5);
-  text-decoration: none;
-  transition: box-shadow 0.15s ease, transform 0.12s ease;
-}
-.hero-preview::before {
-  content: "";
-  position: absolute;
-  top: -8px;
-  right: 20px;
-  width: 16px;
-  height: 16px;
-  background-image:
-    linear-gradient(45deg, var(--dark-ground) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--dark-ground) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--dark-ground) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--dark-ground) 75%);
-  background-size: 6px 6px;
-  background-position: 0 0, 0 3px, 3px -3px, -3px 0px;
-  background-color: var(--accent-light);
-}
-.hero-preview:hover {
-  box-shadow: var(--shadow-hard);
-  transform: translate(-3px, -3px);
-}
-.hero-preview__eyebrow {
-  display: block;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-light);
-  margin-bottom: var(--s3);
-}
-.hero-preview__title {
-  font-family: var(--display);
-  font-variation-settings: var(--display-wide);
-  font-size: clamp(19px, 2.2vw, 23px);
-  font-weight: 800;
-  line-height: 1.14;
-  letter-spacing: -0.03em;
-  color: var(--dark-ink);
-  margin: 0 0 var(--s3);
-}
-.hero-preview__desc {
-  font-size: 14px;
-  line-height: 1.58;
-  color: var(--dark-soft);
-  margin: 0 0 var(--s4);
-}
-.hero-preview__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.hero-preview__tag {
-  padding: 4px 9px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: var(--dark-muted);
-}
-.hero-preview__tag--accent {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0E0F1D;
-}
 
 /* ============================================================
    Today's Five — homepage list
@@ -632,87 +488,11 @@ main { padding-block: var(--s7) var(--s9); }
   margin: var(--s3) 0 0;
   padding: 0;
 }
-.daily-list__item {
-  display: grid;
-  grid-template-columns: minmax(0, 46px) minmax(0, 1fr) 148px;
-  align-items: start;
-  gap: var(--s4);
-  padding: var(--s5) 0;
-  border-bottom: 3px solid var(--rule-strong);
-}
-/* Ghost numeral — outline instead of solid fill, scoped to this list
-   only (.brief__num is shared with the per-story brief page, where it
-   stays the smaller solid-fill original). */
-.daily-list__item .brief__num {
-  font-size: 56px;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--accent);
-  min-width: 64px;
-}
-.daily-list__thumb { transition: box-shadow 0.15s ease, transform 0.12s ease; }
-.daily-list__item:hover .daily-list__thumb {
-  box-shadow: var(--shadow-hard);
-  transform: translate(-3px, -3px);
-}
-.daily-list__item:first-child { padding-top: 0; }
-.daily-list__item:last-child { border-bottom: 0; }
-/* Grid always reserves the thumb column so items with and without an
-   illustration still line up; an item with none just leaves it empty.
-   Sized against the text block's real height (heading + a 2-line-clamped
-   teaser), not picked arbitrarily -- centered so it reads as a companion
-   image, not a stranded icon in the corner. */
-.daily-list__thumb {
-  display: block;
-  width: 148px;
-  aspect-ratio: 1 / 1;
-  border: 1px solid var(--rule);
-  /* The row aligns items to the top (the number belongs flush with the
-     heading, not floating mid-body against a tall image) -- only the
-     thumbnail itself centers within the row's height. */
-  align-self: center;
-  /* --radius-* are all 0 site-wide -- sharp corners are the newsroom
-     identity, do not round this. */
-}
-.daily-list__item h3 {
-  font-family: var(--display);
-  font-size: clamp(19px, 2.4vw, 23px);
-  line-height: 1.18;
-  letter-spacing: -0.03em;
-  margin: 6px 0 8px;
-}
-.daily-list__item h3 a { color: var(--ink); text-decoration: none; }
-.daily-list__item h3 a:hover { color: var(--accent-deep); }
-.daily-list__teaser {
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  margin: 0;
-  max-width: 64ch;
-  /* Clamped so row height tracks the thumbnail instead of the longest
-     excerpt() ever produces -- a 3-line teaser used to leave the image
-     floating with a lot of dead space beneath it. */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
 
 /* ============================================================
    The Daily Five — brief items
    ============================================================ */
 .brief { list-style: none; margin: 0; padding: 0; }
-
-.brief__item {
-  padding-block: var(--s6);
-  border-top: 1px solid var(--rule);
-  scroll-margin-top: 80px;
-  position: relative;
-  transition: background-color 0.4s ease, border-radius 0.2s ease, padding 0.2s ease;
-}
-.brief__item:target {
-  background-color: rgba(224, 85, 43, 0.08);
-  padding-inline: var(--s4);
-}
 /* Guard: `.brief__item--opinion` (two classes) is meant to beat this on
    specificity, but `.brief__item:target` (class + pseudo-class) actually
    outranks it, so jumping to a hot-take/myth-buster/known-issue item via
@@ -720,10 +500,6 @@ main { padding-block: var(--s7) var(--s9); }
    light-theme orange wash -- text colours are all set for a dark ground,
    so they read as near-invisible. Restate the dark ground here at higher
    specificity and give opinion items their own "you're here" cue instead. */
-.brief__item--opinion:target {
-  background-color: var(--dark-ground);
-  box-shadow: inset 3px 0 0 var(--accent-light);
-}
 .slot-anchor {
   position: absolute;
   top: -80px;
@@ -733,64 +509,10 @@ main { padding-block: var(--s7) var(--s9); }
   opacity: 0;
   pointer-events: none;
 }
-.brief__item:first-child { border-top: 2px solid var(--rule-strong); }
-
-.brief__head { display: flex; gap: var(--s4); align-items: flex-start; margin-bottom: var(--s3); }
 /* Ghost numeral -- outline instead of solid fill, and considerably
    bigger, so each story opens with real scale. Stays in normal flow
    (not absolutely bled behind the heading) so it holds up responsively
    down to phone width instead of overlapping text. */
-.brief__item .brief__num {
-  font-size: clamp(56px, 7vw, 96px);
-  color: transparent;
-  -webkit-text-stroke: 2px var(--accent);
-  line-height: 0.85;
-  min-width: auto;
-}
-
-.brief__num {
-  font-family: var(--display);
-  font-variation-settings: var(--display-wide);
-  font-size: 36px;
-  font-weight: 800;
-  line-height: .9;
-  letter-spacing: -0.04em;
-  color: var(--accent);
-  background: none;
-  border: 0;
-  padding: 0;
-  flex: none;
-  min-width: 44px;
-}
-
-.brief__meta-row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: var(--s2); }
-
-.brief__kind {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ground);
-  background: var(--ink);
-  padding: 4px 10px;
-  border: 0;
-  line-height: 1;
-}
-.brief__kind::before { content: none; }
-
-.brief__head h2 {
-  font-size: clamp(23px, 3.2vw, 29px);
-  line-height: 1.16;
-  letter-spacing: -0.025em;
-  margin: 0;
-}
-.brief__body {
-  margin: 0 0 var(--s4);
-  font-size: 17.5px;
-  line-height: 1.68;
-  color: var(--ink);
-}
 
 /* Brief item images. ResponsiveImage renders the <figure> from its own
    .astro file, so it carries ResponsiveImage's scoped data-astro-cid, not
@@ -804,97 +526,9 @@ main { padding-block: var(--s7) var(--s9); }
    rule (0,1,0) loses that fight regardless of source order, so these are
    qualified with the li.brief__item ancestor to reach (0,2,1)+ and win
    without needing !important. */
-li.brief__item .brief__figure {
-  margin: 0;
-  margin-top: var(--s4);
-  margin-bottom: var(--s6);
-  width: 100%;
-  position: relative;
-  /* Full width as of Sept 2026 -- was max-width: 320px. The image now
-     spans the same column as the headline/body text on both mobile
-     and desktop; see optimize-images.mjs DAILY_SIZES for the 1024w
-     variant this needs so it isn't upscaling a 640w source. */
-  max-width: 100%;
-}
-li.brief__item .brief__figure::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: -10px;
-  width: 22px;
-  height: 22px;
-  z-index: 2;
-  background-image:
-    linear-gradient(45deg, var(--ink) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--ink) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--ink) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--ink) 75%);
-  background-size: 8px 8px;
-  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
-  background-color: var(--accent);
-}
-li.brief__item .brief__figure .responsive-image-box {
-  border: 1px solid var(--rule);
-  background: var(--surface);
-  aspect-ratio: 1 / 1;
-  width: 100%;
-  box-shadow: var(--shadow-hard);
-}
-li.brief__item .brief__card {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-li.brief__item .brief__caption {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--muted);
-  margin-top: 8px;
-  line-height: 1.45;
-}
-
-.brief__more {
-  font-family: var(--display);
-  font-variation-settings: var(--display-normal);
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.brief__more a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-deep); }
 
 /* Sign-off band -- closes out each brief page with the ring-dot mark,
    dark ground to match the masthead ticker and Known Issue hero. */
-.brief-signoff {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-top: var(--s7);
-  padding: var(--s6) var(--s5);
-  background: var(--dark-ground);
-  color: var(--dark-ink);
-  /* dark-ground and the page ground both go near-black in the site's own
-     dark theme, so the band needs its own edge to read as a distinct
-     block rather than melting into the page -- same reason every other
-     "always dark" card in this redesign (analysis cells, archive-row
-     thumbs, the stamp badge) carries a border of its own. */
-  border: 1px solid var(--dark-rule);
-}
-.brief-signoff__mark { color: var(--dark-soft); flex-shrink: 0; opacity: 0.6; }
-.brief-signoff__text {
-  font-family: var(--display);
-  font-variation-settings: var(--display-wide);
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-}
-@media (max-width: 640px) {
-  .brief-signoff { flex-direction: column; gap: 10px; text-align: center; padding: var(--s5); }
-  .brief-signoff__text { font-size: 15px; }
-}
 
 .brief__source {
   margin-top: var(--s4);
@@ -911,7 +545,6 @@ li.brief__item .brief__caption {
   text-transform: uppercase;
   color: var(--muted);
 }
-.brief__item--opinion .brief__source-label { color: var(--dark-utility); }
 .brief__source-link {
   display: inline-flex;
   align-items: center;
@@ -936,30 +569,6 @@ li.brief__item .brief__caption {
 }
 
 /* --- Opinion register: the one bold move -------------------- */
-.brief__item--opinion {
-  background: var(--dark-ground);
-  color: var(--dark-soft);
-  padding: var(--s6) var(--s5);
-  border-top: 0;
-  border-left: 5px solid var(--accent);
-  margin-block: var(--s6);
-}
-.brief__item--opinion h2 { color: var(--dark-ink); font-variation-settings: var(--display-wide); font-weight: 800; text-transform: uppercase; letter-spacing: -0.045em; line-height: 1.05; }
-.brief__item--opinion .brief__body { color: var(--dark-soft); }
-.brief__item--opinion .brief__num { color: var(--accent); background: none; border: 0; }
-.brief__item--opinion .brief__kind { background: var(--accent); color: #0E0F1D; }
-.brief__item--opinion a { color: var(--accent-light); text-decoration-color: var(--accent-light); }
-.brief__item--opinion a:hover { color: var(--dark-ink); }
-.brief__item--opinion .brief__source-link {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: var(--dark-utility);
-}
-.brief__item--opinion .brief__source-link:hover {
-  background: var(--accent);
-  color: #0E0F1D;
-  border-color: var(--accent);
-}
 
 /* ============================================================
    Press-and-hold dossier & analysis grid
@@ -981,102 +590,19 @@ li.brief__item .brief__caption {
     grid-template-columns: repeat(2, 1fr);
   }
   /* When odd number of items, span the last one (e.g. "What it means for you") full width */
-  .analysis > .analysis__cell:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-  }
-}
-
-.analysis__cell {
-  counter-increment: analysis-idx;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 20px 22px;
-  background: var(--surface);
-  border: 2px solid var(--rule-strong);
-  box-shadow: 4px 4px 0 0 rgba(23, 24, 46, 0.14);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.analysis__cell::after {
-  content: counter(analysis-idx, decimal-leading-zero);
-  position: absolute;
-  right: 12px;
-  bottom: 2px;
-  font-family: var(--display);
-  font-variation-settings: "wdth" 118;
-  font-weight: 800;
-  font-size: 46px;
-  line-height: 1;
-  color: var(--ink);
-  opacity: 0.06;
-  pointer-events: none;
-}
-
-.analysis__cell:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 rgba(23, 24, 46, 0.16);
 }
 
 /* Solid border + shadow tint, one per fixed label -- chrome only, the
    label text itself (The problem / What changed / The catch / What it
    means for you) stays untouched. */
-.analysis__cell--problem { border-color: var(--accent); box-shadow: 4px 4px 0 0 rgba(224, 85, 43, 0.28); }
-.analysis__cell--problem:hover { box-shadow: 6px 6px 0 0 rgba(224, 85, 43, 0.3); }
-.analysis__cell--breakthrough { border-color: #0D9488; box-shadow: 4px 4px 0 0 rgba(13, 148, 136, 0.28); }
-.analysis__cell--breakthrough:hover { box-shadow: 6px 6px 0 0 rgba(13, 148, 136, 0.3); }
-.analysis__cell--catch { border-color: #D97706; box-shadow: 4px 4px 0 0 rgba(217, 119, 6, 0.28); }
-.analysis__cell--catch:hover { box-shadow: 6px 6px 0 0 rgba(217, 119, 6, 0.3); }
 
 /* Specific highlight on "WHAT IT MEANS FOR YOU" -- the takeaway, so it
    gets the stronger stamp treatment: thicker border, rotated corner. */
-.analysis__cell--forYou {
-  background: rgba(224, 85, 43, 0.07);
-  border: 3px solid var(--accent);
-  box-shadow: 5px 5px 0 0 rgba(224, 85, 43, 0.32);
-}
-.analysis__cell--forYou:hover {
-  box-shadow: 7px 7px 0 0 rgba(224, 85, 43, 0.34);
-}
-.analysis__cell--forYou::after { opacity: 0.1; }
 
 /* Pill badge -- now a solid chip with an icon, not an outline */
-.analysis__pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  width: fit-content;
-  padding: 5px 13px 5px 10px;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 0;
-  line-height: 1;
-}
-.analysis__icon { display: inline-flex; flex-shrink: 0; }
-
-.analysis__pill--problem { background: var(--accent); color: #17182E; }
-.analysis__pill--breakthrough { background: #0D9488; color: #FFFFFF; }
-.analysis__pill--catch { background: #D97706; color: #17182E; }
 
 /* Highlighted "WHAT IT MEANS FOR YOU" pill: rotated stamp, like the
    Known Issue verdict badge, so the takeaway reads as a call to act. */
-.analysis__pill--forYou {
-  background: #17182E;
-  color: #FFFFFF;
-  padding: 6px 16px 6px 10px;
-  border-radius: 999px;
-  border: 2px solid var(--accent);
-  transform: rotate(-2deg);
-  box-shadow: 3px 3px 0 0 var(--accent);
-  font-weight: 800;
-  letter-spacing: 0.09em;
-}
-.analysis__pill--forYou .analysis__icon { color: var(--accent); }
 
 .analysis dd {
   margin: 0;
@@ -1086,61 +612,7 @@ li.brief__item .brief__caption {
   max-width: var(--measure);
 }
 
-.analysis__cell--forYou dd {
-  position: relative;
-  z-index: 1;
-  color: var(--ink);
-  font-size: 16px;
-  font-weight: 500;
-}
-
 /* Opinion posts (dark theme) */
-.brief__item--opinion .analysis__cell {
-  background: var(--dark-surface);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-.brief__item--opinion .analysis__cell:hover {
-  border-color: rgba(255, 255, 255, 0.28);
-}
-.brief__item--opinion .analysis__cell--forYou {
-  background: rgba(224, 85, 43, 0.14);
-  border-color: var(--accent);
-}
-.brief__item--opinion .analysis__cell--problem { border-left-color: var(--accent); }
-.brief__item--opinion .analysis__cell--breakthrough { border-left-color: #2DD9B8; }
-.brief__item--opinion .analysis__cell--catch { border-left-color: #FCD34D; }
-.brief__item--opinion .analysis__pill {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: var(--dark-ink);
-}
-.brief__item--opinion .analysis__pill--problem {
-  background: rgba(224, 85, 43, 0.22);
-  border-color: rgba(224, 85, 43, 0.45);
-  color: var(--accent-light);
-}
-.brief__item--opinion .analysis__pill--breakthrough {
-  background: rgba(13, 148, 136, 0.22);
-  border-color: rgba(13, 148, 136, 0.45);
-  color: #5EEAD4;
-}
-.brief__item--opinion .analysis__pill--catch {
-  background: rgba(217, 119, 6, 0.22);
-  border-color: rgba(217, 119, 6, 0.45);
-  color: #FCD34D;
-}
-.brief__item--opinion .analysis__pill--forYou {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0E0F1D;
-}
-.brief__item--opinion .analysis dd {
-  color: var(--dark-soft);
-  font-size: 15.5px;
-}
-.brief__item--opinion .analysis__cell--forYou dd {
-  color: var(--dark-ink);
-}
 
 /* ============================================================
    Sections, hubs, archives
@@ -1164,24 +636,6 @@ li.brief__item .brief__caption {
   text-transform: uppercase;
   letter-spacing: -0.02em;
   margin: 0;
-}
-.section__sub {
-  font-size: 14.5px;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  margin: 4px 0 0;
-  font-weight: 400;
-}
-
-.section__eyebrow {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-deep);
-  margin-bottom: 6px;
 }
 
 .pill-tag--known-issue {
@@ -1224,123 +678,8 @@ li.brief__item .brief__caption {
   outline: 2px solid var(--accent-light);
   outline-offset: -2px;
 }
-.known-issue-lead__body {
-  flex: 1 1 auto;
-  min-width: 0;
-}
 /* Illustration sits beside the text at every width -- only its size
    changes between desktop and mobile, same pattern as .daily-list__thumb. */
-.known-issue-lead__thumb {
-  flex: 0 0 auto;
-  width: 220px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  align-self: center;
-}
-.known-issue-lead__eyebrow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-light);
-  margin-bottom: var(--s4);
-}
-.known-issue-lead__trigger {
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 14.5px;
-  line-height: 1.55;
-  color: var(--dark-muted);
-  margin: 0 0 var(--s3);
-  /* Clamped -- this used to run 5-6 lines before the headline even
-     appeared. It's context for the piece, not the piece itself. */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.known-issue-lead__trigger-label {
-  display: block;
-  font-family: var(--mono);
-  font-style: normal;
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-light);
-  margin-bottom: 4px;
-}
-.known-issue-lead__title {
-  font-family: var(--display);
-  font-variation-settings: var(--display-wide);
-  font-size: clamp(24px, 3.4vw, 34px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  color: var(--dark-ink);
-  margin: 0 0 var(--s3);
-}
-.known-issue-lead:hover .known-issue-lead__title,
-.known-issue-lead:focus-visible .known-issue-lead__title {
-  color: var(--accent-light);
-}
-.known-issue-lead__desc {
-  font-size: clamp(15.5px, 1.6vw, 17px);
-  line-height: 1.62;
-  color: var(--dark-soft);
-  margin: 0 0 var(--s5);
-  max-width: 68ch;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.known-issue-lead__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.known-issue-lead:hover .known-issue-lead__cta,
-.known-issue-lead:focus-visible .known-issue-lead__cta {
-  color: var(--accent-light);
-}
-
-.known-issue-strip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s4);
-  flex-wrap: wrap;
-  margin-top: var(--s6);
-  padding: var(--s4) var(--s5);
-  background: var(--surface);
-  border: 1.5px solid var(--rule);
-  box-shadow: var(--shadow-card);
-}
-
-.known-issue-strip__text {
-  font-family: var(--body);
-  font-size: 14px;
-  color: var(--ink-soft);
-  line-height: 1.5;
-}
-
-.known-issue-strip__text strong {
-  font-family: var(--display);
-  font-weight: 700;
-  color: var(--ink);
-  margin-right: 4px;
-}
 
 /* ============================================================
    Known Issue index rows — homepage, items 2-5
@@ -1360,130 +699,16 @@ li.brief__item .brief__caption {
   margin: var(--s3) 0 0;
   padding: 0;
 }
-.known-issue-index__item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 120px;
-  align-items: start;
-  gap: var(--s4);
-  padding: var(--s5) 0;
-  border-bottom: 1px solid var(--rule);
-}
-.known-issue-index__item:last-child { border-bottom: 0; }
-.known-issue-index__body { min-width: 0; }
-.known-issue-index__meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s3);
-  margin-bottom: 8px;
-}
 /* Square, fixed-size, same treatment on every row -- the one thing
    the old .entry-card grid got wrong. Reserved by the item's own
    grid column even on rows with no image (same rule .daily-list__thumb
    already follows), so a row without art doesn't shift the layout. */
-.known-issue-index__thumb {
-  display: block;
-  width: 120px;
-  aspect-ratio: 1 / 1;
-  border: 1px solid var(--rule);
-  align-self: center;
-}
-.known-issue-index__title {
-  font-family: var(--display);
-  font-variation-settings: var(--display-normal);
-  font-size: clamp(18px, 2vw, 20.5px);
-  font-weight: 700;
-  line-height: 1.22;
-  letter-spacing: -0.025em;
-  margin: 0 0 8px;
-}
-.known-issue-index__title a { color: var(--ink); text-decoration: none; }
-.known-issue-index__title a:hover { color: var(--accent-deep); }
-.known-issue-index__desc {
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  margin: 0 0 var(--s3);
-  max-width: 64ch;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.known-issue-index__topics {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: var(--s3);
-}
-.known-issue-index__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s3);
-  flex-wrap: wrap;
-}
-.known-issue-index__footer .dateline {
-  font-size: 11px;
-  color: var(--muted);
-}
 /* The Share control here is geometrically centered against Read Piece
    (confirmed via computed boxes -- both sit on the same line center at
    every width), but .card-share-btn's border+padding chip next to
    .entry__cta's bare text reads as misaligned regardless: two different
    visual weights on one line. Strip the chip down to matching plain-text
    typography so the pair reads as one control, not two. */
-.known-issue-index__footer .card-share-btn {
-  background: none;
-  border: 0;
-  padding: 0;
-  gap: 4px;
-  color: var(--muted);
-}
-.known-issue-index__footer .card-share-btn:hover {
-  background: none;
-  border: 0;
-  color: var(--accent-deep);
-  transform: none;
-}
-.known-issue-index__footer .card-share-btn.is-copied {
-  background: none;
-  border: 0;
-  color: #065F46;
-}
-
-@media (max-width: 640px) {
-  .known-issue-index__item {
-    grid-template-columns: minmax(0, 1fr) 84px;
-    gap: var(--s3);
-    padding: var(--s4) 0;
-  }
-  .known-issue-index__thumb { width: 84px; }
-}
-
-.section__link-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  padding: 6px 14px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: all 0.15s ease;
-}
-.section__link-pill:hover {
-  background: var(--surface-hover);
-  border-color: var(--rule-strong);
-  color: var(--accent-deep);
-  transform: translateY(-1px);
-}
 .section__head a:not(.section__link-pill) {
   font-family: var(--mono);
   font-size: 11px;
@@ -1512,14 +737,6 @@ li.brief__item .brief__caption {
   flex-direction: column;
   align-items: stretch;
 }
-#section-todays-five .column-section-title__row,
-#section-known-issue .section__head__row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--s4);
-  flex-wrap: wrap;
-}
 #section-todays-five .column-section-title h2,
 #section-known-issue .section__head h2 {
   color: var(--dark-ink);
@@ -1529,203 +746,10 @@ li.brief__item .brief__caption {
   letter-spacing: -0.01em;
   font-size: clamp(32px, 4.2vw, 46px);
 }
-#section-todays-five .section__sub,
-#section-known-issue .section__sub {
-  color: var(--dark-soft);
-  font-size: 15.5px;
-  max-width: 620px;
-}
 
-/* Kicker chip — a small "edition" tag above the eyebrow row,
-   one per pillar, in that pillar's vivid color. This is the
-   masthead-per-section move the mockup pitched: a section
-   header that reads as a distinct edition, not just a bigger
-   h2. */
-.kicker-chip {
-  display: inline-block;
-  align-self: flex-start;
-  position: relative;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border: 1px solid;
-  margin-bottom: var(--s5);
-}
-/* Checkerboard corner tag -- same device as .corner-tab, inlined as a
-   pseudo-element here so the kicker-chip markup stays untouched. */
-.kicker-chip::before {
-  content: "";
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 14px;
-  height: 14px;
-  background-size: 6px 6px;
-  background-position: 0 0, 0 3px, 3px -3px, -3px 0px;
-}
-#section-todays-five .kicker-chip {
-  color: var(--five-vivid);
-  border-color: var(--five-vivid);
-}
-#section-todays-five .kicker-chip::before {
-  background-image:
-    linear-gradient(45deg, var(--dark-ground) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--dark-ground) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--dark-ground) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--dark-ground) 75%);
-  background-color: var(--five-vivid);
-}
-#section-known-issue .kicker-chip {
-  color: var(--issue-vivid);
-  border-color: var(--issue-vivid);
-}
-#section-known-issue .kicker-chip::before {
-  background-image:
-    linear-gradient(45deg, var(--dark-ground) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--dark-ground) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--dark-ground) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--dark-ground) 75%);
-  background-color: var(--issue-vivid);
-}
 
-/* Daily Five — sunrise gold. New here: the five kicker dots
-   (one per story) on the eyebrow, and the "read the full
-   issue" pill. Mirrors Known Issue's ring-on-eyebrow below,
-   so the two pillar headers read as a matched pair. */
-#section-todays-five .section__eyebrow {
-  color: var(--five-vivid);
-}
-#section-todays-five .section__eyebrow::before {
-  content: "";
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  margin-right: 36px;
-  vertical-align: middle;
-  border-radius: 50%;
-  background: var(--five-vivid);
-  box-shadow:
-    6px 0 var(--five-vivid),
-    12px 0 var(--five-vivid),
-    18px 0 var(--five-vivid),
-    24px 0 var(--five-vivid);
-}
-#section-todays-five .section__link-pill {
-  background: var(--dark-surface);
-  color: var(--five-vivid);
-  border-color: var(--dark-rule);
-  padding: 9px 18px;
-  font-size: 12px;
-}
-#section-todays-five .section__link-pill:hover {
-  background: var(--five-vivid);
-  color: var(--dark-ground);
-  border-color: var(--five-vivid);
-}
-/* .column-section-title span (legacy eyebrow-label rule, line ~3197)
-   sets color: var(--muted) on ANY span inside the header -- it was
-   catching this pill's inner span too, so the pill text rendered
-   muted gray even though the <a> itself resolved to --five-vivid.
-   Force it back to inherit the anchor's color, both states. */
-#section-todays-five .section__link-pill span {
-  color: inherit;
-}
 
-/* Known Issue — signal teal. One ring instead of five dots:
-   one standing issue, not five daily ones. */
-#section-known-issue .section__eyebrow {
-  color: var(--issue-vivid);
-}
-#section-known-issue .section__eyebrow::before {
-  content: "";
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  margin-right: 7px;
-  vertical-align: middle;
-  border-radius: 50%;
-  border: 2px solid var(--issue-vivid);
-}
-#section-known-issue .section__link-pill {
-  background: var(--dark-surface);
-  color: var(--issue-vivid);
-  border-color: var(--dark-rule);
-  padding: 9px 18px;
-  font-size: 12px;
-}
-#section-known-issue .section__link-pill:hover {
-  background: var(--issue-vivid);
-  color: var(--dark-ground);
-  border-color: var(--issue-vivid);
-}
 
-/* ============================================================
-   Bold & dramatic — shared primitives (Sept 2026 refresh)
-   Four small, repeatable devices used across the homepage, the
-   Daily Five brief page and Known Issue, so the site reads as
-   one bolder voice rather than three separate redesigns:
-     .corner-tab     -- the checkerboard already inside the AI
-                        illustrations, pulled out as a stamped tag
-     .stamp-badge    -- a tilted, bordered chip for one-off markers
-     .ghost-numeral  -- an oversized outline numeral
-     --shadow-hard*  -- solid offset shadow, no blur (print/sticker
-                        pop, not a soft UI drop shadow)
-   Square corners stay square throughout -- these lean into that
-   house style rather than fighting it.
-   ============================================================ */
-.corner-tab {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 16px;
-  height: 16px;
-  z-index: 2;
-  background-image:
-    linear-gradient(45deg, var(--ink) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--ink) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--ink) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--ink) 75%);
-  background-size: 6px 6px;
-  background-position: 0 0, 0 3px, 3px -3px, -3px 0px;
-  /* Default to accent, not the kicker-only vivid tokens -- this class is
-     for general use (cards, thumbnails, images); --five-vivid /
-     --issue-vivid stay reserved for #section-todays-five /
-     #section-known-issue, per the rule at their :root definition. */
-  background-color: var(--accent);
-  pointer-events: none;
-}
-.corner-tab--five { background-color: var(--five-vivid); }
-.corner-tab--issue { background-color: var(--issue-vivid); }
-
-.stamp-badge {
-  display: inline-block;
-  transform: rotate(-3deg);
-  background: var(--ground);
-  border: 2px solid var(--rule-strong);
-  color: var(--ink);
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  box-shadow: var(--shadow-hard-sm);
-}
-.stamp-badge--tilt-right { transform: rotate(3deg); }
-
-.ghost-numeral {
-  font-family: var(--display);
-  font-variation-settings: var(--display-wide);
-  font-weight: 800;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--accent);
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
-}
 
 /* ============================================================
    Article feed & entries — responsive CSS Grid layout
@@ -1767,14 +791,6 @@ li.brief__item .brief__caption {
 }
 
 /* Explicit 2-column feed modifier */
-.entries--2col {
-  grid-template-columns: 1fr;
-}
-@media (min-width: 640px) {
-  .entries--2col {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 
 /* Individual article card in the grid */
 .entries > li:not(.ad-row) {
@@ -1805,10 +821,6 @@ li.brief__item .brief__caption {
   .entries > li:hover .entry__cta {
     transform: translateX(3px);
   }
-
-  .entries > li:hover .entry-card__thumb img {
-    transform: scale(1.03);
-  }
 }
 
 /* Optional square illustration at the top of a card -- only Known Issue
@@ -1816,13 +828,6 @@ li.brief__item .brief__caption {
    reuses .entry-card (the Daily Five Archive, topic pages). Bled to the
    card's own edges (negative margin = the card's own padding) so it reads
    as a cover image rather than an inset icon. */
-.entry-card__thumb {
-  margin: calc(var(--s5) * -1) calc(var(--s5) * -1) var(--s4);
-  overflow: hidden;
-}
-.entry-card__thumb img {
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
 .entry__meta-row {
   display: flex;
@@ -1858,11 +863,6 @@ li.brief__item .brief__caption {
   background: var(--ground);
   border: 1px solid var(--rule);
   color: var(--ink-soft);
-}
-.pill-tag--accent {
-  background: rgba(224, 85, 43, 0.14);
-  border: 1px solid rgba(224, 85, 43, 0.35);
-  color: var(--accent-deep);
 }
 .pill-tag--muted {
   background: var(--surface);
@@ -2113,19 +1113,6 @@ li.brief__item .brief__caption {
   color: var(--accent-deep);
 }
 
-.article__meta {
-  display: flex; gap: var(--s4); flex-wrap: wrap; align-items: baseline;
-  margin-bottom: var(--s6); padding-block: var(--s4);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  font-family: var(--mono);
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 /* In this issue jump bar for Daily Five */
 .issue-jump-bar {
   display: flex;
@@ -2248,114 +1235,10 @@ li.brief__item .brief__caption {
 }
 
 /* Prose Pros & Cons and Verdict Components */
-.pros-cons-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--s4);
-  margin: var(--s6) 0;
-}
-@media (min-width: 640px) {
-  .pros-cons-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.pro-box, .con-box {
-  background: var(--surface);
-  border: 1.5px solid var(--rule);
-  padding: var(--s4) var(--s5);
-}
-
-.pro-box {
-  border-color: rgba(46, 125, 50, 0.35);
-  background: rgba(46, 125, 50, 0.03);
-}
-
-.con-box {
-  border-color: rgba(211, 47, 47, 0.35);
-  background: rgba(211, 47, 47, 0.03);
-}
-
-.pro-box__title, .con-box__title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0 0 var(--s3);
-  letter-spacing: -0.01em;
-}
-
-.pro-box__title {
-  color: #2e7d32;
-}
-[data-theme="dark"] .pro-box__title {
-  color: #66bb6a;
-}
-
-.con-box__title {
-  color: #d32f2f;
-}
-[data-theme="dark"] .con-box__title {
-  color: #ef5350;
-}
-
-.pro-box ul, .con-box ul {
-  margin: 0 !important;
-  padding-left: 20px !important;
-  font-size: 15px !important;
-  line-height: 1.6 !important;
-}
-
-.pro-box li, .con-box li {
-  margin-bottom: 8px !important;
-  color: var(--ink);
-}
-
-.verdict-box {
-  margin: var(--s6) 0;
-  padding: var(--s5) var(--s6);
-  background: var(--surface);
-  border: 2px solid var(--accent);
-  box-shadow: 0 4px 16px rgba(224, 85, 43, 0.06);
-}
-
-.verdict-box__eyebrow {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 6px;
-}
-
-.verdict-box__title {
-  font-family: var(--display);
-  font-size: 20px;
-  font-weight: 800;
-  margin: 0 0 var(--s2);
-  color: var(--ink);
-}
-
-.verdict-box p {
-  margin-bottom: 0 !important;
-  font-size: 16px !important;
-  line-height: 1.65 !important;
-  color: var(--ink-soft);
-}
 
 /* ============================================================
    Article Hero Image & In-Body Figures
    ============================================================ */
-.article-hero {
-  padding: 0;
-  overflow: hidden;
-  border: 1px solid var(--rule);
-  background: var(--surface);
-}
 /* margin lives on the id, not the class: ResponsiveImage.astro's own
    scoped style sets margin:0 on .responsive-figure[data-astro-cid-xxx]
    (a class + attribute selector, specificity 0,2,0), which silently beat
@@ -2367,25 +1250,7 @@ li.brief__item .brief__caption {
 #article-lead-image {
   margin: var(--s5) 0 var(--s6);
 }
-.article-hero .responsive-image-box {
-  background: rgba(0, 0, 0, 0.04);
-}
 .article-hero:not(:has(.article-hero__caption)) .responsive-image-box {
-}
-.article-hero__image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.article-hero__caption {
-  padding: 10px 16px;
-  font-family: var(--mono);
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--muted);
-  border-top: 1px solid var(--rule);
-  background: var(--surface);
 }
 
 .prose figure {
@@ -2871,25 +1736,11 @@ li.brief__item .brief__caption {
    Add class="page-head page-head--column" on the /known-issue
    page head. An argument-led section should not look like an index.
    ============================================================ */
-.page-head--column {
-  background: var(--dark-ground);
-  color: var(--dark-soft);
-  border-bottom: 0;
-  padding: var(--s7) var(--s5) var(--s6);
-}
 /* Full-bleed only when the head sits OUTSIDE .shell (see PAGES.md —
    render it into BaseLayout's bleed slot). Inside the shell it stays
    a contained midnight block, which is also fine.
    No vw arithmetic: 100vw includes the scrollbar gutter and pushes a
    horizontal scrollbar on classic-scrollbar platforms. */
-.bleed > .page-head--column { padding-inline: max(24px, calc((100% - 792px) / 2)); }
-.page-head--column h1 { color: var(--dark-ink); }
-.page-head--column .standfirst { color: var(--dark-soft); }
-.page-head--column .eyebrow { color: var(--accent-light); }
-@media (max-width: 640px) {
-  .page-head--column,
-  .bleed > .page-head--column { padding: var(--s6) 16px var(--s5); }
-}
 
 /* ============================================================
    Archive month groups
@@ -2921,10 +1772,6 @@ li.brief__item .brief__caption {
   gap: var(--s5);
   align-items: start;
 }
-.entries--list li .entry__meta { margin-bottom: 0; padding-top: 3px; }
-.entries--list li .entry__title,
-.entries--list li .entry__desc { grid-column: 2; }
-.entries--list li .entry__title { margin-bottom: 6px; }
 
 /* ============================================================
    About — the credibility facts
@@ -2973,31 +1820,6 @@ li.brief__item .brief__caption {
 /* ============================================================
    Daily Archive - Stacking by Month & Fast Filter
    ============================================================ */
-.archive-filter-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-  flex-wrap: wrap;
-  margin: var(--s5) 0 var(--s6);
-  padding: var(--s3) var(--s4);
-  background: var(--surface);
-  border: 1.5px solid var(--rule);
-  box-shadow: var(--shadow-card);
-}
-
-.archive-filter-label {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-right: var(--s1);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
 
 .archive-filter-pills {
   display: flex;
@@ -3201,31 +2023,8 @@ li.brief__item .brief__caption {
 /* ============================================================
    Known Issue Hub Improvements
    ============================================================ */
-.page-head--column {
-  border: 1px solid var(--dark-rule);
-  position: relative;
-  overflow: hidden;
-}
 /* Signal ring -- bleeds off the top-right corner behind the title; the
    existing overflow:hidden above contains it, so no layout change needed. */
-.page-head--column__ring {
-  position: absolute;
-  top: -120px;
-  right: -110px;
-  color: var(--accent-light);
-  opacity: 0.28;
-  pointer-events: none;
-  z-index: 0;
-}
-.page-head--column .eyebrow,
-.page-head--column h1,
-.page-head--column .standfirst {
-  position: relative;
-  z-index: 1;
-}
-@media (max-width: 640px) {
-  .page-head--column__ring { display: none; }
-}
 
 .column-manifesto {
   display: grid;
@@ -3554,30 +2353,6 @@ li.brief__item .brief__caption {
   transform: translate(-2px, -2px);
 }
 
-.archive-row__thumb--empty {
-  flex: 0 0 auto;
-  width: 108px;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: repeating-linear-gradient(
-    45deg,
-    var(--surface),
-    var(--surface) 6px,
-    var(--ground) 6px,
-    var(--ground) 12px
-  );
-  border: 1px dashed var(--rule);
-  font-family: var(--mono);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-align: center;
-}
-
 .archive-row__body {
   flex: 1 1 auto;
   min-width: 0;
@@ -3636,42 +2411,12 @@ li.brief__item .brief__caption {
 }
 
 @media (max-width: 480px) {
-  .archive-row__thumb,
-  .archive-row__thumb--empty { width: 88px; }
+  .archive-row__thumb { width: 88px; }
   .archive-row__title { font-size: 15px; }
   .archive-row__desc { -webkit-line-clamp: 3; }
 }
 @media (min-width: 900px) {
-  .archive-row__thumb,
-  .archive-row__thumb--empty { width: 128px; }
-}
-
-.known-issue-featured__quote {
-  border-left: 3px solid var(--accent-deep);
-  padding: 12px 18px;
-  margin: 0 0 var(--s5);
-  background: var(--ground);
-  font-family: var(--body);
-  font-style: italic;
-  font-size: 15px;
-  color: var(--ink);
-}
-
-.dispatch-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--s5);
-  margin-bottom: var(--s7);
-}
-@media (min-width: 640px) {
-  .dispatch-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (min-width: 960px) {
-  .dispatch-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  .archive-row__thumb { width: 128px; }
 }
 
 .dispatch-card {
@@ -3688,54 +2433,6 @@ li.brief__item .brief__caption {
   transform: translateY(-3px);
   border-color: var(--rule-strong);
   box-shadow: var(--shadow-pop);
-}
-
-.dispatch-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s2);
-  margin-bottom: var(--s3);
-}
-
-.dispatch-tag {
-  font-family: var(--mono);
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-}
-
-.dispatch-tag--hot-take {
-  background: rgba(224, 85, 43, 0.12);
-  color: #E0552B;
-  border: 1px solid rgba(224, 85, 43, 0.3);
-}
-
-.dispatch-tag--myth-buster {
-  background: rgba(42, 63, 168, 0.12);
-  color: var(--accent-deep);
-  border: 1px solid rgba(42, 63, 168, 0.3);
-}
-
-.dispatch-card__title {
-  font-family: var(--display);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  margin: 0 0 var(--s3);
-  color: var(--ink);
-}
-
-.dispatch-card__body {
-  font-family: var(--body);
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  margin: 0 0 var(--s4);
-  flex-grow: 1;
 }
 
 .dispatch-card__link {
@@ -4012,31 +2709,17 @@ li.brief__item .brief__caption {
 
   /* --- Lead ------------------------------------------------- */
   .page-head { margin-bottom: var(--s6); padding-bottom: var(--s5); }
-  .page-head--article,
   .page-head:has(+ .article__meta) {
     border-bottom: none;
     margin-bottom: var(--s4);
     padding-bottom: 0;
   }
   .standfirst { font-size: 17.5px; line-height: 1.55; }
-  .page-head__title { font-size: 38px; line-height: 1; }
-
-  .hero-grid { grid-template-columns: 1fr; gap: var(--s5); margin-bottom: var(--s6); }
-  .hero-intro__actions { width: 100%; }
-  .hero-intro__actions .chip { flex: 1; text-align: center; justify-content: center; }
-  .hero-preview { padding: 18px 16px; }
-  .hero-preview__title { font-size: 20px; line-height: 1.16; }
-
-  .daily-list__item { grid-template-columns: minmax(0, 28px) minmax(0, 1fr) 100px; gap: 10px; padding: var(--s4) 0; }
-  .daily-list__item .brief__num { font-size: 22px; min-width: 0; }
-  .daily-list__thumb { width: 100px; }
   /* The number shrinks to make room -- at 100px the thumbnail is still the
      dominant element on a ~360px content width, which is the point: at
      64px the illustration's line art was too fine to read at all. */
 
   .known-issue-lead { padding: 18px 16px; gap: var(--s3); }
-  .known-issue-lead__trigger { -webkit-line-clamp: 4; }
-  .known-issue-lead__thumb { width: 110px; }
 
   .known-issue-featured,
   .daily-featured { flex-direction: column; gap: var(--s4); }
@@ -4052,19 +2735,6 @@ li.brief__item .brief__caption {
   .page-head .chip { display: block; width: 100%; }
 
   /* --- Brief items: the slot number moves inline ------------ */
-  .brief__item { padding-block: var(--s5); }
-
-  .brief__head { display: block; }
-  .brief__num {
-    font-size: 22px;
-    line-height: 1;
-    display: inline-block;
-    margin-right: 10px;
-    vertical-align: -1px;
-  }
-  .brief__meta-row { display: inline-flex; gap: 8px; margin-bottom: 8px; }
-  .brief__head h2 { font-size: 21.5px; line-height: 1.18; margin-top: 8px; }
-  .brief__body { font-size: 16.5px; line-height: 1.66; }
 
   /* --- Dossier & Analysis Grid mobile --- */
   .analysis {
@@ -4073,32 +2743,17 @@ li.brief__item .brief__caption {
     padding: 0;
     margin-top: var(--s4);
   }
-  .analysis__cell {
-    padding: 16px 18px;
-    gap: 10px;
-  }
-  .analysis__pill {
-    font-size: 10.5px;
-    padding: 4px 11px;
-  }
   .analysis dd {
     font-size: 15px;
     line-height: 1.6;
   }
 
   /* --- Known Issue: full-bleed, keep the saffron rule -------- */
-  .brief__item--opinion {
-    margin-inline: -16px;
-    padding: 22px 16px;
-    border-left-width: 5px;
-  }
-  .brief__item--opinion h2 { font-size: 27px; line-height: .98; }
 
   /* --- Sections & archives ---------------------------------- */
   .section { margin-top: var(--s6); }
   .section__head { flex-direction: column; align-items: flex-start; gap: var(--s2); }
   .section__head h2 { font-size: 19px; }
-  .section__link-pill { align-self: flex-start; }
   .entries > li:not(.ad-row) { padding: 18px 16px; }
   .entry__title { font-size: 18px; line-height: 1.28; }
   .entry__desc { font-size: 14.5px; line-height: 1.55; }
@@ -4109,7 +2764,6 @@ li.brief__item .brief__caption {
   /* --- Prose ------------------------------------------------ */
   .prose p, .prose ul, .prose ol { font-size: 16.5px; line-height: 1.68; }
   .prose blockquote { padding: 14px 16px; font-size: 1.05em; }
-  .article__meta { gap: var(--s3); font-size: 11px; }
 
   /* --- Story desk footer card mobile --- */
   .story-footer-card { padding: 18px 16px; }
@@ -4198,9 +2852,6 @@ li.brief__item .brief__caption {
   /* ============================================================
      Known Issue Column (/known-issue) mobile
      ============================================================ */
-  .page-head--column {
-    padding: 24px 18px;
-  }
   .known-issue-featured {
     padding: 20px 16px;
   }
@@ -4337,8 +2988,6 @@ li.brief__item .brief__caption {
    <div class="read-progress"><span style="width:60%"></span></div>
    as the last child of .masthead. Width is set by a 6-line
    scroll listener, or left static per item index. */
-.read-progress { height: 3px; background: var(--rule); }
-.read-progress > span { display: block; height: 3px; background: var(--accent); transition: width .12s linear; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -4371,7 +3020,6 @@ li.brief__item .brief__caption {
 .hp-shead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px 24px; margin-bottom: 16px; }
 .hp-kick { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font: 700 12px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase; }
 .hp-kick i { width: 9px; height: 9px; display: block; border-radius: 50%; background: var(--accent); animation: hp-pulse 1.8s ease-in-out infinite; }
-.hp-kick--daily { color: var(--accent-deep); }
 @keyframes hp-pulse { 50% { opacity: .35; } }
 .hp-shead h2 {
   font-family: var(--display); font-variation-settings: var(--display-wide);
@@ -4414,7 +3062,6 @@ li.brief__item .brief__caption {
   display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
 }
 .hp-tile--lead .hp-tile__title { font-size: clamp(23px, 4vw, 40px); line-height: 1.05; font-variation-settings: "wdth" 118; -webkit-line-clamp: 3; }
-.hp-tile__ex { margin-top: 9px; max-width: 48ch; color: #E6E3EF; font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 @media (min-width: 720px) {
   .hp-bento { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(214px, 1fr)); gap: 14px; }
   .hp-tile { aspect-ratio: auto; }
@@ -4529,8 +3176,8 @@ body:has(.hp-band) footer { margin-top: 0; }
    Everything is scoped under .pg so the homepage and legacy pages
    (search, topics) are untouched. --pl is the pillar colour.
    ============================================================ */
-.pg { --pl: var(--accent); --pl-deep: var(--accent-deep); --pl-text: var(--accent-deep); --pl-shadow: var(--accent); }
-.pg--ki { --pl: var(--accent-2); --pl-deep: var(--accent-2); --pl-text: var(--accent-2); --pl-shadow: var(--teal-light); }
+.pg { --pl: var(--accent); --pl-text: var(--accent-deep); --pl-shadow: var(--accent); }
+.pg--ki { --pl: var(--accent-2); --pl-text: var(--accent-2); --pl-shadow: var(--teal-light); }
 .pg--about { --pl: var(--ink); }
 
 /* --- masthead --------------------------------------------- */
@@ -4569,7 +3216,6 @@ body:has(.hp-band) footer { margin-top: 0; }
 .pg--ki .page-head--pillar h1 { color: #F4F1E8; }
 .pg--ki .page-head--pillar .standfirst,
 .pg--ki .page-head--pillar .column-trigger { color: var(--dark-soft); }
-.pg--ki .page-head--pillar .page-head--column__ring { position: absolute; z-index: 0; color: var(--teal-light); opacity: .16; }
 /* landing: pull the band up to the header */
 .pg--ki > .page-head--pillar { margin-top: calc(-1 * var(--s7)); }
 
@@ -4630,10 +3276,6 @@ html[data-theme="dark"] .pg--ki .known-issue-featured { border-color: var(--teal
 
 /* --- article pages ---------------------------------------- */
 .pg--article .article-breadcrumb a { color: var(--pl-text); }
-.pg--article .article__meta { border-top: 0; }
-.pg--article #article-lead-image.article-hero,
-.pg--article .article-hero { border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--pl-shadow); }
-.pg--article .article-hero__caption { border-top: 2px solid var(--ink); }
 .pg--article .prose a { color: var(--pl-text); text-decoration-color: var(--pl); }
 .pg--article .prose blockquote { border-left: 4px solid var(--pl); }
 .pg--article .prose h2 { font-family: var(--display); font-variation-settings: var(--display-normal); font-weight: 800; }
@@ -4643,11 +3285,7 @@ html[data-theme="dark"] .pg--ki .known-issue-featured { border-color: var(--teal
 
 
 /* Daily Five issue: numbered, image-first stories */
-.pg--daily .brief__item { border-top: 3px solid var(--ink); }
-.pg--daily .brief__item .brief__num { background: var(--accent); color: #17182E; border: 2px solid var(--ink); }
 .pg--daily .brief__figure, .pg--daily .brief__card { border: 2px solid var(--ink); }
-.pg--daily .brief__head h2 { font-variation-settings: "wdth" 118; font-weight: 800; letter-spacing: -.015em; }
-.pg--daily .brief__more a { color: var(--accent-deep); }
 .pg--daily .issue-jump-pill__num { background: var(--accent); color: #17182E; }
 .pg--daily .edition-nav__link:hover .edition-nav__title { color: var(--accent-deep); }
 
@@ -4810,9 +3448,6 @@ html[data-theme="dark"] { --teal-text: var(--teal-light); }
 html[data-theme="dark"] .pg .pill-tag--known-issue { background: var(--teal-light); border-color: var(--teal-light); color: #17182E; }
 
 /* Analysis labels were dim on dark: lift each to its own light tone */
-html[data-theme="dark"] .analysis .analysis__pill--problem { color: var(--accent-light); }
-html[data-theme="dark"] .analysis .analysis__pill--breakthrough { color: var(--teal-light); }
-html[data-theme="dark"] .analysis .analysis__pill--catch { color: #FFC53D; }
 
 /* Phone header: logo + three tools were 376px in a 358px row, so the
    hamburger was clipped. Scale the logo and tap targets down together.
@@ -4839,9 +3474,6 @@ html[data-theme="dark"] .analysis .analysis__pill--catch { color: #FFC53D; }
 /* ============================================================
    Daily Five issue page v3: image-first story cards, compact
    ============================================================ */
-.pg--daily .page-head--brief h1 { font-size: clamp(24px, 3.6vw, 40px); line-height: 1.1; }
-.brief-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: inherit; opacity: .8; }
-.pg--daily .page-head--brief .standfirst { font-size: 16px; margin-top: 10px; max-width: 62ch; }
 .pg--daily .issue-jump-bar { margin-top: 14px; padding-top: 12px; display: flex; align-items: center; gap: 12px; }
 .pg--daily .issue-jump-bar__label { font-size: 10px; flex-shrink: 0; }
 .pg--daily .issue-jump-bar__nav { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
@@ -4851,43 +3483,29 @@ html[data-theme="dark"] .analysis .analysis__pill--catch { color: #FFC53D; }
 .stories { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 28px; }
 .story { border-top: 3px solid var(--ink); padding-top: 14px; scroll-margin-top: 84px; }
 .story:target { box-shadow: inset 0 3px 0 var(--accent); }
-.story__grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "stack" "body"; gap: 12px; }
 .story__media { grid-area: stack; position: relative; aspect-ratio: 1 / 1; border: 2px solid var(--ink); overflow: hidden; background: #0E0F1D; }
 .story__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,15,29,.92) 0%, rgba(14,15,29,.45) 45%, rgba(14,15,29,0) 75%); pointer-events: none; }
-.story__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .story__chips { position: absolute; z-index: 2; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: flex-start; }
-.story__num { background: var(--surface); color: var(--ink); font-family: var(--mono); font-weight: 700; font-size: 12px; padding: 4px 7px; border: 2px solid var(--ink); }
-.story__kind { background: #0E0F1D; color: #fff; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 5px 8px; }
-.story--opinion .story__kind { background: var(--accent); color: #17182E; }
 .story__title { grid-area: stack; z-index: 3; align-self: end; margin: 0; padding: 0 14px 14px; color: #fff; font-family: var(--display); font-variation-settings: "wdth" 118; font-weight: 800; font-size: clamp(22px, 6vw, 28px); line-height: 1.12; text-wrap: balance; pointer-events: none; }
 .story__body { grid-area: body; }
 .story__text { margin: 0; font-size: 16px; line-height: 1.6; max-width: 66ch; }
-.story .brief__more { margin: 8px 0 0; }
 
 .story .analysis { margin-top: 14px; gap: 12px; grid-template-columns: 1fr; }
-.story .analysis__cell { padding: 12px 14px; gap: 6px; border-width: 2px; }
-.story .analysis__cell--forYou { border-width: 2px; }
-.story .analysis__cell::after { font-size: 34px; right: 8px; bottom: 0; }
-.story .analysis__pill { padding: 4px 10px 4px 8px; font-size: 9.5px; }
-.story .analysis__icon svg { width: 10px; height: 10px; }
 .story .analysis dd { font-size: 14px; line-height: 1.5; }
-.story .analysis__cell--forYou dd { font-size: 14.5px; }
 .story .brief__source { margin: 10px 0 0; }
 .stories > .ad-row { margin: 0; list-style: none; }
 
 @media (min-width: 720px) {
   .story .analysis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .story .analysis > .analysis__cell:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 @media (min-width: 860px) {
-  .story__grid { grid-template-columns: 250px minmax(0, 1fr); grid-template-areas: "media title" "media body"; column-gap: 22px; row-gap: 8px; align-items: start; }
   .story__media { grid-area: media; aspect-ratio: 1 / 1; }
   .story__media::after { display: none; }
   .story__title { grid-area: title; align-self: start; padding: 0; color: var(--ink); font-size: clamp(24px, 2.4vw, 30px); pointer-events: auto; }
   .story__body { align-self: start; }
 }
 html[data-theme="dark"] .story { border-top-color: var(--dark-rule, #3A3B5C); }
-html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { border-color: var(--dark-rule, #3A3B5C); }
+html[data-theme="dark"] .story__media { border-color: var(--dark-rule, #3A3B5C); }
 @media (min-width: 860px) { html[data-theme="dark"] .story__title { color: #fff; } }
 
 /* ============================================================
@@ -4897,7 +3515,6 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 .art-head__media { margin: 0; }
 .art-head__media img { display: block; width: 100%; height: auto; border: 2px solid var(--pl); background: #0E0F1D; object-fit: cover; }
 .art-head__media figcaption { margin-top: 6px; font-family: var(--mono); font-size: 10px; letter-spacing: .04em; opacity: .7; }
-.art-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 12px 0 0; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; opacity: .8; }
 .pg--article .page-head--pillar h1 { font-size: clamp(26px, 4.2vw, 42px); line-height: 1.08; }
 .pg--article .page-head--pillar .standfirst { font-size: 16px; margin-top: 10px; }
 .pg--article .column-trigger { margin-top: 10px; font-size: 13.5px; }
@@ -4940,7 +3557,6 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
 }
 .pg--ki .column-section-title, .pg--daily .column-section-title { margin-bottom: 12px; }
 .pg--article .page-head--pillar { padding-block: 18px 20px; }
-.pg--article .page-head--pillar.page-head--article { margin-top: var(--s2) !important; }
 .pg--article .article-breadcrumb { margin-bottom: 0; }
 /* main's shared top padding (var(--s7), 48px) reads as a dead gap
    above the breadcrumb on article pages -- everything else in .pg
@@ -4961,13 +3577,6 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
    title/byline/standfirst instead of leaving that space blank and
    the nav stranded in a thin scrolling row underneath. */
 @media (min-width: 900px) {
-  .pg--daily .page-head--brief {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px;
-    gap: 28px;
-    align-items: start;
-  }
-  .pg--daily .brief-head__text { min-width: 0; }
   .pg--daily .issue-jump-bar {
     flex-direction: column;
     align-items: stretch;
@@ -5011,9 +3620,6 @@ html[data-theme="dark"] .story__media, html[data-theme="dark"] .story__num { bor
     font-size: 13.5px;
     line-height: 1.35;
   }
-}
-@media (min-width: 1100px) {
-  .pg--daily .page-head--brief { grid-template-columns: minmax(0, 1fr) 320px; gap: 36px; }
 }
 
 /* ============================================================
@@ -5179,7 +3785,6 @@ a.wa-header:hover { color: #fff; }
 .wa-strip__text { max-width: none; }
 
 /* ── India chip + Taps (12 Oct 2026) ─────────────────────────────────── */
-.story .story__chips .story__region { background: #F4F1E8; color: #17182E; }
 .taps { margin-top: var(--s7); padding-top: var(--s5); border-top: 2px solid var(--ink); }
 .taps__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: var(--s4); }
 .taps__title { margin: 0; font-family: var(--display); font-weight: 800; font-size: clamp(24px, 5vw, 30px); line-height: 1.1; }

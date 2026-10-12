@@ -30,7 +30,6 @@ const fpLatestCheck = finePrint.reduce<Date | null>((m, f) => (!m || f.data.last
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' });
 const dayFmt = new Intl.DateTimeFormat('en-IN', { day: '2-digit', timeZone: 'UTC' });
 const monFmt = new Intl.DateTimeFormat('en-IN', { month: 'short', timeZone: 'UTC' });
-const wdLong = new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'UTC' });
 const wdFmt = new Intl.DateTimeFormat('en-IN', { weekday: 'short', timeZone: 'UTC' });
 const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
 const label = (k: string) => k.replace(/-/g, ' ');
