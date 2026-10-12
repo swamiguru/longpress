@@ -300,9 +300,7 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
 
     <footer class="footer" id="site-footer" role="contentinfo">
       <div class="shell--wide footer__container">
-        <!-- Main Footer Columns Grid -->
         <div class="footer__grid">
-          <!-- Column 1: Brand, Tagline, Editorial Cadence & Mission -->
           <div class="footer__col footer__col--brand">
             <a href="/" class="footer__brand-link" aria-label="Long Press Home">
               <Logo variant="footer" showTagline={false} />
@@ -313,9 +311,8 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
             <WhatsAppCta variant="footer" location="footer_button" />
           </div>
 
-          <!-- Column 2: Coverage & Archives -->
-          <nav class="footer__col" aria-label="Coverage links">
-            <h3 class="footer__col-title">Coverage</h3>
+          <nav class="footer__col" aria-labelledby="footer-h-coverage">
+            <h3 class="footer__col-title" id="footer-h-coverage">Coverage</h3>
             <ul class="footer__nav-list">
               <li><a href="/" class="footer__link">The Daily Five</a></li>
               <li><a href="/daily" class="footer__link">Daily Archive</a></li>
@@ -325,14 +322,13 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
             </ul>
           </nav>
 
-          <!-- Column 3: The Desk -->
-          <nav class="footer__col" aria-label="About the desk">
-            <h3 class="footer__col-title">The Desk</h3>
+          <nav class="footer__col" aria-labelledby="footer-h-desk">
+            <h3 class="footer__col-title" id="footer-h-desk">The Desk</h3>
             <ul class="footer__nav-list">
               <li><a href="/about" class="footer__link">About Long Press</a></li>
               <li><a href="/about#who-writes-it" class="footer__link">Who Writes It</a></li>
-              <li><a href="/about#corrections-and-contact" class="footer__link">Corrections &amp; Contact</a></li>
               <li><a href="/editorial-policy" class="footer__link">Editorial Policy</a></li>
+              <li><a href="/about#corrections-and-contact" class="footer__link">Corrections</a></li>
               <li><a href="/contact" class="footer__link">Contact</a></li>
               <li>
                 <a href="https://www.builtbyswami.com/work-with-me" target="_blank" rel="noopener noreferrer" class="footer__link footer__link--external">
@@ -345,9 +341,8 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
             </ul>
           </nav>
 
-          <!-- Column 4: Delivery & Syndication -->
-          <nav class="footer__col" aria-label="Syndication and feeds">
-            <h3 class="footer__col-title">Syndication</h3>
+          <nav class="footer__col footer__col--follow" aria-labelledby="footer-h-follow">
+            <h3 class="footer__col-title" id="footer-h-follow">Follow</h3>
             <ul class="footer__nav-list">
               <li>
                 <a href="/rss.xml" class="footer__link footer__link--rss">
@@ -359,29 +354,12 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
                   <span>RSS 2.0 Feed</span>
                 </a>
               </li>
-              <li>
-                <a href="https://whatsapp.com/channel/0029Vb9DINGJf05fzD9slF3A" target="_blank" rel="noopener" class="footer__link footer__link--external" data-wa-cta="footer_link">
-                  <span>WhatsApp Channel</span>
-                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="footer__link-icon" aria-hidden="true">
-                    <path d="M2.5 9.5L9.5 2.5H4M9.5 2.5V8" />
-                  </svg>
-                </a>
-              </li>
-              <li><a href="/search.json" class="footer__link">Search Index (JSON)</a></li>
               <li><a href="mailto:builtbyswami@gmail.com" class="footer__link">Desk Email</a></li>
-              <li>
-                <a href="https://www.builtbyswami.com" target="_blank" rel="noopener noreferrer" class="footer__link footer__link--external">
-                  <span>BuiltBySwami</span>
-                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="footer__link-icon" aria-hidden="true">
-                    <path d="M2.5 9.5L9.5 2.5H4M9.5 2.5V8" />
-                  </svg>
-                </a>
-              </li>
+              <li class="footer__item--desktop"><a href="/search.json" class="footer__link">Search Index (JSON)</a></li>
             </ul>
           </nav>
         </div>
 
-        <!-- Sub-footer bar: Colophon, Publisher credit, Quick Back to Top -->
         <div class="footer__bottom">
           <div class="footer__bottom-left">
             <p class="footer__colophon">
@@ -390,13 +368,13 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
             <p class="footer__creed">
               No paywall &middot; Anything sponsored is labelled &middot; The opinion is not for sale.
             </p>
+          </div>
+          <div class="footer__bottom-right">
             <nav class="footer__legal" aria-label="Legal">
               <a href="/privacy">Privacy</a>
               <a href="/terms">Terms</a>
               <a href="/privacy#privacy-choices" data-privacy-choices>Privacy choices</a>
             </nav>
-          </div>
-          <div class="footer__bottom-right">
             <a href="#masthead" class="footer__top-btn" id="footer-top-btn" aria-label="Back to top of page">
               <span>Back to top</span>
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
