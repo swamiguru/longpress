@@ -22,12 +22,15 @@ const earlier = allStories.slice(1, 6);
 const finePrint = (await getCollection('finePrint', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf() || b.data.lastChecked.valueOf() - a.data.lastChecked.valueOf());
 const fpLead = finePrint[0];
+const fpRsRow = fpLead?.data.costs?.rows.find((r) => r.highlight) ?? fpLead?.data.costs?.rows[0];
+const fpRs = fpRsRow && fpRsRow.amount.length <= 14 ? { amount: fpPlain(fpRsRow.amount), item: fpPlain(fpRsRow.item) } : null;
 const fpMore = finePrint.slice(1, 5);
 const fpLatestCheck = finePrint.reduce<Date | null>((m, f) => (!m || f.data.lastChecked > m ? f.data.lastChecked : m), null);
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' });
 const dayFmt = new Intl.DateTimeFormat('en-IN', { day: '2-digit', timeZone: 'UTC' });
 const monFmt = new Intl.DateTimeFormat('en-IN', { month: 'short', timeZone: 'UTC' });
+const wdLong = new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'UTC' });
 const wdFmt = new Intl.DateTimeFormat('en-IN', { weekday: 'short', timeZone: 'UTC' });
 const path = (b: { id: string }) => `/daily/${b.id.replace(/\.md$/, '')}`;
 const label = (k: string) => k.replace(/-/g, ' ');
@@ -83,9 +86,13 @@ function kiImage(s: (typeof allStories)[number], sizes: string) {
   if (s.data.heroImage) return getResponsiveImage(s.data.heroImage, { aspectRatio: '16/9', customSizes: sizes });
   return getResponsiveImage('/images/fallback/column.png', { aspectRatio: '1/1', customSizes: sizes });
 }
+const reportedOn = featured?.data.reportedOn ?? null;
+const reportedISO = reportedOn ? reportedOn.toISOString().slice(0, 10) : '';
+const daysOpen = reportedOn ? Math.floor((Date.now() - reportedOn.getTime()) / 86_400_000) : null;
 const featuredImg = featured ? kiImage(featured, '(max-width: 719px) 100vw, 600px') : null;
 const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured.data.openSince : null;
 import '../styles/home-daily.css';
+import '../styles/landing-heads.css';
 ---
 <BaseLayout
   title="Long Press - five tech stories every morning, with an honest take"
@@ -107,7 +114,12 @@ import '../styles/home-daily.css';
     <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
       <div class="hp-shead">
         <div>
-          <p class="hp-kick hp-kick--daily"><i aria-hidden="true"></i>Today &middot; {med.format(today.data.date)}</p>
+          <p class="hp-dateline" aria-label={`Today, ${med.format(today.data.date)}`}>
+            <i aria-hidden="true"></i>
+            <b>{dayFmt.format(today.data.date)}</b>
+            <span>{monFmt.format(today.data.date)}<br />{wdLong.format(today.data.date)}</span>
+            <em>New today</em>
+          </p>
           <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
           <p class="hp-shead__sub">Five tech stories every morning, each one taken apart the same way.</p>
           <p class="hp-labels"><b>The problem</b> &middot; <b>What changed</b> &middot; <b>The catch</b> &middot; <b>What it means for you</b></p>
@@ -138,7 +150,12 @@ import '../styles/home-daily.css';
               </span>
               <div class="hp-tile__tx">
                 <h3 class="hp-tile__title">{item.heading}</h3>
-                {i === 0 && <p class="hp-tile__ex">{excerpt(item.body || item.teaser)}</p>}
+                {i === 0 && (
+                  <p class="hp-tile__you">
+                    <b>What it means for you</b>
+                    {excerpt(item.forYou || item.body || item.teaser, 170)}
+                  </p>
+                )}
               </div>
             </a>
           </li>
@@ -218,9 +235,11 @@ import '../styles/home-daily.css';
                 <span class="hp-chip hp-chip--f"><i aria-hidden="true"></i>Still open</span>
                 {featured.data.trigger && <span class="hp-chip">Not today&rsquo;s news</span>}
               </div>
-              {yearsOpen && yearsOpen > 0 && (
+              {daysOpen && daysOpen > 0 ? (
+                <div class="hp-years hp-years--days"><b data-open-since={reportedISO}>{daysOpen.toLocaleString('en-US')}</b><span>Days open since {med.format(featured.data.reportedOn)}</span></div>
+              ) : yearsOpen && yearsOpen > 0 ? (
                 <div class="hp-years"><b>{yearsOpen}</b><span>Years since {featured.data.openSince}</span></div>
-              )}
+              ) : null}
             </div>
             <div class="hp-kf__body">
               <h3 id={`known-issue-lead-title-${featured.data.slug}`} class="hp-kf__title">{featured.data.title}</h3>
@@ -299,6 +318,9 @@ import '../styles/home-daily.css';
               <span>{fpLead.data.category}</span>
               <span class="hp-fpl__stamp">Last checked {med.format(fpLead.data.lastChecked)}</span>
             </span>
+            {fpRs && (
+              <span class="hp-fpl__rs"><b>{fpRs.amount}</b><span>{fpRs.item}</span></span>
+            )}
             <h3 class="hp-fpl__title">{fpLead.data.title}</h3>
             <p class="hp-fpl__line">{fpPlain(fpLead.data.oneLine)}</p>
             <span class="hp-fpl__check">
@@ -336,4 +358,14 @@ import '../styles/home-daily.css';
     </section>
   )}
 </div>
+<script is:inline>
+  (function () {
+    var el = document.querySelector('[data-open-since]');
+    if (!el) return;
+    var p = el.getAttribute('data-open-since').split('-');
+    var n = new Date();
+    var d = Math.floor((Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()) - Date.UTC(+p[0], +p[1] - 1, +p[2])) / 86400000);
+    if (d > 0) el.textContent = d.toLocaleString('en-US');
+  })();
+</script>
 </BaseLayout>

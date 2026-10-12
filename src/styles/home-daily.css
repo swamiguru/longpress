@@ -15,3 +15,27 @@ html[data-theme="dark"] .hp-daily .hp-tile:hover { box-shadow: 8px 8px 0 var(--a
 .hp-daily .hp-kick--daily { color: var(--accent-deep); }
 html[data-theme="dark"] .hp-daily .hp-kick--daily { color: var(--accent-light, #FF9D7A); }
 @media (min-width: 720px) { .hp-daily .hp-bento { gap: 20px; } }
+
+/* ---------- Lead tile: the take, not an excerpt ---------- */
+.hp-tile__you { margin: 10px 0 0; max-width: 52ch; color: #F4F1E8; font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.hp-tile__you b { display: block; margin-bottom: 4px; font: 700 10.5px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: #FF9D7A; }
+@media (max-width: 719px) { .hp-tile__you { -webkit-line-clamp: 2; font-size: 13.5px; } }
+@media (min-width: 720px) { .hp-tile__you { font-size: 15px; } }
+
+/* ---------- Tiles rise in, once ---------- */
+@keyframes hp-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .hp-daily .hp-tile { animation: hp-rise .5s cubic-bezier(.2,.7,.2,1) both; }
+  .hp-daily .hp-tile:nth-child(2) { animation-delay: .06s; }
+  .hp-daily .hp-tile:nth-child(3) { animation-delay: .12s; }
+  .hp-daily .hp-tile:nth-child(4) { animation-delay: .18s; }
+  .hp-daily .hp-tile:nth-child(5) { animation-delay: .24s; }
+}
+
+/* ---------- Known Issue band: the open counter ---------- */
+.hp-years--days b { font-size: 40px; font-variant-numeric: tabular-nums; }
+
+/* ---------- Fine Print lead: the rupee figure ---------- */
+.hp-fpl__rs { display: inline-flex; align-items: baseline; gap: 10px; flex-wrap: wrap; align-self: flex-start; padding: 6px 12px 7px; background: #FFE14D; color: #111111; }
+.hp-fpl__rs b { font: 900 clamp(26px, 4vw, 38px)/1 var(--display); letter-spacing: -0.02em; }
+.hp-fpl__rs span { font: 600 12px/1.3 "IBM Plex Mono", var(--mono); letter-spacing: 0.04em; text-transform: uppercase; }

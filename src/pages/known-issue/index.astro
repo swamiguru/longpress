@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import '../../styles/landing-heads.css';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
@@ -10,6 +11,8 @@ const allStories = (await getCollection('stories', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 
 const leadStory = allStories[0];
+const oldestOpen = allStories.reduce<number | null>((m, s) => (s.data.openSince && (m === null || s.data.openSince < m) ? s.data.openSince : m), null);
+const yearsOldest = oldestOpen ? new Date().getFullYear() - oldestOpen : null;
 const feedStories = allStories.slice(1);
 
 // Topic aggregates for filtering -- counted against feedStories (the list
@@ -46,6 +49,10 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
     <p class="ph__stand">
       In software, a known issue is the bug everyone has agreed to live with. This column is about the other kind: the things in Apple, Google, Meta, Android, iOS and the apps you open every day that have been wrong long enough to count as a decision rather than an oversight. The morning brief covers what happened today. This covers what has been true for months and still is.
     </p>
+    <div class="ki-facts">
+      <div><b>{allStories.length}</b><span>Columns so far</span></div>
+      {yearsOldest && yearsOldest > 0 && <div><b>{yearsOldest} years</b><span>Longest open, since {oldestOpen}</span></div>}
+    </div>
   </header>
 
   <!-- Lead / Featured Column Piece -->

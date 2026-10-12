@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import '../../styles/landing-heads.css';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
@@ -60,6 +61,9 @@ for (const b of archiveBriefs) {
 }
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+const dlDay = featured ? new Intl.DateTimeFormat('en-IN', { day: '2-digit', timeZone: 'UTC' }).format(featured.data.date) : '';
+const dlMon = featured ? new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' }).format(featured.data.date) : '';
+const dlWd = featured ? new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'UTC' }).format(featured.data.date) : '';
 ---
 <BaseLayout
   title="The Daily Five — Morning Tech Briefing & Archive | Long Press"
@@ -69,7 +73,16 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
   <div class="pg pg--daily">
   <!-- Section Masthead -->
   <header class="ph ph--landing" id="archive-head">
-    <span class="ph__tag">The morning brief &middot; Every day</span>
+    {featured ? (
+      <p class="hp-dateline" aria-label="Latest issue">
+        <i aria-hidden="true"></i>
+        <b>{dlDay}</b>
+        <span>{dlMon}<br />{dlWd}</span>
+        <em>Latest issue</em>
+      </p>
+    ) : (
+      <span class="ph__tag">The morning brief &middot; Every day</span>
+    )}
     <h1 class="ph__title">The Daily Five</h1>
     <p class="ph__stand" id="archive-standfirst">
       Five tech stories every morning, each one taken apart the same way: the problem, what changed, the catch, and what it means for you. Five is a cap, not a target. More than five things happen most days and most of them do not matter.
