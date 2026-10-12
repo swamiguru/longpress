@@ -110,9 +110,10 @@ const ANALYSIS = [
       )}
     </header>
 
-    <PreferredSource />
-
-    <WhatsAppCta variant="strip" location="brief_top" />
+    <div class="top-actions">
+      <PreferredSource inline />
+      <WhatsAppCta variant="strip" location="brief_top" />
+    </div>
 
     <ol class="df-stack">
       {items.map((item, i) => {
