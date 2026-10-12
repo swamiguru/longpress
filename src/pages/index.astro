@@ -112,16 +112,16 @@ import '../styles/landing-heads.css';
   <!-- 1. Today's Five -->
   {today && (
     <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
-      <div class="hp-shead">
-        <div>
-          <p class="hp-dateline" aria-label={`Today, ${med.format(today.data.date)}`}>
-            <i aria-hidden="true"></i>
-            <b>{dayFmt.format(today.data.date)}</b>
-            <span>{monFmt.format(today.data.date)}<br />{wdLong.format(today.data.date)}</span>
-            <em>New today</em>
-          </p>
+      <div class="hp-ahead">
+        <div class="hp-ahead__cal" role="img" aria-label={`Today, ${med.format(today.data.date)}`}>
+          <small>{wdFmt.format(today.data.date)}</small>
+          <b>{dayFmt.format(today.data.date)}</b>
+          <small>{monFmt.format(today.data.date)}</small>
+        </div>
+        <div class="hp-ahead__main">
+          <p class="hp-ahead__new"><i aria-hidden="true"></i><em>New today</em></p>
           <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
-          <p class="hp-shead__sub">Five tech stories every morning, each one taken apart the same way.</p>
+          <p class="hp-ahead__sub">Five tech stories every morning, each one taken apart the same way.</p>
           <p class="hp-labels"><b>The problem</b> &middot; <b>What changed</b> &middot; <b>The catch</b> &middot; <b>What it means for you</b></p>
         </div>
         <a href={path(today)} class="hp-btn" id="link-read-full-issue">Read the full issue &rarr;</a>

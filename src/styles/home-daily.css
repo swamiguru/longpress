@@ -39,3 +39,27 @@ html[data-theme="dark"] .hp-daily .hp-kick--daily { color: var(--accent-light, #
 .hp-fpl__rs { display: inline-flex; align-items: baseline; gap: 10px; flex-wrap: wrap; align-self: flex-start; padding: 6px 12px 7px; background: #FFE14D; color: #111111; }
 .hp-fpl__rs b { font: 900 clamp(26px, 4vw, 38px)/1 var(--display); letter-spacing: -0.02em; }
 .hp-fpl__rs span { font: 600 12px/1.3 "IBM Plex Mono", var(--mono); letter-spacing: 0.04em; text-transform: uppercase; }
+
+/* ---------- Today's Five head, option A: calendar tile ---------- */
+.hp-ahead { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 22px; align-items: center; margin-bottom: 24px; }
+.hp-ahead__cal { display: grid; justify-items: center; gap: 2px; min-width: 92px; padding: 10px 14px 12px; background: var(--accent); color: #fff; border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); }
+html[data-theme="dark"] .hp-ahead__cal { border-color: var(--dark-rule, #34376a); box-shadow: 5px 5px 0 var(--accent-light, #FF9D7A); }
+.hp-ahead__cal small { font: 700 11px/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; }
+.hp-ahead__cal b { font: 900 54px/0.95 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.hp-ahead__main { min-width: 0; }
+.hp-ahead__new { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 8px; }
+.hp-ahead__new i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); animation: hp-pulse 1.8s ease-in-out infinite; }
+.hp-ahead__new em { padding: 5px 8px; font: 700 10px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; font-style: normal; background: #17182E; color: #FF9D7A; }
+html[data-theme="dark"] .hp-ahead__new em { background: var(--accent); color: #fff; }
+.hp-ahead h2 { margin: 0; font-family: var(--display); font-variation-settings: var(--display-wide); font-weight: 900; font-size: clamp(34px, 5.4vw, 60px); line-height: 1; letter-spacing: -0.01em; text-wrap: balance; }
+.hp-ahead__sub { margin: 8px 0 0; max-width: 52ch; color: var(--ink-soft, var(--muted)); font-size: 16px; line-height: 1.5; }
+.hp-ahead .hp-labels { margin-top: 8px; }
+@media (max-width: 700px) {
+  .hp-ahead { grid-template-columns: auto minmax(0, 1fr); gap: 14px 16px; margin-bottom: 18px; }
+  .hp-ahead .hp-btn { grid-column: 1 / -1; justify-content: center; }
+  .hp-ahead__cal { min-width: 76px; }
+  .hp-ahead__cal b { font-size: 44px; }
+  .hp-ahead h2 { font-size: 34px; }
+  .hp-ahead__sub { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .hp-ahead__new i { animation: none; } }
