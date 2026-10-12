@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageCrumb from '../../components/PageCrumb.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
+import PreferredSource from '../../components/PreferredSource.astro';
 import WhatsAppCta from '../../components/WhatsAppCta.astro';
 import { fpPlain } from '../../lib/text/finePrint';
 import { fpInline, FP_STATUS } from '../../lib/text/finePrint';
@@ -60,6 +61,8 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
         <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} compact />
       </div>
     </header>
+
+    <PreferredSource />
 
     <article class="fp-article">
 

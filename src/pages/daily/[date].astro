@@ -6,6 +6,7 @@ import AdSlot from '../../components/AdSlot.astro';
 import PreviouslyOn from '../../components/PreviouslyOn.astro';
 import WhatsAppCta from '../../components/WhatsAppCta.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
+import PreferredSource from '../../components/PreferredSource.astro';
 import PageCrumb from '../../components/PageCrumb.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 import { getResponsiveImage } from '../../lib/images';
@@ -108,6 +109,8 @@ const ANALYSIS = [
         </div>
       )}
     </header>
+
+    <PreferredSource />
 
     <WhatsAppCta variant="strip" location="brief_top" />
 

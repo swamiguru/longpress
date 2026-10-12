@@ -1,0 +1,18 @@
+---
+// Google "Add to preferred sources" button, placed at the top of a story.
+// The library script in BaseLayout.astro scans the page for the attribute,
+// so this component only renders the container. The wrapper reserves height
+// so nothing shifts when the button appears. If the site is not listed in
+// Google's source preferences tool the button renders nothing.
+export interface Props {
+  theme?: 'light' | 'dark';
+}
+const { theme = 'light' } = Astro.props;
+---
+<div class="pref-source" aria-label="Add Long Press as a preferred source on Google">
+  <div google-add-preferred-source-btn data-theme={theme} data-lang="en"></div>
+</div>
+
+<style>
+  .pref-source { min-height: 44px; margin: 14px 0 6px; }
+</style>

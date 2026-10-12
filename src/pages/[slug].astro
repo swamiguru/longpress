@@ -7,6 +7,7 @@ import PreviouslyOn from '../components/PreviouslyOn.astro';
 import WhatsAppCta from '../components/WhatsAppCta.astro';
 import { relatedFor } from '../lib/related';
 import ShareButtons from '../components/ShareButtons.astro';
+import PreferredSource from '../components/PreferredSource.astro';
 import PageCrumb from '../components/PageCrumb.astro';
 import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
@@ -137,6 +138,8 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
         )}
       </div>
     </header>
+
+    <PreferredSource />
 
     <div class="prose"><Content /></div>
 
