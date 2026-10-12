@@ -267,6 +267,25 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
     color: var(--ink-soft);
     vertical-align: middle;
   }
+  /* In the midnight head the kicker is body copy, not a caption: upright, 16px,
+     light ink. The light-page grey and italic above were washing out on dark. */
+  .ph--dark .column-trigger {
+    max-width: 60ch;
+    font-family: var(--body);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--dark-utility);
+  }
+  .ph--dark .column-trigger__label {
+    margin-right: 10px;
+    padding: 4px 10px;
+    font-size: 11px;
+    background: var(--dark-utility);
+    border-color: var(--dark-utility);
+    color: var(--dark-ground);
+  }
 
   /* ============================================================
      Known Issue, lite (12 Oct 2026). An ordinary article under the
