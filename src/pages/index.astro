@@ -112,19 +112,27 @@ import '../styles/landing-heads.css';
   <!-- 1. Today's Five -->
   {today && (
     <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
-      <div class="hp-shead">
-        <div>
-          <p class="hp-dateline" aria-label={`Today, ${med.format(today.data.date)}`}>
+      <div class="hp-dhead">
+        <p class="hp-dhead__num" aria-hidden="true">{dayFmt.format(today.data.date)}</p>
+        <div class="hp-dhead__main">
+          <p class="hp-dhead__when" aria-label={`Today, ${med.format(today.data.date)}`}>
             <i aria-hidden="true"></i>
-            <b>{dayFmt.format(today.data.date)}</b>
-            <span>{monFmt.format(today.data.date)}<br />{wdLong.format(today.data.date)}</span>
+            <span>{monFmt.format(today.data.date)} &middot; {wdLong.format(today.data.date)}</span>
             <em>New today</em>
           </p>
           <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
-          <p class="hp-shead__sub">Five tech stories every morning, each one taken apart the same way.</p>
-          <p class="hp-labels"><b>The problem</b> &middot; <b>What changed</b> &middot; <b>The catch</b> &middot; <b>What it means for you</b></p>
+          <p class="hp-dhead__sub">Five tech stories every morning, each one taken apart the same way.</p>
+          <a href={path(today)} class="hp-btn" id="link-read-full-issue">Read the full issue &rarr;</a>
         </div>
-        <a href={path(today)} class="hp-btn" id="link-read-full-issue">Read the full issue &rarr;</a>
+        <aside class="hp-key" aria-label="How every story reads">
+          <h3>How every story reads</h3>
+          <ol>
+            <li class="hp-key__p">The problem</li>
+            <li class="hp-key__c">What changed</li>
+            <li class="hp-key__k">The catch</li>
+            <li class="hp-key__y">What it means for you</li>
+          </ol>
+        </aside>
       </div>
 
       <ol class="hp-bento" data-count={tiles.length} id="daily-list">
