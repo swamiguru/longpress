@@ -8,10 +8,13 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
 ---
 <div class={`brand-logo brand-logo--${variant}`} id="brand-logo">
   <div class="brand-logo__mark" aria-hidden="true">
-    <!-- Press and hold: the ring fills while you wait. 135deg arc. -->
+    <!-- Press and hold: the ring fills while you wait. 135deg arc from 12 o'clock.
+         The arc is a circle with pathLength=360 so dash lengths read as degrees
+         and the masthead animation can grow it. Static render matches the old path. -->
     <svg width="38" height="38" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="21" cy="21" r="19.5" fill="none" class="mark-ripple" stroke="#E0552B" stroke-width="1.5" />
       <circle cx="21" cy="21" r="19.5" fill="none" class="mark-ring" stroke-width="2" />
-      <path d="M21 1.5a19.5 19.5 0 0 1 13.8 33.3" fill="none" stroke="#E0552B" stroke-width="4.5" stroke-linecap="round" />
+      <circle cx="21" cy="21" r="19.5" fill="none" class="mark-arc" stroke="#E0552B" stroke-width="4.5" stroke-linecap="round" pathLength="360" stroke-dasharray="135 360" transform="rotate(-90 21 21)" />
       <circle cx="21" cy="21" r="7.5" class="mark-dot" />
     </svg>
   </div>
@@ -115,4 +118,63 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
   .brand-logo--footer .mark-ring { stroke: var(--dark-ink); }
   .brand-logo--footer .mark-dot  { fill: var(--dark-ink); }
   .brand-logo--footer .brand-logo__mark svg { width: 22px; height: 22px; }
+
+  /* Press-and-hold animation: masthead mark only. Plays twice shortly after
+     load, then rests; replays on hover or tap (see script). JS adds
+     .is-playing and removes it on animationend, so it never loops. */
+  .mark-ripple { opacity: 0; }
+  .mark-dot, .mark-ripple { transform-box: fill-box; transform-origin: center; }
+
+  .brand-logo--masthead.is-playing .mark-dot    { animation: lp-dot 3.6s var(--lp-count, 1) both; }
+  .brand-logo--masthead.is-playing .mark-arc    { animation: lp-arc 3.6s var(--lp-count, 1) both; }
+  .brand-logo--masthead.is-playing .mark-ripple { animation: lp-ripple 3.6s var(--lp-count, 1) both; }
+
+  @keyframes lp-dot {
+    0%, 6%   { transform: scale(1); }
+    16%, 52% { transform: scale(.84); }
+    60%      { transform: scale(1.07); }
+    68%, 100% { transform: scale(1); }
+  }
+  @keyframes lp-arc {
+    0%, 6%    { stroke-dasharray: 135 360; }
+    52%       { stroke-dasharray: 190 360; }
+    62%, 100% { stroke-dasharray: 135 360; }
+  }
+  @keyframes lp-ripple {
+    0%, 52% { opacity: 0; transform: scale(.35); }
+    54%     { opacity: .4; transform: scale(.35); }
+    72%, 100% { opacity: 0; transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-logo--masthead.is-playing .mark-dot,
+    .brand-logo--masthead.is-playing .mark-arc,
+    .brand-logo--masthead.is-playing .mark-ripple { animation: none; }
+  }
 </style>
+
+<script>
+  const logo = document.querySelector<HTMLElement>('.brand-logo--masthead');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (logo && !reduce) {
+    const dot = logo.querySelector('.mark-dot');
+    let playing = false;
+
+    const play = (count: number) => {
+      if (playing) return;
+      playing = true;
+      logo.style.setProperty('--lp-count', String(count));
+      logo.classList.add('is-playing');
+    };
+
+    dot?.addEventListener('animationend', () => {
+      logo.classList.remove('is-playing');
+      playing = false;
+    });
+
+    // Twice on load, after the page has settled. Hover or tap replays once.
+    window.setTimeout(() => play(2), 800);
+    logo.addEventListener('pointerenter', () => play(1));
+  }
+</script>
