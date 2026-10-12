@@ -1,0 +1,17 @@
+/* Homepage "Today's Five": same language as the brief page (daily-five.css).
+   Image tiles stay, since the grid is the homepage's job. What carries over:
+   ink border with an offset shadow, orange number nodes, orange opinion tag. */
+.hp-daily .hp-tile { box-shadow: 5px 5px 0 var(--ink); }
+.hp-daily .hp-tile:hover { box-shadow: 8px 8px 0 var(--ink); }
+html[data-theme="dark"] .hp-daily .hp-tile { box-shadow: 5px 5px 0 var(--accent); border-color: var(--dark-rule, #34376a); }
+html[data-theme="dark"] .hp-daily .hp-tile:hover { box-shadow: 8px 8px 0 var(--accent); }
+.hp-daily .hp-bento { gap: 18px; }
+.hp-daily .hp-tile__num {
+  display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border-radius: 50%;
+  background: var(--accent); color: #fff; font: 900 15px/1 var(--display);
+  box-shadow: 0 0 0 3px #17182E;
+}
+.hp-daily .hp-tag--op { background: var(--accent); color: #fff; }
+.hp-daily .hp-kick--daily { color: var(--accent-deep); }
+html[data-theme="dark"] .hp-daily .hp-kick--daily { color: var(--accent-light, #FF9D7A); }
+@media (min-width: 720px) { .hp-daily .hp-bento { gap: 20px; } }

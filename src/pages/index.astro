@@ -85,10 +85,11 @@ function kiImage(s: (typeof allStories)[number], sizes: string) {
 }
 const featuredImg = featured ? kiImage(featured, '(max-width: 719px) 100vw, 600px') : null;
 const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured.data.openSince : null;
+import '../styles/home-daily.css';
 ---
 <BaseLayout
   title="Long Press - five tech stories every morning, with an honest take"
-  description="Five tech stories every morning at 10:00 IST in The Daily Five, Known Issue on what stays broken, and Fine Print explainers on India's rules and prices."
+  description="Five tech stories every morning in The Daily Five, Known Issue on what stays broken, and Fine Print explainers on India's rules and prices."
   bare
   wide
 >
@@ -106,9 +107,9 @@ const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured
     <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
       <div class="hp-shead">
         <div>
-          <p class="hp-kick hp-kick--daily"><i aria-hidden="true"></i>Today &middot; {med.format(today.data.date)} &middot; 10:00 IST</p>
+          <p class="hp-kick hp-kick--daily"><i aria-hidden="true"></i>Today &middot; {med.format(today.data.date)}</p>
           <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
-          <p class="hp-shead__sub">Five tech stories every morning at 10:00 IST, each one taken apart the same way.</p>
+          <p class="hp-shead__sub">Five tech stories every morning, each one taken apart the same way.</p>
           <p class="hp-labels"><b>The problem</b> &middot; <b>What changed</b> &middot; <b>The catch</b> &middot; <b>What it means for you</b></p>
         </div>
         <a href={path(today)} class="hp-btn" id="link-read-full-issue">Read the full issue &rarr;</a>
