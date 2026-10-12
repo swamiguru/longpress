@@ -6,6 +6,9 @@ published: 2026-10-12
 category: "known-issue"
 topics: ["flipkart", "amazon", "india-pricing", "e-commerce-rules"]
 openSince: 2016
+image: "/images/known-issue/festive-sale-percent-off.png"
+imageAlt: "A bar chart of price history: one tall dashed orange bar for the 'was' price on the left, a flat run of grey bars, three slightly lower green sale-day bars, and an orange percent tag at the top right"
+imageCaption: "Schematic. The bars show the idea, not real prices."
 heroImage: "/images/stories/festive-sale-percent-off-hero.png"
 heroImageAlt: "A bar chart of price history: one tall dashed orange bar for the 'was' price on the left, a flat run of grey bars, three slightly lower green sale-day bars, and an orange percent tag on the right"
 heroImageCaption: "Schematic. The bars show the idea, not real prices."
