@@ -53,11 +53,11 @@ const shortDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'sho
 const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(brief);
 const taps = d.taps ?? [];
-/** Publish time promised in the head and strips. Keep in step with EDITION in BaseLayout.astro. */
-const EDITION_TIME = '10:00';
+/** Briefs carry a date, not a time, so the head and strips show the date only. */
+const heroDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short' }).format(d.date);
+const stripDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(d.date);
 const NUM_WORD = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five'];
 const countWord = NUM_WORD[items.length] ?? String(items.length);
-const dayLabel = new Intl.DateTimeFormat('en-IN', { weekday: 'long', day: 'numeric', month: 'long' }).format(d.date);
 
 /** The press-and-hold structure, in reading order. */
 const ANALYSIS = [
@@ -75,10 +75,10 @@ const ANALYSIS = [
     <header class="ph ph--story ph--brief">
       <div class="ph__body">
         <div class="df-clock">
-          <span class="df-clock__time" aria-label={`${EDITION_TIME} IST edition`}>{EDITION_TIME}</span>
+          <span class="df-clock__time">{heroDate}</span>
           <span class="df-clock__meta">
-            <b>IST · The Daily Five</b>
-            <span>{dayLabel}</span>
+            <b>The Daily Five</b>
+            <span>{new Intl.DateTimeFormat('en-IN', { weekday: 'long' }).format(d.date)}</span>
             <span>{countWord} {items.length === 1 ? 'story' : 'stories'}. Never six.</span>
           </span>
         </div>
@@ -134,7 +134,7 @@ const ANALYSIS = [
                 <div class="df-strip">
                   <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#ECEAF4" stroke-width="2"></circle><path d="M12 3a9 9 0 0 1 0 18" fill="none" stroke="#E0552B" stroke-width="2.6"></path><circle cx="12" cy="12" r="2.6" fill="#ECEAF4"></circle></svg>
                   <span>Long Press · Daily Five</span>
-                  <span class="df-strip__time">{EDITION_TIME} IST</span>
+                  <span class="df-strip__time">{stripDate}</span>
                   <span class="df-strip__n"><b>{num}</b> / {String(items.length).padStart(2, '0')}</span>
                 </div>
                 <div class="df-story">
@@ -233,7 +233,7 @@ const ANALYSIS = [
 
     <div class="df-cap">
       <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="3" fill="currentColor"></circle></svg>
-      <span>That's {items.length === 5 ? 'all five' : `all ${countWord.toLowerCase()}`}. Next edition tomorrow, {EDITION_TIME} IST.</span>
+      <span>That's {items.length === 5 ? 'all five' : `all ${countWord.toLowerCase()}`}. Next edition tomorrow.</span>
       <small>Press and hold</small>
     </div>
 

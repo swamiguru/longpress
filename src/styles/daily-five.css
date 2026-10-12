@@ -5,13 +5,13 @@
 /* ---------- Clock block in the head ---------- */
 .df-clock { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 18px; }
 .df-clock__time {
-  font: 900 clamp(76px, 15vw, 150px)/0.86 var(--display);
+  font: 900 clamp(64px, 13vw, 120px)/0.86 var(--display);
   letter-spacing: -0.04em;
-  color: var(--accent-light, #FF9D7A);
+  color: var(--accent);
   font-variant-numeric: tabular-nums;
 }
-.df-clock__meta { display: grid; gap: 6px; padding-bottom: 8px; font: 600 12px/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-soft, #C9C7DB); }
-.df-clock__meta b { color: var(--dark-ink, #ECEAF4); font-weight: 700; }
+.df-clock__meta { display: grid; gap: 6px; padding-bottom: 8px; font: 600 12px/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.df-clock__meta b { color: var(--ink); font-weight: 700; }
 
 /* ---------- The stack ---------- */
 .df-stack { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 40px; }
