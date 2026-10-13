@@ -158,6 +158,12 @@ const ANALYSIS = [
                   </div>
                   <div class="df-story__text">
                     <h2 class="df-story__title">{heading}</h2>
+                    {item.question && item.answer && (
+                      <div class="df-answer">
+                        <h3 class="df-answer__q">{item.question}</h3>
+                        <p class="df-answer__a"><span class="df-answer__label">In one line</span> {item.answer}</p>
+                      </div>
+                    )}
                     <div class="df-story__body">
                       {item.body && <p set:html={linkify(item.body)} />}
                       {item.story && (
@@ -171,14 +177,26 @@ const ANALYSIS = [
                 </div>
 
                 {analysis.length > 0 && (
-                  <dl class="df-parts" aria-label="Analysis breakdown">
+                  <div class="df-parts" role="group" aria-label="Analysis breakdown">
                     {analysis.map(([key, text]) => (
-                      <div class={`df-part df-part--${key}`}>
-                        <dt>{text}</dt>
-                        <dd set:html={linkify(String(item[key as keyof typeof item] ?? ''))} />
+                      <section class={`df-part df-part--${key}`}>
+                        <h3 class="df-part__label">{text}</h3>
+                        <p class="df-part__text" set:html={linkify(String(item[key as keyof typeof item] ?? ''))} />
+                      </section>
+                    ))}
+                  </div>
+                )}
+
+                {item.qa && item.qa.length > 0 && (
+                  <section class="df-qa" aria-label={`Questions about: ${heading}`}>
+                    <p class="df-qa__label">Questions people ask</p>
+                    {item.qa.map((x) => (
+                      <div class="df-qa__item">
+                        <h3 class="df-qa__q">{x.q}</h3>
+                        <p class="df-qa__a">{x.a}</p>
                       </div>
                     ))}
-                  </dl>
+                  </section>
                 )}
 
                 <div class="df-foot">
@@ -192,7 +210,7 @@ const ANALYSIS = [
                   ) : <span></span>}
                   <ShareButtons
                     title={heading}
-                    description={stripLinks(item.forYou || item.body || item.teaser || '')}
+                    description={stripLinks(item.answer || item.forYou || item.body || item.teaser || '')}
                     url={`/daily/${dateStr}#story-${item.slot}`}
                     compact
                   />
