@@ -83,8 +83,7 @@ html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part .df-
 
 /* ---------- The four labelled steps ----------
    Direction A (13 Oct): plain cards, numbered, bigger labels. Single column on
-   phones; a 2 x 2 grid on desktop with "What it means for you" across the
-   bottom, because it is the one step a reader acts on. */
+   phones; a 2 x 2 grid on desktop. "What it means for you" is the dark card. */
 .df-parts { margin: 0; border-top: 2px solid var(--ink); display: grid; gap: 14px; padding: 18px; }
 .df-part { display: grid; align-content: start; gap: 12px; padding: 18px 20px 20px; background: #fff; border: 1px solid var(--rule, #CFC9B8); border-radius: 14px; }
 html[data-theme="dark"] .df-part { background: var(--dark-surface); border-color: var(--dark-rule); }
