@@ -8,6 +8,14 @@ lastChecked: 2026-10-11
 nextCheck: 2026-11-11
 oneLine: >-
   From ==15 October, shops pay 0.4% on UPI payments above Rs 2,000==, capped at Rs 300. You, the customer, pay nothing extra, and nobody is allowed to charge you for it.[^1]
+keyFigures:
+  - big: 0.4%
+    label: fee a shop pays on UPI payments above Rs 2,000
+  - big: Rs 300
+    label: the most a shop pays on any one payment
+  - big: Rs 0
+    label: what you pay. Nobody may charge you for it
+    highlight: true
 applies:
   - who: You pay shops by UPI
     status: no-change
@@ -29,6 +37,9 @@ rules:
 costs:
   note: Every fee below is paid by the merchant, not by you.
   payerLabel: Merchant pays
+  footer:
+    label: You pay, on every line
+    amount: Rs 0
   rows:
     - item: Rs 1,500 grocery bill
       rule: Rs 2,000 or less

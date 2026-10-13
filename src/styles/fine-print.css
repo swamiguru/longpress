@@ -3,6 +3,8 @@
    Paper, ink and a highlighter. Long Press midnight + orange stay
    in the shared site header only; nothing on these pages uses them.
    Highlighter sits BEHIND ink text, never as a text colour.
+   Story layout reworked 13 Oct 2026: numbers first, plain words first,
+   costs as a receipt. No drop cap, no double rules, no paper grain.
    ============================================================ */
 
 .fp {
@@ -13,6 +15,8 @@
   --fp-muted: #4A4A4A;
   --fp-rule: #DEDACB;
   --fp-rule-strong: #CFCAB8;
+  --fp-dash: #8F7F52;
+  --fp-tint: rgba(60, 40, 10, .07);
   --fp-hl: #FFE14D;
   --fp-on-hl: #111111;
   --fp-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -35,6 +39,8 @@ html[data-theme="dark"] .fp {
   --fp-muted: #B8B4A6;
   --fp-rule: #34322B;
   --fp-rule-strong: #4A473D;
+  --fp-dash: #6B675A;
+  --fp-tint: rgba(255, 255, 255, .05);
 }
 
 .fp a { color: var(--fp-ink); text-decoration-color: #C9A800; text-underline-offset: 3px; }
@@ -49,43 +55,70 @@ html[data-theme="dark"] .fp {
 .fp-article > * { max-width: 760px; }
 .fp-article > .fp-oneline:first-child { margin-top: 0; }
 .fp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; font-family: var(--fp-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--fp-muted); }
-.fp-stamp { background: var(--fp-ink); color: var(--fp-paper); padding: 2px 8px; }
 
 .fp-section { margin-top: 56px; }
 .fp-h2 { margin: 0; font-family: var(--fp-display); font-weight: 800; font-size: 28px; font-variation-settings: "wdth" 106; line-height: 1.15; color: var(--fp-ink); }
 .fp-label { margin: 0 0 10px; font-family: var(--fp-mono); font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fp-ink); }
+.fp-lab { display: block; margin: 0 0 6px; font-family: var(--fp-mono); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fp-muted); }
 .fp-lede { margin: 8px 0 20px; font-size: 17px; line-height: 1.5; color: var(--fp-ink-soft); }
 .fp-body { font-size: 17px; line-height: 1.55; }
 
-.fp-oneline { margin-top: 40px; border: 2px solid var(--fp-ink); padding: 24px 26px; background: var(--fp-card); }
-.fp-oneline p { margin: 0; font-size: 22px; line-height: 1.45; }
+/* Key figures: up to three numbers that carry the whole story. */
+.fp-figs { margin-top: 24px; border: 2px solid var(--fp-ink); background: var(--fp-card); }
+.fp-fig { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-top: 1px dotted var(--fp-dash); }
+.fp-fig:first-child { border-top: 0; }
+.fp-fig--hl { background: var(--fp-hl); color: var(--fp-on-hl); border-top: 2px solid var(--fp-ink); }
+.fp-fig__big { flex: none; width: 118px; font-family: var(--fp-display); font-weight: 900; font-size: 38px; line-height: 1; letter-spacing: -.01em; }
+.fp-fig__label { font-size: 16px; line-height: 1.3; font-weight: 600; }
 
-.fp-checks { border-top: 2px solid var(--fp-ink); }
-.fp-check { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid var(--fp-rule); }
-.fp-check__who { font-family: var(--fp-mono); font-size: 14px; font-weight: 600; }
-.fp-chip { display: inline-block; font-family: var(--fp-mono); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 2px 7px; margin-right: 8px; }
+/* Trust bar: the promise on every page. Moves only when sources are re-read. */
+.fp-trust { margin-top: 12px; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); border: 1.5px solid currentColor; font-family: var(--fp-mono); color: var(--fp-ink); }
+html:not([data-theme="dark"]) .fp-trust { color: #9B2226; }
+.fp-trust > div { padding: 8px 10px; border-left: 1px solid currentColor; }
+.fp-trust > div:first-child { border-left: 0; }
+.fp-trust span { display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.fp-trust b { font-size: 13px; font-weight: 700; }
+
+.fp-oneline { margin-top: 32px; }
+.fp-oneline p { margin: 0; font-size: 22px; line-height: 1.42; font-weight: 600; }
+
+/* Does this apply to you? Compact rows, status chip on the right. */
+.fp-checks { border-bottom: 1px dotted var(--fp-dash); }
+.fp-check { padding: 16px 0; border-top: 1px dotted var(--fp-dash); }
+.fp-check__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.fp-check__who { font-weight: 800; font-size: 19px; line-height: 1.25; }
+.fp-check__text { margin: 8px 0 0; font-size: 17px; line-height: 1.5; }
+.fp-chip { flex: none; white-space: nowrap; font-family: var(--fp-mono); font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; padding: 3px 8px; }
 .fp-chip--ink { background: var(--fp-ink); color: var(--fp-paper); }
-.fp-chip--yellow { background: var(--fp-hl); color: var(--fp-on-hl); }
-.fp-chip--outline { border: 1px solid var(--fp-ink); color: var(--fp-ink); padding: 1px 6px; }
+.fp-chip--yellow { background: var(--fp-hl); color: var(--fp-on-hl); border: 1.5px solid #111111; padding: 2px 7px; }
+.fp-chip--outline { border: 1.5px solid var(--fp-ink); color: var(--fp-ink); padding: 2px 7px; }
 
-.fp-rules { display: flex; flex-direction: column; gap: 14px; }
-.fp-rule { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--fp-rule-strong); background: var(--fp-card); }
-.fp-rule__quote { padding: 18px 20px; border-right: 1px solid var(--fp-rule-strong); font-family: var(--fp-mono); font-size: 14px; line-height: 1.6; color: var(--fp-ink-soft); }
-.fp-rule__plain { padding: 18px 20px; font-size: 17px; line-height: 1.5; }
+/* The rule: plain words first, the quoted line under it as evidence. */
+.fp-rules { display: flex; flex-direction: column; }
+.fp-rule { padding: 18px 0; border-top: 2px solid var(--fp-ink); }
+.fp-rule:last-child { border-bottom: 1px solid var(--fp-rule-strong); }
+.fp-rule__plain { font-size: 20px; line-height: 1.4; font-weight: 700; }
+.fp-rule__quote { margin-top: 12px; padding: 12px 14px; background: var(--fp-tint); font-family: var(--fp-mono); font-size: 13px; line-height: 1.6; color: var(--fp-ink-soft); }
 
-.fp-table-wrap { overflow-x: auto; border-top: 2px solid var(--fp-ink); }
-.fp-table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 16px; }
-.fp-table th { padding: 12px 8px; font-family: var(--fp-mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; text-align: left; color: var(--fp-muted); }
-.fp-table th:first-child, .fp-table td:first-child { padding-left: 0; }
-.fp-table th:last-child, .fp-table td:last-child { padding-right: 0; text-align: right; }
-.fp-table td { padding: 14px 8px; border-top: 1px solid var(--fp-rule); vertical-align: top; }
-.fp-table tr:last-child td { border-bottom: 1px solid var(--fp-rule); }
-.fp-table td.fp-num { font-family: var(--fp-mono); font-weight: 600; white-space: nowrap; }
-.fp-table td.fp-rulecol { color: var(--fp-ink-soft); }
+/* Costs as a receipt. Row = item, rule under it, amount on the right. */
+.fp-receipt { max-width: 560px; filter: drop-shadow(0 3px 0 rgba(60, 40, 10, .22)); }
+.fp-receipt__tear { height: 8px; }
+.fp-receipt__tear--t { background: radial-gradient(circle at 8px 8px, var(--fp-card) 7.5px, transparent 8px) 0 0 / 16px 8px; }
+.fp-receipt__tear--b { background: radial-gradient(circle at 8px 0, transparent 7px, var(--fp-card) 7.5px) 0 0 / 16px 8px; }
+.fp-receipt__body { background: var(--fp-card); padding: 22px 18px 8px; font-family: var(--fp-mono); }
+.fp-receipt__head { margin-bottom: 14px; text-align: center; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.fp-receipt__rows { margin: 0; padding: 0; list-style: none; }
+.fp-receipt__rows li { padding: 12px 0; border-top: 1px dashed var(--fp-dash); }
+.fp-receipt__l1 { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; font-weight: 700; line-height: 1.35; }
+.fp-receipt__amt { white-space: nowrap; font-size: 17px; }
+.fp-receipt__l2 { margin-top: 3px; padding-right: 4.5em; font-size: 12.5px; line-height: 1.45; color: var(--fp-muted); }
+.fp-receipt__total { margin-top: 4px; padding: 14px 0 16px; display: flex; justify-content: space-between; gap: 12px; border-top: 2px solid var(--fp-ink); font-size: 16px; font-weight: 700; text-transform: uppercase; }
 
-.fp-steps { margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; }
-.fp-steps li { display: flex; gap: 16px; align-items: flex-start; font-size: 18px; line-height: 1.5; }
-.fp-steps__n { flex: none; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--fp-ink); color: var(--fp-paper); font-family: var(--fp-mono); font-size: 14px; font-weight: 600; }
+/* What to do: big numerals, no boxes. */
+.fp-steps { margin: 14px 0 0; padding: 0; list-style: none; border-bottom: 1px dotted var(--fp-dash); }
+.fp-steps li { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-top: 1px dotted var(--fp-dash); font-size: 19px; line-height: 1.45; }
+.fp-steps__n { flex: none; width: 34px; font-family: var(--fp-display); font-weight: 900; font-size: 44px; line-height: .9; color: var(--fp-ink); }
+.fp-steps li > span:last-child { padding-top: 2px; }
 
 .fp-fine { background: var(--fp-hl); color: var(--fp-on-hl); padding: 28px 28px 26px; }
 .fp-fine .fp-h2 { color: var(--fp-on-hl); }
@@ -97,13 +130,14 @@ html[data-theme="dark"] .fp {
 .fp-take { border-top: 2px solid var(--fp-ink); padding-top: 24px; }
 .fp-take p { margin: 0; font-size: 20px; line-height: 1.55; font-style: italic; }
 
-.fp-log { margin-top: 56px; background: var(--fp-card); border: 1px solid var(--fp-rule-strong); padding: 20px 22px; }
+/* Change log and sources share one record card. */
+.fp-record { margin-top: 56px; background: var(--fp-card); border: 1px solid var(--fp-rule-strong); padding: 18px 18px 20px; }
 .fp-log__rows { display: flex; flex-direction: column; gap: 8px; font-family: var(--fp-mono); font-size: 13px; line-height: 1.6; }
 .fp-log__row { display: flex; gap: 6px 16px; flex-wrap: wrap; }
 .fp-log__date { font-weight: 600; min-width: 110px; }
 .fp-log__row--next { color: var(--fp-muted); }
 
-.fp-sources { margin-top: 40px; }
+.fp-sources { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--fp-dash); }
 .fp-sources ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-family: var(--fp-mono); font-size: 13px; line-height: 1.6; }
 .fp-sources li:target { background: var(--fp-hl); color: var(--fp-on-hl); }
 .fp-sources li:target a { color: var(--fp-on-hl); }
@@ -129,9 +163,17 @@ html[data-theme="dark"] .fp {
 .fp-empty { margin-top: 48px; border: 2px dashed var(--fp-rule-strong); padding: 32px; font-size: 18px; }
 
 @media (max-width: 720px) {
-  .fp-check, .fp-rule, .fp-end, .fp-grid { grid-template-columns: minmax(0, 1fr); }
-  .fp-rule__quote { border-right: 0; border-bottom: 1px solid var(--fp-rule-strong); }
+  .fp-end, .fp-grid { grid-template-columns: minmax(0, 1fr); }
   .fp-oneline p { font-size: 20px; }
+}
+
+/* Wider screens: the three key figures sit side by side. */
+@media (min-width: 721px) {
+  .fp-figs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+  .fp-fig { display: block; padding: 20px 22px; border-top: 0; border-left: 1px dotted var(--fp-dash); }
+  .fp-fig:first-child { border-left: 0; }
+  .fp-fig--hl { border-top: 0; border-left: 2px solid var(--fp-ink); }
+  .fp-fig__big { width: auto; margin-bottom: 8px; font-size: 46px; }
 }
 
 /* Site-wide h1 is uppercase wide Archivo; Fine Print headlines are sentence case. */
@@ -146,7 +188,6 @@ html[data-theme="dark"] .fp {
 
 /* Yellow as highlighter, a little more of it (11 Oct 2026).
    Always behind ink, never as a text colour. */
-.fp-steps__n { background: var(--fp-hl); color: var(--fp-on-hl); }
 .fp-h2::after { content: ""; display: block; width: 44px; height: 5px; margin-top: 10px; background: var(--fp-hl); }
 .fp-fine .fp-h2::after { display: none; }
 .fp-take { border-left: 6px solid var(--fp-hl); padding-left: 20px; }
@@ -156,7 +197,7 @@ html[data-theme="dark"] .fp {
 @media (max-width: 720px) { .fp-card--lead { box-shadow: 5px 5px 0 var(--fp-hl); } }
 
 /* Story pages: aged government-paper ground (11 Oct 2026). Light mode only;
-   dark mode keeps its own ground. Ink contrast stays above 12:1. */
+   dark mode keeps its own ground. Flat colour, no grain (13 Oct 2026). */
 html:not([data-theme="dark"]) .fp--doc {
   --fp-paper: #F2E8CE;
   --fp-card: #FAF4E1;
@@ -164,10 +205,7 @@ html:not([data-theme="dark"]) .fp--doc {
   --fp-rule-strong: #C4B386;
   background: transparent;
 }
-html:not([data-theme="dark"]):has(.fp--doc) body {
-  background-color: #F2E8CE;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .32 0 0 0 0 .14 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+html:not([data-theme="dark"]):has(.fp--doc) body { background-color: #F2E8CE; }
 
 /* Story pages: newspaper and typewriter typography (11 Oct 2026).
    Source Serif 4 (already self-hosted) for headlines, IBM Plex Mono for
@@ -180,26 +218,5 @@ html:not([data-theme="dark"]):has(.fp--doc) body {
 .fp--doc .byline__name { font-family: var(--fp-mono); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
 .fp--doc .byline__date { font-family: var(--fp-mono); }
 
-/* Double rule closes the head, like under a masthead */
-.fp--doc .ph { border-bottom: 4px double var(--fp-ink); padding-bottom: var(--s5); }
-
-/* "In one line" becomes the lead paragraph: drop cap, double rule below only.
-   The head's own double rule already sits directly above it, so no top rule here. */
-.fp--doc .fp-oneline { border: 0; border-bottom: 4px double var(--fp-ink); background: transparent; padding: 22px 0; }
-.fp--doc .fp-oneline p::first-letter {
-  float: left; font-family: var(--fp-serif); font-weight: 900; font-size: 3.6em; line-height: .8;
-  padding: 6px 10px 0 0; color: var(--fp-ink);
-}
-
-/* Quoted rule text reads like a typed exhibit */
-.fp--doc .fp-rule__quote { background: rgba(60, 40, 10, .045); }
-
-/* Cost table: ledger lines */
-.fp--doc .fp-table td { border-top-style: dotted; border-top-color: var(--fp-rule-strong); }
-
-/* "Last checked" as a rubber stamp (light mode only; dark keeps ink) */
-.fp--doc .ph__tags .fp-stamp {
-  background: transparent; color: var(--fp-ink); border: 2px solid currentColor; padding: 4px 9px;
-  transform: rotate(-1.5deg);
-}
-html:not([data-theme="dark"]) .fp--doc .ph__tags .fp-stamp { color: #9B2226; }
+/* The head no longer carries a double rule: the key figures follow it directly. */
+.fp--doc .ph { border-bottom: 0; padding-bottom: 0; }

@@ -201,6 +201,22 @@ const finePrint = defineCollection({
     nextCheck: z.coerce.date().optional(),
     /** The whole answer in one sentence. */
     oneLine: z.string(),
+    /**
+     * Up to three numbers that carry the whole story, shown under the title.
+     * Optional: a piece with no honest headline numbers leaves it out.
+     * Each must appear in the body of the piece; never a figure only here.
+     */
+    keyFigures: z
+      .array(
+        z.object({
+          big: z.string().max(12),
+          label: z.string().max(70),
+          /** Highlighter behind this one. At most one, usually the number the reader pays. */
+          highlight: z.boolean().default(false),
+        }),
+      )
+      .max(3)
+      .optional(),
     /** "Does this apply to you?" - one row per kind of reader. */
     applies: z
       .array(
@@ -224,6 +240,8 @@ const finePrint = defineCollection({
         itemLabel: z.string().default('Payment'),
         ruleLabel: z.string().default('Rule'),
         payerLabel: z.string().default('Cost'),
+        /** Closing line of the receipt, e.g. "You pay, on every line" / "Rs 0". Only when it is literally true. */
+        footer: z.object({ label: z.string(), amount: z.string() }).optional(),
         rows: z
           .array(
             z.object({

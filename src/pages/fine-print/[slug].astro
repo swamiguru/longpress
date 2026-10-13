@@ -46,7 +46,6 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
     <header class="ph ph--story">
       <div class="ph__tags">
         <span class="ph__tag">Explainer &middot; {d.category}</span>
-        <span class="fp-stamp">Last checked <time datetime={d.lastChecked.toISOString()}>{dateFmt.format(d.lastChecked)}</time></span>
       </div>
       <h1 class="ph__title">{d.title}</h1>
       <div class="byline">
@@ -66,6 +65,23 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
 
     <article class="fp-article">
 
+      {d.keyFigures && d.keyFigures.length > 0 && (
+        <section class="fp-figs" aria-label="Key figures">
+          {d.keyFigures.map((f) => (
+            <div class={`fp-fig${f.highlight ? ' fp-fig--hl' : ''}`}>
+              <div class="fp-fig__big">{f.big}</div>
+              <div class="fp-fig__label">{f.label}</div>
+            </div>
+          ))}
+        </section>
+      )}
+
+      <div class="fp-trust">
+        <div><span>Last checked</span><b><time datetime={d.lastChecked.toISOString()}>{dateFmt.format(d.lastChecked)}</time></b></div>
+        {d.nextCheck && <div><span>Next check</span><b><time datetime={d.nextCheck.toISOString()}>{dateFmt.format(d.nextCheck)}</time></b></div>}
+        <div><span>Read from</span><b>{n} {n === 1 ? 'source' : 'sources'}</b></div>
+      </div>
+
       <section class="fp-oneline" aria-labelledby="fp-oneline">
         <h2 id="fp-oneline" class="fp-label">In one line</h2>
         <p set:html={t(d.oneLine)} />
@@ -79,8 +95,11 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
             const s = FP_STATUS[a.status];
             return (
               <div class="fp-check">
-                <div class="fp-check__who">{a.who}</div>
-                <div class="fp-body"><span class={`fp-chip fp-chip--${s.tone}`}>{s.label}</span><span set:html={t(a.text)} /></div>
+                <div class="fp-check__top">
+                  <div class="fp-check__who">{a.who}</div>
+                  <span class={`fp-chip fp-chip--${s.tone}`}>{s.label}</span>
+                </div>
+                <p class="fp-check__text" set:html={t(a.text)} />
               </div>
             );
           })}
@@ -90,12 +109,13 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
       {d.rules.length > 0 && (
         <section class="fp-section" aria-labelledby="fp-rules">
           <h2 id="fp-rules" class="fp-h2">What the rule actually says</h2>
-          <p class="fp-lede">From the primary document, with the plain version beside it.</p>
+          <p class="fp-lede">The plain version first, then the line from the primary document.</p>
           <div class="fp-rules">
             {d.rules.map((r) => (
               <div class="fp-rule">
-                <div class="fp-rule__quote" set:html={t(r.quote)} />
+                <span class="fp-lab">In plain words</span>
                 <div class="fp-rule__plain" set:html={t(r.plain)} />
+                <div class="fp-rule__quote"><span class="fp-lab">The document says</span><span set:html={t(r.quote)} /></div>
               </div>
             ))}
           </div>
@@ -106,21 +126,23 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
         <section class="fp-section" aria-labelledby="fp-costs">
           <h2 id="fp-costs" class="fp-h2">{d.costs.title}</h2>
           {d.costs.note && <p class="fp-lede" set:html={t(d.costs.note)} />}
-          <div class="fp-table-wrap">
-            <table class="fp-table">
-              <thead>
-                <tr><th scope="col">{d.costs.itemLabel}</th><th scope="col">{d.costs.ruleLabel}</th><th scope="col">{d.costs.payerLabel}</th></tr>
-              </thead>
-              <tbody>
+          <div class="fp-receipt">
+            <div class="fp-receipt__tear fp-receipt__tear--t" aria-hidden="true"></div>
+            <div class="fp-receipt__body">
+              <div class="fp-receipt__head">{d.costs.payerLabel}</div>
+              <ul class="fp-receipt__rows">
                 {d.costs.rows.map((r) => (
-                  <tr>
-                    <td set:html={t(r.item)} />
-                    <td class="fp-rulecol" set:html={t(r.rule)} />
-                    <td class="fp-num">{r.highlight ? <span class="fp-hl">{r.amount}</span> : r.amount}</td>
-                  </tr>
+                  <li>
+                    <div class="fp-receipt__l1"><span set:html={t(r.item)} /><span class="fp-receipt__amt">{r.highlight ? <span class="fp-hl">{r.amount}</span> : r.amount}</span></div>
+                    <div class="fp-receipt__l2" set:html={t(r.rule)} />
+                  </li>
                 ))}
-              </tbody>
-            </table>
+              </ul>
+              {d.costs.footer && (
+                <div class="fp-receipt__total"><span>{d.costs.footer.label}</span><span class="fp-hl">{d.costs.footer.amount}</span></div>
+              )}
+            </div>
+            <div class="fp-receipt__tear fp-receipt__tear--b" aria-hidden="true"></div>
           </div>
         </section>
       )}
@@ -162,6 +184,7 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
         <p set:html={t(d.take)} />
       </section>
 
+      <div class="fp-record">
       <section class="fp-log" aria-labelledby="fp-log">
         <h2 id="fp-log" class="fp-label">Change log</h2>
         <div class="fp-log__rows">
@@ -182,6 +205,7 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
           ))}
         </ol>
       </section>
+      </div>
 
       <WhatsAppCta variant="card" location="fine_print_end" heading="Follow Long Press on WhatsApp" text="Next Saturday's Fine Print, and the Daily Five every morning." />
 
