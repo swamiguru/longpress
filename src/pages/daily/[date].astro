@@ -199,14 +199,11 @@ const ANALYSIS = [
                 {item.qa && item.qa.length > 0 && (
                   <section class="df-qa" aria-label={`Questions about: ${heading}`}>
                     <h3 class="df-qa__label">Questions people ask</h3>
-                    {item.qa.map((x, xi) => (
-                      <details class="df-qa__item" open={xi === 0}>
-                        <summary class="df-qa__sum">
-                          <h4 class="df-qa__q">{x.q}</h4>
-                          <span class="df-qa__sign" aria-hidden="true"></span>
-                        </summary>
+                    {item.qa.map((x) => (
+                      <div class="df-qa__item">
+                        <h4 class="df-qa__q">{x.q}</h4>
                         <p class="df-qa__a">{x.a}</p>
-                      </details>
+                      </div>
                     ))}
                   </section>
                 )}
