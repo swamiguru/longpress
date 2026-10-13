@@ -66,9 +66,19 @@ html[data-theme="dark"] .df-card { box-shadow: 6px 6px 0 var(--accent); border-c
 html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part .df-part__text a { color: var(--accent-light, #FF9D7A); }
 .df-story__more { font-weight: 600; }
 @media (min-width: 760px) {
-  .df-story { grid-template-columns: 260px minmax(0, 1fr); }
-  .df-story__media { aspect-ratio: auto; min-height: 100%; border-bottom: 0; border-right: 2px solid var(--ink); }
-  .df-story__text { padding: 24px 24px 26px; }
+  /* Illustrations are 1:1. The media column used to stretch to the full card
+     height and cropped them to about 1:2. Now the media is a true square, the
+     title and body sit beside it, and the answer box spans the card below. */
+  .df-story {
+    grid-template-columns: 380px minmax(0, 1fr);
+    grid-template-areas: "media title" "media body" "answer answer";
+    grid-template-rows: auto 1fr auto;
+  }
+  .df-story__media { grid-area: media; aspect-ratio: 1 / 1; min-height: 0; border-bottom: 0; border-right: 2px solid var(--ink); background: #17182E; }
+  .df-story__text { display: contents; }
+  .df-story__title { grid-area: title; padding: 24px 28px 0; align-self: start; }
+  .df-story__body { grid-area: body; padding: 12px 28px 26px; align-content: start; }
+  .df-answer { grid-area: answer; margin: 0 24px 24px; }
 }
 
 /* ---------- The four labelled rows ---------- */

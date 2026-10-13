@@ -118,8 +118,8 @@ const ANALYSIS = [
       {items.map((item, i) => {
         const analysis = ANALYSIS.filter(([k]) => item[k as keyof typeof item]);
         const img = getResponsiveImage(item.image ?? fallbackFor(item.kind, d.date), {
-          aspectRatio: '4/3',
-          customSizes: '(max-width: 759px) 100vw, 260px',
+          aspectRatio: '1/1',
+          customSizes: '(max-width: 759px) 100vw, 380px',
         });
         const heading = item.heading;
         const num = String(item.slot).padStart(2, '0');
