@@ -158,12 +158,6 @@ const ANALYSIS = [
                   </div>
                   <div class="df-story__text">
                     <h2 class="df-story__title">{heading}</h2>
-                    {item.question && item.answer && (
-                      <div class="df-answer">
-                        <h3 class="df-answer__q">{item.question}</h3>
-                        <p class="df-answer__a"><span class="df-answer__label">In one line</span> {item.answer}</p>
-                      </div>
-                    )}
                     <div class="df-story__body">
                       {item.body && <p set:html={linkify(item.body)} />}
                       {item.story && (
@@ -173,14 +167,29 @@ const ANALYSIS = [
                         </>
                       )}
                     </div>
+                    {item.question && item.answer && (
+                      <div class="df-answer">
+                        <div class="df-answer__ask">
+                          <span class="df-answer__tag">
+                            <svg width="22" height="22" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="currentColor" stroke-width="2.5"></circle><path d="M9.5 10C9.5 6.5 16.5 6.5 16.5 10C16.5 12.5 13 12.5 13 15.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13" cy="19" r="1.5" fill="currentColor"></circle></svg>
+                            The question
+                          </span>
+                          <h3 class="df-answer__q">{item.question}</h3>
+                        </div>
+                        <div class="df-answer__a">
+                          <span class="df-answer__label">In one line</span>
+                          <p>{item.answer}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 {analysis.length > 0 && (
                   <div class="df-parts" role="group" aria-label="Analysis breakdown">
-                    {analysis.map(([key, text]) => (
+                    {analysis.map(([key, text], pi) => (
                       <section class={`df-part df-part--${key}`}>
-                        <h3 class="df-part__label">{text}</h3>
+                        <h3 class="df-part__label"><span class="df-part__num" aria-hidden="true">{pi + 1}</span>{text}</h3>
                         <p class="df-part__text" set:html={linkify(String(item[key as keyof typeof item] ?? ''))} />
                       </section>
                     ))}
@@ -189,12 +198,15 @@ const ANALYSIS = [
 
                 {item.qa && item.qa.length > 0 && (
                   <section class="df-qa" aria-label={`Questions about: ${heading}`}>
-                    <p class="df-qa__label">Questions people ask</p>
-                    {item.qa.map((x) => (
-                      <div class="df-qa__item">
-                        <h3 class="df-qa__q">{x.q}</h3>
+                    <h3 class="df-qa__label">Questions people ask</h3>
+                    {item.qa.map((x, xi) => (
+                      <details class="df-qa__item" open={xi === 0}>
+                        <summary class="df-qa__sum">
+                          <h4 class="df-qa__q">{x.q}</h4>
+                          <span class="df-qa__sign" aria-hidden="true"></span>
+                        </summary>
                         <p class="df-qa__a">{x.a}</p>
-                      </div>
+                      </details>
                     ))}
                   </section>
                 )}

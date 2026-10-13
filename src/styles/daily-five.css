@@ -61,7 +61,7 @@ html[data-theme="dark"] .df-card { box-shadow: 6px 6px 0 var(--accent); border-c
 .df-story__text { padding: 20px 18px 22px; display: grid; gap: 12px; align-content: start; min-width: 0; }
 .df-story__title { font: 900 clamp(24px, 3.4vw, 34px)/1.1 var(--display); letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
 .df-story__body { display: grid; gap: 10px; }
-.df-story__body p { margin: 0; font-size: 17px; line-height: 1.65; max-width: 62ch; }
+.df-story__body p { margin: 0; font-size: 18px; line-height: 1.65; max-width: 62ch; }
 .df-story__body a, .df-part .df-part__text a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
 html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part .df-part__text a { color: var(--accent-light, #FF9D7A); }
 .df-story__more { font-weight: 600; }
@@ -81,44 +81,54 @@ html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part .df-
   .df-answer { grid-area: answer; margin: 0 24px 24px; }
 }
 
-/* ---------- The four labelled rows ---------- */
-.df-parts { margin: 0; border-top: 2px solid var(--ink); }
-.df-part {
-  --c: var(--accent-deep);
-  display: grid; gap: 8px; padding: 14px 18px 16px;
-  border-left: 6px solid var(--c); border-bottom: 1px solid var(--rule, #CFC8B3);
-}
-.df-part:last-child { border-bottom: 0; }
-.df-part--problem { --c: #A83D18; }
-.df-part--breakthrough { --c: #3E7C74; }
-.df-part--catch { --c: #B7791F; }
-.df-part--forYou { --c: var(--accent); }
-.df-part .df-part__label { font-variation-settings: normal; display: flex; align-items: center; gap: 8px; margin: 0; font: 700 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c); }
-html[data-theme="dark"] .df-part--problem .df-part__label { color: #FF9D7A; }
-html[data-theme="dark"] .df-part--breakthrough .df-part__label { color: #7CC0B6; }
-html[data-theme="dark"] .df-part--catch .df-part__label { color: #E8B94F; }
-.df-part .df-part__text { margin: 0; font-size: 16px; line-height: 1.6; max-width: 64ch; }
-.df-part--forYou { background: #17182E; color: #ECEAF4; }
+/* ---------- The four labelled steps ----------
+   Direction A (13 Oct): plain cards, numbered, bigger labels. Single column on
+   phones; a 2 x 2 grid on desktop with "What it means for you" across the
+   bottom, because it is the one step a reader acts on. */
+.df-parts { margin: 0; border-top: 2px solid var(--ink); display: grid; gap: 14px; padding: 18px; }
+.df-part { display: grid; gap: 12px; padding: 18px 20px 20px; background: #fff; border: 1px solid var(--rule, #CFC9B8); border-radius: 14px; }
+html[data-theme="dark"] .df-part { background: var(--dark-surface); border-color: var(--dark-rule); }
+.df-part .df-part__label { display: flex; align-items: center; gap: 12px; margin: 0; font: 800 23px/1.2 var(--display); font-variation-settings: normal; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.df-part__num { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent-deep); color: var(--ground); font: 800 17px/1 var(--display); }
+.df-part .df-part__text { margin: 0; font-size: 18px; line-height: 1.65; max-width: 64ch; }
+.df-part--forYou { background: #17182E; color: #ECEAF4; border-color: #17182E; }
 .df-part--forYou .df-part__label { color: #FF9D7A; }
-.df-part--forYou .df-part__text { font-size: 17px; font-weight: 500; }
+.df-part--forYou .df-part__num { background: #FF9D7A; color: #17182E; }
 .df-part--forYou .df-part__text a { color: #FF9D7A; }
-html[data-theme="dark"] .df-part--forYou { background: #0E0F22; }
+html[data-theme="dark"] .df-part--forYou { background: #0E0F22; border-color: var(--dark-rule); }
+@media (min-width: 760px) {
+  .df-parts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 24px; }
+  .df-part--forYou { grid-column: 1 / -1; }
+  .df-part--forYou .df-part__text { font-size: 19px; max-width: 80ch; }
+}
 
-/* ---------- Answer-first framing (AEO/GEO audit, 12 Oct) ----------
+/* ---------- The question, then the answer ----------
    The question is a real heading so answer engines and People Also Ask can
-   match it; the answer sits directly under it, short enough to be quoted
-   on its own. Visible text only, no FAQPage schema. */
-.df-answer { display: grid; gap: 6px; padding: 12px 14px; border-left: 4px solid var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
-.df-answer__q { font-variation-settings: normal; color: inherit; margin: 0; font: 700 17px/1.35 var(--body, inherit); letter-spacing: 0; text-wrap: pretty; }
-.df-answer__a { margin: 0; font-size: 16px; line-height: 1.6; max-width: 62ch; }
-.df-answer__label { display: inline-block; margin-right: 6px; font: 700 10px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-deep); vertical-align: 2px; }
-html[data-theme="dark"] .df-answer__label { color: var(--accent-light, #FF9D7A); }
+   match it; the answer sits directly under it, short enough to be quoted on
+   its own. No margin here: the desktop grid rule above sets it. */
+.df-answer { display: grid; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; }
+.df-answer__ask { display: grid; gap: 10px; padding: 18px 20px 20px; background: #17182E; color: #ECEAF4; }
+.df-answer__tag { display: inline-flex; align-items: center; gap: 8px; font: 800 14px/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: #FF9D7A; }
+.df-answer .df-answer__q { margin: 0; font: 700 clamp(22px, 2.6vw, 26px)/1.25 var(--display); font-variation-settings: normal; letter-spacing: 0; color: #ECEAF4; text-wrap: balance; }
+.df-answer__a { display: grid; gap: 8px; padding: 18px 20px 20px; background: #fff; color: var(--ink); }
+html[data-theme="dark"] .df-answer__a { background: var(--dark-surface); }
+.df-answer__label { font: 800 14px/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-deep); }
+.df-answer__a p { margin: 0; font-size: 18px; line-height: 1.6; max-width: 62ch; }
 
-.df-qa { display: grid; gap: 14px; padding: 16px 18px 18px; border-top: 1px solid var(--rule, #CFC8B3); }
-.df-qa__label { margin: 0; font: 700 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-.df-qa__item { display: grid; gap: 4px; }
-.df-qa__q { font-variation-settings: normal; margin: 0; font: 700 16px/1.35 var(--body, inherit); letter-spacing: 0; text-wrap: pretty; }
-.df-qa__a { margin: 0; font-size: 15.5px; line-height: 1.6; max-width: 64ch; }
+/* ---------- Questions people ask: tap to open, first one open ---------- */
+.df-qa { display: grid; gap: 10px; padding: 20px 18px 22px; border-top: 1px solid var(--rule, #CFC8B3); }
+.df-qa .df-qa__label { margin: 0 0 4px; font: 800 26px/1.2 var(--display); font-variation-settings: normal; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.df-qa__item { background: #fff; border: 1px solid var(--rule, #CFC9B8); border-radius: 14px; overflow: hidden; }
+html[data-theme="dark"] .df-qa__item { background: var(--dark-surface); border-color: var(--dark-rule); }
+.df-qa__sum { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 60px; box-sizing: border-box; padding: 12px 16px 12px 18px; cursor: pointer; list-style: none; }
+.df-qa__sum::-webkit-details-marker { display: none; }
+.df-qa__sum:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.df-qa .df-qa__q { margin: 0; font: 700 19px/1.3 var(--display); font-variation-settings: normal; letter-spacing: 0; text-wrap: pretty; }
+.df-qa__sign { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--surface); font: 800 22px/1 var(--display); }
+.df-qa__sign::before { content: "+"; }
+.df-qa__item[open] .df-qa__sign::before { content: "\2013"; }
+.df-qa__a { margin: 0; padding: 0 18px 18px; font-size: 17px; line-height: 1.65; max-width: 64ch; }
+@media (min-width: 760px) { .df-qa { padding: 24px; } }
 
 .df-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 18px; border-top: 2px solid var(--ink); }
 .df-source { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 14px; }
