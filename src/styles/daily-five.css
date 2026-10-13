@@ -62,8 +62,8 @@ html[data-theme="dark"] .df-card { box-shadow: 6px 6px 0 var(--accent); border-c
 .df-story__title { font: 900 clamp(24px, 3.4vw, 34px)/1.1 var(--display); letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
 .df-story__body { display: grid; gap: 10px; }
 .df-story__body p { margin: 0; font-size: 17px; line-height: 1.65; max-width: 62ch; }
-.df-story__body a, .df-part dd a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
-html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part dd a { color: var(--accent-light, #FF9D7A); }
+.df-story__body a, .df-part .df-part__text a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
+html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part .df-part__text a { color: var(--accent-light, #FF9D7A); }
 .df-story__more { font-weight: 600; }
 @media (min-width: 760px) {
   .df-story { grid-template-columns: 260px minmax(0, 1fr); }
@@ -83,16 +83,32 @@ html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part dd a
 .df-part--breakthrough { --c: #3E7C74; }
 .df-part--catch { --c: #B7791F; }
 .df-part--forYou { --c: var(--accent); }
-.df-part dt { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c); }
-html[data-theme="dark"] .df-part--problem dt { color: #FF9D7A; }
-html[data-theme="dark"] .df-part--breakthrough dt { color: #7CC0B6; }
-html[data-theme="dark"] .df-part--catch dt { color: #E8B94F; }
-.df-part dd { margin: 0; font-size: 16px; line-height: 1.6; max-width: 64ch; }
+.df-part .df-part__label { font-variation-settings: normal; display: flex; align-items: center; gap: 8px; margin: 0; font: 700 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c); }
+html[data-theme="dark"] .df-part--problem .df-part__label { color: #FF9D7A; }
+html[data-theme="dark"] .df-part--breakthrough .df-part__label { color: #7CC0B6; }
+html[data-theme="dark"] .df-part--catch .df-part__label { color: #E8B94F; }
+.df-part .df-part__text { margin: 0; font-size: 16px; line-height: 1.6; max-width: 64ch; }
 .df-part--forYou { background: #17182E; color: #ECEAF4; }
-.df-part--forYou dt { color: #FF9D7A; }
-.df-part--forYou dd { font-size: 17px; font-weight: 500; }
-.df-part--forYou dd a { color: #FF9D7A; }
+.df-part--forYou .df-part__label { color: #FF9D7A; }
+.df-part--forYou .df-part__text { font-size: 17px; font-weight: 500; }
+.df-part--forYou .df-part__text a { color: #FF9D7A; }
 html[data-theme="dark"] .df-part--forYou { background: #0E0F22; }
+
+/* ---------- Answer-first framing (AEO/GEO audit, 12 Oct) ----------
+   The question is a real heading so answer engines and People Also Ask can
+   match it; the answer sits directly under it, short enough to be quoted
+   on its own. Visible text only, no FAQPage schema. */
+.df-answer { display: grid; gap: 6px; padding: 12px 14px; border-left: 4px solid var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.df-answer__q { font-variation-settings: normal; color: inherit; margin: 0; font: 700 17px/1.35 var(--body, inherit); letter-spacing: 0; text-wrap: pretty; }
+.df-answer__a { margin: 0; font-size: 16px; line-height: 1.6; max-width: 62ch; }
+.df-answer__label { display: inline-block; margin-right: 6px; font: 700 10px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-deep); vertical-align: 2px; }
+html[data-theme="dark"] .df-answer__label { color: var(--accent-light, #FF9D7A); }
+
+.df-qa { display: grid; gap: 14px; padding: 16px 18px 18px; border-top: 1px solid var(--rule, #CFC8B3); }
+.df-qa__label { margin: 0; font: 700 11px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.df-qa__item { display: grid; gap: 4px; }
+.df-qa__q { font-variation-settings: normal; margin: 0; font: 700 16px/1.35 var(--body, inherit); letter-spacing: 0; text-wrap: pretty; }
+.df-qa__a { margin: 0; font-size: 15.5px; line-height: 1.6; max-width: 64ch; }
 
 .df-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 18px; border-top: 2px solid var(--ink); }
 .df-source { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 14px; }

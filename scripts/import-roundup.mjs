@@ -103,6 +103,8 @@ if (!existsSync(OUT)) mkdirSync(OUT, { recursive: true });
 let written = 0, skipped = 0;
 const illusStats = new Map();
 const sourceStats = new Map();
+/** Per-issue count of items carrying a question + answer (AEO/GEO framing). */
+const aeoStats = new Map();
 const kinds = new Map();
 const warnings = [];
 
@@ -208,6 +210,34 @@ for (const file of files) {
     for (const [src, dest] of [['problem','problem'],['breakthrough','breakthrough'],['catch','catch'],['forYou','forYou']]) {
       if (p[src]) lines.push(block(dest, p[src], 4));
     }
+    // Answer-first framing (AEO/GEO audit, 12 Oct). Question and answer travel
+    // together: a question with no answer is dropped rather than shipped bare,
+    // and markdown links are stripped because these are quoted standalone.
+    const plain = (s) => String(s || '').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '$1').replace(/\s+/g, ' ').trim();
+    const q = plain(p.question), a = plain(p.answer);
+    if (q.length >= 8 && a) {
+      lines.push(`    question: ${quote(q)}`);
+      lines.push(block('answer', a, 4));
+    } else if (q || a) {
+      warnings.push(`${date} slot ${slotKey}: question/answer incomplete -- both dropped`);
+    }
+    const qa = (Array.isArray(p.qa) ? p.qa : [])
+      .map((x) => ({ q: plain(x && x.q), a: plain(x && x.a) }))
+      .filter((x) => x.q.length >= 8 && x.a.length >= 20)
+      .slice(0, 4);
+    if (qa.length) {
+      lines.push('    qa:');
+      for (const x of qa) {
+        lines.push(`      - q: ${quote(x.q)}`);
+        lines.push(`        a: ${quote(x.a)}`);
+      }
+    }
+    if (kind !== 'community') {
+      const as = aeoStats.get(date) || { ok: 0, total: 0 };
+      as.total++;
+      if (q.length >= 8 && a) as.ok++;
+      aeoStats.set(date, as);
+    }
     const sources = normSources(p);
     if (sources.length) {
       lines.push('    sources:');
@@ -295,5 +325,10 @@ if (latestDate) {
   const indiaN = regionStats.get(latestDate) || 0;
   console.log(`  india-led ${latestDate}: ${indiaN}/5 items${indiaN < 2 ? '  <-- below the India quota of 2' : ''}`);
   console.log(`  taps ${latestDate}: ${tapStats.get(latestDate)}`);
+}
+const latestAeo = [...aeoStats.keys()].sort().pop();
+if (latestAeo) {
+  const { ok, total } = aeoStats.get(latestAeo);
+  console.log(`  answer-first ${latestAeo}: ${ok}/${total} items with question + answer${ok < total ? '  <-- some items have no question/answer' : ''}`);
 }
 if (warnings.length) { console.log(`\n  warnings (${warnings.length}):`); warnings.forEach((w) => console.log(`     ! ${w}`)); }

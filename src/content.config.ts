@@ -60,6 +60,22 @@ const briefItem = z
     breakthrough: z.string().optional(),
     catch: z.string().optional(),
     forYou: z.string().optional(),
+
+    /**
+     * Answer-first framing for search and AI answer engines (AEO/GEO audit,
+     * 12 Oct 2026). `question` is the literal query a reader would type or
+     * ask a chatbot; `answer` is a 30-50 word standalone answer shown right
+     * under it as "In one line"; `qa` is 2-3 visible follow-up questions.
+     * Rendered as plain visible text with question-shaped headings. No
+     * FAQPage schema on purpose: Google limits those rich results, and the
+     * visible text is what gets extracted anyway.
+     */
+    question: z.string().min(8).optional(),
+    answer: z.string().optional(),
+    qa: z.array(z.object({ q: z.string().min(8), a: z.string().min(20) })).max(4).optional(),
+  })
+  .refine((i) => !i.question || Boolean(i.answer), {
+    message: 'A question needs its answer: set `answer` whenever `question` is set.',
   })
   .refine((i) => Boolean(i.body) !== Boolean(i.story), {
     message:
