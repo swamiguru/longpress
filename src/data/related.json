@@ -1606,13 +1606,13 @@
     "type": "daily",
     "date": "2026-08-17",
     "n": 4,
-    "score": 0.63
+    "score": 0.64
    },
    {
     "type": "daily",
     "date": "2026-09-16",
     "n": 4,
-    "score": 0.62
+    "score": 0.63
    }
   ],
   "daily:2026-09-29#4": [
@@ -1864,6 +1864,49 @@
     "date": "2026-10-04",
     "n": 4,
     "score": 0.81
+   }
+  ],
+  "story:festive-sale-percent-off": [
+   {
+    "type": "daily",
+    "date": "2026-10-04",
+    "n": 5,
+    "score": 0.72
+   }
+  ],
+  "daily:2026-10-13#1": [
+   {
+    "type": "story",
+    "slug": "ai-data-centers-climate-middle-ground",
+    "score": 0.7
+   }
+  ],
+  "daily:2026-10-13#4": [
+   {
+    "type": "daily",
+    "date": "2026-10-12",
+    "n": 2,
+    "score": 0.75
+   },
+   {
+    "type": "daily",
+    "date": "2026-09-19",
+    "n": 2,
+    "score": 0.65
+   }
+  ],
+  "daily:2026-10-13#5": [
+   {
+    "type": "daily",
+    "date": "2026-10-10",
+    "n": 2,
+    "score": 0.73
+   },
+   {
+    "type": "daily",
+    "date": "2026-09-08",
+    "n": 1,
+    "score": 0.65
    }
   ]
  }
