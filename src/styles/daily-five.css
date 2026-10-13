@@ -86,7 +86,7 @@ html[data-theme="dark"] .df-story__body a, html[data-theme="dark"] .df-part .df-
    phones; a 2 x 2 grid on desktop with "What it means for you" across the
    bottom, because it is the one step a reader acts on. */
 .df-parts { margin: 0; border-top: 2px solid var(--ink); display: grid; gap: 14px; padding: 18px; }
-.df-part { display: grid; gap: 12px; padding: 18px 20px 20px; background: #fff; border: 1px solid var(--rule, #CFC9B8); border-radius: 14px; }
+.df-part { display: grid; align-content: start; gap: 12px; padding: 18px 20px 20px; background: #fff; border: 1px solid var(--rule, #CFC9B8); border-radius: 14px; }
 html[data-theme="dark"] .df-part { background: var(--dark-surface); border-color: var(--dark-rule); }
 .df-part .df-part__label { display: flex; align-items: center; gap: 12px; margin: 0; font: 800 23px/1.2 var(--display); font-variation-settings: normal; letter-spacing: 0; text-transform: none; color: var(--ink); }
 .df-part__num { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent-deep); color: var(--ground); font: 800 17px/1 var(--display); }
@@ -98,8 +98,8 @@ html[data-theme="dark"] .df-part { background: var(--dark-surface); border-color
 html[data-theme="dark"] .df-part--forYou { background: #0E0F22; border-color: var(--dark-rule); }
 @media (min-width: 760px) {
   .df-parts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 24px; }
-  .df-part--forYou { grid-column: 1 / -1; }
-  .df-part--forYou .df-part__text { font-size: 19px; max-width: 80ch; }
+  /* Four steps make a clean 2 x 2. An odd count (a step left out) spans the last row. */
+  .df-part:last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 
 /* ---------- The question, then the answer ----------
