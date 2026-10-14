@@ -26,8 +26,10 @@ export interface Props {
   showBackToTop?: boolean;
   /** Hero or social preview image path */
   image?: string;
+  /** Keep the page out of the index but let crawlers follow its links. */
+  noindex?: boolean;
 }
-const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image } = Astro.props;
+const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image, noindex = false } = Astro.props;
 const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');
 const shouldShowBackToTop = showBackToTop ?? (schema === 'NewsArticle');
 const canonical = canonicalUrl(Astro.url.pathname, Astro.site);
@@ -170,6 +172,7 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <title>{bare ? title : `${title} | Long Press`}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
 
  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

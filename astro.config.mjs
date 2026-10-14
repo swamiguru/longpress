@@ -1,6 +1,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { serializeWithLastmod } from './src/lib/seo/lastmod.mjs';
+import { topicSitemapFilter } from './src/lib/seo/topics.mjs';
+
+const indexableTopic = topicSitemapFilter();
 
 const SITE = 'https://longpress.news';
 
@@ -11,7 +14,10 @@ export default defineConfig({
     sitemap({
       // Drafts never reach /dist, so nothing to filter there. This only keeps
       // machine-readable endpoints out of a list meant for indexable pages.
-      filter: (page) => !/\/(rss\.xml|ads\.txt)$/.test(page),
+      // Topic hubs under TOPIC_MIN_STORIES are noindex, so they are left out
+      // here too (src/lib/seo/topics.mjs). A noindex URL in the sitemap is a
+      // conflicting signal.
+      filter: (page) => !/\/(rss\.xml|ads\.txt)$/.test(page) && indexableTopic(page),
       serialize: serializeWithLastmod(SITE),
     }),
   ],

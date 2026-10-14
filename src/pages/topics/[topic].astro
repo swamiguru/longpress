@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
+import { isIndexableTopic } from '../../lib/seo/topics.mjs';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
@@ -18,7 +19,7 @@ const { stories } = Astro.props;
 const sorted = [...stories].sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
-<BaseLayout title={topic!} description={`Everything Long Press has published on ${topic}.`}>
+<BaseLayout title={topic!} description={`Everything Long Press has published on ${topic}.`} noindex={!isIndexableTopic(topic!)}>
   <div class="page-head">
     <span class="eyebrow">Topic</span>
     <h1>{topic}</h1>
