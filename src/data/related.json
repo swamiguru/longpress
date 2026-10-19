@@ -2072,6 +2072,35 @@
     "n": 2,
     "score": 0.65
    }
+  ],
+  "daily:2026-10-19#1": [
+   {
+    "type": "daily",
+    "date": "2026-08-25",
+    "n": 2,
+    "score": 0.7
+   }
+  ],
+  "daily:2026-10-19#2": [
+   {
+    "type": "story",
+    "slug": "starlink-india-do-we-need-it",
+    "score": 0.83
+   },
+   {
+    "type": "daily",
+    "date": "2026-07-27",
+    "n": 1,
+    "score": 0.65
+   }
+  ],
+  "daily:2026-10-19#3": [
+   {
+    "type": "daily",
+    "date": "2026-07-31",
+    "n": 4,
+    "score": 0.65
+   }
   ]
  }
 }
