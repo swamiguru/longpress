@@ -1,20 +1,22 @@
 ---
 slug: "memory-shortage-phone-laptop-prices-india"
 title: "The same money now buys less phone and laptop in India"
-description: "Memory chips cost nearly four times what they did in September 2025. Phones and laptops in India cost more now, and forecasts see no relief in 2027."
+description: "Smartphone memory costs nearly four times its September 2025 price (Counterpoint). Phones and laptops in India cost more, and forecasts see no relief in 2027."
 published: 2026-10-20
 category: "known-issue"
 topics: ["memory-prices", "india-pricing", "smartphones", "laptops"]
+image: "/images/known-issue/memory-shortage-phone-laptop-prices-india.png"
+imageAlt: "A stack of coins beside a small phone and a small laptop, each inside a dashed outline of its larger old size, while a smiling memory chip looms above them"
 workaround: "Compare the exact RAM and storage variant, not the model name, and check what that same variant cost in the spring."
 trigger: >-
   Memory prices started climbing in the second half of 2025, and the forecasts now put relief in 2028. This is not a launch and not a spike to wait out. It is the new price level, and the festive season is when most people buy at it.
 whoBenefits: >-
-  Whoever sells the memory. The three big suppliers are putting their best capacity into server and AI parts first, and TrendForce expects the supply left for PCs to shrink further in 2027. Phone and laptop makers can pass the cost on or cut the spec. The buyer is the only party in the chain with no third option.
+  Whoever sells the memory. The three big suppliers are putting their best capacity into server and AI parts first, and TrendForce expects the supply left for PCs to shrink further in 2027. Phone and laptop makers can pass the cost on, cut the spec or end discounts. Buyers can keep the old device longer or buy refurbished, which Gartner expects more people to do.
 operatorsRead: >-
   On a product listing page, the price is the field everyone checks, so a cost increase tends to show up in the fields people do not: a discount that quietly ended, a smaller storage size sold under the same model name, an accessory no longer in the box. Read the whole line, not the headline number.
 verdict: "buy"
 verdictNote: >-
-  Buy, and do it this season if a replacement is already due. Waiting for lower prices is the wrong plan, because Counterpoint does not expect memory costs to fall before 2028. A phone or laptop that still works does not need replacing. This is about not delaying the one you already need.
+  Buy, and do it this season if a replacement is already due. Waiting for lower prices is the wrong plan: Counterpoint does not expect memory costs to fall before 2028, and TrendForce expects them to rise again this quarter. Those are forecasts and could move, but no source quoted here expects a fall this season. A phone or laptop that still works does not need replacing.
 sources:
   - label: "Counterpoint via Communications Today: memory prices and 4G phones"
     url: "https://www.communicationstoday.co.in/?p=421711"
@@ -43,21 +45,23 @@ sources:
 draft: false
 ---
 
-A phone or laptop that cost a given amount a year ago now costs more, or comes with less. The reason is the memory shortage, and it is the longest-running price story in the shops this festive season. The [iPhone Duo piece](/iphone-duo-india-price-gap) treated it as one factor among several. This is the whole story, for the phones and laptops most people actually buy.
+A phone or laptop that cost a given amount a year ago now costs more, and may come with less. The reason is the memory shortage, and it is the longest-running price story in the shops this festive season. The [iPhone Duo piece](/iphone-duo-india-price-gap) treated it as one factor among several. This is the whole story, for the phones and laptops most people actually buy.
 
 ## The numbers
 
-Memory chips cost [nearly four times](https://www.communicationstoday.co.in/?p=421711) what they did in September 2025, according to Counterpoint, which said they could reach five times in the coming months. [India's average smartphone price rose about 16%](https://dailypioneer.com/news/mobile-phone-price-up-16-in-india-in-first-half-of-2026) in the first half of 2026, to a record $318 in the June quarter. Phones under ₹10,000 rose the most, around 32%. By Counterpoint's September comparison, [average retail prices in India are up 21%](https://www.uniindia.com/business-economy/business-smartphones-price-rise/173850) on last year, against 15% globally.
+Counterpoint says smartphone memory prices have risen [nearly four times](https://www.communicationstoday.co.in/?p=421711) since September 2025, and could reach five times in the coming months. That is the cost of the memory itself, not the price of a phone. [India's average smartphone price rose about 16%](https://dailypioneer.com/news/mobile-phone-price-up-16-in-india-in-first-half-of-2026) in the first half of 2026, to a record $318 in the June quarter. Phones under ₹10,000 rose the most, around 32%. By Counterpoint's September comparison, [average retail prices in India are up 21%](https://www.uniindia.com/business-economy/business-smartphones-price-rise/173850) on last year, against 15% globally.
 
 Buyers have noticed. India's smartphone shipments [fell 10% year on year](https://www.t2online.in/tech/tech-news/india-smartphone-shipments-record-biggest-june-quarter-fall-in-six-years---counterpoint-report/2006566) from April to June, the steepest June-quarter drop in six years. Laptops follow the same arithmetic. [Gartner](https://www.gartner.com/en/newsroom/press-releases/2026-02-26-gartner-says-surging-memory-costs-will-reduce-global-pc-and-smartphone-shipments-in-2026) estimates that combined DRAM and SSD prices rise about 130% by the end of 2026, which lifts PC prices 17% and phone prices 13% globally against 2025. It also expects memory to grow from 16% to 23% of a PC's parts cost, a share at which low-margin entry-level laptops stop being viable to build.
 
+![A memory chip drops into a funnel that splits into three pipes: one ends at a phone with a price sticker peeling off, one at a phone with an oversized price tag, one at a laptop beside a memory stick shorter than the dashed outline of the old one](/images/known-issue/memory-shortage-phone-laptop-prices-india-body.webp)
+
 ## Apple shows how it reaches you
 
-Apple's India pricing shows how an increase arrives without a headline. First came the discounts. [AIMRA and Counterpoint data](https://tele.net.in/smartphone-prices-surge-across-india-owing-to-supply-crunch-and-memory-cost-increases-as-per-industry-data/) showed Apple taking an indirect route on the iPhone 15, 16 and 17 series: it withdrew discounts of ₹5,000 to ₹6,000 instead of announcing a hike.
+[AIMRA and Counterpoint data](https://tele.net.in/smartphone-prices-surge-across-india-owing-to-supply-crunch-and-memory-cost-increases-as-per-industry-data/) showed Apple taking an indirect route on the iPhone 15, 16 and 17 series: it withdrew discounts of ₹5,000 to ₹6,000 instead of announcing a hike.
 
 Then, in June, [list prices on Macs went up](https://www.fonearena.com/blog/485977/apple-mac-price-hike-june-2026.html). The 13-inch MacBook Air with 16GB and 512GB went from ₹1,19,900 to ₹1,49,900, up 25%. The MacBook Neo went from ₹69,900 to ₹79,900. The 256GB Mac mini went from ₹59,900 to ₹94,900. [GSMArena reported](https://m.gsmarena.com/apple_price_hikes_hit_india_even_harder_than_other_regions-amp-73454.php) that the India increases came out larger than in other regions.
 
-By September, with the Duo launch, [Inc42 reported](https://inc42.com/buzz/apple-unveils-first-foldable-iphone-duo-priced-%E2%82%B93-lakh-onwards-in-india/) the iPhone 16 up ₹16,000, the iPhone 17 up ₹17,000 and the iPhone Air up ₹30,000. Three steps over about six months, and only the last two looked like price changes.
+By September, with the Duo launch, [Inc42 reported](https://inc42.com/buzz/apple-unveils-first-foldable-iphone-duo-priced-%E2%82%B93-lakh-onwards-in-india/) the iPhone 16 up ₹16,000, the iPhone 17 up ₹17,000 and the iPhone Air up ₹30,000. The sources tie these increases to memory costs, but nothing cited here has Apple saying so. Counterpoint also says the weak rupee adds to import costs, so not all of the rise is memory.
 
 ## Less, and not only more
 
@@ -65,6 +69,6 @@ The other way to pass on a cost is to take something out. [TrendForce has said](
 
 ## When it ends
 
-[TrendForce](https://www.communicationstoday.co.in/?p=424298) expects conventional DRAM contract prices to rise another 10% to 15% in October to December and NAND flash 15% to 20%. It says the supply of DRAM for PCs could shrink further in 2027 as capacity moves to servers. Counterpoint [does not expect memory prices to fall before 2028](https://dailypioneer.com/news/mobile-phone-price-up-16-in-india-in-first-half-of-2026), and says the weak rupee adds to import costs.
+[TrendForce](https://www.communicationstoday.co.in/?p=424298) expects conventional DRAM contract prices to rise another 10% to 15% in October to December and NAND flash 15% to 20%. It says the supply of DRAM for PCs could shrink further in 2027 as capacity moves to servers. Counterpoint [does not expect memory prices to fall before 2028](https://dailypioneer.com/news/mobile-phone-price-up-16-in-india-in-first-half-of-2026). The two analysts are talking about different things, supply in one case and prices in the other, and both are forecasts.
 
-That is the known issue. A price rise people expect to reverse is a spike. This one has run for more than a year, the analysts who track it expect it to run for at least another, and most buying advice still assumes a cheaper sale is coming. Read the [festive-sale piece](/festive-sale-percent-off) before you let a "% off" badge make the decision for you.
+That is the known issue. It has run for more than a year, the analysts quoted here expect it to run for at least another, and sale-season advice still assumes a cheaper price is coming. Read the [festive-sale piece](/festive-sale-percent-off) before you let a "% off" badge make the decision for you.
