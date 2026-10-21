@@ -2129,6 +2129,77 @@
     "n": 4,
     "score": 0.7
    }
+  ],
+  "story:memory-shortage-phone-laptop-prices-india": [
+   {
+    "type": "daily",
+    "date": "2026-07-29",
+    "n": 1,
+    "score": 0.83
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-08",
+    "n": 2,
+    "score": 0.8
+   },
+   {
+    "type": "story",
+    "slug": "iphone-duo-india-price-gap",
+    "score": 0.72
+   }
+  ],
+  "daily:2026-10-21#1": [
+   {
+    "type": "story",
+    "slug": "iphone-duo-india-price-gap",
+    "score": 0.74
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-11",
+    "n": 1,
+    "score": 0.68
+   },
+   {
+    "type": "story",
+    "slug": "memory-shortage-phone-laptop-prices-india",
+    "score": 0.67
+   }
+  ],
+  "daily:2026-10-21#4": [
+   {
+    "type": "daily",
+    "date": "2026-10-17",
+    "n": 4,
+    "score": 0.67
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-16",
+    "n": 4,
+    "score": 0.66
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-20",
+    "n": 4,
+    "score": 0.66
+   }
+  ],
+  "daily:2026-10-21#5": [
+   {
+    "type": "daily",
+    "date": "2026-09-23",
+    "n": 5,
+    "score": 0.67
+   },
+   {
+    "type": "daily",
+    "date": "2026-09-05",
+    "n": 1,
+    "score": 0.66
+   }
   ]
  }
 }
