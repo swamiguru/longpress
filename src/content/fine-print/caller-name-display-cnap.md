@@ -3,7 +3,7 @@ slug: caller-name-display-cnap
 title: "Caller names on your screen from 1 November: whose name shows, and who can hide it"
 description: "From 1 November, unsaved numbers calling on 4G or 5G show the caller's registered name. Whose name appears, who can hide it, and what to check now."
 category: Telecom
-published: 2026-10-24
+published: 2026-10-22
 lastChecked: 2026-10-22
 nextCheck: 2026-11-22
 oneLine: >-
