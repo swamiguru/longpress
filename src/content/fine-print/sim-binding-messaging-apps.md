@@ -1,6 +1,7 @@
 ---
 slug: sim-binding-messaging-apps
 title: "SIM-binding for WhatsApp and Telegram: what actually changes for you"
+seoTitle: "SIM-binding for WhatsApp and Telegram, explained"
 description: "Messaging apps must work only while your number's SIM is in your phone. What's live, what was dropped, and what to check before 31 December 2026."
 category: Telecom
 published: 2026-10-11

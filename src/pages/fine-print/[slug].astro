@@ -58,7 +58,7 @@ const cardImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-prin
 const shareImage = d.heroImage && existsSync(publicFile(d.heroImage)) ? d.heroImage : cardImage;
 const imgSet = (src) => src.replace(/\.webp$/, '');
 ---
-<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={modified} image={shareImage} wide>
+<BaseLayout title={d.title} seoTitle={d.seoTitle} imageAlt={shareImage === d.heroImage ? d.heroImageAlt : `Fine Print: ${d.title}`} description={d.description} schema="NewsArticle" published={d.published} updated={modified} image={shareImage} wide>
 
   <div class="fp fp--doc">
     <PageCrumb label="Fine Print" href="/fine-print" />

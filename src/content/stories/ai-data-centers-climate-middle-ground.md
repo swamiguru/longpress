@@ -1,6 +1,7 @@
 ---
 slug: "ai-data-centers-climate-middle-ground"
 title: "AI data centers and the climate: the middle ground is real, and the AI companies can't reach it alone"
+seoTitle: "AI data centers and the climate: the middle ground"
 description: "Data centers are a small share of global power but a big local load. The middle ground is flexible demand, new clean power and per-site water numbers."
 published: 2026-10-01
 category: "known-issue"

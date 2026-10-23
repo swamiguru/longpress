@@ -1,6 +1,7 @@
 ---
 slug: upi-merchant-fee
 title: "UPI's new merchant fee: who pays, how much, and what's still free"
+seoTitle: "UPI merchant fee: who pays, how much, what's free"
 description: "UPI's 0.4% shop fee on payments above Rs 2,000 now starts after Diwali, not 15 October. Who pays, who's exempt, and why you shouldn't pay a rupee of it."
 category: Payments
 published: 2026-10-11

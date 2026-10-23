@@ -1,6 +1,7 @@
 ---
 slug: "starlink-india-do-we-need-it"
 title: "Starlink was six to nine months from launching in India. That was 17 months ago."
+seoTitle: "Starlink in India: 17 months late, and do you need it?"
 description: "Starlink says it is ready for India. Musk says oligarchs are blocking it. Almost none of that fight is about whether you need a satellite dish."
 published: 2026-10-09
 category: "known-issue"

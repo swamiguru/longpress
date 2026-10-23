@@ -1,6 +1,7 @@
 ---
 slug: "tensor-g6-speed-gap"
 title: "Six Tensor chips in, Google still hasn't closed the gap on Qualcomm, Apple and MediaTek Dimensity"
+seoTitle: "Tensor G6 still trails Snapdragon, Apple and Dimensity"
 description: "The Tensor G6 was built to finally close the speed gap. It still trails Snapdragon, Apple and MediaTek Dimensity, all by double digits."
 published: 2026-09-14
 category: "known-issue"

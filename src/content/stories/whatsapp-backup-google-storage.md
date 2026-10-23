@@ -1,6 +1,7 @@
 ---
 slug: "whatsapp-backup-google-storage"
 title: "WhatsApp's Android backup used to be free. Since 2024 it eats your Google storage."
+seoTitle: "WhatsApp backups now eat your Google storage"
 description: "Since 2024, WhatsApp backups on Android count against your free 15GB of Google storage. Trim the backup before paying ₹130 a month."
 published: 2026-10-14
 category: "known-issue"

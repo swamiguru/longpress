@@ -1,6 +1,7 @@
 ---
 slug: "meta-ray-ban-privacy-light"
 title: "Meta's Ray-Ban privacy light isn't about protecting the person being filmed"
+seoTitle: "Meta Ray-Ban's privacy light doesn't protect bystanders"
 description: "The LED that's supposed to warn people they're being filmed only stops recording if it's covered before anything starts. Every real incident happened after."
 published: 2026-09-13
 category: "known-issue"

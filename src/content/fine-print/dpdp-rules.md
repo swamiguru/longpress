@@ -1,6 +1,7 @@
 ---
 slug: dpdp-rules
 title: "India's data protection rules: what you can demand from apps, and when"
+seoTitle: "India's DPDP rules: what you can demand from apps"
 description: "The DPDP Rules let you see, correct and delete your data, with a 90-day reply deadline. Most of it starts on 13 May 2027. What changes, and when."
 category: Privacy
 published: 2026-10-11

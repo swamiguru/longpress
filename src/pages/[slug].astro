@@ -68,6 +68,8 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
   published={d.published}
   updated={d.updated}
   image={d.heroImage || d.image}
+  imageAlt={d.heroImage ? d.heroImageAlt : d.imageAlt}
+  seoTitle={d.seoTitle}
   wide
 >
   <div class={`pg ${d.category === 'known-issue' ? 'pg--ki' : 'pg--daily'} pg--article`}>

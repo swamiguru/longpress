@@ -1,6 +1,7 @@
 ---
 slug: "icloud-5gb-free-tier"
 title: "iCloud's free tier is still 5GB, and the iPhone it backs up is 16 times bigger"
+seoTitle: "iCloud's free tier is still 5GB, 15 years on"
 description: "iCloud has offered 5GB free since 2011. The base iPhone went from 16GB to 256GB. In India, the fix costs ₹75 a month."
 published: 2026-09-28
 category: "known-issue"

@@ -1,6 +1,7 @@
 ---
 slug: "festive-sale-percent-off"
 title: "Festive-sale discounts get a 30-day price check only from January"
+seoTitle: "Sale discounts get a 30-day price check from January"
 description: "From 1 January 2027, platforms must show the lowest 30-day price beside a discount. This sale season's '% off' has no such check."
 published: 2026-10-12
 category: "known-issue"

@@ -1,6 +1,7 @@
 ---
 slug: "apple-pay-india-cards-only"
 title: "Apple Pay is coming to India after twelve years, and only for Axis Bank credit cards"
+seoTitle: "Apple Pay in India: Axis Bank credit cards only"
 description: "Apple Pay reportedly reaches India in October on Axis Bank credit cards only. No UPI, no RuPay, and the fee fight behind the delay isn't settled."
 published: 2026-09-26
 category: "known-issue"

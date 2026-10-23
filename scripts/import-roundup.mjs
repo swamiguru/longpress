@@ -8,6 +8,7 @@
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
 import { join, resolve, basename } from 'node:path';
 import { fitDescription } from '../src/lib/text/description.mjs';
+import { fitSeoTitle } from '../src/lib/text/seo-title.mjs';
 
 const SRC_REPO = process.argv[2];
 const DRY = process.argv.includes('--dry');
@@ -115,6 +116,19 @@ const warnings = [];
  * it is read back first. Anything the JSON does not supply a card for keeps
  * whatever the file already had.
  */
+/**
+ * The search title already on a published brief. A hand-written one (the
+ * 23 Oct backfill, or an edit) beats the automatic fallback, so it is read back
+ * the same way as the art above.
+ */
+function existingSeoTitle(date) {
+  const file = join(OUT, `${date}.md`);
+  if (!existsSync(file)) return null;
+  const m = readFileSync(file, 'utf8').match(/^seoTitle: (.+)$/m);
+  if (!m) return null;
+  try { return JSON.parse(m[1]); } catch { return m[1].replace(/^['"]|['"]$/g, ''); }
+}
+
 function existingArt(date) {
   const art = new Map();
   const file = join(OUT, `${date}.md`);
@@ -142,7 +156,16 @@ for (const file of files) {
 
   const lines = ['---'];
   lines.push(`date: ${date}`);
-  lines.push(`title: ${quote(d.title || `The Daily Five - ${date}`)}`);
+  const title = d.title || `The Daily Five - ${date}`;
+  lines.push(`title: ${quote(title)}`);
+  // Search title for <title>, 60 max (Google cuts at about 580px). Order: the
+  // generator's own, then whatever the file already had, then a cut of the
+  // headline at a list boundary. None when the headline already fits.
+  const seoFromJson = typeof d.seoTitle === 'string' && d.seoTitle.trim().length >= 10 && d.seoTitle.trim().length <= 60 ? d.seoTitle.trim() : null;
+  if (d.seoTitle && !seoFromJson) warnings.push(`${date}: seoTitle ignored, must be 10-60 characters (got ${String(d.seoTitle).length})`);
+  const seoTitle = title.length <= 60 ? null : seoFromJson ?? existingSeoTitle(date) ?? fitSeoTitle(title);
+  if (seoTitle) lines.push(`seoTitle: ${quote(seoTitle)}`);
+  else if (title.length > 60) warnings.push(`${date}: title is ${title.length} characters and has no seoTitle; Google will cut it`);
   lines.push(`description: ${quote(meta(d.intro || d.title || ''))}`);
   if (d.intro) lines.push(block('intro', d.intro, 0));
   lines.push('items:');

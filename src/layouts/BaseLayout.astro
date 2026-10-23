@@ -29,6 +29,20 @@ export interface Props {
   image?: string;
   /** Keep the page out of the index but let crawlers follow its links. */
   noindex?: boolean;
+  /**
+   * Short search title, 60 characters or fewer. Used for <title> only, because
+   * Google cuts titles at about 580px. og:title, twitter:title, the H1 and the
+   * NewsArticle headline keep the full `title`.
+   */
+  seoTitle?: string;
+  /** Alt text for the share image: og:image:alt and twitter:image:alt. */
+  imageAlt?: string;
+  /**
+   * Canonical URL when it is not this page's own. Only the per-story share
+   * pages (/daily/<date>/<n>) use it: they point at the brief. og:url stays
+   * this page's own URL, so a share shows this page's card.
+   */
+  canonicalTo?: string;
 }
 /**
  * <title> only. Never cut the headline ourselves: a title ending in "…" reads as
@@ -41,14 +55,24 @@ function fitTitle(t: string, bare: boolean): string {
   if (bare || /\|\s*Long Press\s*$/i.test(t)) return t;
   return t.length + SUFFIX.length <= 60 ? t + SUFFIX : t;
 }
-const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image, noindex = false } = Astro.props;
+const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image, noindex = false, seoTitle, imageAlt, canonicalTo } = Astro.props;
 const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');
 const shouldShowBackToTop = showBackToTop ?? (schema === 'NewsArticle');
-const canonical = canonicalUrl(Astro.url.pathname, Astro.site);
+const selfUrl = canonicalUrl(Astro.url.pathname, Astro.site);
+const canonical = canonicalTo ? new URL(canonicalTo, Astro.site).href : selfUrl;
+const docTitle = fitTitle(seoTitle || title, bare);
+/** X account for cards. Same handle as the Organization sameAs below. */
+const X_HANDLE = '@longpressnews';
 // Real file + real dimensions, preferring the generated 1200x630 version.
 // See src/lib/seo/ogImage.mjs and scripts/make-og-images.mjs.
 const og = await resolveOgImage(image, Astro.site);
 const resolvedImage = og.url;
+const isDefaultImage = /\/og-default\.png$/.test(resolvedImage);
+// Every share image gets alt text. Pages pass the image's own alt when they have
+// one; otherwise it is described from the page title.
+const shareAlt = isDefaultImage
+  ? 'The Long Press logo'
+  : imageAlt || `Illustration for: ${title}`;
 // Structured data: one @graph per page. The Organization, Person and WebSite
 // nodes carry stable @ids so every page points at the same entities. That is
 // what lets a search or answer engine tell this publication apart from the
@@ -183,7 +207,7 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <!-- End Google Tag Manager -->
 
     <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <title>{fitTitle(title, bare)}</title>
+    <title>{docTitle}</title>
     <meta name="description" content={description} />
     {noindex
       ? <meta name="robots" content="noindex, follow" />
@@ -205,15 +229,22 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <meta property="og:site_name" content="Long Press" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={selfUrl} />
     <meta property="og:type" content={schema === 'NewsArticle' ? 'article' : 'website'} />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:image" content={resolvedImage} />
     {og.width && <meta property="og:image:width" content={String(og.width)} />}
     {og.height && <meta property="og:image:height" content={String(og.height)} />}
+    <meta property="og:image:alt" content={shareAlt} />
+    {isArticle && published && <meta property="article:published_time" content={published.toISOString()} />}
+    {isArticle && (updated || published) && <meta property="article:modified_time" content={(updated ?? published)!.toISOString()} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={X_HANDLE} />
+    {isArticle && <meta name="twitter:creator" content={X_HANDLE} />}
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={resolvedImage} />
+    <meta name="twitter:image:alt" content={shareAlt} />
     <meta name="theme-color" content="#F4F1E8" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 

@@ -20,7 +20,7 @@ const { title, url, description = '', class: className = '', compact = false } =
 const rawUrl = url || cleanPath(Astro.url.pathname);
 const currentUrl = Astro.site ? new URL(rawUrl, Astro.site).href : rawUrl;
 const encodedUrl = encodeURIComponent(currentUrl);
-const fullTitle = `${title} — Long Press`;
+const fullTitle = `${title} | Long Press`;
 const encodedTitle = encodeURIComponent(fullTitle);
 
 const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;

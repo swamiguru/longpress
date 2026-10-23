@@ -1,6 +1,7 @@
 ---
 slug: digital-arrest-scam
 title: "The digital arrest scam: how it works and how to shut it down"
+seoTitle: "The digital arrest scam: how it works, how to stop it"
 description: "No Indian agency arrests anyone over a video call. How the digital arrest scam works, the signs, and what to do if you or a parent gets the call."
 category: Scams
 published: 2026-10-11

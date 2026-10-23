@@ -91,6 +91,13 @@ const daily = defineCollection({
   schema: z.object({
     date: z.coerce.date(),
     title: z.string(),
+    /**
+     * Search title for <title> only, 60 characters or fewer (Google cuts at
+     * about 580px). The full headline stays in `title` for the H1, og:title,
+     * twitter:title and the NewsArticle headline. Leave it out when `title`
+     * already fits.
+     */
+    seoTitle: z.string().min(10).max(60).optional(),
     /** Byline - defaults to Swami Guru so the archive carries it without editing 60+ back issues. */
     author: z.string().default('Swami Guru'),
     /** Meta description - hard capped so it does not truncate in results. */
@@ -110,6 +117,13 @@ const stories = defineCollection({
     /** Explicit and permanent. Never derived from the title at build time. */
     slug: z.string(),
     title: z.string(),
+    /**
+     * Search title for <title> only, 60 characters or fewer (Google cuts at
+     * about 580px). The full headline stays in `title` for the H1, og:title,
+     * twitter:title and the NewsArticle headline. Leave it out when `title`
+     * already fits.
+     */
+    seoTitle: z.string().min(10).max(60).optional(),
     /** Byline - defaults to Swami Guru, same as the daily brief. */
     author: z.string().default('Swami Guru'),
     description: z.string().max(160),
@@ -190,6 +204,13 @@ const finePrint = defineCollection({
     /** Explicit and permanent: the URL is /fine-print/<slug>. */
     slug: z.string(),
     title: z.string(),
+    /**
+     * Search title for <title> only, 60 characters or fewer (Google cuts at
+     * about 580px). The full headline stays in `title` for the H1, og:title,
+     * twitter:title and the NewsArticle headline. Leave it out when `title`
+     * already fits.
+     */
+    seoTitle: z.string().min(10).max(60).optional(),
     /** Meta description - hard capped so it does not truncate in results. */
     description: z.string().max(160),
     /** Short beat label shown as the eyebrow, e.g. "Payments". */

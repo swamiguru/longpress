@@ -1,6 +1,7 @@
 ---
 slug: trai-voice-sms-only-plans
 title: "TRAI's calls-and-SMS-only plans: what changes, who gains, what's left open"
+seoTitle: "TRAI's calls-and-SMS-only plans: what changes"
 description: "TRAI now requires a calls-and-SMS-only pack for every validity up to 30 days, priced lower than the bundle. What changes, who gains, and what TRAI left open."
 category: Telecom
 published: 2026-10-12
