@@ -32,3 +32,6 @@ scripts/related/.cache/
 
 # generated 1200x630 share images (scripts/make-og-images.mjs)
 public/og/
+
+# Python bytecode (scripts/og)
+__pycache__/
