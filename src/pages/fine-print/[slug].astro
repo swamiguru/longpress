@@ -1,5 +1,7 @@
 ---
+import { existsSync } from 'node:fs';
 import { getCollection } from 'astro:content';
+import { publicFile } from '../../lib/seo/og.mjs';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageCrumb from '../../components/PageCrumb.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
@@ -37,8 +39,13 @@ const words = [
 ].join(' ').split(/\s+/).filter(Boolean).length;
 const minutes = Math.max(2, Math.round(words / 220));
 const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+
+// Share / Discover card: the piece's own, made by scripts/og/fine-print-cards.py,
+// else the shared Fine Print card. Never the Long Press default.
+const ownCard = `/images/fine-print/${d.slug}.png`;
+const shareImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-print/default.png';
 ---
-<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={d.lastChecked} wide>
+<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={d.lastChecked} image={shareImage} wide>
 
   <div class="fp fp--doc">
     <PageCrumb label="Fine Print" href="/fine-print" />

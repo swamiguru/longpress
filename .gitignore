@@ -29,3 +29,6 @@ pnpm-debug.log*
 # local embedding step for related coverage (own package, never installed by Vercel)
 scripts/related/node_modules/
 scripts/related/.cache/
+
+# generated 1200x630 share images (scripts/make-og-images.mjs)
+public/og/

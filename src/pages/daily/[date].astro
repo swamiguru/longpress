@@ -10,6 +10,7 @@ import PreferredSource from '../../components/PreferredSource.astro';
 import PageCrumb from '../../components/PageCrumb.astro';
 import { getArticleReadingTime } from '../../lib/readingTime';
 import { getResponsiveImage } from '../../lib/images';
+import { pickBriefLead } from '../../lib/seo/og.mjs';
 import { fallbackFor } from '../../lib/fallbacks';
 import '../../styles/daily-five.css';
 import { linkify, stripLinks, hostLabel } from '../../lib/text/inline.mjs';
@@ -68,7 +69,7 @@ const ANALYSIS = [
   ['forYou', 'What it means for you'],
 ] as const;
 ---
-<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date} wide>
+<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date} image={pickBriefLead(brief.id.replace(/\.md$/, '')) ?? undefined} wide>
   <div class="pg pg--daily pg--article">
   <article>
     <PageCrumb label="The Daily Five" href="/daily" />

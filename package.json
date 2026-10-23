@@ -11,7 +11,7 @@
     "preview": "astro preview --host 0.0.0.0 --port 3000",
     "lint": "node scripts/check-routes.mjs",
     "astro": "astro",
-    "prebuild": "node scripts/check-routes.mjs && node scripts/optimize-images.mjs"
+    "prebuild": "node scripts/check-routes.mjs && node scripts/optimize-images.mjs && node scripts/make-og-images.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
