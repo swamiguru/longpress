@@ -2,10 +2,17 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { fpPlain } from '../../lib/text/finePrint';
+import { getResponsiveImage } from '../../lib/images';
 import '../../styles/fine-print.css';
 
 const pieces = (await getCollection('finePrint', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const FP_FALLBACK_IMG = '/images/fine-print/default.png';
+const cardImg = (p: (typeof pieces)[number], lead: boolean) =>
+  getResponsiveImage(p.data.heroImage ?? FP_FALLBACK_IMG, {
+    aspectRatio: '16/9',
+    customSizes: lead ? '(max-width: 720px) 100vw, 560px' : '(max-width: 720px) 100vw, 540px',
+  });
 const dateFmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
 <BaseLayout
@@ -31,17 +38,34 @@ const dateFmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short
         <p class="fp-empty">The first explainers land soon. Follow the WhatsApp channel to get them first.</p>
       ) : (
         <div class="fp-grid">
-          {pieces.map((p, i) => (
-            <a href={`/fine-print/${p.data.slug}`} class:list={['fp-card', { 'fp-card--lead': i === 0 }]}>
-              <span class="fp-meta">
-                <span>{p.data.category}</span>
-                <span class="fp-stamp">Last checked {dateFmt.format(p.data.lastChecked)}</span>
-              </span>
-              <h2 class="fp-card__title">{p.data.title}</h2>
-              <p class="fp-card__line">{fpPlain(p.data.oneLine)}</p>
-              <span class="fp-card__more">Read the explainer &rarr;</span>
-            </a>
-          ))}
+          {pieces.map((p, i) => {
+            const img = cardImg(p, i === 0);
+            return (
+              <a href={`/fine-print/${p.data.slug}`} class:list={['fp-card', { 'fp-card--lead': i === 0 }]}>
+                <span class="fp-card__img" aria-hidden="true">
+                  <img
+                    src={img.src}
+                    srcset={img.srcset}
+                    sizes={img.sizes}
+                    width={img.width}
+                    height={img.height}
+                    alt=""
+                    loading={i < 2 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </span>
+                <span class="fp-card__body">
+                  <span class="fp-meta">
+                    <span>{p.data.category}</span>
+                    <span class="fp-stamp">Last checked {dateFmt.format(p.data.lastChecked)}</span>
+                  </span>
+                  <h2 class="fp-card__title">{p.data.title}</h2>
+                  <p class="fp-card__line">{fpPlain(p.data.oneLine)}</p>
+                  <span class="fp-card__more">Read the explainer &rarr;</span>
+                </span>
+              </a>
+            );
+          })}
         </div>
       )}
     </div>

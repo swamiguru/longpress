@@ -153,12 +153,20 @@ html:not([data-theme="dark"]) .fp-trust { color: #9B2226; }
 /* ---- Index ---- */
 .fp-index { max-width: none; }
 .fp-grid { margin-top: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-.fp-card { display: flex; flex-direction: column; gap: 12px; background: var(--fp-card); border: 1px solid var(--fp-rule-strong); padding: 24px 24px 22px; text-decoration: none; color: var(--fp-ink) !important; transition: border-color .15s ease; }
+.fp-card { display: flex; flex-direction: column; background: var(--fp-card); border: 1px solid var(--fp-rule-strong); padding: 0; text-decoration: none; color: var(--fp-ink) !important; transition: border-color .15s ease; }
 .fp-card:hover { border-color: var(--fp-ink); }
 .fp-card--lead { grid-column: 1 / -1; border: 2px solid var(--fp-ink); }
 .fp-card__title { margin: 0; font-family: var(--fp-display); font-weight: 850; font-variation-settings: "wdth" 106; font-size: 26px; line-height: 1.12; }
 .fp-card--lead .fp-card__title { font-size: clamp(28px, 4vw, 40px); }
 .fp-card__line { margin: 0; font-size: 17px; line-height: 1.5; color: var(--fp-ink-soft); }
+.fp-card__img { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 2px solid var(--fp-ink); background: var(--fp-rule-strong); }
+.fp-card__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.fp-card__body { flex: 1 1 auto; display: flex; flex-direction: column; gap: 12px; padding: 24px 24px 22px; }
+@media (min-width: 721px) {
+  .fp-card--lead { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .fp-card--lead .fp-card__img { aspect-ratio: auto; min-height: 100%; border-bottom: 0; border-right: 2px solid var(--fp-ink); }
+  .fp-card--lead .fp-card__body { justify-content: center; padding: 32px 32px 30px; }
+}
 .fp-card__more { margin-top: auto; font-family: var(--fp-mono); font-size: 13px; font-weight: 600; }
 .fp-empty { margin-top: 48px; border: 2px dashed var(--fp-rule-strong); padding: 32px; font-size: 18px; }
 
@@ -183,7 +191,7 @@ html:not([data-theme="dark"]) .fp-trust { color: #9B2226; }
 
 /* Landing header now comes from page-head.css. */
 @media (max-width: 720px) {
-  .fp-card { padding: 18px 18px 16px; }
+  .fp-card__body { padding: 18px 18px 16px; }
 }
 
 /* Yellow as highlighter, a little more of it (11 Oct 2026).

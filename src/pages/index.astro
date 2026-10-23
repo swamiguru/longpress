@@ -25,6 +25,10 @@ const fpLead = finePrint[0];
 const fpRsRow = fpLead?.data.costs?.rows.find((r) => r.highlight) ?? fpLead?.data.costs?.rows[0];
 const fpRs = fpRsRow && fpRsRow.amount.length <= 14 ? { amount: fpPlain(fpRsRow.amount), item: fpPlain(fpRsRow.item) } : null;
 const fpMore = finePrint.slice(1, 5);
+/** Fine Print image: the piece's 16:9 hero, else the shared Fine Print card. */
+const fpImage = (f: (typeof finePrint)[number], ratio: '16/9' | '1/1', sizes: string) =>
+  getResponsiveImage(f.data.heroImage ?? '/images/fine-print/default.png', { aspectRatio: ratio, customSizes: sizes });
+const fpLeadImg = fpLead ? fpImage(fpLead, '16/9', '(max-width: 719px) 100vw, 600px') : null;
 const fpLatestCheck = finePrint.reduce<Date | null>((m, f) => (!m || f.data.lastChecked > m ? f.data.lastChecked : m), null);
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' });
@@ -313,6 +317,20 @@ import '../styles/landing-heads.css';
 
         <div class="hp-fpg">
           <a href={`/fine-print/${fpLead.data.slug}`} class="hp-fpl" id={`fine-print-lead-${fpLead.data.slug}`}>
+            {fpLeadImg && (
+              <span class="hp-fpl__img" aria-hidden="true">
+                <img
+                  src={fpLeadImg.src}
+                  srcset={fpLeadImg.srcset}
+                  sizes={fpLeadImg.sizes}
+                  width={fpLeadImg.width}
+                  height={fpLeadImg.height}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+            )}
             <span class="hp-fpl__meta">
               <span>{fpLead.data.category}</span>
               <span class="hp-fpl__stamp">Last checked {med.format(fpLead.data.lastChecked)}</span>
@@ -339,7 +357,9 @@ import '../styles/landing-heads.css';
 
           {fpMore.length > 0 && (
             <ol class="hp-fpo" id="fine-print-index">
-              {fpMore.map((f, i) => (
+              {fpMore.map((f, i) => {
+                const thumb = fpImage(f, '1/1', '84px');
+                return (
                 <li>
                   <a class="hp-fpo__a" href={`/fine-print/${f.data.slug}`} id={`fine-print-${f.data.slug}`}>
                     <span class="hp-fpo__n" aria-hidden="true">{String(i + 2).padStart(2, '0')}</span>
@@ -347,9 +367,22 @@ import '../styles/landing-heads.css';
                       <span class="hp-fpo__cat">{f.data.category} &middot; Checked {med.format(f.data.lastChecked)}</span>
                       <span class="hp-fpo__t">{f.data.title}</span>
                     </span>
+                    <span class="hp-fpt" aria-hidden="true">
+                      <img
+                        src={thumb.src}
+                        srcset={thumb.srcset}
+                        sizes={thumb.sizes}
+                        width={thumb.width}
+                        height={thumb.height}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
                   </a>
                 </li>
-              ))}
+                );
+              })}
             </ol>
           )}
         </div>
