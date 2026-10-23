@@ -14,12 +14,16 @@ export function fitDescription(text = '', cap = 160) {
   const window = t.slice(0, cap);
 
   // 2. last sentence end inside the window
-  const sentenceEnds = [...window.matchAll(/[.!?](?=\s|$)/g)].map((m) => m.index + 1);
-  const s = sentenceEnds.filter((i) => i >= floor).pop();
+  // Matched against the full text, so "0.4%" cut at the window edge is not a sentence end.
+  const sentenceEnds = [...t.matchAll(/[.!?](?=\s|$)/g)].map((m) => m.index + 1);
+  const s = sentenceEnds.filter((i) => i >= floor && i <= cap).pop();
   if (s) return window.slice(0, s);
 
-  // 3. last comma or semicolon inside the window, dropping the dangling clause
-  const comma = Math.max(window.lastIndexOf(','), window.lastIndexOf(';'));
+  // 3. last comma or semicolon inside the window, dropping the dangling clause.
+  // Only one followed by a space counts: "100,000" and "Rs 1,09,900" are numbers,
+  // not clause breaks (2026-09-19 shipped "…hitting 100." before this).
+  const breaks = [...t.matchAll(/[,;](?=\s)/g)].map((m) => m.index).filter((i) => i < cap);
+  const comma = breaks.length ? breaks[breaks.length - 1] : -1;
   if (comma >= floor) return window.slice(0, comma).replace(/[\s;:\-–—]+$/, '') + '.';
 
   // 4. last resort: word boundary
