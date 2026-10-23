@@ -57,7 +57,7 @@ const readMatch = d.operatorsRead ? d.operatorsRead.match(/^(.+?[.!?])\s+([\s\S]
 const readSplit = !!readMatch && readMatch[1].length >= 20 && readMatch[1].length <= 170;
 const readLead = readSplit ? readMatch![1] : null;
 const readRest = readSplit ? readMatch![2] : (d.operatorsRead ?? '');
-const readSig = /swami/i.test(d.author ?? '') ? `${d.author} \u00b7 Eleven years leading product` : (d.author ?? '');
+const readSig = /swami/i.test(d.author ?? '') ? `${d.author} \u00b7 11+ years leading product` : (d.author ?? '');
 const leadAlt = (d.image ? d.imageAlt : d.heroImageAlt) || '';
 const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 ---
@@ -234,8 +234,8 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
         <h3 class="story-footer-card__name">Swami Guru</h3>
         <p class="story-footer-card__bio">
           {d.category === 'known-issue'
-            ? "Swami's column on the things that stay broken. Eleven years leading product at Cond\u00e9 Nast and Newsweek before this."
-            : 'Eleven years leading product at Cond\u00e9 Nast and Newsweek. Now writing Long Press from Bengaluru.'}
+            ? "Swami's column on the things that stay broken. 11+ years leading product, most recently at Cond\u00e9 Nast."
+            : '11+ years leading product, most recently at Cond\u00e9 Nast. Now writing Long Press from Bengaluru.'}
         </p>
       </div>
       <div class="story-footer-card__actions">

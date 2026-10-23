@@ -1,6 +1,6 @@
 # Long Press
 
-> A daily consumer tech publication from India. Five stories every morning, plus a column on the things that stay broken. Written by Swami Guru, who led product at Condé Nast for eleven years.
+> A daily consumer tech publication from India. Five stories every morning, plus a column on the things that stay broken. Written by Swami Guru, who has led product for 11+ years, most recently at Condé Nast.
 
 Each Daily Five story is split the same way: the problem, what changed, the catch, and what it means for you. Known Issue columns carry a verdict (buy, skip or wait) and a Sources row linking to the pages they draw on.
 
