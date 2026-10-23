@@ -19,7 +19,7 @@ const { stories } = Astro.props;
 const sorted = [...stories].sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
-<BaseLayout title={topic!} description={`Everything Long Press has published on ${topic}.`} noindex={!isIndexableTopic(topic!)}>
+<BaseLayout title={`${topic} stories`} description={`Every Long Press story tagged ${topic}: Daily Five briefs, Known Issue columns and Fine Print explainers.`} noindex={!isIndexableTopic(topic!)}>
   <div class="page-head">
     <span class="eyebrow">Topic</span>
     <h1>{topic}</h1>

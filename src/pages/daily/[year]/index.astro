@@ -19,7 +19,7 @@ const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
 const monthName = (m: string) =>
   new Intl.DateTimeFormat('en-IN', { month: 'long' }).format(new Date(Number(year), Number(m) - 1, 1));
 ---
-<BaseLayout title={`The Daily Five - ${year}`} description={`Every Long Press brief published in ${year}.`} image="/images/hubs/daily.png">
+<BaseLayout title={`The Daily Five archive, ${year}`} description={`Every Long Press Daily Five brief published in ${year}: five tech stories a day, each with the problem, what changed, the catch and what it means for you.`} image="/images/hubs/daily.png">
   <div class="page-head">
     <span class="eyebrow"><a href="/daily">Archive</a></span>
     <h1>{year}</h1>
