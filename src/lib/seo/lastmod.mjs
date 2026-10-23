@@ -58,7 +58,10 @@ export function buildLastmodMap(root = process.cwd()) {
     const fm = frontmatter(file);
     if (fm.draft === 'true' || !fm.slug) continue;
     const block = fs.readFileSync(file, 'utf8').split('---')[1] ?? '';
-    const dates = [...block.matchAll(/^\s*-\s*date:\s*["']?(\d{4}-\d{2}-\d{2})/gm)].map((m) => m[1]);
+    // Skip "Re-checked ... No change" entries: they move Last checked, not the content.
+    const dates = [...block.matchAll(/^\s*-\s*date:\s*["']?(\d{4}-\d{2}-\d{2})["']?[^\n]*\n\s*text:\s*([^\n]*)/gm)]
+      .filter((m) => !/^["']?re-checked\b.*\bno change\b/i.test(m[2].trim()))
+      .map((m) => m[1]);
     if (fm.published) dates.push(fm.published);
     const newest = dates.sort().pop();
     if (!newest) continue;
