@@ -6,7 +6,7 @@
 // scripts/make-og-images.mjs) -> the original file, measured -> the site default.
 import fs from 'node:fs';
 import sharp from 'sharp';
-import { OG_W, OG_H, ogNameFor, publicFile } from './og.mjs';
+import { OG_W, OG_H, OG_VARIANTS, ogNameFor, ogVariantName, publicFile } from './og.mjs';
 
 const DEFAULT_PATH = '/og-default.png';
 const cache = new Map();
@@ -24,7 +24,13 @@ async function sizeOf(p) {
   return out;
 }
 
-/** @returns {Promise<{url: string, width?: number, height?: number}>} */
+function variantsOf(image, abs) {
+  return OG_VARIANTS.map((v) => ogVariantName(image, v.key))
+    .filter((p) => fs.existsSync(publicFile(p)))
+    .map(abs);
+}
+
+/** @returns {Promise<{url: string, width?: number, height?: number, variants: string[]}>} */
 export async function resolveOgImage(image, site) {
   const abs = (p) => new URL(p, site).href;
   // Remote image: its size is unknown, so declare none rather than a wrong one.
@@ -32,11 +38,11 @@ export async function resolveOgImage(image, site) {
 
   if (image) {
     const gen = ogNameFor(image);
-    if (fs.existsSync(publicFile(gen))) return { url: abs(gen), width: OG_W, height: OG_H };
+    if (fs.existsSync(publicFile(gen))) return { url: abs(gen), width: OG_W, height: OG_H, variants: variantsOf(image, abs) };
     if (fs.existsSync(publicFile(image))) {
       const s = await sizeOf(image);
-      if (s) return { url: abs(image), ...s };
+      if (s) return { url: abs(image), ...s, variants: variantsOf(image, abs) };
     }
   }
-  return { url: abs(DEFAULT_PATH), width: OG_W, height: OG_H };
+  return { url: abs(DEFAULT_PATH), width: OG_W, height: OG_H, variants: [] };
 }

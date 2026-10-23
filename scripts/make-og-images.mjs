@@ -18,7 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
-import { OG_W, OG_H, ogNameFor, pickBriefLead, publicFile } from '../src/lib/seo/og.mjs';
+import { OG_W, OG_H, OG_VARIANTS, ogNameFor, ogVariantName, pickBriefLead, publicFile } from '../src/lib/seo/og.mjs';
 
 const GROUND = '#17182E'; // midnight, the same ground as the share card
 const VARIANT = /-\d+w\./;
@@ -49,37 +49,51 @@ function sources() {
   return out;
 }
 
-async function make(src) {
-  const outRel = ogNameFor(src);
-  const inFile = publicFile(src);
-  const outFile = publicFile(outRel);
-
-  if (fs.existsSync(outFile) && fs.statSync(outFile).mtimeMs >= fs.statSync(inFile).mtimeMs) return 'kept';
-
-  const meta = await sharp(inFile).metadata();
-  if (!meta.width || !meta.height) return 'skipped';
-  if (meta.width === OG_W && meta.height === OG_H) return 'already-sized';
-
+// Cover-crop when the source is close to the target shape, else the full picture
+// over a darkened, blurred copy of itself (nothing cropped out, no stretching).
+async function render(inFile, outFile, W, H, meta) {
   const aspect = meta.width / meta.height;
+  const target = W / H;
   let pipeline;
-  if (aspect >= 1.6) {
-    pipeline = sharp(inFile).flatten({ background: GROUND }).resize(OG_W, OG_H, { fit: 'cover' });
+  if (Math.abs(Math.log(aspect / target)) < 0.45) {
+    pipeline = sharp(inFile).flatten({ background: GROUND }).resize(W, H, { fit: 'cover' });
   } else {
     const bg = await sharp(inFile)
       .flatten({ background: GROUND })
-      .resize(OG_W, OG_H, { fit: 'cover' })
+      .resize(W, H, { fit: 'cover' })
       .blur(30)
       .modulate({ brightness: 0.55, saturation: 0.9 })
       .toBuffer();
     const fg = await sharp(inFile)
       .flatten({ background: GROUND })
-      .resize({ width: OG_W, height: OG_H, fit: 'inside' })
+      .resize({ width: W, height: H, fit: 'inside' })
       .toBuffer();
     pipeline = sharp(bg).composite([{ input: fg, gravity: 'centre' }]);
   }
-
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
   await pipeline.jpeg({ quality: 84, mozjpeg: true }).toFile(outFile);
+}
+
+const fresh = (outFile, inFile) => fs.existsSync(outFile) && fs.statSync(outFile).mtimeMs >= fs.statSync(inFile).mtimeMs;
+
+async function make(src) {
+  const inFile = publicFile(src);
+  const meta = await sharp(inFile).metadata();
+  if (!meta.width || !meta.height) return 'skipped';
+
+  // Structured-data variants: Google asks for 16x9, 4x3 and 1x1 versions of an article's image.
+  let madeVariant = false;
+  for (const v of OG_VARIANTS) {
+    const out = publicFile(ogVariantName(src, v.key));
+    if (fresh(out, inFile)) continue;
+    await render(inFile, out, v.w, v.h, meta);
+    madeVariant = true;
+  }
+
+  const outFile = publicFile(ogNameFor(src));
+  if (fresh(outFile, inFile)) return madeVariant ? 'made' : 'kept';
+  if (meta.width === OG_W && meta.height === OG_H) return madeVariant ? 'made' : 'already-sized';
+  await render(inFile, outFile, OG_W, OG_H, meta);
   return 'made';
 }
 

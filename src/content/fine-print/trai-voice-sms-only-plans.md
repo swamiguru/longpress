@@ -8,6 +8,11 @@ lastChecked: 2026-10-12
 nextCheck: 2026-10-26
 oneLine: >-
   Jio, Airtel and Vi must sell ==a calls-and-SMS-only pack for every validity of 30 days or less==, at a lower price than the matching pack with data. It starts 30 days after the rule is published in the Gazette, and no price is fixed.[^1]
+heroImage: "/images/fine-print/trai-voice-sms-only-plans-hero.webp"
+heroImageAlt: "A tap with a single drip above a yellow basket holding a telephone handset and an envelope"
+bodyImage: "/images/fine-print/trai-voice-sms-only-plans-body.webp"
+bodyImageAlt: "A large basket piled with many shapes beside a small yellow basket holding only a handset and an envelope"
+bodyImageAfter: "rules"
 applies:
   - who: You use mobile data every day
     status: no-change

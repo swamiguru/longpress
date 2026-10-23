@@ -43,7 +43,10 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
 // Share / Discover card: the piece's own, made by scripts/og/fine-print-cards.py,
 // else the shared Fine Print card. Never the Long Press default.
 const ownCard = `/images/fine-print/${d.slug}.png`;
-const shareImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-print/default.png';
+const cardImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-print/default.png';
+// A text-free hero is the better Discover and share image; the headline card is the fallback.
+const shareImage = d.heroImage && existsSync(publicFile(d.heroImage)) ? d.heroImage : cardImage;
+const imgSet = (src) => src.replace(/\.webp$/, '');
 ---
 <BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={d.lastChecked} image={shareImage} wide>
 
@@ -69,6 +72,13 @@ const shareImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-pri
         </ShareButtons>
       </div>
     </header>
+
+    {d.heroImage && (
+      <figure class="fp-img fp-img--hero">
+        <img src={d.heroImage} srcset={`${imgSet(d.heroImage)}-800w.webp 800w, ${d.heroImage} 1600w`} sizes="(max-width: 800px) 100vw, 760px" width="1600" height="900" alt={d.heroImageAlt} loading="eager" fetchpriority="high" decoding="async" />
+        {d.heroImageCaption && <figcaption>{d.heroImageCaption}</figcaption>}
+      </figure>
+    )}
 
     <article class="fp-article">
 
@@ -129,6 +139,13 @@ const shareImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-pri
         </section>
       )}
 
+      {d.bodyImage && d.bodyImageAfter === 'rules' && (
+        <figure class="fp-img">
+          <img src={d.bodyImage} srcset={`${imgSet(d.bodyImage)}-800w.webp 800w, ${d.bodyImage} 1600w`} sizes="(max-width: 800px) 100vw, 760px" width="1600" height="900" alt={d.bodyImageAlt} loading="lazy" decoding="async" />
+          {d.bodyImageCaption && <figcaption>{d.bodyImageCaption}</figcaption>}
+        </figure>
+      )}
+
       {d.costs && (
         <section class="fp-section" aria-labelledby="fp-costs">
           <h2 id="fp-costs" class="fp-h2">{d.costs.title}</h2>
@@ -154,6 +171,13 @@ const shareImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-pri
         </section>
       )}
 
+      {d.bodyImage && d.bodyImageAfter === 'costs' && (
+        <figure class="fp-img">
+          <img src={d.bodyImage} srcset={`${imgSet(d.bodyImage)}-800w.webp 800w, ${d.bodyImage} 1600w`} sizes="(max-width: 800px) 100vw, 760px" width="1600" height="900" alt={d.bodyImageAlt} loading="lazy" decoding="async" />
+          {d.bodyImageCaption && <figcaption>{d.bodyImageCaption}</figcaption>}
+        </figure>
+      )}
+
       {d.steps.length > 0 && (
         <section class="fp-section" aria-labelledby="fp-steps">
           <h2 id="fp-steps" class="fp-h2">What to do</h2>
@@ -163,6 +187,13 @@ const shareImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-pri
             ))}
           </ol>
         </section>
+      )}
+
+      {d.bodyImage && d.bodyImageAfter === 'steps' && (
+        <figure class="fp-img">
+          <img src={d.bodyImage} srcset={`${imgSet(d.bodyImage)}-800w.webp 800w, ${d.bodyImage} 1600w`} sizes="(max-width: 800px) 100vw, 760px" width="1600" height="900" alt={d.bodyImageAlt} loading="lazy" decoding="async" />
+          {d.bodyImageCaption && <figcaption>{d.bodyImageCaption}</figcaption>}
+        </figure>
       )}
 
       <WhatsAppCta variant="strip" location="fine_print_mid" heading="Fine Print on WhatsApp" text="One explainer every Saturday, on the Long Press channel." />

@@ -1,0 +1,26 @@
+{
+  "caller-name-display-cnap": {
+    "hero": "a vintage telephone handset ringing, with a blank luggage-style name tag tied to its cord, the tag filled yellow",
+    "body": "a small card-index box with one card pulled forward, and a second card hovering above it that is slightly different, the pulled-forward card filled yellow"
+  },
+  "digital-arrest-scam": {
+    "hero": "a telephone handset dangling on a fishing line from a big hook, with a closed padlock hanging beside it, the padlock filled yellow",
+    "body": "a pair of handcuffs with one open cuff, and a large pair of scissors cutting a coiled telephone cord, the scissors filled yellow"
+  },
+  "dpdp-rules": {
+    "hero": "an open filing-cabinet drawer with a large key resting on its edge and a magnifying glass in front of it, the key filled yellow",
+    "body": "a large hourglass beside a small door standing slightly open, the sand in the hourglass filled yellow"
+  },
+  "sim-binding-messaging-apps": {
+    "hero": "a small SIM card joined by a heavy chain to a blank speech bubble, the SIM card filled yellow",
+    "body": "a phone silhouette with an empty card slot and a SIM card tray pulled out, with a speech bubble beside it fading into dotted outline, the empty tray filled yellow"
+  },
+  "trai-voice-sms-only-plans": {
+    "hero": "a water tap turned off with a single drip, above a simple handset and an envelope sitting in a small basket, the basket filled yellow",
+    "body": "two shopping baskets side by side, a large one overflowing with many geometric shapes and a small one holding only a handset and an envelope, the small basket filled yellow"
+  },
+  "upi-merchant-fee": {
+    "hero": "a small shop counter with an empty coin dish and a balance scale tipping slightly, one scale pan holding a stack of coins filled yellow",
+    "body": "a tall stack of coins with a horizontal bar across it acting as a ceiling, and one thin slice of coin sliding out of the stack, the slice filled yellow"
+  }
+}

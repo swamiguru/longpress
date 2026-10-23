@@ -8,6 +8,11 @@ lastChecked: 2026-10-11
 nextCheck: 2026-11-11
 oneLine: >-
   Messaging apps will have to ==work only while the SIM for your number is in your phone==. The rule is real but not fully switched on: apps have until 31 December 2026 to report compliance, and the six-hour WhatsApp Web logout was dropped.[^2]
+heroImage: "/images/fine-print/sim-binding-messaging-apps-hero.webp"
+heroImageAlt: "A yellow SIM card chained to a blank speech bubble"
+bodyImage: "/images/fine-print/sim-binding-messaging-apps-body.webp"
+bodyImageAlt: "A phone with its SIM tray pulled out and a dotted, fading speech bubble beside it"
+bodyImageAfter: "rules"
 applies:
   - who: Your WhatsApp number's SIM is in your phone
     status: no-change

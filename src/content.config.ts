@@ -202,6 +202,20 @@ const finePrint = defineCollection({
     /** The whole answer in one sentence. */
     oneLine: z.string(),
     /**
+     * Two illustrations per piece: a hero under the title and one inside the body.
+     * Made by scripts/og/illustrate.py into public/images/fine-print/<slug>-hero.webp
+     * and <slug>-body.webp (1600x900, plus a -800w.webp). Alt text is required with
+     * each image. The hero also becomes the share and Discover image.
+     */
+    heroImage: z.string().optional(),
+    heroImageAlt: z.string().optional(),
+    heroImageCaption: z.string().optional(),
+    bodyImage: z.string().optional(),
+    bodyImageAlt: z.string().optional(),
+    bodyImageCaption: z.string().optional(),
+    /** Which block the body image follows. */
+    bodyImageAfter: z.enum(['rules', 'costs', 'steps']).default('rules'),
+    /**
      * Up to three numbers that carry the whole story, shown under the title.
      * Optional: a piece with no honest headline numbers leaves it out.
      * Each must appear in the body of the piece; never a figure only here.
@@ -267,6 +281,9 @@ const finePrint = defineCollection({
     video: z.object({ title: z.string(), url: z.string().url() }).optional(),
     topics: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+  }).superRefine((d, ctx) => {
+    if (d.heroImage && !d.heroImageAlt) ctx.addIssue({ code: 'custom', path: ['heroImageAlt'], message: 'heroImage needs heroImageAlt' });
+    if (d.bodyImage && !d.bodyImageAlt) ctx.addIssue({ code: 'custom', path: ['bodyImageAlt'], message: 'bodyImage needs bodyImageAlt' });
   }),
 });
 

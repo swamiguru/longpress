@@ -42,3 +42,15 @@ export function pickBriefLead(date) {
   const hit = pick(/^illustration_(\d+)\.(?:png|jpe?g|webp)$/i) ?? pick(/^card_(\d+)\.(?:png|jpe?g|webp)$/i);
   return hit ? `/images/daily/${date}/${hit}` : null;
 }
+
+/** Aspect-ratio variants Google asks for in Article structured data (16x9, 4x3, 1x1). */
+export const OG_VARIANTS = [
+  { key: '16x9', w: 1200, h: 675 },
+  { key: '4x3', w: 1200, h: 900 },
+  { key: '1x1', w: 1200, h: 1200 },
+];
+
+/** /og/foo.jpg -> /og/foo-16x9.jpg */
+export function ogVariantName(src, key) {
+  return ogNameFor(src).replace(/\.jpg$/, `-${key}.jpg`);
+}

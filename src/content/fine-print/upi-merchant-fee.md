@@ -16,6 +16,11 @@ keyFigures:
   - big: Rs 0
     label: what you pay. Nobody may charge you for it
     highlight: true
+heroImage: "/images/fine-print/upi-merchant-fee-hero.webp"
+heroImageAlt: "A balance scale on a shop counter with a stack of coins in one pan"
+bodyImage: "/images/fine-print/upi-merchant-fee-body.webp"
+bodyImageAlt: "A stack of coins capped by a flat bar, with one yellow coin sliding out of the stack"
+bodyImageAfter: "costs"
 applies:
   - who: You pay shops by UPI
     status: no-change

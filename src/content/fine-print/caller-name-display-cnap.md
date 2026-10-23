@@ -13,6 +13,11 @@ keyFigures:
     label: the day caller names switch on across all service areas
   - big: 4G, 5G
     label: the only networks covered for now
+heroImage: "/images/fine-print/caller-name-display-cnap-hero.webp"
+heroImageAlt: "A ringing telephone handset with a blank yellow name tag tied to its cord"
+bodyImage: "/images/fine-print/caller-name-display-cnap-body.webp"
+bodyImageAlt: "A box of index cards with one yellow card pulled forward and another card hovering above it"
+bodyImageAfter: "rules"
 applies:
   - who: You get calls on a 4G or 5G phone
     status: no-change

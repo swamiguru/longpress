@@ -8,6 +8,11 @@ lastChecked: 2026-10-11
 nextCheck: 2026-11-13
 oneLine: >-
   India's data protection law is in force on paper, but ==most of your rights only start on 13 May 2027==. From then, apps must tell you what they hold on you, fix or delete it on request, and answer within 90 days.[^1][^2]
+heroImage: "/images/fine-print/dpdp-rules-hero.webp"
+heroImageAlt: "An open filing drawer with a yellow key on top and a magnifying glass in front"
+bodyImage: "/images/fine-print/dpdp-rules-body.webp"
+bodyImageAlt: "An hourglass with yellow sand beside a door standing slightly open"
+bodyImageAfter: "rules"
 applies:
   - who: You use apps and websites in India
     status: check

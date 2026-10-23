@@ -220,3 +220,10 @@ html:not([data-theme="dark"]):has(.fp--doc) body { background-color: #F2E8CE; }
 
 /* The head no longer carries a double rule: the key figures follow it directly. */
 .fp--doc .ph { border-bottom: 0; padding-bottom: 0; }
+
+/* ---- Illustrations: hero under the title, one in the body ---- */
+.fp-img { margin: 28px 0 0; max-width: 760px; }
+.fp-img--hero { margin-top: 8px; }
+.fp-article > .fp-img { margin-top: 48px; }
+.fp-img img { display: block; width: 100%; height: auto; border: 2px solid var(--fp-ink); border-radius: 4px; background: #FAF9F4; }
+.fp-img figcaption { margin-top: 10px; font-family: var(--fp-mono); font-size: 12px; line-height: 1.5; color: var(--fp-muted); }

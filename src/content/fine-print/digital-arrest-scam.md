@@ -8,6 +8,11 @@ lastChecked: 2026-10-11
 nextCheck: 2026-11-11
 oneLine: >-
   There is ==no such thing as a "digital arrest"==. The CBI, ED, police, customs and courts don't arrest anyone over a video call, and none of them will ask you to move money to prove you're innocent. If a call does either, hang up and report it.[^2]
+heroImage: "/images/fine-print/digital-arrest-scam-hero.webp"
+heroImageAlt: "A telephone handset hanging from a fishing hook, next to a yellow padlock"
+bodyImage: "/images/fine-print/digital-arrest-scam-body.webp"
+bodyImageAlt: "Yellow scissors cutting a coiled telephone cord, beside an open pair of handcuffs"
+bodyImageAfter: "steps"
 applies:
   - who: A caller says your parcel, SIM or Aadhaar is linked to a crime
     status: act
