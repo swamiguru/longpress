@@ -11,6 +11,7 @@ import path from 'node:path';
 
 const DAILY_DIR = 'src/content/daily';
 const STORIES_DIR = 'src/content/stories';
+const FINE_PRINT_DIR = 'src/content/fine-print';
 
 const iso = (d) => new Date(d).toISOString();
 const read = (dir) => (fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.md')) : []);
@@ -47,6 +48,25 @@ export function buildLastmodMap(root = process.cwd()) {
     storyDates.push(date);
     map.set(`/${fm.slug}`, iso(date));
   }
+
+  // Fine Print: the newest changelog entry (or `published`). Deliberately NOT
+  // `lastChecked` -- that moves on a no-change re-check, and lastmod has to mean
+  // the content changed. Changelog is nested YAML, so scan its `- date:` lines.
+  const fpDates = [];
+  for (const f of read(path.join(root, FINE_PRINT_DIR))) {
+    const file = path.join(root, FINE_PRINT_DIR, f);
+    const fm = frontmatter(file);
+    if (fm.draft === 'true' || !fm.slug) continue;
+    const block = fs.readFileSync(file, 'utf8').split('---')[1] ?? '';
+    const dates = [...block.matchAll(/^\s*-\s*date:\s*["']?(\d{4}-\d{2}-\d{2})/gm)].map((m) => m[1]);
+    if (fm.published) dates.push(fm.published);
+    const newest = dates.sort().pop();
+    if (!newest) continue;
+    fpDates.push(newest);
+    map.set(`/fine-print/${fm.slug}`, iso(newest));
+  }
+  const fpNewest = fpDates.sort().pop();
+  if (fpNewest) map.set('/fine-print', iso(fpNewest));
 
   // Newest content on the site. The rolling pages inherit it.
   const newest = [...dailyDates, ...storyDates].sort().pop();
