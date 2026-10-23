@@ -3,15 +3,24 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { fpPlain } from '../../lib/text/finePrint';
 import { getResponsiveImage } from '../../lib/images';
+import { existsSync } from 'node:fs';
+import { publicFile } from '../../lib/seo/og.mjs';
 import '../../styles/fine-print.css';
 
 const pieces = (await getCollection('finePrint', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const FP_FALLBACK_IMG = '/images/fine-print/default.png';
+// Heroes are 1600x900 (scripts/og/illustrate.py) with an -800w copy. Offering only
+// the 800w left the cards soft on 2x and 3x phones, where they render at 100vw.
+const heroSrcset = (hero?: string) =>
+  hero && /\.webp$/.test(hero) && existsSync(publicFile(hero.replace(/\.webp$/, '-800w.webp')))
+    ? `${hero.replace(/\.webp$/, '-800w.webp')} 800w, ${hero} 1600w`
+    : undefined;
 const cardImg = (p: (typeof pieces)[number], lead: boolean) =>
   getResponsiveImage(p.data.heroImage ?? FP_FALLBACK_IMG, {
     aspectRatio: '16/9',
     customSizes: lead ? '(max-width: 720px) 100vw, 560px' : '(max-width: 720px) 100vw, 540px',
+    customSrcset: heroSrcset(p.data.heroImage),
   });
 const dateFmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
@@ -19,6 +28,7 @@ const dateFmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short
   title="Fine Print: India's rules and prices, explained"
   description="The rules, prices and service changes in India that most people skip, read from the source document and worked out in rupees. Updated when the rules change."
   image="/images/fine-print/default.png"
+  imageAlt="Fine Print, from Long Press"
   wide
 >
 

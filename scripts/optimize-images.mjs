@@ -30,7 +30,8 @@ async function processDir(dir, sizeConfigs) {
       continue;
     }
     // Skip generated variants
-    if (file.includes('-480w.') || file.includes('-800w.') || file.includes('-1200w.') || file.includes('-320w.') || file.includes('-640w.') || file.includes('-1024w.')) {
+    // Any -<n>w. file is a generated variant (incl. the -fit-<n>w body variants).
+    if (/-\d+w\./.test(file)) {
       continue;
     }
 
@@ -74,6 +75,51 @@ async function processDir(dir, sizeConfigs) {
   }
 }
 
+/**
+ * Width-only variants for pictures used inside an article body (markdown
+ * images). The 16:9 variants above are cover-cropped for cards, which would cut
+ * a portrait screenshot in half, so body images get their own: same aspect
+ * ratio, 800 wide and up to 1600 wide, never enlarged. src/lib/markdown/rehype-images.mjs
+ * picks them up and adds srcset, width and height.
+ */
+const FIT_WIDTHS = [800, 1600];
+/** Every local picture a markdown body uses: ![alt](/images/...). */
+function bodyImageRefs() {
+  const refs = new Set();
+  for (const dir of ['src/content/stories']) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.md'))) {
+      const md = fs.readFileSync(path.join(dir, f), 'utf8');
+      for (const m of md.matchAll(/!\[[^\]]*\]\((\/images\/[^)\s]+\.(?:png|jpe?g|webp))\)/gi)) refs.add(m[1]);
+    }
+  }
+  return [...refs];
+}
+
+async function processFit() {
+  for (const ref of bodyImageRefs()) {
+    const input = path.join('public', ref);
+    if (!fs.existsSync(input) || /-\d+w\.webp$/.test(ref)) continue;
+    const dir = path.dirname(input);
+    const file = path.basename(input);
+    const base = path.basename(file, path.extname(file));
+    let meta;
+    try { meta = await sharp(input).metadata(); } catch { continue; }
+    // 800 wide, plus the largest of (native width, 1600) above that.
+    const widths = meta.width ? [...new Set(FIT_WIDTHS.map((w) => Math.min(w, meta.width)))].filter((w) => w >= 400) : [];
+    for (const w of widths) {
+      const out = path.join(dir, `${base}-fit-${w}w.webp`);
+      if (fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(input).mtimeMs) continue;
+      try {
+        await sharp(input).resize({ width: w, withoutEnlargement: true }).webp({ quality: 82, effort: 4 }).toFile(out);
+        console.log(`  ✓ Generated ${path.relative(process.cwd(), out)} (${w}w)`);
+      } catch (err) {
+        console.warn(`  ! Failed body variant for ${file}:`, err.message);
+      }
+    }
+  }
+}
+
 async function main() {
   console.log('Optimizing responsive images...');
   await processDir('public/images/stories', STORY_SIZES);
@@ -82,6 +128,8 @@ async function main() {
   await processDir('public/images/known-issue', DAILY_SIZES);
   // Fallback illustrations (scripts/make-fallbacks.mjs) are square too.
   await processDir('public/images/fallback', DAILY_SIZES);
+  // Article-body pictures in Known Issue columns keep their own shape.
+  await processFit();
   console.log('Responsive image optimization complete.');
 }
 
