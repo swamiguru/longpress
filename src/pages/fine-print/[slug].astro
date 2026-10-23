@@ -14,11 +14,17 @@ import '../../styles/fine-print.css';
 export async function getStaticPaths() {
   const all = await getCollection('finePrint', ({ data }) => !data.draft);
   const sorted = all.sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
-  return sorted.map((entry) => ({
+  // "More from Fine Print": the next three pieces after this one, wrapping round.
+  // The newest-three version meant the oldest pieces were never linked from a
+  // sibling, so they had one internal link (the hub). Rotating gives every
+  // piece the same number of inbound links.
+  return sorted.map((entry, i) => ({
     params: { slug: entry.data.slug },
     props: {
       entry,
-      others: sorted.filter((o) => o.data.slug !== entry.data.slug).slice(0, 3),
+      others: [1, 2, 3]
+        .map((k) => sorted[(i + k) % sorted.length])
+        .filter((o, j, arr) => o.data.slug !== entry.data.slug && arr.findIndex((x) => x.data.slug === o.data.slug) === j),
     },
   }));
 }
