@@ -30,6 +30,15 @@ export interface Props {
   /** Keep the page out of the index but let crawlers follow its links. */
   noindex?: boolean;
 }
+/** <title> only: keep it near 60 characters. Drop the site suffix first, then cut at a word. */
+function fitTitle(t: string, bare: boolean): string {
+  const SUFFIX = ' | Long Press';
+  if (bare) return t;
+  if (t.length + SUFFIX.length <= 60) return t + SUFFIX;
+  if (t.length <= 60) return t;
+  const cut = t.slice(0, 59).replace(/[\s,;:–-]+\S*$/, '').replace(/[\s,;:–-]+$/, '');
+  return cut.replace(/\s+(the|a|an|of|to|and|in|for|on|at|by|with|is|isn't)$/i, '') + '…';
+}
 const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image, noindex = false } = Astro.props;
 const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');
 const shouldShowBackToTop = showBackToTop ?? (schema === 'NewsArticle');
@@ -172,7 +181,7 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <!-- End Google Tag Manager -->
 
     <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <title>{bare ? title : `${title} | Long Press`}</title>
+    <title>{fitTitle(title, bare)}</title>
     <meta name="description" content={description} />
     {noindex
       ? <meta name="robots" content="noindex, follow" />
