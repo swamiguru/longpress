@@ -39,6 +39,10 @@ const words = [
 ].join(' ').split(/\s+/).filter(Boolean).length;
 const minutes = Math.max(2, Math.round(words / 220));
 const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+// dateModified is the last change a reader would notice. A monthly re-check that
+// found nothing moves "Last checked", not the modified date.
+const NO_CHANGE = /^re-checked\b.*\bno change\b/i;
+const modified = lastLog.find((c) => !NO_CHANGE.test(c.text.trim()))?.date ?? d.published;
 
 // Share / Discover card: the piece's own, made by scripts/og/fine-print-cards.py,
 // else the shared Fine Print card. Never the Long Press default.
@@ -48,7 +52,7 @@ const cardImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-prin
 const shareImage = d.heroImage && existsSync(publicFile(d.heroImage)) ? d.heroImage : cardImage;
 const imgSet = (src) => src.replace(/\.webp$/, '');
 ---
-<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={d.lastChecked} image={shareImage} wide>
+<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.published} updated={modified} image={shareImage} wide>
 
   <div class="fp fp--doc">
     <PageCrumb label="Fine Print" href="/fine-print" />

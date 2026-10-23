@@ -7,7 +7,7 @@ Each Daily Five story is split the same way: the problem, what changed, the catc
 ## Sections
 
 - [The Daily Five](https://longpress.news/daily): Five tech stories every morning. Five is a cap, not a target.
-- [Known Issue](https://longpress.news/known-issue): A column on things in Apple, Google, Meta, Android, iOS and everyday apps that have been wrong long enough to count as a decision rather than an oversight.
+- [Known Issue](https://longpress.news/known-issue): A column on the things in your phone and apps that have been wrong long enough to count as a decision, not an oversight.
 - [About](https://longpress.news/about): Who writes it, how it works, and how to send a correction.
 
 ## Machine-readable
