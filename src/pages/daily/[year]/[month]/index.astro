@@ -39,6 +39,7 @@ const formatMonthLabel = (y: string, m: string) =>
     .format(new Date(Number(y), Number(m) - 1, 1));
 ---
 <BaseLayout
+  image="/images/hubs/daily.png"
   title={`The Daily Five - ${monthName} ${year}`}
   description={`Long Press briefs from ${monthName} ${year}. ${briefs.length} daily issues.`}
   wide
