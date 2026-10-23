@@ -24,8 +24,15 @@ import { fitDescription } from '../lib/text/description.mjs';
 
 const { brief, date, item, count } = Astro.props;
 const target = `/daily/${date}#story-${item.slot}`;
-const lede = stripLinks(item.answer || item.forYou || item.body || '').replace(/\s+/g, ' ').trim();
-const description = fitDescription(lede || brief.data.description, 160);
+const clean = (s?: string) => stripLinks(s || '').replace(/\s+/g, ' ').trim();
+const lede = clean(item.answer || item.forYou || item.body);
+// The description must never end in "…" (it shows as cut off in every share
+// preview). Take the first field that fits cleanly at a sentence or clause;
+// only if none does, fall back to the brief's own description.
+const candidates = [item.answer, item.forYou, item.body, item.breakthrough, item.problem].map(clean).filter(Boolean);
+const description =
+  candidates.map((c) => fitDescription(c, 160)).find((d) => !d.endsWith('…') && d.length >= 50) ??
+  brief.data.description;
 const image = pickItemImage(date, item.slot, item.image) ?? undefined;
 const isCard = image?.startsWith('/images/daily-cards/');
 const imageAlt = item.image && image === item.image
