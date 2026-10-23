@@ -27,13 +27,14 @@ CARDS = {
     "daily": {
         "tag": "THE MORNING BRIEF  ·  EVERY DAY",
         "title": "The Daily Five",
-        "line": ("Five tech stories every morning, each one taken apart the same way: "
+        "line": ("Five tech stories every morning, each one told the same way: "
                  "the problem, what changed, the catch, and what it means for you."),
     },
     "known-issue": {
         "tag": "THE COLUMN  ·  BY SWAMI GURU",
         "title": "Known Issue",
-        "line": "In software, a known issue is the bug everyone has agreed to live with.",
+        "line": ("The things in your phone and apps that have been wrong long enough "
+                 "to count as a decision, not an oversight."),
     },
 }
 

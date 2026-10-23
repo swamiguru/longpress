@@ -62,6 +62,14 @@ const NUM_WORD = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five'];
 const countWord = NUM_WORD[items.length] ?? String(items.length);
 
 /** The press-and-hold structure, in reading order. */
+/** Share image for the whole brief, and its alt text. */
+const leadImage = pickBriefLead(dateStr) ?? undefined;
+const leadSlot = leadImage?.match(/\/(?:illustration|card)_(\d+)\./)?.[1];
+const leadItem = leadSlot ? items.find((i) => String(i.slot) === leadSlot) : undefined;
+const leadAlt = leadImage?.startsWith('/images/daily-cards/')
+  ? `Headline card: ${d.title}`
+  : leadItem ? leadItem.imageAlt || `Illustration for the story: ${leadItem.heading}` : undefined;
+
 const ANALYSIS = [
   ['problem', 'The problem'],
   ['breakthrough', 'What changed'],
@@ -69,7 +77,7 @@ const ANALYSIS = [
   ['forYou', 'What it means for you'],
 ] as const;
 ---
-<BaseLayout title={d.title} description={d.description} schema="NewsArticle" published={d.date} image={pickBriefLead(brief.id.replace(/\.md$/, '')) ?? undefined} wide>
+<BaseLayout title={d.title} seoTitle={d.seoTitle} description={d.description} schema="NewsArticle" published={d.date} image={leadImage} imageAlt={leadAlt} wide>
   <div class="pg pg--daily pg--article">
   <article>
     <PageCrumb label="The Daily Five" href="/daily" />
@@ -221,7 +229,7 @@ const ANALYSIS = [
                   <ShareButtons
                     title={heading}
                     description={stripLinks(item.answer || item.forYou || item.body || item.teaser || '')}
-                    url={`/daily/${dateStr}#story-${item.slot}`}
+                    url={item.story ? `/${item.story}` : `/daily/${dateStr}/${item.slot}`}
                     compact
                   />
                 </div>

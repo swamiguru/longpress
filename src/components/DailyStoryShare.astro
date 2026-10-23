@@ -1,0 +1,59 @@
+---
+/**
+ * Share page for one Daily Five story: /daily/<date>/<slot>.
+ *
+ * Why it exists: the per-story share buttons used to link to
+ * /daily/<date>#story-N. Every platform drops the fragment, so WhatsApp, X,
+ * LinkedIn and Facebook all showed the whole brief's headline and lead image
+ * for every story in it. This page carries the story's own title, description
+ * and card, and sends readers on to the story inside the brief.
+ *
+ * Rules it keeps:
+ *  - Full text stays in the brief. This page shows the headline and the one-line
+ *    answer only, never the four-part analysis.
+ *  - noindex, canonical to the brief, out of the sitemap (astro.config.mjs).
+ *  - og:url is this page's own URL, or Facebook would fold the share back into
+ *    the brief's card.
+ *  - Readers are sent on with a script, not a meta refresh: Facebook's crawler
+ *    follows meta refresh and would land on the brief's tags.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { pickItemImage } from '../lib/seo/og.mjs';
+import { stripLinks } from '../lib/text/inline.mjs';
+import { fitDescription } from '../lib/text/description.mjs';
+
+const { brief, date, item, count } = Astro.props;
+const target = `/daily/${date}#story-${item.slot}`;
+const lede = stripLinks(item.answer || item.forYou || item.body || '').replace(/\s+/g, ' ').trim();
+const description = fitDescription(lede || brief.data.description, 160);
+const image = pickItemImage(date, item.slot, item.image) ?? undefined;
+const isCard = image?.startsWith('/images/daily-cards/');
+const imageAlt = item.image && image === item.image
+  ? item.imageAlt || `Illustration for the story: ${item.heading}`
+  : isCard
+    ? `Headline card: ${item.heading}`
+    : `Illustration for: ${brief.data.title}`;
+const when = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }).format(brief.data.date);
+---
+<BaseLayout
+  title={item.heading}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  canonicalTo={`/daily/${date}`}
+  noindex
+>
+  <div class="pg pg--daily">
+    <header class="ph ph--story">
+      <div class="ph__body">
+        <span class="eyebrow"><a href={`/daily/${date}`}>The Daily Five</a> &middot; {when} &middot; story {item.slot} of {count}</span>
+        <h1 class="ph__title">{item.heading}</h1>
+        {lede && <p class="ph__stand">{fitDescription(lede, 320)}</p>}
+        <p><a class="chip" href={target} id="story-go">Read it in the {when} Daily Five &rarr;</a></p>
+      </div>
+    </header>
+  </div>
+  <script is:inline define:vars={{ target }}>
+    location.replace(target);
+  </script>
+</BaseLayout>

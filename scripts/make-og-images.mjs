@@ -46,6 +46,25 @@ function sources() {
       if (lead) out.push(lead);
     }
   }
+  // Headline cards for briefs that predate the illustrations (scripts/og/brief-cards.py).
+  // Already 1200x630; they still need the structured-data ratios.
+  out.push(...listImages('images/daily-cards').filter((p) => /\/\d{4}-\d{2}-\d{2}\.png$/.test(p)));
+  return [...new Set(out)];
+}
+
+/**
+ * Per-story share pages (/daily/<date>/<slot>) use each item's own illustration.
+ * Those pages are noindex, so they need the 1200x630 share size only, not the
+ * structured-data ratios.
+ */
+function itemSources() {
+  const out = [];
+  const daily = publicFile('images/daily');
+  if (!fs.existsSync(daily)) return out;
+  for (const d of fs.readdirSync(daily)) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) continue;
+    out.push(...listImages(`images/daily/${d}`).filter((p) => /\/illustration_\d+\.(png|jpe?g|webp)$/i.test(p)));
+  }
   return out;
 }
 
@@ -76,14 +95,14 @@ async function render(inFile, outFile, W, H, meta) {
 
 const fresh = (outFile, inFile) => fs.existsSync(outFile) && fs.statSync(outFile).mtimeMs >= fs.statSync(inFile).mtimeMs;
 
-async function make(src) {
+async function make(src, { variants = true } = {}) {
   const inFile = publicFile(src);
   const meta = await sharp(inFile).metadata();
   if (!meta.width || !meta.height) return 'skipped';
 
   // Structured-data variants: Google asks for 16x9, 4x3 and 1x1 versions of an article's image.
   let madeVariant = false;
-  for (const v of OG_VARIANTS) {
+  for (const v of variants ? OG_VARIANTS : []) {
     const out = publicFile(ogVariantName(src, v.key));
     if (fresh(out, inFile)) continue;
     await render(inFile, out, v.w, v.h, meta);
@@ -99,9 +118,14 @@ async function make(src) {
 
 async function main() {
   const counts = { made: 0, kept: 0, 'already-sized': 0, skipped: 0, failed: 0 };
-  for (const src of sources()) {
+  const pages = sources();
+  const jobs = [
+    ...pages.map((src) => [src, {}]),
+    ...itemSources().filter((src) => !pages.includes(src)).map((src) => [src, { variants: false }]),
+  ];
+  for (const [src, opts] of jobs) {
     try {
-      counts[await make(src)]++;
+      counts[await make(src, opts)]++;
     } catch (err) {
       counts.failed++;
       console.warn(`  ! og image failed for ${src}: ${err.message}`);

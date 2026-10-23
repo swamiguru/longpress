@@ -1,7 +1,14 @@
 ---
+/**
+ * Two kinds of page share this two-segment route:
+ *   /daily/2026/10     the month archive (DailyMonthArchive)
+ *   /daily/2026-10-23/4  the share page for one Daily Five story (DailyStoryShare)
+ * They are one file because Astro cannot hold two sibling routes with the same
+ * shape. The date-shaped first segment can never collide with a year.
+ */
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import { getArticleReadingTime } from '../../../../lib/readingTime';
+import DailyMonthArchive from '../../../../components/DailyMonthArchive.astro';
+import DailyStoryShare from '../../../../components/DailyStoryShare.astro';
 
 export async function getStaticPaths() {
   const briefs = await getCollection('daily', ({ data }) => !data.draft);
@@ -16,9 +23,12 @@ export async function getStaticPaths() {
   const sorted = [...groups.values()].sort((a, b) => {
     return `${b.year}/${b.month}`.localeCompare(`${a.year}/${a.month}`);
   });
-  return sorted.map(({ year, month, briefs }, idx) => ({
+  const months = sorted.map(({ year, month, briefs }, idx) => ({
     params: { year, month },
     props: {
+      kind: 'month' as const,
+      year,
+      month,
       briefs,
       newerMonth: sorted[idx - 1] ? { year: sorted[idx - 1].year, month: sorted[idx - 1].month } : null,
       olderMonth: sorted[idx + 1] ? { year: sorted[idx + 1].year, month: sorted[idx + 1].month } : null,
@@ -26,144 +36,22 @@ export async function getStaticPaths() {
       currentMonthNum: sorted.length - idx,
     },
   }));
+  // One share page per story that lives in the brief. Items promoted to their
+  // own page (`story`) are shared at that page instead, so they get none.
+  const stories = briefs.flatMap((brief) => {
+    const date = brief.id.replace(/\.md$/, '');
+    return brief.data.items
+      .filter((item) => !item.story)
+      .map((item) => ({
+        params: { year: date, month: String(item.slot) },
+        props: { kind: 'story' as const, brief, date, item, count: brief.data.items.length },
+      }));
+  });
+  return [...months, ...stories];
 }
 
-const { year, month } = Astro.params;
-const { briefs, newerMonth, olderMonth, totalMonths, currentMonthNum } = Astro.props;
-const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
-const monthName = new Intl.DateTimeFormat('en-IN', { month: 'long' })
-  .format(new Date(Number(year), Number(month) - 1, 1));
-
-const formatMonthLabel = (y: string, m: string) =>
-  new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric' })
-    .format(new Date(Number(y), Number(m) - 1, 1));
+const props = Astro.props;
 ---
-<BaseLayout
-  image="/images/hubs/daily.png"
-  title={`The Daily Five archive, ${monthName} ${year}`}
-  description={`All ${briefs.length} Daily Five briefs from ${monthName} ${year}: five tech stories a day, each with the problem, what changed, the catch and what it means for you.`}
-  wide
->
-  <div class="page-head">
-    <span class="eyebrow"><a href="/daily">Daily Archive</a> &middot; <a href={`/daily/${year}`}>{year}</a></span>
-    <h1>{monthName} {year}</h1>
-    <p class="standfirst">
-      {briefs.length} issues &middot; Volume {currentMonthNum} of {totalMonths}
-    </p>
-
-    <!-- Navigation between months -->
-    <nav class="archive-pagination-bar" aria-label="Month pagination" style="margin-top: var(--s4);">
-      <div>
-        {olderMonth ? (
-          <a class="archive-nav-btn" href={`/daily/${olderMonth.year}/${olderMonth.month}`}>
-            <span aria-hidden="true">&larr;</span>
-            <span>{formatMonthLabel(olderMonth.year, olderMonth.month)}</span>
-          </a>
-        ) : (
-          <span class="archive-nav-btn" aria-disabled="true">&larr; Earliest Volume</span>
-        )}
-      </div>
-
-      <a class="archive-nav-btn" href="/daily">
-        <span>Full Archive Overview</span>
-      </a>
-
-      <div>
-        {newerMonth ? (
-          <a class="archive-nav-btn" href={`/daily/${newerMonth.year}/${newerMonth.month}`}>
-            <span>{formatMonthLabel(newerMonth.year, newerMonth.month)}</span>
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        ) : (
-          <span class="archive-nav-btn" aria-disabled="true">Latest Volume &rarr;</span>
-        )}
-      </div>
-    </nav>
-  </div>
-
-  <ul class="entries">
-    {briefs
-      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-      .map((b) => {
-        const dateSlug = b.id.replace(/\.md$/, '');
-        const dayOfWeek = new Intl.DateTimeFormat('en-IN', { weekday: 'short' }).format(b.data.date);
-        return (
-          <li id={`brief-${dateSlug}`}>
-            <div class="entry__meta-row">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
-                  {med.format(b.data.date)}
-                </time>
-                <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
-                  {dayOfWeek}
-                </span>
-              </div>
-              <span class="entry__reading-time">{getArticleReadingTime(b).text}</span>
-            </div>
-            <h3 class="entry__title">
-              <a href={`/daily/${dateSlug}`}>{b.data.title}</a>
-            </h3>
-            <p class="entry__desc">{b.data.description}</p>
-            <div class="entry__footer">
-              <span class="entry__meta-note">5 Stories</span>
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <button
-                  type="button"
-                  class="card-share-btn"
-                  data-share-title={`${b.data.title} — Long Press Daily Five`}
-                  data-share-url={`/daily/${dateSlug}`}
-                  data-share-desc={b.data.description}
-                  aria-label={`Share ${b.data.title}`}
-                  title="Share brief via Web Share API"
-                >
-                  <svg class="card-share-btn__icon card-share-btn__icon--share" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="18" cy="5" r="3"></circle>
-                    <circle cx="6" cy="12" r="3"></circle>
-                    <circle cx="18" cy="19" r="3"></circle>
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                  </svg>
-                  <svg class="card-share-btn__icon card-share-btn__icon--check" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M20 6L9 17l-5-5"></path>
-                  </svg>
-                  <span class="card-share-btn__text">Share</span>
-                </button>
-                <a href={`/daily/${dateSlug}`} class="entry__cta" aria-label={`Read brief from ${med.format(b.data.date)}`}>
-                  Read Issue &rarr;
-                </a>
-              </div>
-            </div>
-          </li>
-        );
-      })}
-  </ul>
-
-  <!-- Bottom Pagination -->
-  <div class="archive-pagination-bottom">
-    <div>
-      {olderMonth ? (
-        <a class="archive-nav-btn" href={`/daily/${olderMonth.year}/${olderMonth.month}`}>
-          <span aria-hidden="true">&larr;</span>
-          <span>{formatMonthLabel(olderMonth.year, olderMonth.month)}</span>
-        </a>
-      ) : (
-        <span class="archive-pagination-info" style="color: var(--muted); font-size: 10px;">Earliest Volume</span>
-      )}
-    </div>
-
-    <div class="archive-pagination-info">
-      {monthName} {year} &middot; Volume {currentMonthNum} of {totalMonths}
-    </div>
-
-    <div>
-      {newerMonth ? (
-        <a class="archive-nav-btn" href={`/daily/${newerMonth.year}/${newerMonth.month}`}>
-          <span>{formatMonthLabel(newerMonth.year, newerMonth.month)}</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      ) : (
-        <span class="archive-pagination-info" style="color: var(--muted); font-size: 10px;">Latest Volume</span>
-      )}
-    </div>
-  </div>
-</BaseLayout>
+{props.kind === 'story'
+  ? <DailyStoryShare brief={props.brief} date={props.date} item={props.item} count={props.count} />
+  : <DailyMonthArchive {...props} />}

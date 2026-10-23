@@ -15,7 +15,7 @@
 #   ./scripts/sync-daily.sh [path-to-builtbyswami-repo]
 #
 # The daily task calls this explicitly as:
-#   ./scripts/sync-daily.sh "$HOME/Documents/GitHub/Builtbyswami"
+#   ./scripts/sync-daily.sh "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Documents/GitHub/Builtbyswami"
 # (the automation clone it just committed to - NOT this script's own
 # default below, which points at the Cowork-connected clone instead).
 
@@ -52,6 +52,13 @@ echo "-> $NEW brief(s) changed"
 # links it already has.
 echo "-> related coverage"
 node scripts/related/related.mjs || echo "   ! related: skipped, building without new links" >&2
+
+# Headline share cards for any story with no illustration (the community slot,
+# or a day Gemini fell short). Used by the per-story share pages
+# /daily/<date>/<slot>. Only new cards are drawn. Never blocks a publish: a
+# missing card falls back to the brief's lead image.
+echo "-> story share cards"
+python3 scripts/og/brief-cards.py || echo "   ! story cards: skipped, those shares use the brief image" >&2
 
 echo "-> building"
 npm run build

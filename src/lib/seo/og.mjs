@@ -31,16 +31,33 @@ const nth = (re) => (a, b) => Number(a.match(re)[1]) - Number(b.match(re)[1]);
 /**
  * The one image that stands for a whole brief: the lead illustration, which is
  * text-free, else the lead card. Returns a site-relative path or null.
- * Briefs before the cards existed have no folder, so they get null and fall
- * back to the site default.
+ * Briefs before the cards existed (before 13 Sept 2026) have no folder, so they
+ * get their headline card from scripts/og/brief-cards.py; null only if that is
+ * missing too, which falls back to the site default.
  */
 export function pickBriefLead(date) {
   const dir = publicFile(`images/daily/${date}`);
-  if (!fs.existsSync(dir)) return null;
-  const files = fs.readdirSync(dir).filter((f) => !/-\d+w\./.test(f));
-  const pick = (re) => files.filter((f) => re.test(f)).sort(nth(re))[0];
-  const hit = pick(/^illustration_(\d+)\.(?:png|jpe?g|webp)$/i) ?? pick(/^card_(\d+)\.(?:png|jpe?g|webp)$/i);
-  return hit ? `/images/daily/${date}/${hit}` : null;
+  if (fs.existsSync(dir)) {
+    const files = fs.readdirSync(dir).filter((f) => !/-\d+w\./.test(f));
+    const pick = (re) => files.filter((f) => re.test(f)).sort(nth(re))[0];
+    const hit = pick(/^illustration_(\d+)\.(?:png|jpe?g|webp)$/i) ?? pick(/^card_(\d+)\.(?:png|jpe?g|webp)$/i);
+    if (hit) return `/images/daily/${date}/${hit}`;
+  }
+  const card = `/images/daily-cards/${date}.png`;
+  return fs.existsSync(publicFile(card)) ? card : null;
+}
+
+/**
+ * The share image for one Daily Five story (/daily/<date>/<slot>): the item's
+ * own illustration, else its headline card from scripts/og/brief-cards.py,
+ * else the brief's lead. Returns a site-relative path or null.
+ */
+export function pickItemImage(date, slot, itemImage) {
+  // SVG is not a share image anywhere (WhatsApp, X, LinkedIn, Facebook), so an SVG item uses its card.
+  if (itemImage && !/\.svg$/i.test(itemImage) && fs.existsSync(publicFile(itemImage))) return itemImage;
+  const card = `/images/daily-cards/${date}-${slot}.png`;
+  if (fs.existsSync(publicFile(card))) return card;
+  return pickBriefLead(date);
 }
 
 /** Aspect-ratio variants Google asks for in Article structured data (16x9, 4x3, 1x1). */
