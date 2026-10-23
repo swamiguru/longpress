@@ -30,14 +30,16 @@ export interface Props {
   /** Keep the page out of the index but let crawlers follow its links. */
   noindex?: boolean;
 }
-/** <title> only: keep it near 60 characters. Drop the site suffix first, then cut at a word. */
+/**
+ * <title> only. Never cut the headline ourselves: a title ending in "…" reads as
+ * broken in the tab and in shares. Add the site suffix when it fits in about 60
+ * characters, otherwise drop the suffix and let the search engine trim if it must.
+ * Titles that already carry the site name are left alone.
+ */
 function fitTitle(t: string, bare: boolean): string {
   const SUFFIX = ' | Long Press';
-  if (bare) return t;
-  if (t.length + SUFFIX.length <= 60) return t + SUFFIX;
-  if (t.length <= 60) return t;
-  const cut = t.slice(0, 59).replace(/[\s,;:–-]+\S*$/, '').replace(/[\s,;:–-]+$/, '');
-  return cut.replace(/\s+(the|a|an|of|to|and|in|for|on|at|by|with|is|isn't)$/i, '') + '…';
+  if (bare || /\|\s*Long Press\s*$/i.test(t)) return t;
+  return t.length + SUFFIX.length <= 60 ? t + SUFFIX : t;
 }
 const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image, noindex = false } = Astro.props;
 const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');

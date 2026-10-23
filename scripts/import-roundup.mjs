@@ -7,6 +7,7 @@
  */
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
 import { join, resolve, basename } from 'node:path';
+import { fitDescription } from '../src/lib/text/description.mjs';
 
 const SRC_REPO = process.argv[2];
 const DRY = process.argv.includes('--dry');
@@ -72,12 +73,9 @@ function normSources(p) {
   return out.slice(0, 6);
 }
 
-/** Trim to <=160 at a word boundary, for the meta description. */
+/** Meta description, <=160, cut at a sentence or clause. See src/lib/text/description.mjs. */
 function meta(text = '', cap = 160) {
-  const t = text.replace(/\s+/g, ' ').trim();
-  if (t.length <= cap) return t;
-  const cut = t.slice(0, cap - 1);
-  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:.\-—]+$/, '') + '…';
+  return fitDescription(text, cap);
 }
 
 /** YAML block scalar - safest way to emit prose we do not control. */
