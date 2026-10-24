@@ -613,8 +613,10 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
               : /--webshare/.test(c) ? 'device_share'
               : 'other';
             var bar = pill.closest('.share-bar');
-            scope = bar && bar.classList.contains('share-bar--compact') ? 'story' : 'page';
             item = pathOf(bar && bar.getAttribute('data-url'));
+            // A bar that shares some other URL than this page is a per-story
+            // bar (a brief item or a promoted story); the rest share the page.
+            scope = item.split('#')[0] === window.location.pathname ? 'page' : 'story';
           } else {
             item = pathOf(card.getAttribute('data-share-url'));
           }
