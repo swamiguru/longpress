@@ -198,6 +198,21 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
       });
     </script>
 
+    <!-- Internal traffic flag. Visit any page once with ?internal=1 on a device
+         to mark it (stored in localStorage); ?internal=0 clears it. It pushes
+         traffic_type=internal before GTM loads, so the GA4 config tag can send
+         it and a GA4 "Internal traffic" data filter can drop those hits. -->
+    <script is:inline>
+      (function () {
+        try {
+          var q = window.location.search;
+          if (q.indexOf('internal=1') > -1) localStorage.setItem('lp_internal', '1');
+          if (q.indexOf('internal=0') > -1) localStorage.removeItem('lp_internal');
+          if (localStorage.getItem('lp_internal') === '1') window.dataLayer.push({ traffic_type: 'internal' });
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- Google Tag Manager -->
     <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -560,6 +575,101 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
             if (ok) triggerFeedback(btn, 'Copied!', originalLabel);
           }
         });
+      })();
+    </script>
+    <!-- Engagement events -> dataLayer -> GTM. Names and parameters are listed
+         in claude/longpress-analytics-events.md. The older whatsapp_channel_click
+         and whatsapp_share_click pushes above are unchanged. Capture phase, so
+         handlers that call stopPropagation() (the card share button) cannot
+         hide a click from this one. -->
+    <script is:inline>
+      (function () {
+        var dl = (window.dataLayer = window.dataLayer || []);
+        function push(o) {
+          try { o.page_path = window.location.pathname; dl.push(o); } catch (e) {}
+        }
+        function pathOf(u) {
+          if (!u) return window.location.pathname;
+          try { var x = new URL(u, window.location.origin); return x.pathname + x.hash; }
+          catch (e) { return window.location.pathname; }
+        }
+
+        // share_click: every share route, so GA4 has one key event for it.
+        // share_method: whatsapp | x | linkedin | copy_link | device_share | card_button
+        // share_scope:  page | story | card
+        document.addEventListener('click', function (e) {
+          var t = e.target;
+          if (!t || !t.closest) return;
+          var pill = t.closest('.share-pill');
+          var card = pill ? null : t.closest('.card-share-btn');
+          if (!pill && !card) return;
+          var method = 'card_button', scope = 'card', item = window.location.pathname;
+          if (pill) {
+            var c = pill.className;
+            method = /--whatsapp/.test(c) ? 'whatsapp'
+              : /--twitter/.test(c) ? 'x'
+              : /--linkedin/.test(c) ? 'linkedin'
+              : /--copy/.test(c) ? 'copy_link'
+              : /--webshare/.test(c) ? 'device_share'
+              : 'other';
+            var bar = pill.closest('.share-bar');
+            scope = bar && bar.classList.contains('share-bar--compact') ? 'story' : 'page';
+            item = pathOf(bar && bar.getAttribute('data-url'));
+          } else {
+            item = pathOf(card.getAttribute('data-share-url'));
+          }
+          push({ event: 'share_click', share_method: method, share_scope: scope, item_path: item });
+        }, true);
+
+        // previously_click: a link inside "Previously on Long Press".
+        // source_click: an outbound link inside an article.
+        // link_location: sources_row (brief) | fine_print_sources | inline
+        document.addEventListener('click', function (e) {
+          var a = e.target && e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var u;
+          try { u = new URL(a.href); } catch (err) { return; }
+          if (a.closest('.previously')) {
+            push({ event: 'previously_click', link_path: u.pathname });
+            return;
+          }
+          if (u.origin === window.location.origin) return;
+          if (!a.closest('article')) return;
+          if (a.closest('.share-bar') || a.hasAttribute('data-wa-cta')) return;
+          push({
+            event: 'source_click',
+            link_domain: u.hostname.replace(/^www\./, ''),
+            link_location: a.closest('.df-source') ? 'sources_row'
+              : a.closest('.fp-sources') ? 'fine_print_sources'
+              : 'inline'
+          });
+        }, true);
+
+        // read_to_end: the last element of the article is on screen and the
+        // page has been open for at least 10 seconds. Once per page view.
+        // A rough "actually read it" signal, not proof.
+        var meta = document.querySelector('meta[property="og:type"]');
+        var isArticle = meta && meta.getAttribute('content') === 'article';
+        var isSharePage = /^\/daily\/\d{4}-\d{2}-\d{2}\/\d+$/.test(window.location.pathname);
+        var art = document.querySelector('article');
+        var last = art && art.lastElementChild;
+        if (isArticle && !isSharePage && last && 'IntersectionObserver' in window) {
+          var start = Date.now(), done = false, timer = null, io;
+          var fire = function () {
+            if (done) return;
+            done = true;
+            io.disconnect();
+            push({ event: 'read_to_end', seconds_on_page: Math.round((Date.now() - start) / 1000) });
+          };
+          io = new IntersectionObserver(function (entries) {
+            var seen = entries[entries.length - 1].isIntersecting;
+            clearTimeout(timer);
+            if (!seen) return;
+            var wait = Math.max(0, 10000 - (Date.now() - start));
+            if (wait === 0) fire(); else timer = setTimeout(fire, wait);
+          });
+          io.observe(last);
+        }
       })();
     </script>
     {shouldShowBackToTop && <BackToTop />}
