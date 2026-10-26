@@ -501,6 +501,28 @@ import WhatsAppCta from './WhatsAppCta.astro';
     box-sizing: border-box;
   }
 
+  /* Liquid Glass, drawer panel (see claude/longpress-liquid-glass.md).
+     Genuine overlay chrome -- it slides in over the page and the
+     backdrop scrim already shows blurred content moving behind it.
+     Solid background above stays the universal fallback. */
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .mobile-menu-drawer {
+      background: rgba(234, 229, 214, 0.86);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      backdrop-filter: blur(20px) saturate(160%);
+    }
+    :global(html[data-theme="dark"]) .mobile-menu-drawer {
+      background: rgba(30, 31, 54, 0.82);
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .mobile-menu-drawer {
+      background: var(--surface) !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+  }
+
   .mobile-menu-drawer.is-open {
     transform: translateX(0);
     visibility: visible;
