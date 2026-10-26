@@ -71,6 +71,31 @@ const { threshold = 400 } = Astro.props;
     transform: translateY(0) scale(1);
   }
 
+  /* Liquid Glass, progressive enhancement over the solid chip above
+     (see claude/longpress-liquid-glass.md). This is a genuine floating
+     control over scrolling article text, so it's a legitimate glass
+     surface -- unlike a static card sitting on flat page ground. */
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .back-to-top {
+      background: rgba(255, 255, 255, 0.6);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      backdrop-filter: blur(16px) saturate(160%);
+    }
+    :global(html[data-theme="dark"]) .back-to-top {
+      background: rgba(30, 31, 54, 0.55);
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .back-to-top {
+      background: var(--surface, #FFFFFF) !important;
+      -webkit-backdrop-filter: none !important;
+      backdrop-filter: none !important;
+    }
+    :global(html[data-theme="dark"]) .back-to-top {
+      background: var(--surface, #1E1F36) !important;
+    }
+  }
+
   .back-to-top:hover {
     background: var(--surface-hover, #F8F6F0);
     border-color: var(--accent, #E0552B);

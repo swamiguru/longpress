@@ -264,6 +264,31 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
    Masthead
    ============================================================ */
 .masthead { background: var(--ground); border-bottom: 4px solid var(--rule-strong); position: relative; }
+
+/* Liquid Glass, masthead only (see claude/longpress-liquid-glass.md).
+   This is the one sticky chrome surface on the site with something
+   worth refracting -- content actually scrolls underneath it. The
+   rule below is a progressive enhancement over the solid masthead
+   above, which stays the universal fallback: no browser or setting
+   can end up with a transparent, unblurred bar. */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .masthead {
+    background: rgba(244, 241, 232, 0.72);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+  }
+  html[data-theme="dark"] .masthead {
+    background: rgba(14, 15, 29, 0.68);
+  }
+}
+/* Accessibility settings win over the enhancement, not the other way round. */
+@media (prefers-reduced-transparency: reduce) {
+  .masthead {
+    background: var(--ground) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
 .live-dot {
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--accent);
