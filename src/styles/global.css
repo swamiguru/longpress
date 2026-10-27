@@ -482,28 +482,19 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   .brand-logo__mark svg { width: 26px; height: 26px; }
 }
 
-/* Global scroll lock when mobile navigation drawer is active.
-   27 Oct 2026 fix: overflow:hidden alone doesn't reliably stop iOS
-   from scrolling the page under the drawer, and toggling it mid-
-   scroll made iOS Chrome re-measure the viewport and visibly jump.
-   The JS in MobileMenu.astro now pins body with position:fixed and a
-   stored scrollY instead; this class supplies that position plus the
-   width iOS needs to not reflow, with overflow:hidden kept as a
-   belt-and-suspenders fallback. */
-body.mobile-menu-open {
-  position: fixed;
-  width: 100%;
-  overflow: hidden !important;
-  touch-action: none;
-}
-/* iOS treats <html>, not <body>, as the real scrolling element in
-   standards mode, so body-only overflow:hidden doesn't reliably stop
-   it drifting while the drawer is open -- the JS lock (MobileMenu.astro)
-   adds this class to <html> alongside <body> for exactly that reason. */
-html.mobile-menu-open {
-  overflow: hidden !important;
-  touch-action: none;
-}
+/* Styling hook when the mobile navigation drawer is active -- NOT a
+   scroll lock. 27 Oct 2026: two rounds of locking scroll via
+   overflow:hidden / position:fixed on <html> and <body> still jumped
+   on iOS and Android, Safari and Chrome alike. Toggling a document's
+   own overflow/position is exactly the signal mobile browsers use to
+   decide whether to collapse or expand their own address-bar
+   toolbar, and that toolbar animation was the jump -- unrelated to
+   any scroll-position math. The lock itself has moved to a
+   touchmove/wheel listener in MobileMenu.astro that blocks the
+   background gesture without ever changing the document's scroll
+   state, so neither browser has a reason to react. This class is
+   kept only for the masthead z-index bump, dropping its blur, and
+   hiding #back-to-top below. */
 body.mobile-menu-open .masthead {
   z-index: 1000 !important;
 }

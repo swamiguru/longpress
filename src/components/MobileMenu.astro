@@ -657,6 +657,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     padding: 16px 18px 24px;
     display: flex;
     flex-direction: column;
@@ -1104,7 +1105,6 @@ import WhatsAppCta from './WhatsAppCta.astro';
       if (!toggleBtn || !drawer || !backdrop) return;
 
       let isOpen = false;
-      let lockedScrollY = 0;
 
       function updateThemeLabel() {
         if (!themeStatus || !themeBtnLabel) return;
@@ -1125,36 +1125,47 @@ import WhatsAppCta from './WhatsAppCta.astro';
       function openDrawer() {
         isOpen = true;
 
-        // iOS scroll lock: overflow:hidden on body alone doesn't
-        // reliably stop iOS from scrolling the page underneath the
-        // drawer, and toggling it mid-scroll made iOS Chrome
-        // re-measure the viewport and visibly jump. Pin body in
-        // place with position:fixed (set by the .mobile-menu-open
-        // class) and a stored scrollY instead, restored on close.
-        lockedScrollY = window.scrollY || window.pageYOffset || 0;
-        document.body.style.top = `-${lockedScrollY}px`;
-
         drawer.classList.add('is-open');
         backdrop.classList.add('is-open');
         toggleBtn.classList.add('is-active');
         toggleBtn.setAttribute('aria-expanded', 'true');
         drawer.setAttribute('aria-hidden', 'false');
+        // Still used for the masthead's z-index bump, dropping its
+        // blur, and hiding #back-to-top while the drawer is open --
+        // no scroll-lock CSS hangs off this class any more.
         document.body.classList.add('mobile-menu-open');
-        // iOS treats <html>, not <body>, as the real scrolling
-        // element, so lock both -- body-only overflow:hidden still
-        // lets the root drift (rubber-band/momentum) while the
-        // drawer is open, which made the stored scrollY stale by
-        // the time close() restored it.
-        document.documentElement.classList.add('mobile-menu-open');
 
-        // Trap focus to close button initially. preventScroll stops
-        // the browser's default "scroll the focused element into
-        // view" from firing and fighting the scroll lock above.
+        // Scroll lock, rewritten 27 Oct 2026: two earlier attempts
+        // (overflow:hidden alone, then position:fixed + a stored
+        // scrollY restored on close) both still jumped on iOS AND
+        // Android, Safari and Chrome alike. That cross-engine spread
+        // points at the real cause: toggling overflow/position on
+        // <html> or <body> is exactly the signal mobile browsers use
+        // to decide whether to collapse or expand their own address
+        // bar, and that toolbar animation is the jump -- it has
+        // nothing to do with scroll-position math, so no amount of
+        // fixing the restore math was ever going to remove it.
+        //
+        // This version never touches the document's scroll CSS at
+        // all. It blocks the scroll *gesture* at the event level
+        // instead, exempting anything inside the open drawer, so the
+        // page's own scrollability -- and the toolbar -- never
+        // changes state.
+        document.addEventListener('touchmove', blockBackgroundScroll, { passive: false });
+        document.addEventListener('wheel', blockBackgroundScroll, { passive: false });
+
+        // Trap focus to close button initially.
         setTimeout(() => {
           if (closeBtn) closeBtn.focus({ preventScroll: true });
         }, 50);
 
         document.addEventListener('keydown', handleKeydown);
+      }
+
+      function blockBackgroundScroll(e) {
+        if (!drawer.contains(e.target)) {
+          e.preventDefault();
+        }
       }
 
       function closeDrawer() {
@@ -1166,14 +1177,13 @@ import WhatsAppCta from './WhatsAppCta.astro';
         toggleBtn.setAttribute('aria-expanded', 'false');
         drawer.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('mobile-menu-open');
-        document.documentElement.classList.remove('mobile-menu-open');
-        document.body.style.top = '';
-        window.scrollTo(0, lockedScrollY);
 
+        document.removeEventListener('touchmove', blockBackgroundScroll);
+        document.removeEventListener('wheel', blockBackgroundScroll);
         document.removeEventListener('keydown', handleKeydown);
         // preventScroll: without it, focusing the toggle button can
-        // trigger the browser's own "scroll into view", landing a
-        // second jump right after the scrollTo restore above.
+        // trigger the browser's own "scroll into view" and move the
+        // page on its own.
         toggleBtn.focus({ preventScroll: true });
       }
 
