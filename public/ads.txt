@@ -1,3 +1,2 @@
 # Served from longpress.news's own root - not builtbyswami.com's.
-# Replace with the line AdSense gives you after the site is approved.
-# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+google.com, pub-1232673471654262, DIRECT, f08c47fec0942fa0
