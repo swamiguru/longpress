@@ -1140,10 +1140,18 @@ import WhatsAppCta from './WhatsAppCta.astro';
         toggleBtn.setAttribute('aria-expanded', 'true');
         drawer.setAttribute('aria-hidden', 'false');
         document.body.classList.add('mobile-menu-open');
+        // iOS treats <html>, not <body>, as the real scrolling
+        // element, so lock both -- body-only overflow:hidden still
+        // lets the root drift (rubber-band/momentum) while the
+        // drawer is open, which made the stored scrollY stale by
+        // the time close() restored it.
+        document.documentElement.classList.add('mobile-menu-open');
 
-        // Trap focus to close button initially
+        // Trap focus to close button initially. preventScroll stops
+        // the browser's default "scroll the focused element into
+        // view" from firing and fighting the scroll lock above.
         setTimeout(() => {
-          if (closeBtn) closeBtn.focus();
+          if (closeBtn) closeBtn.focus({ preventScroll: true });
         }, 50);
 
         document.addEventListener('keydown', handleKeydown);
@@ -1158,11 +1166,15 @@ import WhatsAppCta from './WhatsAppCta.astro';
         toggleBtn.setAttribute('aria-expanded', 'false');
         drawer.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('mobile-menu-open');
+        document.documentElement.classList.remove('mobile-menu-open');
         document.body.style.top = '';
         window.scrollTo(0, lockedScrollY);
 
         document.removeEventListener('keydown', handleKeydown);
-        toggleBtn.focus();
+        // preventScroll: without it, focusing the toggle button can
+        // trigger the browser's own "scroll into view", landing a
+        // second jump right after the scrollTo restore above.
+        toggleBtn.focus({ preventScroll: true });
       }
 
       function handleKeydown(e) {

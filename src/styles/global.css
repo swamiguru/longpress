@@ -496,6 +496,14 @@ body.mobile-menu-open {
   overflow: hidden !important;
   touch-action: none;
 }
+/* iOS treats <html>, not <body>, as the real scrolling element in
+   standards mode, so body-only overflow:hidden doesn't reliably stop
+   it drifting while the drawer is open -- the JS lock (MobileMenu.astro)
+   adds this class to <html> alongside <body> for exactly that reason. */
+html.mobile-menu-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
 body.mobile-menu-open .masthead {
   z-index: 1000 !important;
 }
