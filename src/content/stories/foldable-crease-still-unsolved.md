@@ -6,16 +6,8 @@ description: "Apple spent seven years trying to solve what Samsung couldn't fix.
 published: 2026-10-27
 category: "known-issue"
 topics: ["apple", "iphone-duo", "foldables", "durability"]
-# TODO: Gemini illustration pipeline hit a 429 on both models (cheap +
-# fallback) during the 27 Oct draft session -- looks like a quota wall,
-# not jitter. Page renders on /images/fallback/column.png until this is
-# generated. Once quota clears: generate a 1024x1024 square illustration
-# (Daily Five style, see longpress-illustration-style.md) to
-# public/images/known-issue/foldable-crease-still-unsolved.png, run
-# `node scripts/optimize-images.mjs`, then add:
-#   image: "/images/known-issue/foldable-crease-still-unsolved.png"
-#   imageAlt: "An illustrated fold-phone hinge shown half-open, with a
-#     jagged crack line running down the inner screen where it bends"
+image: "/images/known-issue/foldable-crease-still-unsolved.png"
+imageAlt: "An illustrated foldable phone standing half-open with a visible crease down its inner screen, ringed by icon circles for the hinge, water resistance, layered screen protectors and battery"
 openSince: 2019
 trigger: >-
   Apple promised a titanium hinge, Ceramic Shield 2 and the first IP68 rating
