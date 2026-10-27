@@ -394,6 +394,12 @@ import WhatsAppCta from './WhatsAppCta.astro';
     cursor: pointer;
     position: relative;
     flex-shrink: 0;
+    /* 27 Oct 2026: without this, iOS's gesture recognizer has to
+       disambiguate a first tap against a possible double-tap-zoom
+       or pan before committing to the click -- Chrome on iOS needed
+       a second tap for exactly that reason (Android Chrome's Blink
+       engine is more lenient and never showed it). */
+    touch-action: manipulation;
     transition: background-color 0.18s ease,
                 border-color 0.18s ease,
                 color 0.18s ease,
@@ -601,6 +607,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     color: var(--ink);
     cursor: pointer;
     flex-shrink: 0;
+    touch-action: manipulation;
     transition: background-color 0.16s ease,
                 border-color 0.16s ease,
                 color 0.16s ease,
@@ -985,6 +992,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     letter-spacing: 0.04em;
     text-transform: uppercase;
     cursor: pointer;
+    touch-action: manipulation;
     transition: all 0.16s ease;
     white-space: nowrap;
   }
