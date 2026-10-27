@@ -270,14 +270,33 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
    worth refracting -- content actually scrolls underneath it. The
    rule below is a progressive enhancement over the solid masthead
    above, which stays the universal fallback: no browser or setting
-   can end up with a transparent, unblurred bar. */
+   can end up with a transparent, unblurred bar.
+
+   27 Oct 2026 fix: iOS WebKit (Safari and Chrome on iOS both run on
+   it) stutters or briefly freezes scroll -- dropping the hamburger
+   tap along with it -- when backdrop-filter sits on the SAME element
+   as position: sticky, because it re-snapshots the filter on every
+   sticky-offset recalculation. The filter now lives on a ::before
+   layer instead: the sticky element carries no filter of its own, so
+   WebKit only has to translate that layer each scroll frame, not
+   re-filter it. */
+.masthead::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .masthead {
+    background: transparent;
+  }
+  .masthead::before {
     background: rgba(244, 241, 232, 0.72);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
     backdrop-filter: blur(20px) saturate(160%);
   }
-  html[data-theme="dark"] .masthead {
+  html[data-theme="dark"] .masthead::before {
     background: rgba(14, 15, 29, 0.68);
   }
 }
@@ -285,6 +304,9 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
 @media (prefers-reduced-transparency: reduce) {
   .masthead {
     background: var(--ground) !important;
+  }
+  .masthead::before {
+    background: transparent !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
@@ -460,13 +482,31 @@ hr { border: 0; border-top: 2px solid var(--rule-strong); margin: var(--s7) 0; }
   .brand-logo__mark svg { width: 26px; height: 26px; }
 }
 
-/* Global scroll lock when mobile navigation drawer is active */
+/* Global scroll lock when mobile navigation drawer is active.
+   27 Oct 2026 fix: overflow:hidden alone doesn't reliably stop iOS
+   from scrolling the page under the drawer, and toggling it mid-
+   scroll made iOS Chrome re-measure the viewport and visibly jump.
+   The JS in MobileMenu.astro now pins body with position:fixed and a
+   stored scrollY instead; this class supplies that position plus the
+   width iOS needs to not reflow, with overflow:hidden kept as a
+   belt-and-suspenders fallback. */
 body.mobile-menu-open {
+  position: fixed;
+  width: 100%;
   overflow: hidden !important;
   touch-action: none;
 }
 body.mobile-menu-open .masthead {
   z-index: 1000 !important;
+}
+/* Drop the masthead's own blur while the drawer is open -- it's
+   mostly hidden behind the backdrop/drawer anyway, and three stacked
+   backdrop-filter layers compositing at once (masthead + scrim +
+   drawer) is exactly the moment the iOS freeze is worst. */
+body.mobile-menu-open .masthead::before {
+  background: var(--ground) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 body.mobile-menu-open #back-to-top,
 body.mobile-menu-open .back-to-top {
@@ -1985,20 +2025,35 @@ main { padding-block: var(--s7) var(--s9); }
 
 /* Liquid Glass, archive pagination bar (see claude/longpress-liquid-glass.md).
    Sticky chrome over the scrolling archive list -- same justification
-   as the masthead. Solid background above stays the universal fallback. */
+   as the masthead, and the same iOS WebKit sticky+backdrop-filter
+   freeze risk, so the filter lives on a ::before layer here too (see
+   the masthead's note above, 27 Oct 2026 fix). */
+.archive-pagination-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .archive-pagination-bar {
+    background: transparent;
+  }
+  .archive-pagination-bar::before {
     background: rgba(234, 229, 214, 0.72);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
     backdrop-filter: blur(20px) saturate(160%);
   }
-  html[data-theme="dark"] .archive-pagination-bar {
+  html[data-theme="dark"] .archive-pagination-bar::before {
     background: rgba(23, 24, 46, 0.68);
   }
 }
 @media (prefers-reduced-transparency: reduce) {
   .archive-pagination-bar {
     background: var(--surface) !important;
+  }
+  .archive-pagination-bar::before {
+    background: transparent !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }

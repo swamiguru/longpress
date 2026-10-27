@@ -1104,6 +1104,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
       if (!toggleBtn || !drawer || !backdrop) return;
 
       let isOpen = false;
+      let lockedScrollY = 0;
 
       function updateThemeLabel() {
         if (!themeStatus || !themeBtnLabel) return;
@@ -1123,6 +1124,16 @@ import WhatsAppCta from './WhatsAppCta.astro';
 
       function openDrawer() {
         isOpen = true;
+
+        // iOS scroll lock: overflow:hidden on body alone doesn't
+        // reliably stop iOS from scrolling the page underneath the
+        // drawer, and toggling it mid-scroll made iOS Chrome
+        // re-measure the viewport and visibly jump. Pin body in
+        // place with position:fixed (set by the .mobile-menu-open
+        // class) and a stored scrollY instead, restored on close.
+        lockedScrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.style.top = `-${lockedScrollY}px`;
+
         drawer.classList.add('is-open');
         backdrop.classList.add('is-open');
         toggleBtn.classList.add('is-active');
@@ -1147,6 +1158,8 @@ import WhatsAppCta from './WhatsAppCta.astro';
         toggleBtn.setAttribute('aria-expanded', 'false');
         drawer.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('mobile-menu-open');
+        document.body.style.top = '';
+        window.scrollTo(0, lockedScrollY);
 
         document.removeEventListener('keydown', handleKeydown);
         toggleBtn.focus();
