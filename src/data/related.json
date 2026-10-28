@@ -2348,6 +2348,74 @@
     "n": 3,
     "score": 0.65
    }
+  ],
+  "story:foldable-crease-still-unsolved": [
+   {
+    "type": "daily",
+    "date": "2026-09-10",
+    "n": 1,
+    "score": 0.74
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-24",
+    "n": 4,
+    "score": 0.72
+   },
+   {
+    "type": "daily",
+    "date": "2026-07-15",
+    "n": 1,
+    "score": 0.69
+   }
+  ],
+  "daily:2026-10-28#1": [
+   {
+    "type": "daily",
+    "date": "2026-07-22",
+    "n": 4,
+    "score": 0.73
+   },
+   {
+    "type": "daily",
+    "date": "2026-08-23",
+    "n": 4,
+    "score": 0.65
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-11",
+    "n": 1,
+    "score": 0.65
+   }
+  ],
+  "daily:2026-10-28#2": [
+   {
+    "type": "daily",
+    "date": "2026-10-01",
+    "n": 4,
+    "score": 0.71
+   }
+  ],
+  "daily:2026-10-28#4": [
+   {
+    "type": "daily",
+    "date": "2026-10-15",
+    "n": 4,
+    "score": 0.88
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-26",
+    "n": 4,
+    "score": 0.69
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-20",
+    "n": 4,
+    "score": 0.67
+   }
   ]
  }
 }
