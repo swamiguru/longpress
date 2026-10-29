@@ -22,5 +22,9 @@
   "upi-merchant-fee": {
     "hero": "a small shop counter with an empty coin dish and a balance scale tipping slightly, one scale pan holding a stack of coins filled yellow",
     "body": "a tall stack of coins with a horizontal bar across it acting as a ceiling, and one thin slice of coin sliding out of the stack, the slice filled yellow"
+  },
+  "life-certificate-november": {
+    "hero": "an old brass key resting on a small round cushion, with a small hourglass standing beside it, the key filled yellow",
+    "body": "a fishing hook on a line dangling a shiny key in front of an open wooden drawer, the hook filled yellow"
   }
 }
