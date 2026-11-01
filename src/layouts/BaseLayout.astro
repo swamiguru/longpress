@@ -221,7 +221,15 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     })(window,document,'script','dataLayer','GTM-W343HCZ5');</script>
     <!-- End Google Tag Manager -->
 
+    <!-- Google AdSense. The verification script must be on the live site during
+         the application review so Google can crawl this page and confirm site
+         ownership. Without it, applications often come back with a generic
+         "site does not meet policies" rejection. The same script serves ad
+         units once approved. Publisher ID matches /ads.txt. -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1232673471654262" crossorigin="anonymous"></script>
+
     <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
     <title>{docTitle}</title>
     <meta name="description" content={description} />
     {noindex
