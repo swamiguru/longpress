@@ -34,7 +34,7 @@ sources:
 draft: false
 ---
 
-Apple's out-of-warranty fee to replace an iPhone 18 Pro screen in India is [₹36,900](https://trak.in/stories/apple-increases-iphone-18-pro-battery-replacement-fee-to-rs-13900/). The phone starts at ₹1,64,900, so the screen alone is about 22% of the price. On the Pro Max the fee is ₹42,900 against a ₹1,79,900 starting price, about 24%. Crack the back glass as well and the bill is ₹44,900 on the Pro and ₹51,900 on the Pro Max. The battery is ₹13,900, which is ₹1,000 more than last year's Pro and about 8% of the phone.
+A cracked screen always costs a slice of the phone's own price. Apple's out-of-warranty fee to replace an iPhone 18 Pro screen in India is [₹36,900](https://trak.in/stories/apple-increases-iphone-18-pro-battery-replacement-fee-to-rs-13900/), against a ₹1,64,900 phone, about 22% of the price. On the Pro Max the fee is ₹42,900 against a ₹1,79,900 starting price, about 24%. Crack the back glass as well and the bill is ₹44,900 on the Pro and ₹51,900 on the Pro Max. The battery is ₹13,900, which is ₹1,000 more than last year's Pro and about 8% of the phone.
 
 Then there is the category Apple calls other damage, which includes liquid damage. [Apple lists it at ₹1,10,900 for the Pro and ₹1,17,900 for the Pro Max](https://www.digit.in/news/mobile-phones/apple-iphone-18-pro-max-repair-cost-one-bad-fall-can-leave-you-with-a-rs-51000-bill-check-rates-here.html). That is about two-thirds of what the phone cost.
 
