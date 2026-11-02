@@ -7,16 +7,37 @@ import { isIndexableTopic } from '../../lib/seo/topics.mjs';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
-  const topics = [...new Set(stories.flatMap((s) => s.data.topics))];
+  const finePrint = await getCollection('finePrint', ({ data }) => !data.draft);
+  const topics = [...new Set([...stories, ...finePrint].flatMap((s) => s.data.topics))];
   return topics.map((topic) => ({
     params: { topic },
-    props: { stories: stories.filter((s) => s.data.topics.includes(topic)) },
+    props: {
+      stories: stories.filter((s) => s.data.topics.includes(topic)),
+      finePrint: finePrint.filter((s) => s.data.topics.includes(topic)),
+    },
   }));
 }
 
 const { topic } = Astro.params;
-const { stories } = Astro.props;
-const sorted = [...stories].sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const { stories, finePrint } = Astro.props;
+/** Normalize both collections to the one shape the list below renders. */
+const entries = [
+  ...stories.map((s) => ({
+    href: `/${s.data.slug}`,
+    title: s.data.title,
+    description: s.data.description,
+    published: s.data.published,
+    readingTime: getArticleReadingTime(s),
+  })),
+  ...finePrint.map((s) => ({
+    href: `/fine-print/${s.data.slug}`,
+    title: s.data.title,
+    description: s.data.description,
+    published: s.data.published,
+    readingTime: getArticleReadingTime(s),
+  })),
+];
+const sorted = entries.sort((a, b) => b.published.valueOf() - a.published.valueOf());
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 ---
 <BaseLayout title={`${topic} stories`} description={`Every Long Press story tagged ${topic}: Daily Five briefs, Known Issue columns and Fine Print explainers.`} noindex={!isIndexableTopic(topic!)}>
@@ -32,13 +53,13 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
         {i === 6 && <li class="ad-row"><AdSlot placement="hub" /></li>}
         <li>
           <div class="entry__meta-row">
-            <time class="dateline entry__meta" datetime={s.data.published.toISOString()}>
-              {long.format(s.data.published)}
+            <time class="dateline entry__meta" datetime={s.published.toISOString()}>
+              {long.format(s.published)}
             </time>
-            <span class="entry__reading-time">{getArticleReadingTime(s).text}</span>
+            <span class="entry__reading-time">{s.readingTime.text}</span>
           </div>
-          <p class="entry__title"><a href={`/${s.data.slug}`}>{s.data.title}</a></p>
-          <p class="entry__desc">{s.data.description}</p>
+          <p class="entry__title"><a href={s.href}>{s.title}</a></p>
+          <p class="entry__desc">{s.description}</p>
         </li>
       </>
     ))}

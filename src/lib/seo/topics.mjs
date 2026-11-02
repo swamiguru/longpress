@@ -14,6 +14,7 @@ import path from 'node:path';
 export const TOPIC_MIN_STORIES = 5;
 
 const STORIES_DIR = 'src/content/stories';
+const FINE_PRINT_DIR = 'src/content/fine-print';
 
 /** Inline array only: topics: ["a", "b"]. Same flat-frontmatter assumption as lastmod.mjs. */
 function parseTopics(raw) {
@@ -27,15 +28,17 @@ function parseTopics(raw) {
     .filter(Boolean);
 }
 
-/** @returns {Map<string, number>} topic -> number of published stories */
+/** @returns {Map<string, number>} topic -> number of published stories + Fine Print pieces */
 export function topicCounts(root = process.cwd()) {
-  const dir = path.join(root, STORIES_DIR);
   const counts = new Map();
-  if (!fs.existsSync(dir)) return counts;
-  for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.md'))) {
-    const topics = parseTopics(fs.readFileSync(path.join(dir, f), 'utf8'));
-    if (!topics) continue;
-    for (const t of new Set(topics)) counts.set(t, (counts.get(t) ?? 0) + 1);
+  for (const dirRel of [STORIES_DIR, FINE_PRINT_DIR]) {
+    const dir = path.join(root, dirRel);
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.md'))) {
+      const topics = parseTopics(fs.readFileSync(path.join(dir, f), 'utf8'));
+      if (!topics) continue;
+      for (const t of new Set(topics)) counts.set(t, (counts.get(t) ?? 0) + 1);
+    }
   }
   return counts;
 }
