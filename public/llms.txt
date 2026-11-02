@@ -2,12 +2,13 @@
 
 > A daily consumer tech publication from India. Five stories every morning, plus a column on the things that stay broken. Written by Swami Guru, who has led product for 11+ years, most recently at Condé Nast.
 
-Each Daily Five story is split the same way: the problem, what changed, the catch, and what it means for you. Known Issue columns carry a verdict (buy, skip or wait) and a Sources row linking to the pages they draw on.
+Each Daily Five story is split the same way: the problem, what changed, the catch, and what it means for you. Known Issue columns carry a verdict (buy, skip or wait) and a Sources row linking to the pages they draw on. Fine Print pieces answer "does this apply to you?" and "what do you do?" directly, cost things out in rupees, and carry a change log and a Sources row, re-checked monthly.
 
 ## Sections
 
 - [The Daily Five](https://longpress.news/daily): Five tech stories every morning. Five is a cap, not a target.
 - [Known Issue](https://longpress.news/known-issue): A column on the things in your phone and apps that have been wrong long enough to count as a decision, not an oversight.
+- [Fine Print](https://longpress.news/fine-print): The rules, prices and service changes in India that most people skip, read from the source document and worked out in rupees. One piece a week.
 - [About](https://longpress.news/about): Who writes it, how it works, and how to send a correction.
 
 ## Machine-readable

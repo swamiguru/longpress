@@ -43,6 +43,13 @@ export interface Props {
    * this page's own URL, so a share shows this page's card.
    */
   canonicalTo?: string;
+  /**
+   * Q&A pairs to render as an additional FAQPage node in the same @graph,
+   * alongside NewsArticle rather than instead of it. For content that is
+   * already shaped as questions and answers (Fine Print's "Does this apply
+   * to you?" / "What to do" blocks). Omit for pages with nothing Q&A-shaped.
+   */
+  faqItems?: { question: string; answer: string }[];
 }
 /**
  * <title> only. Never cut the headline ourselves: a title ending in "…" reads as
@@ -55,7 +62,7 @@ function fitTitle(t: string, bare: boolean): string {
   if (bare || /\|\s*Long Press\s*$/i.test(t)) return t;
   return t.length + SUFFIX.length <= 60 ? t + SUFFIX : t;
 }
-const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image, noindex = false, seoTitle, imageAlt, canonicalTo } = Astro.props;
+const { title, description, schema = 'CollectionPage', published, updated, bare = false, wide = false, showProgress, showBackToTop, image, noindex = false, seoTitle, imageAlt, canonicalTo, faqItems } = Astro.props;
 const shouldShowProgress = showProgress ?? (schema === 'NewsArticle');
 const shouldShowBackToTop = showBackToTop ?? (schema === 'NewsArticle');
 const selfUrl = canonicalUrl(Astro.url.pathname, Astro.site);
@@ -84,6 +91,9 @@ const ORG_ID = `${SITE_URL}/#organization`;
 const SITE_ID = `${SITE_URL}/#website`;
 const PERSON_ID = `${SITE_URL}/about#swami-guru`;
 const isArticle = schema === 'NewsArticle';
+// Trim stray whitespace and drop any empty pair rather than ship a blank
+// Question/Answer node. Caller passes plain strings built from frontmatter.
+const validFaqItems = (faqItems ?? []).map((f) => ({ question: f.question.trim(), answer: f.answer.trim() })).filter((f) => f.question && f.answer);
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -149,6 +159,19 @@ const jsonLd = {
           isPartOf: { '@id': SITE_ID },
           publisher: { '@id': ORG_ID },
         },
+    ...(validFaqItems.length > 0
+      ? [
+          {
+            '@type': 'FAQPage',
+            '@id': `${canonical}#faq`,
+            mainEntity: validFaqItems.map((f) => ({
+              '@type': 'Question',
+              name: f.question,
+              acceptedAnswer: { '@type': 'Answer', text: f.answer },
+            })),
+          },
+        ]
+      : []),
   ],
 };
 // The masthead's daily label. It names no clock time on purpose: the generator

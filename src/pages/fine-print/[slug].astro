@@ -57,8 +57,21 @@ const cardImage = existsSync(publicFile(ownCard)) ? ownCard : '/images/fine-prin
 // A text-free hero is the better Discover and share image; the headline card is the fallback.
 const shareImage = d.heroImage && existsSync(publicFile(d.heroImage)) ? d.heroImage : cardImage;
 const imgSet = (src) => src.replace(/\.webp$/, '');
+
+// FAQPage schema, built from the fields that already render as "Does this
+// apply to you?" and "What to do" — no rewrite, just plain-text copies with
+// the [^n]/==...== markers stripped. Schema-only addition; the page itself
+// is unchanged.
+const faqItems = [
+  { question: 'In one line, what is this?', answer: fpPlain(d.oneLine) },
+  ...d.applies.map((a) => ({
+    question: `Does this apply if ${a.who.charAt(0).toLowerCase()}${a.who.slice(1)}?`,
+    answer: fpPlain(a.text),
+  })),
+  ...(d.steps.length > 0 ? [{ question: 'What should I do?', answer: d.steps.map(fpPlain).join(' ') }] : []),
+];
 ---
-<BaseLayout title={d.title} seoTitle={d.seoTitle} imageAlt={shareImage === d.heroImage ? d.heroImageAlt : `Fine Print: ${d.title}`} description={d.description} schema="NewsArticle" published={d.published} updated={modified} image={shareImage} wide>
+<BaseLayout title={d.title} seoTitle={d.seoTitle} imageAlt={shareImage === d.heroImage ? d.heroImageAlt : `Fine Print: ${d.title}`} description={d.description} schema="NewsArticle" published={d.published} updated={modified} image={shareImage} faqItems={faqItems} wide>
 
   <div class="fp fp--doc">
     <PageCrumb label="Fine Print" href="/fine-print" />
