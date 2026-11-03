@@ -240,13 +240,39 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
       })();
     </script>
 
-    <!-- Google Tag Manager -->
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-W343HCZ5');</script>
-    <!-- End Google Tag Manager -->
+    <!-- Third-party Google scripts (Tag Manager, Subscribe with Google). They
+         are about 160 KB of JavaScript that nothing above the fold needs, and
+         Lighthouse's mobile simulation counts everything requested before the
+         largest paint (5.9 s LCP against about 0.7 s measured). So they load
+         after the page's load event plus 1.5 s, or on the first touch, scroll,
+         click or key press, whichever comes first. Consent defaults and the
+         internal-traffic flag above stay inline, and every dataLayer push made
+         before GTM arrives is replayed by GTM when it loads. Cost: a visit that
+         ends in under about 2 s is not recorded in GA4. -->
+    <script is:inline>
+      (function (w, d) {
+        var started = false;
+        var events = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+        function add(src) {
+          var s = d.createElement('script');
+          s.async = true;
+          s.src = src;
+          d.head.appendChild(s);
+        }
+        function start() {
+          if (started) return;
+          started = true;
+          for (var i = 0; i < events.length; i++) w.removeEventListener(events[i], start, true);
+          w.dataLayer = w.dataLayer || [];
+          w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          add('https://www.googletagmanager.com/gtm.js?id=GTM-W343HCZ5');
+          add('https://news.google.com/swg/js/v1/publisher.js');
+        }
+        for (var i = 0; i < events.length; i++) w.addEventListener(events[i], start, { capture: true, passive: true });
+        function later() { setTimeout(start, 1500); }
+        if (d.readyState === 'complete') later(); else w.addEventListener('load', later);
+      })(window, document);
+    </script>
 
     <!-- Google AdSense. The verification script must be on the live site during
          the application review so Google can crawl this page and confirm site
@@ -255,7 +281,6 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
          units once approved. Publisher ID matches /ads.txt. -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1232673471654262" crossorigin="anonymous"></script>
 
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
     <title>{docTitle}</title>
     <meta name="description" content={description} />
@@ -318,9 +343,9 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
         } catch (e) {}
       })();
     </script>
-    <!-- Google "Add to preferred sources" button library. Renders the
-         <div google-add-preferred-source-btn> in the footer. -->
-    <script async src="https://news.google.com/swg/js/v1/publisher.js"></script>
+    <!-- The Google "Add to preferred sources" library (it renders the
+         <div google-add-preferred-source-btn> in the footer) is loaded by the
+         deferred loader above, not here. -->
     <slot name="head" />
   </head>
 
