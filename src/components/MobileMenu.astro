@@ -53,13 +53,14 @@ import WhatsAppCta from './WhatsAppCta.astro';
   ></div>
 
   <!-- Slide-Out Navigation Drawer Panel -->
-  <aside
+  <div
     class="mobile-menu-drawer"
     id="mobile-nav-drawer"
     role="dialog"
     aria-modal="true"
     aria-label="Site Navigation Menu"
     aria-hidden="true"
+    inert
     tabindex="-1"
   >
     <!-- Drawer Header -->
@@ -365,7 +366,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
         &copy; {year} Long Press &middot; An independent publication by <a href="https://www.builtbyswami.com" target="_blank" rel="noopener noreferrer">BuiltBySwami</a>
       </div>
     </div>
-  </aside>
+  </div>
 </div>
 
 <style>
@@ -1138,6 +1139,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
         toggleBtn.classList.add('is-active');
         toggleBtn.setAttribute('aria-expanded', 'true');
         drawer.setAttribute('aria-hidden', 'false');
+        drawer.removeAttribute('inert');
         // Still used for the masthead's z-index bump, dropping its
         // blur, and hiding #back-to-top while the drawer is open --
         // no scroll-lock CSS hangs off this class any more.
@@ -1184,6 +1186,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
         toggleBtn.classList.remove('is-active');
         toggleBtn.setAttribute('aria-expanded', 'false');
         drawer.setAttribute('aria-hidden', 'true');
+        drawer.setAttribute('inert', '');
         document.body.classList.remove('mobile-menu-open');
 
         document.removeEventListener('touchmove', blockBackgroundScroll);

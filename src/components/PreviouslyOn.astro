@@ -93,6 +93,7 @@ const fmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', y
     font-size: 0.68rem;
   }
   .previously__tag--column {
-    color: var(--accent-2);
+    /* --accent-2 is 4.3:1 on cream, so text uses --teal-text (global.css) */
+    color: var(--teal-text, var(--accent-2));
   }
 </style>

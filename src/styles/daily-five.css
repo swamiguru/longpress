@@ -51,7 +51,9 @@ html[data-theme="dark"] .df-card { box-shadow: 6px 6px 0 var(--accent); border-c
 .df-strip__n b { color: #FF9D7A; font-weight: 700; }
 
 .df-chip { display: inline-block; padding: 4px 8px; font: 700 10px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; background: #17182E; color: #ECEAF4; }
-.df-chip--opinion { background: var(--accent); color: #fff; }
+/* --accent-deep fill + --ground text holds 4.5:1 in both themes. Plain --accent
+   with white is ~3.4:1 light and ~3.3:1 dark, which fails at 10px. */
+.df-chip--opinion { background: var(--accent-deep); color: var(--ground); }
 .df-chip--india { background: #2F6A62; color: #fff; }
 
 .df-story { display: grid; gap: 0; }
