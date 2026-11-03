@@ -26,5 +26,9 @@
   "life-certificate-november": {
     "hero": "an old brass key resting on a small round cushion, with a small hourglass standing beside it, the key filled yellow",
     "body": "a fishing hook on a line dangling a shiny key in front of an open wooden drawer, the hook filled yellow"
+  },
+  "bank-fraud-refunds": {
+    "hero": "a piggy bank with a fishing hook pulling one coin out of its slot, and a large open umbrella held over the piggy bank, the umbrella filled yellow",
+    "body": "a small basket catching coins falling from a cracked piggy bank above it, with a few coins missing the basket and rolling away, the basket filled yellow"
   }
 }
