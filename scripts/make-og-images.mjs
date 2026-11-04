@@ -20,7 +20,7 @@ import path from 'node:path';
 import sharp from 'sharp';
 import { OG_W, OG_H, OG_VARIANTS, ogNameFor, ogVariantName, pickBriefLead, publicFile } from '../src/lib/seo/og.mjs';
 
-const GROUND = '#17182E'; // midnight, the same ground as the share card
+const GROUND = '#34323F'; // slate, the same ground as the share card
 const VARIANT = /-\d+w\./;
 const IMG = /\.(png|jpe?g|webp)$/i;
 

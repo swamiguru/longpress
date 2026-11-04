@@ -76,12 +76,7 @@ def headline_card(tag, title, out):
     img = Image.new("RGB", (hub.W, hub.H), hub.MIDNIGHT)
     d = ImageDraw.Draw(img)
     hub.ring_mark(d, 1010, 330, 330, hub.RULE)
-    d.rectangle((0, 0, 14, hub.H), fill=hub.ORANGE)
-
-    hub.ring_mark(d, 96, 88, 22, hub.ORANGE_LIGHT, dot=hub.ORANGE)
-    wm = hub.font("ExtraBold", 34)
-    x = hub.tracked(d, (134, 68), "LONG", wm, hub.INK_ON_DARK, tracking=2)
-    hub.tracked(d, (x, 68), "PRESS", wm, hub.ORANGE, tracking=2)
+    hub.brand_header(d)
 
     hub.tracked(d, (80, 170), tag, hub.font("Medium", 24), hub.ORANGE_LIGHT, tracking=4)
 
