@@ -67,14 +67,15 @@ import WhatsAppCta from './WhatsAppCta.astro';
     <div class="mobile-drawer-header" id="mobile-drawer-header">
       <a href="/" class="mobile-drawer-brand" id="mobile-drawer-brand-link" aria-label="Long Press Home">
         <div class="mobile-drawer-brand__mark" aria-hidden="true">
-          <svg width="30" height="30" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="21" cy="21" r="19.5" fill="none" stroke="currentColor" stroke-width="2" class="drawer-mark-ring" />
-            <path d="M21 1.5a19.5 19.5 0 0 1 13.8 33.3" fill="none" stroke="var(--accent)" stroke-width="4.5" stroke-linecap="round" />
-            <circle cx="21" cy="21" r="7.5" fill="currentColor" class="drawer-mark-dot" />
+          <svg width="30" height="30" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="42" height="42" rx="11" fill="#34323F" />
+            <circle cx="22" cy="22" r="10" stroke="#E3C58A" stroke-width="3.2" />
+            <path d="M22 12A10 10 0 0 1 22 32" stroke="#D98E72" stroke-width="3.2" />
+            <circle cx="22" cy="22" r="4" fill="#E3C58A" />
           </svg>
         </div>
         <div class="mobile-drawer-brand__text">
-          <span class="mobile-drawer-brand__title">Long<span class="word-press">press</span></span>
+          <span class="mobile-drawer-brand__title">Long <span class="word-press">Press</span></span>
           <span class="mobile-drawer-brand__edition">{edition}</span>
         </div>
       </a>
@@ -465,7 +466,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(14, 15, 29, 0.62);
+    background: rgba(38, 36, 46, 0.62);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     z-index: 998;
@@ -496,7 +497,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     background: var(--surface);
     color: var(--ink);
     border-left: 2px solid var(--rule-strong);
-    box-shadow: -8px 0 36px rgba(14, 15, 29, 0.28);
+    box-shadow: -8px 0 36px rgba(38, 36, 46, 0.28);
     z-index: 999;
     display: flex;
     flex-direction: column;
@@ -586,7 +587,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
 
   .mobile-drawer-brand__edition {
     font-family: var(--mono);
-    font-size: 9.5px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.08em;
     color: var(--accent-deep);
@@ -636,7 +637,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     background: var(--ground-subtle);
     border-bottom: 1px solid var(--rule-soft);
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 14px;
     color: var(--muted);
     letter-spacing: 0.04em;
     flex-shrink: 0;
@@ -680,7 +681,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
 
   .drawer-group__label {
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -780,7 +781,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     display: inline-block;
     padding: 2px 6px;
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -813,7 +814,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
 
   .drawer-card__desc {
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.4;
     color: var(--muted);
     display: -webkit-box;
@@ -824,7 +825,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
 
   .drawer-card__arrow {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: 14px;
     color: var(--muted);
     flex-shrink: 0;
     transition: transform 0.16s ease, color 0.16s ease;
@@ -902,21 +903,21 @@ import WhatsAppCta from './WhatsAppCta.astro';
 
   .drawer-utility-item__title {
     font-family: var(--display);
-    font-size: 13.5px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--ink);
     line-height: 1.25;
   }
 
   .drawer-utility-item__sub {
-    font-size: 11.5px;
+    font-size: 14px;
     color: var(--muted);
     line-height: 1.3;
   }
 
   .drawer-utility-item__hint {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--accent-deep);
     flex-shrink: 0;
@@ -967,14 +968,14 @@ import WhatsAppCta from './WhatsAppCta.astro';
 
   .drawer-theme-card__title {
     font-family: var(--display);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--ink);
   }
 
   .drawer-theme-card__status {
     font-family: var(--mono);
-    font-size: 10.5px;
+    font-size: 14px;
     color: var(--muted);
   }
 
@@ -988,7 +989,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     background: var(--surface);
     color: var(--ink);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -1026,7 +1027,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
     padding: 8px 10px;
     min-height: 44px;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--ink-soft);
     transition: all 0.15s ease;
   }
@@ -1051,7 +1052,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
   }
 
   .drawer-colophon {
-    font-size: 11px;
+    font-size: 14px;
     color: var(--muted);
   }
 

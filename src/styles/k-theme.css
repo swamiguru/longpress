@@ -1,0 +1,206 @@
+/* ============================================================
+   LONG PRESS: DIRECTION K  ("computer age, calmer and clearer")
+   Loaded after global.css. Remaps the design tokens and sets the
+   reading rules. Fine Print keeps its own --fp-* identity and is
+   not touched here, apart from the shared header and footer.
+
+   Light  ground #F3EEE1  panel #EAE3D2  ink #38353F
+   Marks  terracotta #BE7A62  mustard #D6B878  teal #5B8A84
+   Screen slate #34323F with amber #E3C58A text (question, verdict)
+
+   Rules of the layer
+   - Body text 19px, 1.7 line height, about 62ch.
+   - Mono only for short labels, never below 14px.
+   - Status is never colour alone: outline style or a word carries it.
+   - Glass stays on the sticky header only, never behind reading text.
+   ============================================================ */
+
+:root {
+  --ground:          #F3EEE1;
+  --surface:         #EAE3D2;
+  --surface-card:    #FAF6EB;
+  --surface-hover:   #E1D9C4;
+
+  --ink:             #38353F;
+  --ink-soft:        #3F3C47;
+  --muted:           #55505F;
+  --muted-light:     #6B6674;
+
+  --rule:            #D2C9B2;
+  --rule-soft:       #E1D9C4;
+  --rule-strong:     #38353F;
+
+  --terra:           #BE7A62;
+  --mustard:         #D6B878;
+  --teal:            #5B8A84;
+
+  --accent:          #A65D46;   /* fills that carry text: white on it is 4.9:1 */
+  --accent-deep:     #8A4632;   /* accent as text, AA on ground   */
+  --accent-light:    #E3A58F;   /* accent on slate grounds        */
+  --on-accent:       #FFFFFF;
+  --accent-subtle:   rgba(166, 93, 70, 0.13);
+  --accent-border:   rgba(166, 93, 70, 0.38);
+  --accent-2:        #47766F;   /* fills that carry text: white on it is 5.1:1 */
+  --accent-2-subtle: rgba(71, 118, 111, 0.14);
+
+  --butter:          #EDE0BC;
+  --sage:            #DAE4DD;
+
+  --screen:          #34323F;
+  --phosphor:        #E3C58A;
+  --phosphor-dim:    #BCA173;
+
+  --dark-ground:     #34323F;
+  --dark-surface:    #3D3A49;
+  --dark-ink:        #EFEAE0;
+  --dark-soft:       #D3CDDA;
+  --dark-muted:      #BDB6C6;
+  --dark-rule:       #55505F;
+  --dark-utility:    #E3DEEA;
+  --ground-subtle:   #EEE8D8;
+  --highlight:       rgba(214, 184, 120, 0.38);
+
+  --shadow-card:     0 1px 2px rgba(56, 53, 63, 0.08);
+  --shadow-pop:      0 10px 28px rgba(56, 53, 63, 0.14);
+  --shadow-hard-sm:  0 1px 0 rgba(56, 53, 63, 0.16), 0 2px 8px rgba(56, 53, 63, 0.08);
+  --shadow-hard:     0 2px 0 rgba(56, 53, 63, 0.16), 0 6px 18px rgba(56, 53, 63, 0.10);
+
+  --mono:            "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display-wide:    "wdth" 100;
+  --display-normal:  "wdth" 100;
+
+  --measure: 62ch;
+  --teal-light: #8FBFB7;
+  --teal-text:  #2F6761;
+}
+
+html[data-theme="dark"] {
+  --ground:          #26242E;
+  --surface:         #302D39;
+  --surface-card:    #2C2A35;
+  --surface-hover:   #3A3745;
+
+  --ink:             #E9E4D8;
+  --ink-soft:        #D9D3C8;
+  --muted:           #BDB6C6;
+  --muted-light:     #A29BAE;
+
+  --rule:            #45414F;
+  --rule-soft:       #38353F;
+  --rule-strong:     #6A6575;
+
+  --terra:           #CF8A72;
+  --mustard:         #CDAF70;
+  --teal:            #6A9C95;
+
+  --accent:          #CF8A72;
+  --accent-deep:     #E3A58F;
+  --accent-light:    #EBB9A6;
+  --on-accent:       #1C1B23;
+  --accent-subtle:   rgba(207, 138, 114, 0.16);
+  --accent-border:   rgba(207, 138, 114, 0.38);
+  --accent-2:        #6A9C95;
+  --accent-2-subtle: rgba(106, 156, 149, 0.16);
+
+  --butter:          #4A4333;
+  --sage:            #2F3F3C;
+
+  --screen:          #1C1B23;
+  --phosphor:        #E3C58A;
+  --phosphor-dim:    #B79C6C;
+
+  --dark-ground:     #1C1B23;
+  --dark-surface:    #26242E;
+  --dark-ink:        #E9E4D8;
+  --dark-soft:       #D3CDDA;
+  --dark-muted:      #B2ABBD;
+  --dark-rule:       #3A3745;
+  --dark-utility:    #E3DEEA;
+  --ground-subtle:   #2B2934;
+  --highlight:       rgba(227, 197, 138, 0.30);
+
+  --shadow-card:     0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-pop:      0 12px 32px rgba(0, 0, 0, 0.50);
+  --shadow-hard-sm:  0 1px 0 rgba(0, 0, 0, 0.30), 0 2px 8px rgba(0, 0, 0, 0.22);
+  --shadow-hard:     0 2px 0 rgba(0, 0, 0, 0.30), 0 6px 18px rgba(0, 0, 0, 0.30);
+
+  --teal-light: #8FBFB7;
+  --teal-text:  #8FBFB7;
+}
+
+/* --- Reading ------------------------------------------------ */
+body {
+  font-size: 1.1875rem;   /* 19px at the default browser size */
+  line-height: 1.7;
+}
+
+h1 {
+  text-transform: none;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  font-size: clamp(2rem, 5.6vw, 3rem);
+}
+h2 { line-height: 1.2; letter-spacing: -0.01em; }
+h3 { line-height: 1.25; letter-spacing: -0.01em; }
+
+.eyebrow {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* --- Focus and selection ------------------------------------ */
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+::selection { background: var(--mustard); color: #2B2830; }
+
+/* --- Header: three-band stripe under the masthead ------------- */
+.masthead { border-bottom: 0; }
+.masthead::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -13px;
+  height: 13px;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    var(--terra) 0 3px, transparent 3px 5px,
+    var(--mustard) 5px 8px, transparent 8px 10px,
+    var(--teal) 10px 13px);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .masthead::before { background: rgba(243, 238, 225, 0.80); }
+  html[data-theme="dark"] .masthead::before { background: rgba(38, 36, 46, 0.80); }
+}
+
+/* --- Mobile drawer wordmark matches the masthead ------------- */
+html .mobile-drawer-brand .mobile-drawer-brand__title {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+html .mobile-drawer-brand .mobile-drawer-brand__title .word-press {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
+/* --- Story illustrations: pull the saturation down a notch ----
+   The artwork is fixed; this keeps it from out-shouting the page.
+   Fine Print pages carry their own art direction and are excluded. */
+body:not(:has(.fp)) main img:not([src$=".svg"]) {
+  filter: saturate(0.78) contrast(0.97);
+}
+
+/* --- Header room: labels are 14px now, so drop the tagline sooner ---- */
+@media (max-width: 1360px) {
+  .masthead .brand-logo__tagline { display: none; }
+}
+@media (max-width: 1560px) {
+  .masthead .brand-logo__tagline { display: none; }
+}
+
+/* Dark page head (Known Issue): share label was muted slate on slate. */
+.ph--dark .share-bar__label { color: var(--dark-muted); }

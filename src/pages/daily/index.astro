@@ -178,7 +178,7 @@ const dlWd = featured ? new Intl.DateTimeFormat('en-US', { weekday: 'long', time
               <span class="archive-month-badge">
                 {group.briefs.length} {group.briefs.length === 1 ? 'issue' : 'issues'}
               </span>
-              <span class="pill-tag pill-tag--muted" style="font-size: 10px;">
+              <span class="pill-tag pill-tag--muted" style="font-size: 14px;">
                 Volume {monthGroups.length - groupIndex} of {monthGroups.length}
               </span>
             </div>
@@ -213,7 +213,7 @@ const dlWd = featured ? new Intl.DateTimeFormat('en-US', { weekday: 'long', time
                           <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
                             {med.format(b.data.date)}
                           </time>
-                          <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
+                          <span class="pill-tag pill-tag--muted" style="font-size: 14px; padding: 2px 7px;">
                             {dayOfWeek}
                           </span>
                         </div>
@@ -249,7 +249,7 @@ const dlWd = featured ? new Intl.DateTimeFormat('en-US', { weekday: 'long', time
                   <span>{prevMonth.fullName} ({prevMonth.briefs.length})</span>
                 </button>
               ) : (
-                <span class="archive-pagination-info" style="color: var(--muted); font-size: 10px;">
+                <span class="archive-pagination-info" style="color: var(--muted); font-size: 14px;">
                   Earliest Archive Volume
                 </span>
               )}
@@ -276,7 +276,7 @@ const dlWd = featured ? new Intl.DateTimeFormat('en-US', { weekday: 'long', time
                   <span aria-hidden="true">&rarr;</span>
                 </button>
               ) : (
-                <span class="archive-pagination-info" style="color: var(--muted); font-size: 10px;">
+                <span class="archive-pagination-info" style="color: var(--muted); font-size: 14px;">
                   Latest Archive Volume
                 </span>
               )}

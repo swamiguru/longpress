@@ -4,8 +4,8 @@
   "description": "Press and hold. Five tech stories every morning, with an honest take on which ones actually matter.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#17182E",
-  "theme_color": "#F4F1E8",
+  "background_color": "#34323F",
+  "theme_color": "#F3EEE1",
   "icons": [
     {
       "src": "/icon-192.png",

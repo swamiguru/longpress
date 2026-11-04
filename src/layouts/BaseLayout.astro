@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/page-head.css';
+import '../styles/k-theme.css';
 import Logo from '../components/Logo.astro';
 import ReadingProgressBar from '../components/ReadingProgressBar.astro';
 import BackToTop from '../components/BackToTop.astro';
@@ -291,7 +292,7 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={resolvedImage} />
     <meta name="twitter:image:alt" content={shareAlt} />
-    <meta name="theme-color" content="#F4F1E8" />
+    <meta name="theme-color" content="#F3EEE1" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Anti-FOUC theme detection. Deliberately inline and dependency-free:
@@ -305,11 +306,11 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
           if (saved === 'dark' || (!saved && prefersDark)) {
             document.documentElement.setAttribute('data-theme', 'dark');
             var meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#0E0F1D');
+            if (meta) meta.setAttribute('content', '#26242E');
           } else {
             document.documentElement.removeAttribute('data-theme');
             var meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#F4F1E8');
+            if (meta) meta.setAttribute('content', '#F3EEE1');
           }
         } catch (e) {}
       })();

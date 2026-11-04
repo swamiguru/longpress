@@ -2,8 +2,8 @@ export type Theme = 'light' | 'dark';
 
 const STORAGE_KEY = 'longpress-theme';
 const META_COLOR: Record<Theme, string> = {
-  light: '#F4F1E8',
-  dark: '#0E0F1D',
+  light: '#F3EEE1',
+  dark: '#26242E',
 };
 
 export function getTheme(): Theme {

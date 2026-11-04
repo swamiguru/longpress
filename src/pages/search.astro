@@ -379,7 +379,7 @@ const searchDataset = {
     display: flex;
     flex-direction: column;
     gap: var(--s4);
-    box-shadow: 6px 6px 0 0 var(--accent);
+    box-shadow: var(--shadow-hard-sm);
     position: relative;
   }
 
@@ -410,7 +410,7 @@ const searchDataset = {
 
   .search-page__input:focus {
     border-color: var(--accent);
-    box-shadow: 3px 3px 0 0 var(--accent);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   .search-page__clear {
@@ -420,7 +420,7 @@ const searchDataset = {
     border: 2px solid var(--ink);
     padding: 6px 12px;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.04em;
     color: var(--ground);
@@ -430,7 +430,7 @@ const searchDataset = {
 
   .search-page__clear:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 3px 3px 0 0 var(--accent);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   .search-page__filters {
@@ -448,18 +448,18 @@ const searchDataset = {
     background: var(--surface-card);
     color: var(--ink);
     font-family: var(--mono);
-    font-size: 11.5px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 3px 3px 0 0 var(--ink);
+    box-shadow: var(--shadow-hard-sm);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .filter-tab:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 0 var(--ink);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   .filter-tab.is-active {
@@ -468,11 +468,11 @@ const searchDataset = {
     color: var(--ground);
   }
 
-  .filter-tab[data-filter="story"] { box-shadow: 3px 3px 0 0 var(--teal-light); }
-  .filter-tab[data-filter="story"]:hover { box-shadow: 5px 5px 0 0 var(--teal-light); }
+  .filter-tab[data-filter="story"] { box-shadow: var(--shadow-hard-sm); }
+  .filter-tab[data-filter="story"]:hover { box-shadow: var(--shadow-pop); }
   .filter-tab[data-filter="story"].is-active { border-color: var(--teal-light); }
-  .filter-tab[data-filter="brief"] { box-shadow: 3px 3px 0 0 var(--accent); }
-  .filter-tab[data-filter="brief"]:hover { box-shadow: 5px 5px 0 0 var(--accent); }
+  .filter-tab[data-filter="brief"] { box-shadow: var(--shadow-hard-sm); }
+  .filter-tab[data-filter="brief"]:hover { box-shadow: var(--shadow-pop); }
   .filter-tab[data-filter="brief"].is-active { border-color: var(--accent); }
 
   .search-page__tags-section {
@@ -483,7 +483,7 @@ const searchDataset = {
 
   .search-page__tags-label {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -504,11 +504,11 @@ const searchDataset = {
     background: var(--surface);
     border: 1.5px solid var(--rule-strong);
     font-family: var(--mono);
-    font-size: 11.5px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--ink);
     cursor: pointer;
-    box-shadow: 2px 2px 0 0 var(--rule-strong);
+    box-shadow: var(--shadow-hard-sm);
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
 
@@ -516,24 +516,24 @@ const searchDataset = {
     transform: translate(-1px, -1px);
     border-color: var(--accent);
     color: var(--accent-deep);
-    box-shadow: 3px 3px 0 0 var(--accent);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   .topic-filter-btn.is-active {
     background: var(--accent);
     border-color: var(--ink);
-    color: #17182E;
-    box-shadow: 3px 3px 0 0 var(--ink);
+    color: #34323F;
+    box-shadow: var(--shadow-hard-sm);
   }
 
   .topic-filter-count {
-    font-size: 10px;
+    font-size: 14px;
     opacity: 0.75;
   }
 
   .search-page__status {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 14px;
     color: var(--muted);
     letter-spacing: 0.02em;
     margin-bottom: -8px;
@@ -556,7 +556,7 @@ const searchDataset = {
     border: 2px solid var(--ink);
     border-radius: 50%;
     color: var(--ink);
-    box-shadow: 4px 4px 0 0 var(--accent);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   .search-page__no-results h3 {
@@ -575,13 +575,13 @@ const searchDataset = {
     cursor: pointer;
     padding: 8px 18px;
     border: 2px solid var(--ink);
-    box-shadow: 3px 3px 0 0 var(--ink);
+    box-shadow: var(--shadow-hard-sm);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .chip--reset:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 0 var(--ink);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   /* Result cards: hard-edge treatment coded like the rest of today's
@@ -590,34 +590,34 @@ const searchDataset = {
      used on topic pages and the daily archive stays untouched. */
   .search-page .entries > li:not(.ad-row) {
     border: 2px solid var(--ink);
-    box-shadow: 5px 5px 0 0 rgba(23, 24, 46, 0.14);
+    box-shadow: var(--shadow-hard-sm);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .search-page .entries > li:not(.ad-row):hover {
       transform: translate(-3px, -3px);
-      box-shadow: 8px 8px 0 0 rgba(23, 24, 46, 0.18);
+      box-shadow: var(--shadow-hard-sm);
     }
   }
 
   .search-page .entries > li.entry-card--story {
     border-color: var(--accent-2);
-    box-shadow: 5px 5px 0 0 rgba(62, 124, 116, 0.26);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   .search-page .entries > li.entry-card--brief {
     border-color: var(--accent);
-    box-shadow: 5px 5px 0 0 rgba(224, 85, 43, 0.26);
+    box-shadow: var(--shadow-hard-sm);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .search-page .entries > li.entry-card--story:hover {
-      box-shadow: 8px 8px 0 0 rgba(62, 124, 116, 0.32);
+      box-shadow: var(--shadow-hard-sm);
     }
 
     .search-page .entries > li.entry-card--brief:hover {
-      box-shadow: 8px 8px 0 0 rgba(224, 85, 43, 0.32);
+      box-shadow: var(--shadow-hard-sm);
     }
   }
 </style>

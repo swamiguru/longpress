@@ -56,7 +56,7 @@ main:has(> :is(.pg--daily, .pg--ki, .fp)) { padding-block-start: var(--head-gap)
 .fp .ph-crumb { font-family: var(--fp-mono); }
 .fp .ph-crumb a { color: var(--fp-muted); }
 .fp .ph-crumb a:hover, .fp .ph-crumb a.article-breadcrumb__curr { color: var(--fp-ink); }
-.fp .ph-crumb .article-breadcrumb__sep { color: var(--fp-rule-strong); }
+.fp .ph-crumb .article-breadcrumb__sep { color: var(--fp-muted); }
 
 /* --- the head ------------------------------------------------------ */
 .ph {
@@ -71,8 +71,8 @@ main:has(> :is(.pg--daily, .pg--ki, .fp)) { padding-block-start: var(--head-gap)
 .ph__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; }
 .ph__tag {
   display: inline-flex; align-items: center; margin: 0 0 14px; padding: 6px 10px;
-  background: var(--pl); color: #17182E;
-  font: 700 11px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase;
+  background: var(--pl); color: #34323F;
+  font: 700 14px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase;
 }
 .ph__tags .ph__tag { margin: 0; }
 
@@ -88,7 +88,7 @@ main:has(> :is(.pg--daily, .pg--ki, .fp)) { padding-block-start: var(--head-gap)
   margin: 0; max-width: 62ch;
   font-size: clamp(16px, 1.9vw, 19px); line-height: 1.55; font-style: normal; color: var(--ink-soft);
 }
-.ph .column-trigger { margin-top: 10px; font-size: 13.5px; }
+.ph .column-trigger { margin-top: 10px; font-size: 14px; }
 .ph .byline { margin-top: var(--s4); }
 .ph .share-bar--top, .ph .fp-share { margin-top: var(--s3); }
 
@@ -105,7 +105,7 @@ main:has(> :is(.pg--daily, .pg--ki, .fp)) { padding-block-start: var(--head-gap)
 }
 .ph--dark > * { position: relative; z-index: 1; }
 .ph--dark .ph__tag { background: var(--teal-light); }
-.ph--dark .ph__title { color: #F4F1E8; }
+.ph--dark .ph__title { color: #F3EEE1; }
 .ph--dark .ph__stand, .ph--dark .column-trigger { color: var(--dark-soft); }
 .ph__ring { position: absolute !important; z-index: 0 !important; top: -120px; right: -110px; color: var(--teal-light); opacity: .16; pointer-events: none; }
 
@@ -122,7 +122,7 @@ main:has(> :is(.pg--daily, .pg--ki, .fp)) { padding-block-start: var(--head-gap)
 /* --- Fine Print: paper, ink and a highlighter ----------------------- */
 .fp .ph__tag { font-family: var(--fp-mono); background: var(--fp-hl); color: var(--fp-on-hl); }
 .fp .ph__tags .fp-stamp {
-  padding: 6px 10px; font: 700 11px/1 var(--fp-mono); letter-spacing: .09em; text-transform: uppercase;
+  padding: 6px 10px; font: 700 14px/1 var(--fp-mono); letter-spacing: .09em; text-transform: uppercase;
 }
 .fp .ph__title {
   display: flex; align-items: center; gap: 12px;
@@ -132,7 +132,7 @@ main:has(> :is(.pg--daily, .pg--ki, .fp)) { padding-block-start: var(--head-gap)
 .fp .ph__title svg { flex: none; width: .8em; height: .8em; }
 .fp .ph__stand { font-family: var(--fp-serif); color: var(--fp-ink-soft); }
 .fp .ph__promise {
-  margin: var(--s3) 0 0; font-family: var(--fp-mono); font-size: 12px; font-weight: 600;
+  margin: var(--s3) 0 0; font-family: var(--fp-mono); font-size: 14px; font-weight: 600;
   letter-spacing: .08em; text-transform: uppercase; color: var(--fp-ink);
 }
 .fp .ph .byline { color: var(--fp-ink); }
