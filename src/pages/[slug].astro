@@ -146,17 +146,6 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 
     <div class="prose"><Content /></div>
 
-    {d.sources && d.sources.length > 0 && (
-      <p class="brief__source">
-        <span class="brief__source-label">Sources</span>
-        {d.sources.map((s) => (
-          <a href={s.url} rel="noopener" target="_blank" class="brief__source-link">
-            {s.label || hostLabel(s.url)} &nearr;
-          </a>
-        ))}
-      </p>
-    )}
-
     {(d.whoBenefits || d.operatorsRead || d.verdict) && (
       <section class="take" aria-label="Known Issue take">
         <div class="take__top">
@@ -212,6 +201,17 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
           </div>
         )}
       </section>
+    )}
+
+    {d.sources && d.sources.length > 0 && (
+      <p class="brief__source brief__source--after-take">
+        <span class="brief__source-label">Sources</span>
+        {d.sources.map((s) => (
+          <a href={s.url} rel="noopener" target="_blank" class="brief__source-link">
+            {s.label || hostLabel(s.url)} &nearr;
+          </a>
+        ))}
+      </p>
     )}
 
     <div class="article-share-end" style="margin-top: var(--s6); margin-bottom: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--rule);">
@@ -435,6 +435,7 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
     text-transform: uppercase;
     color: var(--dark-soft);
   }
+  .story .brief__source--after-take { margin: var(--s5, 24px) 0 0; }
   .take__cols { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
   @media (min-width: 860px) { .take__cols--two { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
 
