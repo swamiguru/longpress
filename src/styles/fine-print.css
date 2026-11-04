@@ -59,7 +59,7 @@ html[data-theme="dark"] .fp {
 .fp-section { margin-top: 56px; }
 .fp-h2 { margin: 0; font-family: var(--fp-display); font-weight: 800; font-size: 28px; font-variation-settings: "wdth" 106; line-height: 1.15; color: var(--fp-ink); }
 .fp-label { margin: 0 0 10px; font-family: var(--fp-mono); font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fp-ink); }
-.fp-lab { display: block; margin: 0 0 6px; font-family: var(--fp-mono); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fp-muted); }
+.fp-lab { display: block; margin: 0 0 8px; font-family: var(--fp-mono); font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--fp-ink); }
 .fp-lede { margin: 8px 0 20px; font-size: 17px; line-height: 1.5; color: var(--fp-ink-soft); }
 .fp-body { font-size: 17px; line-height: 1.55; }
 
@@ -98,7 +98,7 @@ html:not([data-theme="dark"]) .fp-trust { color: #9B2226; }
 .fp-rule { padding: 18px 0; border-top: 2px solid var(--fp-ink); }
 .fp-rule:last-child { border-bottom: 1px solid var(--fp-rule-strong); }
 .fp-rule__plain { font-size: 20px; line-height: 1.4; font-weight: 700; }
-.fp-rule__quote { margin-top: 12px; padding: 12px 14px; background: var(--fp-tint); font-family: var(--fp-mono); font-size: 13px; line-height: 1.6; color: var(--fp-ink-soft); }
+.fp-rule__quote { margin-top: 14px; padding: 14px 16px 16px; background: var(--fp-card); border: 1px solid var(--fp-rule-strong); border-left: 5px solid var(--fp-hl); font-family: var(--fp-mono); font-size: 15px; line-height: 1.7; font-weight: 500; color: var(--fp-ink); }
 
 /* Costs as a receipt. Row = item, rule under it, amount on the right. */
 .fp-receipt { max-width: 560px; filter: drop-shadow(0 3px 0 rgba(60, 40, 10, .22)); }
