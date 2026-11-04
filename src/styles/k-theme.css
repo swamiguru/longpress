@@ -374,3 +374,92 @@ html[data-theme="dark"] .hp-term { border-color: rgba(227, 197, 138, .3); }
   .hp-term .hp-labels li { padding: 12px 20px; }
   .hp-term .hp-term__go { min-height: 52px; }
 }
+
+/* --- Pillar landing heads as terminal panels --------------------------
+   /daily and /known-issue: slate panel, status bar, prompt title with a
+   block cursor, standfirst below. Same language as the home panel.
+   /fine-print keeps its paper identity: a framed sheet with a straw
+   status bar, no slate, no cursor. */
+:is(.pg--daily, .pg--ki) .ph--landing {
+  --bar: var(--terra);
+  padding: 0;
+  background: var(--screen);
+  color: #F3EEE1;
+  border: 2px solid var(--screen);
+  border-top: 5px solid var(--bar);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(227, 197, 138, .22), 0 6px 0 rgba(52, 50, 63, .14);
+}
+.pg--ki .ph--landing { --bar: var(--teal); }
+html[data-theme="dark"] :is(.pg--daily, .pg--ki) .ph--landing { border-color: rgba(227, 197, 138, .3); border-top-color: var(--bar); }
+:is(.pg--daily, .pg--ki) .ph--landing::before,
+:is(.pg--daily, .pg--ki) .ph__ring { display: none; }
+
+/* status bar: chip text on the daily page with no issue yet, the dateline otherwise */
+:is(.pg--daily, .pg--ki) .ph--landing .ph__tag,
+.pg--daily .ph--landing .hp-dateline {
+  display: flex; align-items: center; gap: 10px; width: 100%; margin: 0;
+  padding: 8px 14px;
+  background: transparent; color: var(--phosphor);
+  border-bottom: 1px dashed rgba(227, 197, 138, .35);
+  font: 600 14px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+}
+:is(.pg--daily, .pg--ki) .ph--landing .ph__tag::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22);
+}
+.pg--daily .ph--landing .hp-dateline i { background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22); width: 9px; height: 9px; }
+.pg--daily .ph--landing .hp-dateline b { font: 800 20px/1 var(--mono); letter-spacing: 0; color: var(--phosphor); }
+.pg--daily .ph--landing .hp-dateline span { display: inline; font: 600 14px/1.2 var(--mono); letter-spacing: .12em; color: var(--accent-light); }
+.pg--daily .ph--landing .hp-dateline span { white-space: nowrap; }
+.pg--daily .ph--landing .hp-dateline span br { content: " \00B7 "; }
+.pg--daily .ph--landing .hp-dateline em { margin-left: auto; white-space: nowrap; font-size: 14px; padding: 5px 8px; background: var(--accent); color: var(--on-accent); }
+html[data-theme="dark"] .pg--daily .ph--landing .hp-dateline em { background: var(--accent); color: var(--on-accent); }
+
+:is(.pg--daily, .pg--ki) .ph--landing .ph__title {
+  margin: 0; padding: 16px 14px 6px;
+  font-size: clamp(32px, 6vw, 56px); color: #F3EEE1;
+}
+:is(.pg--daily, .pg--ki) .ph--landing .ph__title::before {
+  content: ">"; margin-right: .22em; font-family: var(--mono); font-weight: 600; color: #D98E72;
+}
+:is(.pg--daily, .pg--ki) .ph--landing .ph__title::after {
+  content: ""; display: inline-block; width: .38em; height: .8em; margin-left: .16em;
+  background: var(--phosphor); vertical-align: -.02em; animation: hp-cursor 1.1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) { :is(.pg--daily, .pg--ki) .ph--landing .ph__title::after { animation: none; } }
+:is(.pg--daily, .pg--ki) .ph--landing .ph__stand { margin: 0 14px 16px; padding: 0; color: #D9D3C4; max-width: 70ch; }
+.pg--ki .ph--landing .ki-facts { margin: 0; padding: 12px 14px 14px; border-top: 1px dashed rgba(227, 197, 138, .35); }
+.pg--ki .ph--landing .ki-facts b { color: var(--phosphor); }
+.pg--ki .ph--landing .ki-facts span { color: #D9D3C4; }
+@media (min-width: 701px) {
+  :is(.pg--daily, .pg--ki) .ph--landing .ph__tag, .pg--daily .ph--landing .hp-dateline { padding: 10px 20px; }
+  :is(.pg--daily, .pg--ki) .ph--landing .ph__title { padding: 20px 20px 8px; }
+  :is(.pg--daily, .pg--ki) .ph--landing .ph__stand { margin: 0 20px 20px; }
+  .pg--ki .ph--landing .ki-facts { padding: 14px 20px 16px; }
+}
+
+/* Fine Print landing: framed sheet with a straw status bar */
+.fp .ph--landing {
+  padding: 0;
+  background: var(--fp-card);
+  border: 2px solid var(--fp-ink);
+  border-top-width: 2px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.fp .ph--landing .ph__tag {
+  display: flex; width: 100%; margin: 0; padding: 8px 14px;
+  background: var(--fp-hl); color: var(--fp-on-hl);
+  border-bottom: 2px solid var(--fp-ink);
+}
+.fp .ph--landing .ph__title { margin: 0; padding: 16px 14px 6px; }
+.fp .ph--landing .ph__stand { padding: 0 14px 4px; }
+.fp .ph--landing .ph__promise { margin: 0; padding: 12px 14px 14px; }
+@media (min-width: 701px) {
+  .fp .ph--landing .ph__tag { padding: 10px 20px; }
+  .fp .ph--landing .ph__title { padding: 20px 20px 8px; }
+  .fp .ph--landing .ph__stand { padding: 0 20px 4px; }
+  .fp .ph--landing .ph__promise { padding: 14px 20px 18px; }
+}
