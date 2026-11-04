@@ -204,3 +204,35 @@ body:not(:has(.fp)) main img:not([src$=".svg"]) {
 
 /* Dark page head (Known Issue): share label was muted slate on slate. */
 .ph--dark .share-bar__label { color: var(--dark-muted); }
+
+/* --- "The problem / What changed / The catch / What it means for you" ---
+   Four fixed labels as a row of pills. Each pill stays whole and the row
+   wraps between pills, so no stray separator dot lands at the start of a line. */
+.hp-labels {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  font: 600 14px/1.2 var(--mono);
+}
+.hp-labels li { margin: 0; }
+/* Sits on its own row under the date, title and button, full width. */
+.hp-ahead .hp-labels { grid-column: 1 / -1; margin: 0; }
+.hp-labels b {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 7px 11px;
+  border: 1.5px solid var(--accent-border);
+  border-radius: 999px;
+  color: var(--accent-deep);
+  background: var(--accent-subtle);
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  /* Phone: date and title, then the four labels, then the button. */
+  .hp-ahead .hp-labels { order: 1; }
+  .hp-ahead .hp-btn { order: 2; }
+}
