@@ -206,34 +206,62 @@ body:not(:has(.fp)) main img:not([src$=".svg"]) {
 .ph--dark .share-bar__label { color: var(--dark-muted); }
 
 /* --- "The problem / What changed / The catch / What it means for you" ---
-   Four fixed labels as a row of pills. Each pill stays whole and the row
-   wraps between pills, so no stray separator dot lands at the start of a line. */
+   Four fixed labels as a terminal readout: one slate strip, numbered
+   steps in amber mono, dashed dividers. Same words, same order. */
 .hp-labels {
   list-style: none;
+  counter-reset: step;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   margin: 14px 0 0;
   padding: 0;
+  background: var(--screen);
+  border: 2px solid var(--screen);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(227, 197, 138, .18);
   font: 600 14px/1.2 var(--mono);
+  overflow: hidden;
 }
-.hp-labels li { margin: 0; }
-/* Sits on its own row under the date, title and button, full width. */
+.hp-labels li {
+  counter-increment: step;
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 10px 14px;
+  border-left: 1px dashed rgba(227, 197, 138, .35);
+}
+.hp-labels li:first-child { border-left: 0; }
 .hp-ahead .hp-labels { grid-column: 1 / -1; margin: 0; }
 .hp-labels b {
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
   white-space: nowrap;
-  padding: 7px 11px;
-  border: 1.5px solid var(--accent-border);
-  border-radius: 999px;
-  color: var(--accent-deep);
-  background: var(--accent-subtle);
+  color: var(--phosphor);
   font-weight: 600;
+}
+.hp-labels b::before {
+  content: counter(step, decimal-leading-zero);
+  color: var(--accent-light);
+  opacity: .8;
+  font-size: 12px;
+  letter-spacing: .06em;
+}
+/* Last step is the point of the story: give it the cursor block. */
+.hp-labels li:last-child b::after {
+  content: "";
+  align-self: center;
+  width: 7px;
+  height: 14px;
+  background: var(--phosphor);
 }
 
 @media (max-width: 700px) {
-  /* Phone: date and title, then the four labels, then the button. */
-  .hp-ahead .hp-labels { order: 1; }
+  /* Phone: date and title, then the four labels as a 2 x 2 readout, then the button. */
+  .hp-ahead .hp-labels { order: 1; display: grid; grid-template-columns: 1fr 1fr; }
+  .hp-ahead .hp-labels li { padding: 8px 10px; border-left: 0; }
+  .hp-ahead .hp-labels li:nth-child(even) { border-left: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-ahead .hp-labels li:nth-child(n+3) { border-top: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-ahead .hp-labels b { white-space: normal; }
   .hp-ahead .hp-btn { order: 2; }
 }
 
@@ -264,8 +292,6 @@ html:has(.fp) .masthead::before {
   .hp-ahead__new { margin: 0 0 4px; }
   .hp-ahead h2 { font-size: 30px; }
   .hp-ahead__sub { display: none; }
-  .hp-ahead .hp-labels { gap: 6px; }
-  .hp-ahead .hp-labels b { padding: 4px 9px; border-width: 1px; }
   .hp-ahead .hp-btn { padding-block: 10px; min-height: 44px; }
 }
 
