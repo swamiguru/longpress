@@ -463,3 +463,40 @@ html[data-theme="dark"] .pg--daily .ph--landing .hp-dateline em { background: va
   .fp .ph--landing .ph__stand { padding: 0 20px 4px; }
   .fp .ph--landing .ph__promise { padding: 14px 20px 18px; }
 }
+
+/* --- Story heads: same language as the hubs, calmer for reading --------
+   No full panel here. The tag becomes a slate status chip with a live dot,
+   the Daily Five date clock shrinks to a status strip, and titles get the
+   terracotta prompt. Fine Print story heads stay paper. */
+.ph--story:not(.ph--dark) .ph__tag,
+.fp .ph--story .ph__tag { font-family: var(--mono); }
+:not(.fp) > .ph--story .ph__tag,
+.pg--article:not(.fp) .ph--story .ph__tag {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--screen); color: var(--phosphor);
+  padding: 7px 12px; border-radius: 4px;
+  letter-spacing: .12em;
+}
+.pg--article:not(.fp) .ph--story .ph__tag::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22);
+}
+.pg--article:not(.fp) .ph--story.ph--dark .ph__tag { background: rgba(227, 197, 138, .12); box-shadow: inset 0 0 0 1px rgba(227, 197, 138, .3); }
+.pg--article:not(.fp) .ph--story .ph__title::before {
+  content: ">"; margin-right: .2em; font-family: var(--mono); font-weight: 600; color: #D98E72;
+}
+.ph--dark.ph--story::before { display: none; }
+
+/* Daily Five issue page: the big date becomes a status strip */
+.pg--daily .ph--story .df-clock {
+  display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 14px;
+  margin: 0 0 16px; padding: 8px 14px;
+  background: var(--screen); border-radius: 4px; color: var(--phosphor);
+}
+.pg--daily .ph--story .df-clock::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22);
+}
+.pg--daily .ph--story .df-clock__time { font: 800 18px/1 var(--mono); letter-spacing: 0; color: var(--phosphor); }
+.pg--daily .ph--story .df-clock__meta { display: inline-flex; gap: 12px; padding: 0; letter-spacing: .12em; color: var(--accent-light); }
+.pg--daily .ph--story .df-clock__meta b { color: #F3EEE1; }
