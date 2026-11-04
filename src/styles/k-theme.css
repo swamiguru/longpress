@@ -268,3 +268,9 @@ html:has(.fp) .masthead::before {
   .hp-ahead .hp-labels b { padding: 4px 9px; border-width: 1px; }
   .hp-ahead .hp-btn { padding-block: 10px; min-height: 44px; }
 }
+
+/* --- Fine Print: paper, not neon ---------------------------------------
+   Highlighter eased from #FFE14D to a straw #F0DB8C, ground warmed from
+   #FAF9F4 to #F6F1E3. Ink on the highlighter is still above 13:1. The
+   baked-in illustration yellow is pulled back a little with a filter. */
+.fp .fp-img img { filter: saturate(.82) contrast(.98); }

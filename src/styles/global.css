@@ -3905,14 +3905,14 @@ a.wa-header:hover { color: #fff; }
 
 /* ============================================================
    Fine Print (pillar 03) on the homepage and About.
-   Locked identity: highlighter yellow #FFE14D, ink #111111,
-   paper #FAF9F4, asterisk mark. The yellow band follows the
+   Locked identity: highlighter yellow #F0DB8C, ink #111111,
+   paper #F6F1E3, asterisk mark. The yellow band follows the
    dark Known Issue band and stays yellow in dark mode, with ink
    text, the same way the "fine print" block does on articles.
    ============================================================ */
 .hp-fp {
   position: relative; left: 50%; width: 100vw; margin-left: -50vw;
-  background-color: #FFE14D; color: #111111;
+  background-color: #F0DB8C; color: #111111;
   border-top: 5px solid #111111;
   /* legal-pad rules: the page you'd actually read the small print on */
   background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(17,17,17,.07) 31px 32px);
@@ -3922,7 +3922,7 @@ a.wa-header:hover { color: #fff; }
 .hp-fp .hp-fp__kick { color: #111111; }
 .hp-fp .hp-shead h2 { color: #111111; text-transform: none; font-variation-settings: "wdth" 112; letter-spacing: -.02em; }
 .hp-fp .hp-shead__sub { color: #2A2A2A; font-family: "Source Serif 4", Georgia, serif; font-size: 17px; }
-.hp-fp .hp-btn { background: #FAF9F4; color: #111111; border-color: #111111; box-shadow: 3px 3px 0 #111111; }
+.hp-fp .hp-btn { background: #F6F1E3; color: #111111; border-color: #111111; box-shadow: 3px 3px 0 #111111; }
 .hp-fp .hp-btn:hover { box-shadow: 5px 5px 0 #111111; }
 .hp-fp a:focus-visible { outline-color: #111111; }
 
@@ -3931,13 +3931,13 @@ a.wa-header:hover { color: #fff; }
 
 .hp-fpl {
   display: flex; flex-direction: column; gap: 14px; padding: 24px 24px 22px;
-  background: #FAF9F4; color: #111111 !important; text-decoration: none;
+  background: #F6F1E3; color: #111111 !important; text-decoration: none;
   border: 2px solid #111111; box-shadow: 6px 6px 0 #111111;
   transition: transform .15s, box-shadow .15s;
 }
 .hp-fpl:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #111111; }
 .hp-fpl__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font: 500 14px/1.4 "IBM Plex Mono", var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #4A4A4A; }
-.hp-fpl__stamp { background: #111111; color: #FAF9F4; padding: 2px 8px; }
+.hp-fpl__stamp { background: #111111; color: #F6F1E3; padding: 2px 8px; }
 .hp-fpl__title { margin: 0; font-family: var(--display); font-weight: 850; font-variation-settings: "wdth" 106; font-size: clamp(24px, 3vw, 34px); line-height: 1.08; letter-spacing: -.01em; text-transform: none; color: #111111; text-wrap: balance; }
 .hp-fpl__line { margin: 0; font-family: "Source Serif 4", Georgia, serif; font-size: 17px; line-height: 1.5; color: #333333; }
 .hp-fpl__check { display: flex; flex-direction: column; border-top: 2px solid #111111; padding-top: 10px; }
@@ -3945,8 +3945,8 @@ a.wa-header:hover { color: #fff; }
 .hp-fpl__row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #DEDACB; }
 .hp-fpl__who { font: 600 14px/1.35 "IBM Plex Mono", var(--mono); }
 .hp-fpl__chip { flex: none; font: 600 14px/1 "IBM Plex Mono", var(--mono); letter-spacing: .04em; text-transform: uppercase; padding: 4px 7px; }
-.hp-fpl__chip--ink { background: #111111; color: #FAF9F4; }
-.hp-fpl__chip--yellow { background: #FFE14D; color: #111111; border: 1px solid #111111; padding: 3px 6px; }
+.hp-fpl__chip--ink { background: #111111; color: #F6F1E3; }
+.hp-fpl__chip--yellow { background: #F0DB8C; color: #111111; border: 1px solid #111111; padding: 3px 6px; }
 .hp-fpl__chip--outline { border: 1px solid #111111; color: #111111; padding: 3px 6px; }
 .hp-fpl__more { font: 600 14px/1 "IBM Plex Mono", var(--mono); }
 
@@ -3977,11 +3977,11 @@ main:has(.hp-fp) { padding-bottom: 0; }
 @media (max-width: 719px) {
   .hp-doors-m:has(.hp-door-m--fp) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
   .hp-doors-m:has(.hp-door-m--fp) .hp-door-m { font-size: 14px; padding-inline: 4px; }
-  .hp-door-m--fp, .hp .hp-door-m--fp { background: #FFE14D; color: #111111; }
+  .hp-door-m--fp, .hp .hp-door-m--fp { background: #F0DB8C; color: #111111; }
 }
 
 /* About: the third pillar card */
-.pg--about .about-pillar-card--fp { background: #FFE14D; color: #111111; border-color: #111111; border-top: 8px solid #111111; box-shadow: 6px 6px 0 #111111; }
+.pg--about .about-pillar-card--fp { background: #F0DB8C; color: #111111; border-color: #111111; border-top: 8px solid #111111; box-shadow: 6px 6px 0 #111111; }
 .pg--about .about-pillar-card--fp h3, .pg--about .about-pillar-card--fp strong,
 .pg--about .about-pillar-card--fp .about-pillar-card__eyebrow,
 .pg--about .about-pillar-card--fp .dispatch-card__link { color: #111111 !important; }
