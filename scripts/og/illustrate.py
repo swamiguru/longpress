@@ -48,13 +48,13 @@ def prompt_for(subject):
 about an Indian rule or fee. Wide 16:9 landscape, full-bleed, filling the
 whole frame edge to edge.
 
-Background: ONE flat, matte, opaque warm off-white, #FAF9F4, edge to edge. No
+Background: ONE flat, matte, opaque warm off-white, #F6F1E3, edge to edge. No
 gradient, vignette, border, panel or rounded card.
 
 Subject: ONE clear, witty visual metaphor, drawn as a simple flat vector and
 centred, filling about 60 percent of the frame: {subject}.
 Build it from 3 to 6 large geometric shapes with confident near-black outlines
-(#111111) and flat fills. Use ONLY these colours: highlighter yellow #FFE14D,
+(#111111) and flat fills. Use ONLY these colours: soft straw yellow #F0DB8C (muted, never neon, never lime),
 near-black #111111, warm grey #D9D5C6 and the off-white background. Yellow is
 the accent and should be on the one thing the viewer must notice. No small
 detail. Prefer everyday objects (a key, lock, scale, plug, coin, hourglass,

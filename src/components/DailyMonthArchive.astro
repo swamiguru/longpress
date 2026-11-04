@@ -73,7 +73,7 @@ const formatMonthLabel = (y: string, m: string) =>
                 <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
                   {med.format(b.data.date)}
                 </time>
-                <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; padding: 2px 7px;">
+                <span class="pill-tag pill-tag--muted" style="font-size: 14px; padding: 2px 7px;">
                   {dayOfWeek}
                 </span>
               </div>
@@ -126,7 +126,7 @@ const formatMonthLabel = (y: string, m: string) =>
           <span>{formatMonthLabel(olderMonth.year, olderMonth.month)}</span>
         </a>
       ) : (
-        <span class="archive-pagination-info" style="color: var(--muted); font-size: 10px;">Earliest Volume</span>
+        <span class="archive-pagination-info" style="color: var(--muted); font-size: 14px;">Earliest Volume</span>
       )}
     </div>
 
@@ -141,7 +141,7 @@ const formatMonthLabel = (y: string, m: string) =>
           <span aria-hidden="true">&rarr;</span>
         </a>
       ) : (
-        <span class="archive-pagination-info" style="color: var(--muted); font-size: 10px;">Latest Volume</span>
+        <span class="archive-pagination-info" style="color: var(--muted); font-size: 14px;">Latest Volume</span>
       )}
     </div>
   </div>

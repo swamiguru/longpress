@@ -1,0 +1,501 @@
+/* ============================================================
+   LONG PRESS: DIRECTION K  ("computer age, calmer and clearer")
+   Loaded after global.css. Remaps the design tokens and sets the
+   reading rules. Fine Print keeps its own --fp-* identity and is
+   not touched here, apart from the shared header and footer.
+
+   Light  ground #F3EEE1  panel #EAE3D2  ink #38353F
+   Marks  terracotta #BE7A62  mustard #D6B878  teal #5B8A84
+   Screen slate #34323F with amber #E3C58A text (question, verdict)
+
+   Rules of the layer
+   - Body text 19px, 1.7 line height, about 62ch.
+   - Mono only for short labels, never below 14px.
+   - Status is never colour alone: outline style or a word carries it.
+   - Glass stays on the sticky header only, never behind reading text.
+   ============================================================ */
+
+:root {
+  --ground:          #F3EEE1;
+  --surface:         #EAE3D2;
+  --surface-card:    #FAF6EB;
+  --surface-hover:   #E1D9C4;
+
+  --ink:             #38353F;
+  --ink-soft:        #3F3C47;
+  --muted:           #55505F;
+  --muted-light:     #6B6674;
+
+  --rule:            #D2C9B2;
+  --rule-soft:       #E1D9C4;
+  --rule-strong:     #38353F;
+
+  --terra:           #BE7A62;
+  --mustard:         #D6B878;
+  --teal:            #5B8A84;
+
+  --accent:          #A65D46;   /* fills that carry text: white on it is 4.9:1 */
+  --accent-deep:     #8A4632;   /* accent as text, AA on ground   */
+  --accent-light:    #E3A58F;   /* accent on slate grounds        */
+  --on-accent:       #FFFFFF;
+  --accent-subtle:   rgba(166, 93, 70, 0.13);
+  --accent-border:   rgba(166, 93, 70, 0.38);
+  --accent-2:        #47766F;   /* fills that carry text: white on it is 5.1:1 */
+  --accent-2-subtle: rgba(71, 118, 111, 0.14);
+
+  --butter:          #EDE0BC;
+  --sage:            #DAE4DD;
+
+  --screen:          #34323F;
+  --phosphor:        #E3C58A;
+  --phosphor-dim:    #BCA173;
+
+  --dark-ground:     #34323F;
+  --dark-surface:    #3D3A49;
+  --dark-ink:        #EFEAE0;
+  --dark-soft:       #D3CDDA;
+  --dark-muted:      #BDB6C6;
+  --dark-rule:       #55505F;
+  --dark-utility:    #E3DEEA;
+  --ground-subtle:   #EEE8D8;
+  --highlight:       rgba(214, 184, 120, 0.38);
+
+  --shadow-card:     0 1px 2px rgba(56, 53, 63, 0.08);
+  --shadow-pop:      0 10px 28px rgba(56, 53, 63, 0.14);
+  --shadow-hard-sm:  0 1px 0 rgba(56, 53, 63, 0.16), 0 2px 8px rgba(56, 53, 63, 0.08);
+  --shadow-hard:     0 2px 0 rgba(56, 53, 63, 0.16), 0 6px 18px rgba(56, 53, 63, 0.10);
+
+  --mono:            "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display-wide:    "wdth" 100;
+  --display-normal:  "wdth" 100;
+
+  --measure: 62ch;
+  --teal-light: #8FBFB7;
+  --teal-text:  #2F6761;
+}
+
+html[data-theme="dark"] {
+  --ground:          #26242E;
+  --surface:         #302D39;
+  --surface-card:    #2C2A35;
+  --surface-hover:   #3A3745;
+
+  --ink:             #E9E4D8;
+  --ink-soft:        #D9D3C8;
+  --muted:           #BDB6C6;
+  --muted-light:     #A29BAE;
+
+  --rule:            #45414F;
+  --rule-soft:       #38353F;
+  --rule-strong:     #6A6575;
+
+  --terra:           #CF8A72;
+  --mustard:         #CDAF70;
+  --teal:            #6A9C95;
+
+  --accent:          #CF8A72;
+  --accent-deep:     #E3A58F;
+  --accent-light:    #EBB9A6;
+  --on-accent:       #1C1B23;
+  --accent-subtle:   rgba(207, 138, 114, 0.16);
+  --accent-border:   rgba(207, 138, 114, 0.38);
+  --accent-2:        #6A9C95;
+  --accent-2-subtle: rgba(106, 156, 149, 0.16);
+
+  --butter:          #4A4333;
+  --sage:            #2F3F3C;
+
+  --screen:          #1C1B23;
+  --phosphor:        #E3C58A;
+  --phosphor-dim:    #B79C6C;
+
+  --dark-ground:     #1C1B23;
+  --dark-surface:    #26242E;
+  --dark-ink:        #E9E4D8;
+  --dark-soft:       #D3CDDA;
+  --dark-muted:      #B2ABBD;
+  --dark-rule:       #3A3745;
+  --dark-utility:    #E3DEEA;
+  --ground-subtle:   #2B2934;
+  --highlight:       rgba(227, 197, 138, 0.30);
+
+  --shadow-card:     0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-pop:      0 12px 32px rgba(0, 0, 0, 0.50);
+  --shadow-hard-sm:  0 1px 0 rgba(0, 0, 0, 0.30), 0 2px 8px rgba(0, 0, 0, 0.22);
+  --shadow-hard:     0 2px 0 rgba(0, 0, 0, 0.30), 0 6px 18px rgba(0, 0, 0, 0.30);
+
+  --teal-light: #8FBFB7;
+  --teal-text:  #8FBFB7;
+}
+
+/* --- Reading ------------------------------------------------ */
+body {
+  font-size: 1.1875rem;   /* 19px at the default browser size */
+  line-height: 1.7;
+}
+
+h1 {
+  text-transform: none;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  font-size: clamp(2rem, 5.6vw, 3rem);
+}
+h2 { line-height: 1.2; letter-spacing: -0.01em; }
+h3 { line-height: 1.25; letter-spacing: -0.01em; }
+
+.eyebrow {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* --- Focus and selection ------------------------------------ */
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+::selection { background: var(--mustard); color: #2B2830; }
+
+/* --- Header: three-band stripe under the masthead ------------- */
+.masthead { border-bottom: 0; margin-bottom: 13px; }  /* room for the stripe, so it never sits on content */
+.masthead::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -13px;
+  height: 13px;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    var(--terra) 0 3px, transparent 3px 5px,
+    var(--mustard) 5px 8px, transparent 8px 10px,
+    var(--teal) 10px 13px);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .masthead::before { background: rgba(243, 238, 225, 0.92); }
+  html[data-theme="dark"] .masthead::before { background: rgba(38, 36, 46, 0.92); }
+}
+
+/* --- Mobile drawer wordmark matches the masthead ------------- */
+html .mobile-drawer-brand .mobile-drawer-brand__title {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+html .mobile-drawer-brand .mobile-drawer-brand__title .word-press {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
+/* --- Story illustrations: pull the saturation down a notch ----
+   The artwork is fixed; this keeps it from out-shouting the page.
+   Fine Print pages carry their own art direction and are excluded. */
+body:not(:has(.fp)) main img:not([src$=".svg"]) {
+  filter: saturate(0.78) contrast(0.97);
+}
+
+/* --- Header room: labels are 14px now, so drop the tagline sooner ---- */
+@media (max-width: 1360px) {
+  .masthead .brand-logo__tagline { display: none; }
+}
+@media (max-width: 1560px) {
+  .masthead .brand-logo__tagline { display: none; }
+}
+
+/* Dark page head (Known Issue): share label was muted slate on slate. */
+.ph--dark .share-bar__label { color: var(--dark-muted); }
+
+/* --- "The problem / What changed / The catch / What it means for you" ---
+   Four fixed labels as a terminal readout: one slate strip, numbered
+   steps in amber mono, dashed dividers. Same words, same order. */
+.hp-labels {
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 14px 0 0;
+  padding: 0;
+  background: var(--screen);
+  border: 2px solid var(--screen);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(227, 197, 138, .18);
+  font: 600 14px/1.2 var(--mono);
+  overflow: hidden;
+}
+.hp-labels li {
+  counter-increment: step;
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 10px 14px;
+  border-left: 1px dashed rgba(227, 197, 138, .35);
+}
+.hp-labels li:first-child { border-left: 0; }
+.hp-ahead .hp-labels { grid-column: 1 / -1; margin: 0; }
+.hp-labels b {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+  color: var(--phosphor);
+  font-weight: 600;
+}
+.hp-labels b::before {
+  content: counter(step, decimal-leading-zero);
+  color: var(--accent-light);
+  opacity: .8;
+  font-size: 12px;
+  letter-spacing: .06em;
+}
+/* Last step is the point of the story: give it the cursor block. */
+.hp-labels li:last-child b::after {
+  content: "";
+  align-self: center;
+  width: 7px;
+  height: 14px;
+  background: var(--phosphor);
+}
+
+@media (max-width: 700px) {
+  /* Phone: date and title, then the four labels as a 2 x 2 readout, then the button. */
+  .hp-ahead .hp-labels { order: 1; display: grid; grid-template-columns: 1fr 1fr; }
+  .hp-ahead .hp-labels li { padding: 8px 10px; border-left: 0; }
+  .hp-ahead .hp-labels li:nth-child(even) { border-left: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-ahead .hp-labels li:nth-child(n+3) { border-top: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-ahead .hp-labels b { white-space: normal; }
+  .hp-ahead .hp-btn { order: 2; }
+}
+
+/* --- Header over Fine Print: solid, no blur ---------------------------
+   The blur layer averaged the yellow page into a grey wash. Fine Print pages
+   get the plain sand header, same as every other page at rest. */
+html:has(.fp) .masthead::before {
+  background: var(--ground);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* --- Footer: no empty box where the Google button did not render -----
+   The preferred-source button is reserved at 44px so nothing shifts when it
+   loads. When Google renders nothing (site not listed, blocked, or a
+   preview), that reserved box is a blank band. Collapse it until the
+   library puts something inside. */
+.footer__preferred:has([google-add-preferred-source-btn]:empty) { min-height: 0; }
+
+/* --- Phone: Today's Five stays short so story 01 shows above the fold ---
+   Small date chip beside the title, intro line out of sight (the four labels
+   below carry the same promise), tighter pills, slimmer button. */
+@media (max-width: 700px) {
+  .hp-ahead { gap: 10px 12px; margin-bottom: 14px; align-items: center; }
+  .hp-ahead__cal { min-width: 56px; padding: 6px 8px 7px; gap: 1px; box-shadow: none; }
+  .hp-ahead__cal small { font-size: 14px; letter-spacing: 0.1em; }
+  .hp-ahead__cal b { font-size: 28px; }
+  .hp-ahead__new { margin: 0 0 4px; }
+  .hp-ahead h2 { font-size: 30px; }
+  .hp-ahead__sub { display: none; }
+  .hp-ahead .hp-btn { padding-block: 10px; min-height: 44px; }
+}
+
+/* --- Fine Print: paper, not neon ---------------------------------------
+   Highlighter eased from #FFE14D to a straw #F0DB8C, ground warmed from
+   #FAF9F4 to #F6F1E3. Ink on the highlighter is still above 13:1. The
+   illustrations were recoloured to match. */
+
+/* --- Today's Five as a terminal window -------------------------------
+   One slate panel: status bar (new today + date), prompt-style title with
+   a block cursor, the four steps, then the read button as the last row.
+   Short on purpose: story 01 has to clear the fold on a phone. */
+.hp-term {
+  margin-bottom: 18px;
+  background: var(--screen);
+  color: #F3EEE1;
+  border: 2px solid var(--screen);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(227, 197, 138, .22), 0 6px 0 rgba(52, 50, 63, .14);
+}
+html[data-theme="dark"] .hp-term { border-color: rgba(227, 197, 138, .3); }
+.hp-term__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 14px;
+  border-bottom: 1px dashed rgba(227, 197, 138, .35);
+  font: 600 14px/1 var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+}
+.hp-term__new { display: inline-flex; align-items: center; gap: 8px; }
+.hp-term__new i { width: 9px; height: 9px; border-radius: 50%; background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22); animation: hp-pulse 1.8s ease-in-out infinite; }
+.hp-term__date { color: var(--accent-light); }
+.hp-term__body { padding: 14px 14px 12px; }
+.hp-term h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-variation-settings: var(--display-wide);
+  font-weight: 900;
+  font-size: clamp(30px, 6vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #F3EEE1;
+}
+.hp-term__prompt { font-family: var(--mono); font-weight: 600; color: #D98E72; margin-right: .1em; }
+.hp-term__cur {
+  display: inline-block; width: .38em; height: .8em; margin-left: .14em;
+  background: var(--phosphor); vertical-align: -.02em;
+  animation: hp-cursor 1.1s steps(1) infinite;
+}
+@keyframes hp-cursor { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .hp-term__cur, .hp-term__new i { animation: none; } }
+.hp-term__sub { display: none; margin: 8px 0 0; max-width: 60ch; font-size: 16px; line-height: 1.5; color: #D9D3C4; }
+
+/* Steps sit inside the panel: drop the strip's own frame. */
+.hp-term .hp-labels { margin: 0; border: 0; border-radius: 0; box-shadow: none; background: transparent; border-top: 1px dashed rgba(227, 197, 138, .35); }
+
+/* Read button: the last row of the panel. */
+.hp-term .hp-term__go {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 48px; margin: 0; border: 0; border-radius: 0; box-shadow: none;
+  background: var(--accent); color: var(--on-accent);
+  font: 800 15px/1 var(--display); letter-spacing: .06em; text-transform: uppercase;
+}
+.hp-term .hp-term__go:hover { background: var(--accent-deep); color: #fff; }
+
+@media (max-width: 700px) {
+  .hp-term .hp-labels { display: grid; grid-template-columns: 1fr 1fr; }
+  .hp-term .hp-labels li { padding: 8px 12px; border-left: 0; }
+  .hp-term .hp-labels li:nth-child(even) { border-left: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-term .hp-labels li:nth-child(n+3) { border-top: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-term .hp-labels b { white-space: normal; }
+}
+@media (min-width: 701px) {
+  .hp-term__sub { display: block; }
+  .hp-term__body { padding: 18px 20px 16px; }
+  .hp-term__bar { padding: 10px 20px; }
+  .hp-term .hp-labels li { padding: 12px 20px; }
+  .hp-term .hp-term__go { min-height: 52px; }
+}
+
+/* --- Pillar landing heads as terminal panels --------------------------
+   /daily and /known-issue: slate panel, status bar, prompt title with a
+   block cursor, standfirst below. Same language as the home panel.
+   /fine-print keeps its paper identity: a framed sheet with a straw
+   status bar, no slate, no cursor. */
+:is(.pg--daily, .pg--ki) .ph--landing {
+  --bar: var(--terra);
+  padding: 0;
+  background: var(--screen);
+  color: #F3EEE1;
+  border: 2px solid var(--screen);
+  border-top: 5px solid var(--bar);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(227, 197, 138, .22), 0 6px 0 rgba(52, 50, 63, .14);
+}
+.pg--ki .ph--landing { --bar: var(--teal); }
+html[data-theme="dark"] :is(.pg--daily, .pg--ki) .ph--landing { border-color: rgba(227, 197, 138, .3); border-top-color: var(--bar); }
+:is(.pg--daily, .pg--ki) .ph--landing::before,
+:is(.pg--daily, .pg--ki) .ph__ring { display: none; }
+
+/* status bar: chip text on the daily page with no issue yet, the dateline otherwise */
+:is(.pg--daily, .pg--ki) .ph--landing .ph__tag,
+.pg--daily .ph--landing .hp-dateline {
+  display: flex; align-items: center; gap: 10px; width: 100%; margin: 0;
+  padding: 8px 14px;
+  background: transparent; color: var(--phosphor);
+  border-bottom: 1px dashed rgba(227, 197, 138, .35);
+  font: 600 14px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+}
+:is(.pg--daily, .pg--ki) .ph--landing .ph__tag::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22);
+}
+.pg--daily .ph--landing .hp-dateline i { background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22); width: 9px; height: 9px; }
+.pg--daily .ph--landing .hp-dateline b { font: 800 20px/1 var(--mono); letter-spacing: 0; color: var(--phosphor); }
+.pg--daily .ph--landing .hp-dateline span { display: inline; font: 600 14px/1.2 var(--mono); letter-spacing: .12em; color: var(--accent-light); }
+.pg--daily .ph--landing .hp-dateline span { white-space: nowrap; }
+.pg--daily .ph--landing .hp-dateline span br { content: " \00B7 "; }
+.pg--daily .ph--landing .hp-dateline em { margin-left: auto; white-space: nowrap; font-size: 14px; padding: 5px 8px; background: var(--accent); color: var(--on-accent); }
+html[data-theme="dark"] .pg--daily .ph--landing .hp-dateline em { background: var(--accent); color: var(--on-accent); }
+
+:is(.pg--daily, .pg--ki) .ph--landing .ph__title {
+  margin: 0; padding: 16px 14px 6px;
+  font-size: clamp(32px, 6vw, 56px); color: #F3EEE1;
+}
+:is(.pg--daily, .pg--ki) .ph--landing .ph__title::before {
+  content: ">"; margin-right: .22em; font-family: var(--mono); font-weight: 600; color: #D98E72;
+}
+:is(.pg--daily, .pg--ki) .ph--landing .ph__title::after {
+  content: ""; display: inline-block; width: .38em; height: .8em; margin-left: .16em;
+  background: var(--phosphor); vertical-align: -.02em; animation: hp-cursor 1.1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) { :is(.pg--daily, .pg--ki) .ph--landing .ph__title::after { animation: none; } }
+:is(.pg--daily, .pg--ki) .ph--landing .ph__stand { margin: 0 14px 16px; padding: 0; color: #D9D3C4; max-width: 70ch; }
+.pg--ki .ph--landing .ki-facts { margin: 0; padding: 12px 14px 14px; border-top: 1px dashed rgba(227, 197, 138, .35); }
+.pg--ki .ph--landing .ki-facts b { color: var(--phosphor); }
+.pg--ki .ph--landing .ki-facts span { color: #D9D3C4; }
+@media (min-width: 701px) {
+  :is(.pg--daily, .pg--ki) .ph--landing .ph__tag, .pg--daily .ph--landing .hp-dateline { padding: 10px 20px; }
+  :is(.pg--daily, .pg--ki) .ph--landing .ph__title { padding: 20px 20px 8px; }
+  :is(.pg--daily, .pg--ki) .ph--landing .ph__stand { margin: 0 20px 20px; }
+  .pg--ki .ph--landing .ki-facts { padding: 14px 20px 16px; }
+}
+
+/* Fine Print landing: framed sheet with a straw status bar */
+.fp .ph--landing {
+  padding: 0;
+  background: var(--fp-card);
+  border: 2px solid var(--fp-ink);
+  border-top-width: 2px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.fp .ph--landing .ph__tag {
+  display: flex; width: 100%; margin: 0; padding: 8px 14px;
+  background: var(--fp-hl); color: var(--fp-on-hl);
+  border-bottom: 2px solid var(--fp-ink);
+}
+.fp .ph--landing .ph__title { margin: 0; padding: 16px 14px 6px; }
+.fp .ph--landing .ph__stand { padding: 0 14px 4px; }
+.fp .ph--landing .ph__promise { margin: 0; padding: 12px 14px 14px; }
+@media (min-width: 701px) {
+  .fp .ph--landing .ph__tag { padding: 10px 20px; }
+  .fp .ph--landing .ph__title { padding: 20px 20px 8px; }
+  .fp .ph--landing .ph__stand { padding: 0 20px 4px; }
+  .fp .ph--landing .ph__promise { padding: 14px 20px 18px; }
+}
+
+/* --- Story heads: same language as the hubs, calmer for reading --------
+   No full panel here. The tag becomes a slate status chip with a live dot,
+   the Daily Five date clock shrinks to a status strip, and titles get the
+   terracotta prompt. Fine Print story heads stay paper. */
+.ph--story:not(.ph--dark) .ph__tag,
+.fp .ph--story .ph__tag { font-family: var(--mono); }
+:not(.fp) > .ph--story .ph__tag,
+.pg--article:not(.fp) .ph--story .ph__tag {
+  display: inline-flex; align-items: center; gap: 9px;
+  background: var(--screen); color: var(--phosphor);
+  padding: 7px 12px; border-radius: 4px;
+  letter-spacing: .12em;
+}
+.pg--article:not(.fp) .ph--story .ph__tag::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22);
+}
+.pg--article:not(.fp) .ph--story.ph--dark .ph__tag { background: rgba(227, 197, 138, .12); box-shadow: inset 0 0 0 1px rgba(227, 197, 138, .3); }
+.pg--article:not(.fp) .ph--story .ph__title::before {
+  content: ">"; margin-right: .2em; font-family: var(--mono); font-weight: 600; color: #D98E72;
+}
+.ph--dark.ph--story::before { display: none; }
+
+/* Daily Five issue page: the big date becomes a status strip */
+.pg--daily .ph--story .df-clock {
+  display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 14px;
+  margin: 0 0 16px; padding: 8px 14px;
+  background: var(--screen); border-radius: 4px; color: var(--phosphor);
+}
+.pg--daily .ph--story .df-clock::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%; flex: none;
+  background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22);
+}
+.pg--daily .ph--story .df-clock__time { font: 800 18px/1 var(--mono); letter-spacing: 0; color: var(--phosphor); }
+.pg--daily .ph--story .df-clock__meta { display: inline-flex; gap: 12px; padding: 0; letter-spacing: .12em; color: var(--accent-light); }
+.pg--daily .ph--story .df-clock__meta b { color: #F3EEE1; }

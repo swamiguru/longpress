@@ -8,16 +8,16 @@
    ============================================================ */
 
 .fp {
-  --fp-paper: #FAF9F4;
-  --fp-card: #FFFFFF;
+  --fp-paper: #F6F1E3;
+  --fp-card: #FBF8EE;
   --fp-ink: #111111;
   --fp-ink-soft: #444444;
   --fp-muted: #4A4A4A;
-  --fp-rule: #DEDACB;
-  --fp-rule-strong: #CFCAB8;
+  --fp-rule: #D9D2BC;
+  --fp-rule-strong: #C8C0A6;
   --fp-dash: #8F7F52;
   --fp-tint: rgba(60, 40, 10, .07);
-  --fp-hl: #FFE14D;
+  --fp-hl: #F0DB8C;
   --fp-on-hl: #111111;
   --fp-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --fp-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -29,7 +29,7 @@
   padding-bottom: 80px;
 }
 /* Paper ground for the whole page while a Fine Print page is open. */
-html:has(.fp) body { background: #FAF9F4; }
+html:has(.fp) body { background: #F6F1E3; }
 html[data-theme="dark"]:has(.fp) body { background: #141412; }
 html[data-theme="dark"] .fp {
   --fp-paper: #141412;
@@ -43,7 +43,7 @@ html[data-theme="dark"] .fp {
   --fp-tint: rgba(255, 255, 255, .05);
 }
 
-.fp a { color: var(--fp-ink); text-decoration-color: #C9A800; text-underline-offset: 3px; }
+.fp a { color: var(--fp-ink); text-decoration-color: #B59A3A; text-underline-offset: 3px; }
 .fp a:hover { color: var(--fp-ink-soft); }
 .fp-hl { background: var(--fp-hl); color: var(--fp-on-hl); padding: 0 .18em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .fp a.fp-fn { font-family: var(--fp-mono); font-size: .62em; font-weight: 600; vertical-align: super; line-height: 0; margin-left: 1px; text-decoration: none; }
@@ -233,5 +233,5 @@ html:not([data-theme="dark"]):has(.fp--doc) body { background-color: #F2E8CE; }
 .fp-img { margin: 28px 0 0; max-width: 760px; }
 .fp-img--hero { margin-top: 8px; }
 .fp-article > .fp-img { margin-top: 48px; }
-.fp-img img { display: block; width: 100%; height: auto; border: 2px solid var(--fp-ink); border-radius: 4px; background: #FAF9F4; }
+.fp-img img { display: block; width: 100%; height: auto; border: 2px solid var(--fp-ink); border-radius: 4px; background: #F6F1E3; }
 .fp-img figcaption { margin-top: 10px; font-family: var(--fp-mono); font-size: 12px; line-height: 1.5; color: var(--fp-muted); }

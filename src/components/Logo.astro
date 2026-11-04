@@ -8,18 +8,18 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
 ---
 <div class={`brand-logo brand-logo--${variant}`} id="brand-logo">
   <div class="brand-logo__mark" aria-hidden="true">
-    <!-- Press and hold: the ring fills while you wait. 135deg arc from 12 o'clock.
-         The arc is a circle with pathLength=360 so dash lengths read as degrees
-         and the masthead animation can grow it. Static render matches the old path. -->
-    <svg width="38" height="38" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="21" cy="21" r="19.5" fill="none" class="mark-ripple" stroke="#E0552B" stroke-width="1.5" />
-      <circle cx="21" cy="21" r="19.5" fill="none" class="mark-ring" stroke-width="2" />
-      <circle cx="21" cy="21" r="19.5" fill="none" class="mark-arc" stroke="#E0552B" stroke-width="4.5" stroke-linecap="round" pathLength="360" stroke-dasharray="135 360" transform="rotate(-90 21 21)" />
-      <circle cx="21" cy="21" r="7.5" class="mark-dot" />
+    <!-- Press and hold: the arc fills while you wait. SCREEN icon: slate tile,
+         amber ring, terracotta arc, amber dot. The arc is a circle with
+         pathLength=360 so dash lengths read as degrees. Static render is 180deg. -->
+    <svg width="38" height="38" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="40" height="40" rx="11" class="mark-tile" />
+      <circle cx="22" cy="22" r="10" fill="none" class="mark-ring" stroke-width="2.8" />
+      <circle cx="22" cy="22" r="10" fill="none" class="mark-arc" stroke-width="2.8" stroke-linecap="butt" pathLength="360" stroke-dasharray="180 360" transform="rotate(-90 22 22)" />
+      <circle cx="22" cy="22" r="3.6" class="mark-dot" />
     </svg>
   </div>
   <div class="brand-logo__text">
-    <span class="brand-logo__title">Long<span class="word-press">press</span></span>
+    <span class="brand-logo__title">Long&nbsp;<span class="word-press">Press</span><span class="brand-logo__cursor" aria-hidden="true"></span></span>
     {showTagline && (
       <span class="brand-logo__tagline">Press and hold &middot; the tech signal</span>
     )}
@@ -49,8 +49,11 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
   }
   .brand-logo:hover .brand-logo__mark { transform: scale(1.05); }
 
-  .mark-ring { stroke: var(--ink); }
-  .mark-dot  { fill: var(--ink); }
+  .mark-tile { fill: #34323F; }
+  .mark-ring { stroke: #E3C58A; }
+  .mark-arc  { stroke: #D98E72; }
+  .mark-dot  { fill: #E3C58A; }
+  html[data-theme="dark"] .mark-tile { stroke: #4A4756; stroke-width: 1.5; }
 
   .brand-logo__text {
     display: flex;
@@ -61,17 +64,34 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
   }
 
   .brand-logo__title {
+    display: inline-flex;
+    align-items: center;
     font-family: var(--display);
     font-variation-settings: var(--display-wide);
     font-weight: 800;
     font-size: 22px;
-    line-height: .9;
-    letter-spacing: -0.04em;
+    line-height: 1;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
     color: var(--ink);
   }
 
-  .word-press { color: var(--accent); }
+  .word-press {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--accent-deep);
+  }
+
+  /* Block cursor: blinks in the masthead only. Static elsewhere. */
+  .brand-logo__cursor {
+    display: inline-block;
+    width: .4em;
+    height: .8em;
+    margin-left: .22em;
+    background: var(--accent-deep);
+  }
+  .brand-logo--masthead .brand-logo__cursor { animation: lp-blink 1.1s steps(1, end) infinite; }
+  @keyframes lp-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
 
   /* Masthead — primary header branding */
   .brand-logo--masthead {
@@ -82,19 +102,19 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
     height: 36px;
   }
   .brand-logo--masthead .brand-logo__title {
-    font-size: 24px;
-    letter-spacing: -0.035em;
+    font-size: 26px;
+    letter-spacing: 0.02em;
   }
   .brand-logo--masthead .brand-logo__tagline {
-    font-size: 9px;
-    letter-spacing: 0.14em;
+    font-size: 12px;
+    letter-spacing: 0.08em;
   }
 
   .brand-logo__tagline {
     font-family: var(--mono);
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
   }
@@ -115,19 +135,17 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
     font-size: 18px;
     color: var(--dark-ink);
   }
-  .brand-logo--footer .mark-ring { stroke: var(--dark-ink); }
-  .brand-logo--footer .mark-dot  { fill: var(--dark-ink); }
+  .brand-logo--footer .word-press { color: var(--accent-light); }
+  .brand-logo--footer .brand-logo__cursor { background: var(--accent-light); }
   .brand-logo--footer .brand-logo__mark svg { width: 22px; height: 22px; }
 
   /* Press-and-hold animation: masthead mark only. Plays twice shortly after
      load, then rests; replays on hover or tap (see script). JS adds
      .is-playing and removes it on animationend, so it never loops. */
-  .mark-ripple { opacity: 0; }
-  .mark-dot, .mark-ripple { transform-box: fill-box; transform-origin: center; }
+  .mark-dot { transform-box: fill-box; transform-origin: center; }
 
   .brand-logo--masthead.is-playing .mark-dot    { animation: lp-dot 3.6s var(--lp-count, 1) both; }
   .brand-logo--masthead.is-playing .mark-arc    { animation: lp-arc 3.6s var(--lp-count, 1) both; }
-  .brand-logo--masthead.is-playing .mark-ripple { animation: lp-ripple 3.6s var(--lp-count, 1) both; }
 
   @keyframes lp-dot {
     0%, 6%   { transform: scale(1); }
@@ -136,20 +154,15 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
     68%, 100% { transform: scale(1); }
   }
   @keyframes lp-arc {
-    0%, 6%    { stroke-dasharray: 135 360; }
-    52%       { stroke-dasharray: 190 360; }
-    62%, 100% { stroke-dasharray: 135 360; }
-  }
-  @keyframes lp-ripple {
-    0%, 52% { opacity: 0; transform: scale(.35); }
-    54%     { opacity: .4; transform: scale(.35); }
-    72%, 100% { opacity: 0; transform: scale(1); }
+    0%, 6%    { stroke-dasharray: 180 360; }
+    52%       { stroke-dasharray: 250 360; }
+    62%, 100% { stroke-dasharray: 180 360; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .brand-logo--masthead.is-playing .mark-dot,
-    .brand-logo--masthead.is-playing .mark-arc,
-    .brand-logo--masthead.is-playing .mark-ripple { animation: none; }
+    .brand-logo--masthead.is-playing .mark-arc { animation: none; }
+    .brand-logo--masthead .brand-logo__cursor { animation: none; }
   }
 </style>
 

@@ -95,7 +95,7 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
           <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
             <span class="pill-tag pill-tag--known-issue">Known Issue &middot; Opinion</span>
             {leadStory.data.topics.slice(0, 3).map((t) => (
-              <span class="pill-tag pill-tag--muted" style="font-size: 10px; text-transform: uppercase;">
+              <span class="pill-tag pill-tag--muted" style="font-size: 14px; text-transform: uppercase;">
                 {t}
               </span>
             ))}
@@ -209,9 +209,9 @@ const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
             <p class="archive-row__desc">{p.data.description}</p>
 
             <div class="archive-row__tags">
-              <span class="pill-tag pill-tag--known-issue" style="font-size: 9.5px;">Known Issue</span>
+              <span class="pill-tag pill-tag--known-issue" style="font-size: 14px;">Known Issue</span>
               {(p.data.topics || []).slice(0, 3).map((tag) => (
-                <span class="pill-tag pill-tag--muted" style="font-size: 9.5px; text-transform: uppercase;">
+                <span class="pill-tag pill-tag--muted" style="font-size: 14px; text-transform: uppercase;">
                   {tag}
                 </span>
               ))}
