@@ -300,3 +300,77 @@ html:has(.fp) .masthead::before {
    #FAF9F4 to #F6F1E3. Ink on the highlighter is still above 13:1. The
    baked-in illustration yellow is pulled back a little with a filter. */
 .fp .fp-img img { filter: saturate(.82) contrast(.98); }
+
+/* --- Today's Five as a terminal window -------------------------------
+   One slate panel: status bar (new today + date), prompt-style title with
+   a block cursor, the four steps, then the read button as the last row.
+   Short on purpose: story 01 has to clear the fold on a phone. */
+.hp-term {
+  margin-bottom: 18px;
+  background: var(--screen);
+  color: #F3EEE1;
+  border: 2px solid var(--screen);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(227, 197, 138, .22), 0 6px 0 rgba(52, 50, 63, .14);
+}
+html[data-theme="dark"] .hp-term { border-color: rgba(227, 197, 138, .3); }
+.hp-term__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 14px;
+  border-bottom: 1px dashed rgba(227, 197, 138, .35);
+  font: 600 14px/1 var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+}
+.hp-term__new { display: inline-flex; align-items: center; gap: 8px; }
+.hp-term__new i { width: 9px; height: 9px; border-radius: 50%; background: #7FC8A9; box-shadow: 0 0 0 3px rgba(127, 200, 169, .22); animation: hp-pulse 1.8s ease-in-out infinite; }
+.hp-term__date { color: var(--accent-light); }
+.hp-term__body { padding: 14px 14px 12px; }
+.hp-term h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-variation-settings: var(--display-wide);
+  font-weight: 900;
+  font-size: clamp(30px, 6vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #F3EEE1;
+}
+.hp-term__prompt { font-family: var(--mono); font-weight: 600; color: #D98E72; margin-right: .1em; }
+.hp-term__cur {
+  display: inline-block; width: .38em; height: .8em; margin-left: .14em;
+  background: var(--phosphor); vertical-align: -.02em;
+  animation: hp-cursor 1.1s steps(1) infinite;
+}
+@keyframes hp-cursor { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .hp-term__cur, .hp-term__new i { animation: none; } }
+.hp-term__sub { display: none; margin: 8px 0 0; max-width: 60ch; font-size: 16px; line-height: 1.5; color: #D9D3C4; }
+
+/* Steps sit inside the panel: drop the strip's own frame. */
+.hp-term .hp-labels { margin: 0; border: 0; border-radius: 0; box-shadow: none; background: transparent; border-top: 1px dashed rgba(227, 197, 138, .35); }
+
+/* Read button: the last row of the panel. */
+.hp-term .hp-term__go {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 48px; margin: 0; border: 0; border-radius: 0; box-shadow: none;
+  background: var(--accent); color: var(--on-accent);
+  font: 800 15px/1 var(--display); letter-spacing: .06em; text-transform: uppercase;
+}
+.hp-term .hp-term__go:hover { background: var(--accent-deep); color: #fff; }
+
+@media (max-width: 700px) {
+  .hp-term .hp-labels { display: grid; grid-template-columns: 1fr 1fr; }
+  .hp-term .hp-labels li { padding: 8px 12px; border-left: 0; }
+  .hp-term .hp-labels li:nth-child(even) { border-left: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-term .hp-labels li:nth-child(n+3) { border-top: 1px dashed rgba(227, 197, 138, .35); }
+  .hp-term .hp-labels b { white-space: normal; }
+}
+@media (min-width: 701px) {
+  .hp-term__sub { display: block; }
+  .hp-term__body { padding: 18px 20px 16px; }
+  .hp-term__bar { padding: 10px 20px; }
+  .hp-term .hp-labels li { padding: 12px 20px; }
+  .hp-term .hp-term__go { min-height: 52px; }
+}

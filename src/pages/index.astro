@@ -115,19 +115,17 @@ import '../styles/landing-heads.css';
   <!-- 1. Today's Five -->
   {today && (
     <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
-      <div class="hp-ahead">
-        <div class="hp-ahead__cal" role="img" aria-label={`Today, ${med.format(today.data.date)}`}>
-          <small>{wdFmt.format(today.data.date)}</small>
-          <b>{dayFmt.format(today.data.date)}</b>
-          <small>{monFmt.format(today.data.date)}</small>
+      <div class="hp-term">
+        <div class="hp-term__bar">
+          <span class="hp-term__new"><i aria-hidden="true"></i>New today</span>
+          <time class="hp-term__date" datetime={today.data.date.toISOString().slice(0, 10)}>{wdFmt.format(today.data.date)} {dayFmt.format(today.data.date)} {monFmt.format(today.data.date)}</time>
         </div>
-        <div class="hp-ahead__main">
-          <p class="hp-ahead__new"><i aria-hidden="true"></i><em>New today</em></p>
-          <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
-          <p class="hp-ahead__sub">Five tech stories every morning, each one told the same way: the problem, what changed, the catch, and what it means for you.</p>
+        <div class="hp-term__body">
+          <h2 id="todays-five-heading"><span class="hp-term__prompt" aria-hidden="true">&gt;</span> Today&rsquo;s Five<span class="hp-term__cur" aria-hidden="true"></span></h2>
+          <p class="hp-term__sub">Five tech stories every morning, each one told the same way: the problem, what changed, the catch, and what it means for you.</p>
         </div>
-        <a href={path(today)} class="hp-btn" id="link-read-full-issue">Read the full issue &rarr;</a>
         <ul class="hp-labels" aria-label="Each story, in four parts"><li><b>The problem</b></li><li><b>What changed</b></li><li><b>The catch</b></li><li><b>What it means for you</b></li></ul>
+        <a href={path(today)} class="hp-btn hp-term__go" id="link-read-full-issue">Read the full issue &rarr;</a>
       </div>
 
       <ol class="hp-bento" data-count={tiles.length} id="daily-list">
