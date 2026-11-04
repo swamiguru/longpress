@@ -24,7 +24,7 @@ OUT = ROOT / "public/images/fine-print"
 FONTS = Path(__file__).resolve().parent / "fonts"
 
 W, H, M = 1200, 630, 64
-HL, INK = (255, 225, 77), (17, 17, 17)
+HL, INK = (240, 219, 140), (17, 17, 17)  # straw highlighter, 4 Nov 2026 (was 255, 225, 77)
 
 # The Fine Print pillar sentence, verbatim from the project instructions.
 PILLAR = ("The rules, prices and service changes in India that most people skip, "
