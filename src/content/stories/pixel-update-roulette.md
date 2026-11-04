@@ -14,7 +14,7 @@ trigger: >-
 whoBenefits: >-
   Nobody that I can point to. This reads as a quality problem, not a pricing one.
 operatorsRead: >-
-  A battery bug that took one owner from about 16 hours of use to about 12 should be fixed in weeks, not four months. And when a fix ships, the release notes should say so.
+  A battery bug that survives four months of updates should be fixed in weeks. And when a fix ships, the release notes should say so.
 verdict: "wait"
 verdictNote: >-
   Wait before you treat seven years of updates as a reason to buy a Pixel. Google says the idle drain is fixed on the Pixel 9 and 10, but some owners still report it. If you own an 8a or 9a, check that the September update has reached you, since that is when Google said the fix was due.
@@ -34,11 +34,11 @@ sources:
 draft: false
 ---
 
-After the March 2026 Pixel Drop, owners started [reporting faster battery drain](https://www.androidauthority.com/pixel-battery-drain-bug-3657219/), including while the phone sat idle. Notebookcheck says it reached [owners as far back as the Pixel 7](https://www.notebookcheck.net/Google-Pixel-May-2026-update-fails-to-fix-battery-drain-issues.1290483.0.html). A [reader poll reported by Gizmochina](https://www.gizmochina.com/2026/04/22/pixel-users-facing-significant-battery-drain-after-march-2026-update/) found about 76 percent of respondents saw more drain after an update. One owner said [battery life went from roughly 16 hours to about 12](https://www.androidheadlines.com/2026/04/march-update-leaves-pixel-owners-begging-for-battery-fixes.html).
+After the March 2026 Pixel Drop, owners started [reporting faster battery drain](https://www.androidauthority.com/pixel-battery-drain-bug-3657219/), including while the phone sat idle. Notebookcheck says it reached [owners as far back as the Pixel 7](https://www.notebookcheck.net/Google-Pixel-May-2026-update-fails-to-fix-battery-drain-issues.1290483.0.html). A [reader poll reported by Gizmochina](https://www.gizmochina.com/2026/04/22/pixel-users-facing-significant-battery-drain-after-march-2026-update/) found about 76 percent of respondents saw more drain after an update.
 
 Owners who dug into it pointed to phones that never entered Deep Doze, the mode that puts the processor to sleep when the screen is off. Digit reported in April that Google had [confirmed the problem and was working on a fix](https://www.digit.in/news/mobile-phones/pixel-battery-draining-overnight-google-confirms-issue-fix-coming-soon.html). BGR says Google never published an official explanation of the cause.
 
-April's update did fix real problems, including [banking app crashes on the Pixel 6 and later](https://www.androidcentral.com/phones/google-pixel/the-latest-pixel-update-tackles-android-16s-early-stability-woes). It also came with a separate wave of [lag and stutter reports](https://www.androidauthority.com/pixel-slow-and-laggy-after-update-3660761/), mostly from Pixel 8 and 9 owners. The May update fixed slow wireless charging between 75 and 80 percent and a camera freeze, but [nothing for the idle drain](https://www.notebookcheck.net/Google-Pixel-May-2026-update-fails-to-fix-battery-drain-issues.1290483.0.html).
+April's update came with a separate wave of [lag and stutter reports](https://www.androidauthority.com/pixel-slow-and-laggy-after-update-3660761/), mostly from Pixel 8 and 9 owners. The May update fixed slow wireless charging between 75 and 80 percent and a camera freeze, but [nothing for the idle drain](https://www.notebookcheck.net/Google-Pixel-May-2026-update-fails-to-fix-battery-drain-issues.1290483.0.html).
 
 In late July, Google marked the bug fixed on its public issue tracker. It said the fix shipped in the July update for the Pixel 9 and Pixel 10, with the 8a and 9a due in September. The [same BGR report](https://www.bgr.com/2227668/google-pixel-battery-drain-bug-not-fixed/) says owners were already posting that the drain was still there, and that the July release notes did not mention the fix.
 
