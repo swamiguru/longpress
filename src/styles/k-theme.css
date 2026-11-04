@@ -171,8 +171,8 @@ h3 { line-height: 1.25; letter-spacing: -0.01em; }
     var(--teal) 10px 13px);
 }
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .masthead::before { background: rgba(243, 238, 225, 0.80); }
-  html[data-theme="dark"] .masthead::before { background: rgba(38, 36, 46, 0.80); }
+  .masthead::before { background: rgba(243, 238, 225, 0.92); }
+  html[data-theme="dark"] .masthead::before { background: rgba(38, 36, 46, 0.92); }
 }
 
 /* --- Mobile drawer wordmark matches the masthead ------------- */
@@ -236,3 +236,19 @@ body:not(:has(.fp)) main img:not([src$=".svg"]) {
   .hp-ahead .hp-labels { order: 1; }
   .hp-ahead .hp-btn { order: 2; }
 }
+
+/* --- Header over Fine Print: solid, no blur ---------------------------
+   The blur layer averaged the yellow page into a grey wash. Fine Print pages
+   get the plain sand header, same as every other page at rest. */
+html:has(.fp) .masthead::before {
+  background: var(--ground);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* --- Footer: no empty box where the Google button did not render -----
+   The preferred-source button is reserved at 44px so nothing shifts when it
+   loads. When Google renders nothing (site not listed, blocked, or a
+   preview), that reserved box is a blank band. Collapse it until the
+   library puts something inside. */
+.footer__preferred:has([google-add-preferred-source-btn]:empty) { min-height: 0; }
