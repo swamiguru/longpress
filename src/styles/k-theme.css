@@ -203,7 +203,8 @@ body:not(:has(.fp)) main img:not([src$=".svg"]) {
 }
 
 /* Dark page head (Known Issue): share label was muted slate on slate. */
-.ph--dark .share-bar__label { color: var(--dark-muted); }
+/* Doubled class: ShareButtons.astro scopes its own label colour at the same weight and loads later. */
+.ph--dark .share-bar__label.share-bar__label { color: #E4DED0; }
 
 /* --- "The problem / What changed / The catch / What it means for you" ---
    Four fixed labels as a terminal readout: one slate strip, numbered
