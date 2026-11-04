@@ -252,3 +252,19 @@ html:has(.fp) .masthead::before {
    preview), that reserved box is a blank band. Collapse it until the
    library puts something inside. */
 .footer__preferred:has([google-add-preferred-source-btn]:empty) { min-height: 0; }
+
+/* --- Phone: Today's Five stays short so story 01 shows above the fold ---
+   Small date chip beside the title, intro line out of sight (the four labels
+   below carry the same promise), tighter pills, slimmer button. */
+@media (max-width: 700px) {
+  .hp-ahead { gap: 10px 12px; margin-bottom: 14px; align-items: center; }
+  .hp-ahead__cal { min-width: 56px; padding: 6px 8px 7px; gap: 1px; box-shadow: none; }
+  .hp-ahead__cal small { font-size: 14px; letter-spacing: 0.1em; }
+  .hp-ahead__cal b { font-size: 28px; }
+  .hp-ahead__new { margin: 0 0 4px; }
+  .hp-ahead h2 { font-size: 30px; }
+  .hp-ahead__sub { display: none; }
+  .hp-ahead .hp-labels { gap: 6px; }
+  .hp-ahead .hp-labels b { padding: 4px 9px; border-width: 1px; }
+  .hp-ahead .hp-btn { padding-block: 10px; min-height: 44px; }
+}
