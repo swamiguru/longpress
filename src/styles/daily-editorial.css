@@ -1,0 +1,99 @@
+/* The Daily Five, editorial layout (prototype, branch redesign-editorial-daily).
+   Replaces the df-* card stack for stories. Rules: no cards, no numbered
+   badges, headings carry the story's own words, three weights of story
+   (lead, mid, short). df-source / df-prev / taps rules are reused as is. */
+
+/* ---------- Frame ---------- */
+.ed { margin-top: 24px; }
+:root { --ed-top: 0px; }
+.ed-main { min-width: 0; max-width: 700px; margin-inline: auto; }
+
+/* ---------- In this issue: strip on phones, rail on desktop ----------
+   Glass rule (liquid-glass doc): never backdrop-filter on the sticky element
+   itself. The filter lives on ::before. */
+.ed-nav { position: sticky; top: var(--ed-top); z-index: 30; margin-inline: -16px; background: var(--ground); }
+.ed-nav::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-bottom: 1px solid var(--rule); }
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .ed-nav { background: transparent; }
+  .ed-nav::before { background: rgba(243, 238, 225, 0.9); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); }
+  html[data-theme="dark"] .ed-nav::before { background: rgba(38, 36, 46, 0.88); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .ed-nav { background: var(--ground) !important; }
+  .ed-nav::before { background: transparent !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+}
+.ed-nav__label { display: none; margin: 0; }
+.ed-nav__list { list-style: none; margin: 0; padding: 8px 16px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.ed-nav__list::-webkit-scrollbar { display: none; }
+.ed-nav__list > li { flex: none; scroll-snap-align: center; }
+.ed-nav__link {
+  display: flex; align-items: center; gap: 8px; max-width: 240px; min-height: 44px; padding: 6px 14px 6px 7px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--card, var(--surface)); color: var(--ink);
+  text-decoration: none; font: 600 14px/1.2 var(--body);
+}
+.ed-nav__n { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); font: 700 13px/1 var(--mono); }
+.ed-nav__t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ed-nav__link[aria-current="true"] { background: var(--screen, #34323F); border-color: var(--screen, #34323F); color: #F3EEE1; }
+.ed-nav__link[aria-current="true"] .ed-nav__n { background: var(--phosphor, #E3C58A); color: #34323F; }
+.ed-nav__bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--accent-deep); transform-origin: left; transform: scaleX(var(--p, 0)); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .ed-nav__bar { transition: none; } }
+
+@media (min-width: 1100px) {
+  .ed { display: grid; grid-template-columns: 220px minmax(0, 700px); gap: 56px; justify-content: center; }
+  .ed-nav { top: calc(var(--ed-top) + 24px); align-self: start; margin-inline: 0; background: none; }
+  .ed-nav::before, .ed-nav__bar { display: none; }
+  .ed-nav__label { display: block; margin: 0 0 14px; font: 700 13px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .ed-nav__list { flex-direction: column; overflow: visible; padding: 0; gap: 0; border-left: 2px solid var(--rule); }
+  .ed-nav__list > li { flex: none; }
+  .ed-nav__link { max-width: none; min-height: 0; align-items: flex-start; gap: 12px; padding: 10px 0 10px 16px; margin-left: -2px; border: 0; border-left: 2px solid transparent; border-radius: 0; background: none; font-weight: 600; }
+  .ed-nav__n { width: auto; height: auto; background: none; font: 700 13px/1.5 var(--mono); color: var(--muted); }
+  .ed-nav__t { white-space: normal; overflow: visible; line-height: 1.35; }
+  .ed-nav__link:hover { background: none; color: var(--accent-deep); }
+  .ed-nav__link[aria-current="true"] { background: none; color: var(--ink); border-left-color: var(--accent-deep); }
+  .ed-nav__link[aria-current="true"] .ed-nav__n { background: none; color: var(--accent-deep); }
+}
+html[data-theme="dark"] .ed-nav__link[aria-current="true"] .ed-nav__n { color: var(--accent-light, #E3A58F); }
+@media (min-width: 1100px) { html[data-theme="dark"] .ed-nav__link[aria-current="true"] { border-left-color: var(--accent-light, #E3A58F); } }
+
+/* ---------- Stories ---------- */
+.ed-story { padding: 40px 0 12px; border-top: 1px solid var(--rule); scroll-margin-top: calc(var(--ed-top) + 72px); }
+.ed-story:first-child { border-top: 0; padding-top: 8px; }
+@media (min-width: 1100px) { .ed-story { scroll-margin-top: calc(var(--ed-top) + 24px); } }
+.ed-kicker { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 12px; font: 700 13px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.ed-kicker b { color: var(--accent-deep); font-weight: 700; }
+html[data-theme="dark"] .ed-kicker b { color: var(--accent-light, #E3A58F); }
+.ed-title { margin: 0 0 14px; font-family: var(--display); font-weight: 800; letter-spacing: -0.02em; line-height: 1.08; text-wrap: balance; color: var(--ink); }
+.ed-story--lead .ed-title { font-size: clamp(32px, 6vw, 46px); }
+.ed-story--mid .ed-title { font-size: clamp(26px, 4.6vw, 34px); }
+.ed-story--short .ed-title { font-size: clamp(22px, 4vw, 27px); }
+.ed-dek { margin: 0 0 20px; max-width: 62ch; font: 500 clamp(19px, 2.4vw, 22px)/1.45 var(--body); color: var(--muted); }
+.ed-fig { margin: 0 0 24px; }
+.ed-fig img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border: 1px solid var(--rule); filter: saturate(0.78); }
+.ed-body p, .ed-plain, .ed-close { margin: 0 0 1.1em; max-width: 62ch; font-size: 1.1875rem; line-height: 1.7; }
+.ed-story--short .ed-body p, .ed-story--short .ed-plain, .ed-story--short .ed-close { font-size: 1.125rem; line-height: 1.65; }
+.ed-body a, .ed-plain a, .ed-catch a, .ed-close a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
+html[data-theme="dark"] .ed-body a, html[data-theme="dark"] .ed-plain a, html[data-theme="dark"] .ed-catch a, html[data-theme="dark"] .ed-close a { color: var(--accent-light, #E3A58F); }
+.ed-run { font-family: var(--display); font-weight: 800; }
+
+/* The catch is the one recurring device. Pull line on lead and mid, run-in on short. */
+.ed-catch { margin: 1.6em 0; padding: 2px 0 2px 18px; max-width: 62ch; border-left: 4px solid var(--accent-deep); font: 600 clamp(19px, 2.4vw, 21px)/1.55 var(--body); }
+html[data-theme="dark"] .ed-catch { border-left-color: var(--accent-light, #E3A58F); }
+.ed-catch .ed-lead-in { display: block; margin-bottom: 6px; font: 700 13px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-deep); }
+html[data-theme="dark"] .ed-catch .ed-lead-in { color: var(--accent-light, #E3A58F); }
+.ed-story--short .ed-catch { margin: 0 0 1.1em; padding: 0; border: 0; font: 400 1.125rem/1.65 var(--body); }
+.ed-story--short .ed-catch .ed-lead-in { display: inline; margin: 0 6px 0 0; font: 800 1.125rem/1.65 var(--display); letter-spacing: 0; text-transform: none; color: var(--ink); }
+
+/* Lead only: reader questions as plain text, not cards */
+.ed-qa { margin: 28px 0 8px; padding-top: 20px; border-top: 1px dashed var(--rule); max-width: 62ch; }
+.ed-qa__h { margin: 0 0 4px; font: 700 13px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.ed-qa dt { margin: 16px 0 0; font: 700 18px/1.35 var(--display); }
+.ed-qa dd { margin: 6px 0 0; font-size: 1.0625rem; line-height: 1.65; }
+
+.ed-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 22px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.ed-story .df-prev { padding: 0; margin-top: 10px; }
+.ed-next { display: flex; align-items: center; gap: 12px; min-height: 52px; margin-top: 26px; padding: 12px 0; border-top: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
+.ed-next__k { flex: none; font: 700 13px/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.ed-next__t { flex: 1; min-width: 0; font: 700 17px/1.3 var(--display); }
+.ed-next:hover .ed-next__t { color: var(--accent-deep); }
+.ed-ad { margin: 36px 0 0; }
+.ed-main .taps { margin-top: 48px; }

@@ -13,6 +13,7 @@ import { getResponsiveImage } from '../../lib/images';
 import { pickBriefLead } from '../../lib/seo/og.mjs';
 import { fallbackFor } from '../../lib/fallbacks';
 import '../../styles/daily-five.css';
+import '../../styles/daily-editorial.css';
 import { linkify, stripLinks, hostLabel } from '../../lib/text/inline.mjs';
 
 /** Every link an item cites: the `sources` list plus the legacy single `source`, de-duplicated. */
@@ -61,6 +62,11 @@ const stripDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'sho
 const NUM_WORD = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five'];
 const countWord = NUM_WORD[items.length] ?? String(items.length);
 
+/** Editorial tiers by position: a lead, two mid stories, two short ones. */
+const tierOf = (i: number) => (i === 0 ? 'lead' : i <= 2 ? 'mid' : 'short');
+const words = (t?: string) => (t ?? '').trim().split(/\s+/).filter(Boolean).length;
+const readMin = (it: any) => Math.max(1, Math.round((words(it.body ?? it.teaser) + words(it.problem) + words(it.catch) + words(it.forYou)) / 220));
+
 /** The press-and-hold structure, in reading order. */
 /** Share image for the whole brief, and its alt text. */
 const leadImage = pickBriefLead(dateStr) ?? undefined;
@@ -94,10 +100,10 @@ const ANALYSIS = [
         <h1 class="ph__title">{d.title}</h1>
         {d.intro && <p class="ph__stand">{d.intro}</p>}
         <div class="byline">
-          <span class="byline__mark"><img src="/images/about/swami-headshot.jpg" alt="" width="38" height="38" loading="lazy" decoding="async" /></span>
+          <span class="byline__mark"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="12" cy="12" r="2.6" fill="currentColor"></circle></svg></span>
           <span class="byline__who">
-            <strong class="byline__name">{d.author}</strong>
-            <time class="byline__date" datetime={d.date.toISOString()}>{short.format(d.date)}</time>
+            <strong class="byline__name">Long Press</strong>
+            <span class="byline__date">Published by {d.author} &middot; <time datetime={d.date.toISOString()}>{short.format(d.date)}</time></span>
           </span>
           <span class="byline__read">{readingTime.text}</span>
         </div>
@@ -105,125 +111,91 @@ const ANALYSIS = [
           <PreferredSource />
         </ShareButtons>
       </div>
-
-      {items.length > 1 && (
-        <div class="issue-jump-bar">
-          <span class="issue-jump-bar__label">In this issue</span>
-          <nav class="issue-jump-bar__nav" aria-label="Stories in this edition">
-            {items.map((item) => (
-              <a href={`#story-${item.slot}`} class="issue-jump-pill">
-                <span class="issue-jump-pill__num">{String(item.slot).padStart(2, '0')}</span>
-                <span class="issue-jump-pill__title">{item.heading}</span>
-              </a>
-            ))}
-          </nav>
-        </div>
-      )}
     </header>
 
     <WhatsAppCta variant="strip" location="brief_top" />
 
-    <ol class="df-stack">
-      {items.map((item, i) => {
-        const analysis = ANALYSIS.filter(([k]) => item[k as keyof typeof item]);
-        const img = getResponsiveImage(item.image ?? fallbackFor(item.kind, d.date), {
-          aspectRatio: '1/1',
-          customSizes: '(max-width: 759px) 100vw, 380px',
-        });
-        const heading = item.heading;
-        const num = String(item.slot).padStart(2, '0');
-        const isOpinion = OPINION.includes(item.kind);
-        const cites = sourcesOf(item);
-        return (
-          <>
-            {i === 2 && <li class="df-ad"><AdSlot placement="brief" /></li>}
-            <li id={`story-${item.slot}`} class="df-row">
-              <span id={`slot-${item.slot}`} class="slot-anchor" aria-hidden="true"></span>
-              <span id={heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} class="slot-anchor" aria-hidden="true"></span>
-              <span class="df-node" aria-hidden="true">{item.slot}</span>
-              <div class="df-card">
-                <div class="df-strip">
-                  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#ECEAF4" stroke-width="2"></circle><path d="M12 3a9 9 0 0 1 0 18" fill="none" stroke="#A65D46" stroke-width="2.6"></path><circle cx="12" cy="12" r="2.6" fill="#ECEAF4"></circle></svg>
-                  <span>Long Press · Daily Five</span>
-                  <span class="df-strip__time">{stripDate}</span>
-                  <span class="df-strip__n"><b>{num}</b> / {String(items.length).padStart(2, '0')}</span>
-                </div>
-                <div class="df-story">
-                  <div class="df-story__media">
-                    <img
-                      src={img.src}
-                      srcset={img.srcset}
-                      sizes={img.sizes}
-                      width={img.width}
-                      height={img.height}
-                      alt={item.imageAlt || `Illustration for the story: ${heading}`}
-                      loading={i < 1 ? 'eager' : 'lazy'}
-                      decoding="async"
-                    />
-                    <div class="df-story__chips">
-                      <span class={`df-chip${isOpinion ? ' df-chip--opinion' : ''}`}>{label(item.kind)}</span>
-                      {item.region === 'india' && <span class="df-chip df-chip--india">India</span>}
-                    </div>
-                  </div>
-                  <div class="df-story__text">
-                    <h2 class="df-story__title">{heading}</h2>
-                    <div class="df-story__body">
-                      {item.body && <p set:html={linkify(item.body)} />}
-                      {item.story && (
-                        <>
-                          <p set:html={linkify(item.teaser)} />
-                          <p class="df-story__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
-                        </>
-                      )}
-                    </div>
-                    {item.question && item.answer && (
-                      <div class="df-answer">
-                        <div class="df-answer__ask">
-                          <span class="df-answer__tag">
-                            <svg width="22" height="22" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="none" stroke="currentColor" stroke-width="2.5"></circle><path d="M9.5 10C9.5 6.5 16.5 6.5 16.5 10C16.5 12.5 13 12.5 13 15.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path><circle cx="13" cy="19" r="1.5" fill="currentColor"></circle></svg>
-                            The question
-                          </span>
-                          <h3 class="df-answer__q">{item.question}</h3>
-                        </div>
-                        <div class="df-answer__a">
-                          <span class="df-answer__label">In one line</span>
-                          <p>{item.answer}</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+    <div class="ed">
+      <nav class="ed-nav" id="ed-nav" aria-label="In this issue">
+        <p class="ed-nav__label">In this issue</p>
+        <ol class="ed-nav__list">
+          {items.map((item) => (
+            <li>
+              <a class="ed-nav__link" href={`#story-${item.slot}`} data-target={`story-${item.slot}`}>
+                <span class="ed-nav__n">{item.slot}</span><span class="ed-nav__t">{item.heading}</span>
+              </a>
+            </li>
+          ))}
+          {taps.length > 0 && (
+            <li>
+              <a class="ed-nav__link" href="#taps" data-target="taps">
+                <span class="ed-nav__n">+</span><span class="ed-nav__t">Taps</span>
+              </a>
+            </li>
+          )}
+        </ol>
+        <span class="ed-nav__bar" aria-hidden="true"></span>
+      </nav>
 
-                {analysis.length > 0 && (
-                  <div class="df-parts" role="group" aria-label="Analysis breakdown">
-                    {analysis.map(([key, text], pi) => (
-                      <section class={`df-part df-part--${key}`}>
-                        <h3 class="df-part__label"><span class="df-part__num" aria-hidden="true">{pi + 1}</span>{text}</h3>
-                        <p class="df-part__text" set:html={linkify(String(item[key as keyof typeof item] ?? ''))} />
-                      </section>
-                    ))}
-                  </div>
+      <div class="ed-main">
+        {items.map((item, i) => {
+          const tier = tierOf(i);
+          const next = items[i + 1];
+          const nextHref = next ? `#story-${next.slot}` : taps.length ? '#taps' : null;
+          const nextLabel = next ? next.heading : 'Taps';
+          const heading = item.heading;
+          const cites = sourcesOf(item);
+          const img = tier === 'lead'
+            ? getResponsiveImage(item.image ?? fallbackFor(item.kind, d.date), { aspectRatio: '1/1', customSizes: '(max-width: 759px) 100vw, 700px' })
+            : null;
+          return (
+            <>
+              {i === 2 && <div class="ed-ad"><AdSlot placement="brief" /></div>}
+              <section id={`story-${item.slot}`} class={`ed-story ed-story--${tier}`} aria-labelledby={`ed-h-${item.slot}`}>
+                <span id={`slot-${item.slot}`} class="slot-anchor" aria-hidden="true"></span>
+                <span id={heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} class="slot-anchor" aria-hidden="true"></span>
+                <p class="ed-kicker">
+                  <b>{label(item.kind)}</b>
+                  {item.region === 'india' && <span>India</span>}
+                </p>
+                <h2 class="ed-title" id={`ed-h-${item.slot}`}>{heading}</h2>
+                {img && (
+                  <figure class="ed-fig">
+                    <img src={img.src} srcset={img.srcset} sizes={img.sizes} width={img.width} height={img.height}
+                      alt={item.imageAlt || `Illustration for the story: ${heading}`} loading="eager" decoding="async" />
+                  </figure>
                 )}
-
-                {item.qa && item.qa.length > 0 && (
-                  <section class="df-qa" aria-label={`Questions about: ${heading}`}>
-                    <h3 class="df-qa__label">Questions people ask</h3>
-                    {item.qa.map((x) => (
-                      <div class="df-qa__item">
-                        <h4 class="df-qa__q">{x.q}</h4>
-                        <p class="df-qa__a">{x.a}</p>
-                      </div>
-                    ))}
+                <div class="ed-body">
+                  {item.body && <p set:html={linkify(item.body)} />}
+                  {item.story && (
+                    <>
+                      <p set:html={linkify(item.teaser)} />
+                      <p class="df-story__more"><a href={`/${item.story}`}>Read the full story &rarr;</a></p>
+                    </>
+                  )}
+                </div>
+                {tier === 'lead' && item.problem && (
+                  <p class="ed-plain"><strong class="ed-run">The problem.</strong> <span set:html={linkify(item.problem)} /></p>
+                )}
+                {item.catch && (
+                  <p class="ed-catch"><span class="ed-lead-in">The catch</span><span set:html={linkify(item.catch)} /></p>
+                )}
+                {item.forYou && (
+                  <p class="ed-close"><strong class="ed-run">What it means for you.</strong> <span set:html={linkify(item.forYou)} /></p>
+                )}
+                {tier === 'lead' && item.qa && item.qa.length > 0 && (
+                  <section class="ed-qa" aria-label={`Questions about: ${heading}`}>
+                    <h3 class="ed-qa__h">Questions people ask</h3>
+                    <dl>
+                      {item.qa.map((x) => (<><dt>{x.q}</dt><dd>{x.a}</dd></>))}
+                    </dl>
                   </section>
                 )}
-
-                <div class="df-foot">
+                <div class="ed-foot">
                   {cites.length > 0 ? (
                     <p class="df-source">
                       <span class="df-source__label">Sources</span>
-                      {cites.map((s) => (
-                        <a href={s.url} rel="noopener" target="_blank">{s.label || hostLabel(s.url)} &nearr;</a>
-                      ))}
+                      {cites.map((s) => (<a href={s.url} rel="noopener" target="_blank">{s.label || hostLabel(s.url)} &nearr;</a>))}
                     </p>
                   ) : <span></span>}
                   <ShareButtons
@@ -233,39 +205,45 @@ const ANALYSIS = [
                     compact
                   />
                 </div>
-
                 <div class="df-prev"><PreviouslyOn id={`daily:${dateStr}#${item.slot}`} /></div>
-              </div>
-            </li>
-          </>
-        );
-      })}
-    </ol>
+                {nextHref && (
+                  <a class="ed-next" href={nextHref}>
+                    <span class="ed-next__k">Next</span>
+                    <span class="ed-next__t">{nextLabel}</span>
+                    <span aria-hidden="true">&darr;</span>
+                  </a>
+                )}
+              </section>
+            </>
+          );
+        })}
 
-    {taps.length > 0 && (
-      <section class="taps" id="taps" aria-labelledby="taps-title">
-        <div class="taps__head">
-          <h2 class="taps__title" id="taps-title">Taps</h2>
-          <p class="taps__sub">Quick hits. One line each, for when a long press is too much.</p>
-        </div>
-        <ul class="taps__list">
-          {taps.map((t) => (
-            <li class="tap">
-              {t.region && <span class={`tap__region tap__region--${t.region}`}>{t.region === 'india' ? 'India' : 'Global'}</span>}
-              <div class="tap__text">
-                <p class="tap__headline">{t.headline}</p>
-                {t.line && <p class="tap__line" set:html={linkify(t.line)} />}
-              </div>
-              {t.source && (
-                <a class="tap__source" href={t.source.url} rel="noopener" target="_blank">
-                  {t.source.label || hostLabel(t.source.url)} &nearr;
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
+        {taps.length > 0 && (
+          <section class="taps" id="taps" aria-labelledby="taps-title">
+            <div class="taps__head">
+              <h2 class="taps__title" id="taps-title">Taps</h2>
+              <p class="taps__sub">Quick hits. One line each, for when a long press is too much.</p>
+            </div>
+            <ul class="taps__list">
+              {taps.map((t) => (
+                <li class="tap">
+                  {t.region && <span class={`tap__region tap__region--${t.region}`}>{t.region === 'india' ? 'India' : 'Global'}</span>}
+                  <div class="tap__text">
+                    <p class="tap__headline">{t.headline}</p>
+                    {t.line && <p class="tap__line" set:html={linkify(t.line)} />}
+                  </div>
+                  {t.source && (
+                    <a class="tap__source" href={t.source.url} rel="noopener" target="_blank">
+                      {t.source.label || hostLabel(t.source.url)} &nearr;
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
 
     <div class="prose" style="margin-top: var(--s7)"><Content /></div>
 
@@ -333,6 +311,53 @@ const ANALYSIS = [
       window.addEventListener('load', scrollCurrentHashIntoView);
     }
     window.addEventListener('hashchange', scrollCurrentHashIntoView);
+  </script>
+  <script is:inline>
+    (function () {
+      var nav = document.getElementById('ed-nav');
+      if (!nav) return;
+      var root = document.documentElement;
+      var wrap = nav.parentElement;
+      var list = nav.querySelector('.ed-nav__list');
+      var links = [].slice.call(nav.querySelectorAll('.ed-nav__link'));
+      var targets = links.map(function (a) { return document.getElementById(a.getAttribute('data-target')); });
+      var mast = document.querySelector('.masthead');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var current = null;
+      function setTop() {
+        var h = 0;
+        if (mast && getComputedStyle(mast).position === 'sticky') h = mast.getBoundingClientRect().height;
+        root.style.setProperty('--ed-top', h + 'px');
+      }
+      function setActive(i) {
+        if (i === current) return;
+        current = i;
+        links.forEach(function (a, n) {
+          if (n === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+        });
+        if (window.innerWidth < 1100 && links[i]) {
+          list.scrollTo({ left: Math.max(0, links[i].parentElement.offsetLeft - 16), behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var top = parseFloat(getComputedStyle(root).getPropertyValue('--ed-top')) || 0;
+        var line = top + (window.innerWidth < 1100 ? nav.offsetHeight : 0) + 32;
+        var idx = 0;
+        targets.forEach(function (t, n) { if (t && t.getBoundingClientRect().top <= line) idx = n; });
+        setActive(idx);
+        var r = wrap.getBoundingClientRect();
+        var span = r.height - window.innerHeight;
+        var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+        nav.style.setProperty('--p', p.toFixed(3));
+      }
+      function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+      setTop();
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', function () { setTop(); onScroll(); });
+    })();
   </script>
 </BaseLayout>
 
