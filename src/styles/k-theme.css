@@ -342,7 +342,7 @@ html[data-theme="dark"] .hp-term { border-color: rgba(227, 197, 138, .3); }
 .hp-term__cur {
   display: inline-block; width: .38em; height: .8em; margin-left: .14em;
   background: var(--phosphor); vertical-align: -.02em;
-  animation: hp-cursor 1.1s steps(1) infinite;
+  /* Static on purpose: the masthead logo cursor is the only one that blinks on the home page. */
 }
 @keyframes hp-cursor { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .hp-term__cur, .hp-term__new i { animation: none; } }
