@@ -30,5 +30,9 @@
   "bank-fraud-refunds": {
     "hero": "a piggy bank with a fishing hook pulling one coin out of its slot, and a large open umbrella held over the piggy bank, the umbrella filled yellow",
     "body": "a small basket catching coins falling from a cracked piggy bank above it, with a few coins missing the basket and rolling away, the basket filled yellow"
+  },
+  "fastag-local-pass": {
+    "hero": "a road toll barrier arm raised open beside a small house, with a single large key hanging from the barrier arm, the key filled yellow",
+    "body": "two stacks of coins side by side, a tall stack made of twelve thin coins and a short stack of one thick coin, the short single coin filled yellow"
   }
 }
