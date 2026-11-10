@@ -243,7 +243,7 @@ html:not([data-theme="dark"]) .hp {
 
 /* ---------- mobile doors: one colour per pillar ---------- */
 @media (max-width: 719px) {
-  html:not([data-theme="dark"]) .hp .hp-doors-m { background: transparent; }
+  html:not([data-theme="dark"]) .hp .hp-doors-m { background: transparent; border-bottom: 0; box-shadow: none; clip-path: none; margin-bottom: 12px; }
   html:not([data-theme="dark"]) .hp .hp-door-m { color: var(--lp-ink); border: 2px solid var(--lp-ink); box-shadow: none; font-size: 13px; padding-inline: 2px; letter-spacing: 0; white-space: nowrap; justify-content: center; }
   html:not([data-theme="dark"]) .hp .hp-door-m--daily { background: var(--lp-lime); }
   html:not([data-theme="dark"]) .hp .hp-door-m--ki { background: var(--lp-teal); }
