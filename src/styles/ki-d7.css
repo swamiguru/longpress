@@ -1,0 +1,127 @@
+/* ============================================================
+   KNOWN ISSUE, DIRECTION D7 (10 Nov 2026)
+   Extends pillar-d7.css (teal --pc). /known-issue and the story page.
+   Light mode only. Teal is a field, bar or underline; --pc-text
+   (deep teal) carries small text. The "take" panel is no longer a dark slab.
+   ============================================================ */
+
+html:not([data-theme="dark"]) .pg--ki {
+
+  /* ---------- landing head ---------- */
+  .ph--landing.ph--dark { background: transparent; border: 0; box-shadow: none; padding: 4px 0 8px; }
+  .ph--landing.ph--dark::before, .ph__ring { display: none; }
+  .ph--landing.ph--dark .ph__title { color: var(--lp-ink); }
+  .ph--landing.ph--dark .ph__stand { color: var(--lp-muted); display: block; -webkit-line-clamp: unset; overflow: visible; }
+  .ki-facts { margin: 22px 0 0; padding: 0; border: 0; gap: 10px 36px; }
+  .ki-facts b { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-var); font-weight: 700; font-size: clamp(34px, 5vw, 48px); letter-spacing: -.012em; color: var(--lp-ink); }
+  .ki-facts span { color: var(--lp-muted); font-size: 12px; letter-spacing: .08em; }
+
+  /* featured: tags and share */
+  .known-issue-featured .pill-tag--known-issue, .archive-row .pill-tag--known-issue {
+    background: var(--pc); color: var(--lp-ink); border: 0; border-radius: 0; font: 700 12px/1 var(--mono); letter-spacing: .1em; padding: 5px 9px;
+  }
+  .known-issue-featured .pill-tag--muted, .archive-row .pill-tag--muted {
+    background: transparent; border: 0; padding: 0; color: var(--lp-muted); font: 600 12px/1 var(--mono); letter-spacing: .08em;
+  }
+  .known-issue-featured .entry__footer { border-top: 0 !important; margin-top: 16px !important; padding-top: 0 !important; display: flex; align-items: center; gap: 12px 16px; flex-wrap: wrap; }
+  .card-share-btn { background: #fff; color: var(--lp-ink); border: 2px solid var(--lp-ink); border-radius: 0; box-shadow: none; }
+  .card-share-btn:hover { background: var(--pc); color: var(--lp-ink); transform: none; }
+  .archive-row__tags { gap: 12px; }
+
+  /* the four tenets */
+  .column-manifesto--compact { gap: 14px; }
+  .column-manifesto--compact .column-manifesto__card {
+    background: var(--pc-tint); border: 0 !important; border-radius: 0; box-shadow: none; padding: 18px 20px 20px; min-height: 0;
+  }
+  .column-manifesto--compact .column-manifesto__card::before, .column-manifesto--compact .column-manifesto__card::after { display: none; }
+  .column-manifesto--compact .column-manifesto__num { font: 700 12px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--pc-text); }
+  .column-manifesto--compact .column-manifesto__card h3 { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; font-size: 21px; letter-spacing: 0; color: var(--lp-ink); }
+  .column-manifesto--compact .column-manifesto__card p { color: var(--lp-ink); font-size: 15px; line-height: 1.5; }
+  .column-tip-box { background: var(--pc-tint); border: 0; box-shadow: none; border-radius: 0; }
+
+  /* ---------- story head: light, no slab ---------- */
+  .ph--story.ph--dark { background: transparent; border: 0; box-shadow: none; padding: 8px 0 0; color: var(--lp-ink); }
+  .ph--story.ph--dark::before, .ph--story.ph--dark::after { display: none; }
+  .ph--story.ph--dark .ph__tag {
+    background: var(--pc); color: var(--lp-ink); box-shadow: none; border-radius: 0; padding: 6px 10px; font: 700 12px/1 var(--mono); letter-spacing: .1em;
+  }
+  .ph--story.ph--dark .ph__tag::before { display: none; }
+  .ph--story.ph--dark .ph__title {
+    color: var(--lp-ink); font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-var); font-weight: 700;
+    font-size: clamp(34px, 5.4vw, 56px); line-height: 1.04; letter-spacing: -.012em; text-transform: none; text-wrap: balance;
+  }
+  .ph--story.ph--dark .ph__title::before { display: none; }
+  .ph--story.ph--dark .ph__stand { color: var(--lp-muted); font: 400 20px/1.55 "Source Serif 4", Georgia, serif; max-width: 58ch; }
+  .ph--story.ph--dark .column-trigger, .ph--story.ph--dark .art-head__text .column-trigger { color: var(--lp-ink); font: 400 17px/1.55 "Source Serif 4", Georgia, serif; font-style: italic; }
+  .ph--story.ph--dark .column-trigger .column-trigger__label {
+    background: var(--pc-tint); color: var(--pc-text); border: 0; border-radius: 0; font: 700 12px/1 var(--mono); font-style: normal; letter-spacing: .1em; text-transform: uppercase; padding: 5px 8px;
+  }
+  .ki-strip { border-top: 0; padding-top: 4px; gap: 12px 36px; }
+  .ph--story.ph--dark .ki-strip .ki-strip__label { color: var(--pc-text); font: 700 12px/1.2 var(--mono); letter-spacing: .1em; }
+  .ph--story.ph--dark .ki-strip .ki-strip__count { color: var(--lp-ink); }
+  .ph--story.ph--dark .ki-strip .ki-strip__unit { color: var(--lp-muted); }
+  .ph--story.ph--dark .ki-strip .ki-strip__fact { color: var(--lp-ink); }
+  .art-head__media img { border: 0; background: var(--pc-tint); }
+  .ph--story.ph--dark .byline { border-block: 0; padding: 6px 0; }
+  .ph--story.ph--dark .byline__name { font-family: "Archivo", system-ui, sans-serif; font-variation-settings: normal; color: var(--lp-ink); }
+  .ph--story.ph--dark .byline__date { color: var(--lp-muted); opacity: 1; }
+  .ph--story.ph--dark .byline__mark::before { border-color: var(--pc); }
+  .ph--story.ph--dark .byline__read { border: 0; background: var(--pc-tint); color: var(--lp-ink); }
+  .ph--story.ph--dark .share-bar__label { color: var(--lp-muted); }
+  .share-pill { background: #fff; color: var(--lp-ink); border: 2px solid var(--lp-ink); border-radius: 0; box-shadow: none; }
+  .share-pill:hover { background: var(--pc); color: var(--lp-ink); }
+  .ph-crumb { font-family: var(--mono); }
+  .ph-crumb a { color: var(--lp-muted); }
+  .ph-crumb a.article-breadcrumb__curr { color: var(--lp-ink); text-decoration-color: var(--pc); text-decoration-thickness: 3px; }
+  .ph { border-top: 0; }
+
+  /* ---------- body ---------- */
+  .prose { font-family: "Source Serif 4", Georgia, serif; font-size: 20px; line-height: 1.7; color: var(--lp-ink); }
+  .prose h2, .prose h3 { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; letter-spacing: 0; color: var(--lp-ink); text-transform: none; }
+  .prose a { color: var(--lp-ink); text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 3px; text-underline-offset: 3px; }
+  .prose a:hover { background: var(--pc-tint); }
+  .prose blockquote { border-left: 4px solid var(--pc); background: transparent; }
+
+  /* ---------- the take ---------- */
+  .take { background: transparent; color: var(--lp-ink); border: 0; border-top: 4px solid var(--pc); padding: 20px 0 0; margin-top: var(--s7); overflow: visible; }
+  .take::before { display: none; }
+  .take__mark { color: var(--pc-text); }
+  .take__top { border-bottom: 0; padding-bottom: 0; }
+  .take__tag { background: transparent; padding: 0; color: var(--lp-ink); font: 700 13px/1 var(--mono); letter-spacing: .1em; }
+  .take__where { color: var(--lp-muted); font: 600 12px/1 var(--mono); letter-spacing: .08em; }
+  .column-callout { background: var(--pc-tint); color: var(--lp-ink); border: 0; border-radius: 0; box-shadow: none; }
+  .column-callout::before, .column-callout::after, .column-callout__coin { display: none; }
+  .column-callout__label { color: var(--pc-text); font: 700 12px/1.2 var(--mono); letter-spacing: .1em; }
+  .column-callout p { color: var(--lp-ink); font: 400 18px/1.6 "Source Serif 4", Georgia, serif; }
+  .column-pullquote { background: transparent; color: var(--lp-ink); border: 0; border-left: 4px solid var(--pc); border-radius: 0; box-shadow: none; padding-left: 20px; }
+  .column-pullquote__label { color: var(--pc-text); font: 700 12px/1.2 var(--mono); letter-spacing: .1em; }
+  .column-pullquote__lead, .column-pullquote__rest { color: var(--lp-ink); font-family: "Source Serif 4", Georgia, serif; }
+  .column-pullquote__sig { color: var(--lp-muted); border-top: 0; }
+  .column-verdict, .column-verdict--buy, .column-verdict--wait, .column-verdict--skip { background: var(--lp-ink); color: #fff; }
+  .column-verdict::after { display: none; }
+  .column-verdict__icon { color: var(--pc); }
+  .column-verdict__label { color: #B9B4C4; font-family: var(--mono); }
+  .column-verdict__badge { color: var(--pc); font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-var); font-weight: 700; letter-spacing: -.012em; }
+  .column-verdict__note { color: #fff; font-family: "Source Serif 4", Georgia, serif; }
+
+  /* ---------- end matter ---------- */
+  .related-articles .section__head { border: 0; }
+  .related-articles .section__head h2 { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; font-size: clamp(24px, 3.4vw, 30px); letter-spacing: 0; text-transform: none; color: var(--lp-ink); }
+  .related-articles .eyebrow, .related-card__category { color: var(--pc-text); }
+  .related-card { background: var(--pc-tint); border: 0; box-shadow: none; border-radius: 0; transform: none; }
+  .related-card__title { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; letter-spacing: 0; color: var(--lp-ink); }
+  .related-card__title a { color: var(--lp-ink); }
+  .related-card__desc { color: var(--lp-muted); }
+  .related-card__footer { border-top: 0; }
+  .related-card__cta { color: var(--lp-ink); text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 3px; }
+  .brief__source-label { color: var(--pc-text); }
+  .brief__source-link { background: transparent; border: 0; padding: 0; color: var(--lp-ink); text-decoration: underline; text-decoration-color: var(--pc); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .article-share-end { border-top: 1px solid var(--lp-rule) !important; }
+  .story-footer-card { background: var(--pc-tint); border: 0; box-shadow: none; border-radius: 0; }
+  .story-footer-card .eyebrow { color: var(--pc-text); }
+  .story-footer-card__name { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; letter-spacing: 0; }
+  .chip, .chip--primary, .chip--secondary { border: 2px solid var(--lp-ink); border-radius: 0; box-shadow: none; color: var(--lp-ink); background: #fff; font: 700 13px/1 var(--mono); }
+  .chip--primary { background: var(--pc); }
+  .chip:hover { background: var(--lp-ink); color: var(--pc); }
+  .wa-strip, .wa-card { background: var(--pc-tint); border: 0; box-shadow: none; }
+}

@@ -13,6 +13,9 @@ import { getResponsiveImage } from '../lib/images';
 import { isIndexableTopic } from '../lib/seo/topics.mjs';
 import { getArticleReadingTime } from '../lib/readingTime';
 import { hostLabel } from '../lib/text/inline.mjs';
+import '../styles/chrome-d7.css';
+import '../styles/pillar-d7.css';
+import '../styles/ki-d7.css';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
