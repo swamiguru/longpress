@@ -5,8 +5,8 @@ seoTitle: "The digital arrest scam: how it works, how to stop it"
 description: "No Indian agency arrests anyone over a video call. How the digital arrest scam works, the signs, and what to do if you or a parent gets the call."
 category: Scams
 published: 2026-10-11
-lastChecked: 2026-10-11
-nextCheck: 2026-11-11
+lastChecked: 2026-11-10
+nextCheck: 2026-12-10
 oneLine: >-
   There is ==no such thing as a "digital arrest"==. The CBI, ED, police, customs and courts don't arrest anyone over a video call, and none of them will ask you to move money to prove you're innocent. If a call does either, hang up and report it.[^2]
 heroImage: "/images/fine-print/digital-arrest-scam-hero.webp"
@@ -49,6 +49,8 @@ unknowns:
 take: >-
   By February 2025 the government had blocked 83,668 WhatsApp accounts and 3,962 Skype IDs linked to digital arrest, and the calls kept coming.[^1] That's because nearly half the operations run from Cambodia, Myanmar and Laos, out of reach of Indian police.[^4] Blocking accounts helps, but the cheapest protection is still a ten-minute conversation. Tell your parents that no real officer arrests anyone on a video call, and make sure 1930 is saved in their phones.
 changelog:
+  - date: 2026-11-10
+    text: Re-checked against the sources. No change.
   - date: 2026-10-11
     text: First draft. Checked against the PIB Lok Sabha reply and the I4C advisory.
 sources:

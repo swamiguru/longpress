@@ -5,8 +5,8 @@ seoTitle: "India's DPDP rules: what you can demand from apps"
 description: "The DPDP Rules let you see, correct and delete your data, with a 90-day reply deadline. Most of it starts on 13 May 2027. What changes, and when."
 category: Privacy
 published: 2026-10-11
-lastChecked: 2026-10-11
-nextCheck: 2026-11-13
+lastChecked: 2026-11-10
+nextCheck: 2026-12-10
 oneLine: >-
   India's data protection law is in force on paper, but ==most of your rights only start on 13 May 2027==. From then, apps must tell you what they hold on you, fix or delete it on request, and answer within 90 days.[^1][^2]
 heroImage: "/images/fine-print/dpdp-rules-hero.webp"
@@ -72,6 +72,8 @@ unknowns:
 take: >-
   On paper this is a decent law. You get the right to see, fix and delete what apps hold on you, a 90-day deadline and breach notices written in plain language. In practice it's 18 months from the rules to the rights, and almost a year in, the body meant to enforce them still has nobody in the chair.[^4] Until the Board is staffed and the first fines land, treat this as a promise and keep being careful about what you hand over.
 changelog:
+  - date: 2026-11-10
+    text: Re-checked against the sources. No change.
   - date: 2026-10-11
     text: First draft. Dates checked against the November 2025 notification and the September 2026 status.
 sources:

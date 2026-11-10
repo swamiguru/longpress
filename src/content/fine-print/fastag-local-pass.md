@@ -5,8 +5,8 @@ seoTitle: "FASTag local pass: Rs 1,500 a year near a toll plaza"
 description: "Live within 20 km of a highway toll plaza? A new yearly pass costs Rs 1,500 or Rs 3,000. Who qualifies, the catches, and the math against the monthly pass."
 category: Transport
 published: 2026-11-09
-lastChecked: 2026-11-07
-nextCheck: 2026-12-07
+lastChecked: 2026-11-10
+nextCheck: 2026-12-10
 oneLine: >-
   Since 1 November, if you live within 20 km of a National Highway toll plaza and drive a private car, you can cross that one plaza all year for ==Rs 1,500== (or Rs 3,000 if the plaza is inside town limits), instead of paying about Rs 4,320 a year for monthly passes.[^1][^3]
 keyFigures:
@@ -84,6 +84,8 @@ unknowns:
 take: >-
   This is a rare toll change that cuts what people pay, and it's aimed at the right people: the ones who live next to a plaza and cross it to get to work, school or the market, Rs 1,500 for a year is about what four monthly passes cost now. My worry is the exclusions. "Not where a service road or alternative road exists" is vague enough that plaza operators could use it to say no, and the ministry hasn't said who decides. If your plaza turns you away on that ground, ask for it in writing. Until the app opens on 1 December and we see how it handles the 20 km check, I'd buy at the booth only if you cross daily.
 changelog:
+  - date: 2026-11-10
+    text: Re-checked against the sources. No change.
   - date: 2026-11-07
     text: First draft. Checked against MoRTH's PIB release of 27 October 2026 on the National Highways Fee (Fifth Amendment) Rules, 2026.
 sources:

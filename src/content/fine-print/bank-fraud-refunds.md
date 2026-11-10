@@ -4,8 +4,8 @@ title: "Money lost to online fraud: who pays it back from 1 January"
 description: "RBI's new fraud rules start on 1 January 2027. When your bank must refund you in full, and when you get 85% back, capped at Rs 25,000."
 category: Banking
 published: 2026-11-05
-lastChecked: 2026-11-03
-nextCheck: 2026-12-03
+lastChecked: 2026-11-10
+nextCheck: 2026-12-10
 oneLine: >-
   From 1 January 2027, if your bank was at fault you get ==every rupee back==. If you were tricked into handing over an OTP, a loss of up to Rs 50,000 gets you 85% back, capped at Rs 25,000, once in your life, but only if you report it within five days.[^1]
 keyFigures:
@@ -88,6 +88,8 @@ unknowns:
 take: >-
   This is the first time RBI has put in writing that a payment you were tricked into making is fraud, and that the bank, not you, has to prove you were careless. That's a real shift, and bank-side failures like a missing SMS alert now mean a full refund with no argument. The compensation scheme is the weaker half. Rs 25,000, once in your life, for losses under Rs 50,000 helps someone who loses a month's rent to a fake delivery link. It does nothing for someone who loses lakhs to a fake police officer on a video call, and those are the cases the Supreme Court is angry about. I'd like RBI to take the court's hint and widen it. Until then, report within five days, because almost everything in these rules hangs on it.[^5]
 changelog:
+  - date: 2026-11-10
+    text: Re-checked against the sources. No change.
   - date: 2026-11-03
     text: First draft. Checked against RBI's (Commercial Banks - Responsible Business Conduct) Third Amendment Directions, 2026, dated 24 June 2026.
 sources:
