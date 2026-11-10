@@ -250,14 +250,15 @@ html:not([data-theme="dark"]) .hp {
   html:not([data-theme="dark"]) .hp .hp-door-m--fp { background: var(--lp-fp); }
 }
 
-/* ---------- footer matches the header: same warm ink ---------- */
+/* ---------- footer matches the header: same warm ink, neutral headings, lime for hover/focus ---------- */
 html:not([data-theme="dark"]) body:has(.hp) .footer {
-  --dark-ground: #131218;
+  --dark-ground: #131218; --accent-light: #D8EC4A;
   background: #131218; border-top: 0;
 }
-html:not([data-theme="dark"]) body:has(.hp) .footer .brand-logo__title .word-press,
-html:not([data-theme="dark"]) body:has(.hp) .footer .wa-btn--footer { color: inherit; }
+html:not([data-theme="dark"]) body:has(.hp) .footer .footer__col-title { color: #B9B4C4; }
 html:not([data-theme="dark"]) body:has(.hp) .footer .brand-logo__title .word-press { color: #FFFFFF; }
+html:not([data-theme="dark"]) body:has(.hp) .footer a.wa-btn--footer { background: #F6F3EA; color: #131218; border-color: #F6F3EA; box-shadow: none; }
+html:not([data-theme="dark"]) body:has(.hp) .footer a.wa-btn--footer:hover { background: #D8EC4A; border-color: #D8EC4A; }
 
 /* ---------- fewer rules: space and type do the separating ---------- */
 html:not([data-theme="dark"]) .hp {
