@@ -10,6 +10,9 @@ import WhatsAppCta from '../../components/WhatsAppCta.astro';
 import { fpPlain } from '../../lib/text/finePrint';
 import { fpInline, FP_STATUS } from '../../lib/text/finePrint';
 import '../../styles/fine-print.css';
+import '../../styles/chrome-d7.css';
+import '../../styles/pillar-d7.css';
+import '../../styles/fp-d7.css';
 
 export async function getStaticPaths() {
   const all = await getCollection('finePrint', ({ data }) => !data.draft);

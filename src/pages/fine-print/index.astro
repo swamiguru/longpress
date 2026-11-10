@@ -6,6 +6,9 @@ import { getResponsiveImage } from '../../lib/images';
 import { existsSync } from 'node:fs';
 import { publicFile } from '../../lib/seo/og.mjs';
 import '../../styles/fine-print.css';
+import '../../styles/chrome-d7.css';
+import '../../styles/pillar-d7.css';
+import '../../styles/fp-d7.css';
 
 const pieces = (await getCollection('finePrint', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());

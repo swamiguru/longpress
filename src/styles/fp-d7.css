@@ -1,0 +1,121 @@
+/* ============================================================
+   FINE PRINT, DIRECTION D7 (10 Nov 2026)
+   Extends pillar-d7.css (yellow --pc). /fine-print and /fine-print/<slug>.
+   Light mode only. White ground, cream cards (#FDF6E3), warm yellow
+   (#F5C04A) as field, bar and highlighter behind ink text. Fraunces for
+   headlines; Source Serif 4 body and IBM Plex Mono labels stay.
+   The old paper ground (#F6F1E3 / #F2E8CE) and straw (#F0DB8C) are retired
+   on light mode. The footer and header are the shared ink chrome.
+   ============================================================ */
+
+html:not([data-theme="dark"]) .fp {
+  --fp-paper: #FFFFFF;
+  --fp-card: #FDF6E3;
+  --fp-ink: #131218;
+  --fp-ink-soft: #3A3740;
+  --fp-muted: #4A4650;
+  --fp-rule: #E9DFC0;
+  --fp-rule-strong: #DCCFA6;
+  --fp-dash: #B9A56A;
+  --fp-hl: #F5C04A;
+  --fp-display: var(--lp-fr);
+  background: #fff;
+
+  .fp-h2, .fp-card__title, .fp-end__title, &.fp--doc .ph__title, .ph--landing .ph__title {
+    font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; text-transform: none; color: var(--lp-ink);
+  }
+  &.fp--doc .ph__title, .ph--landing .ph__title {
+    font-variation-settings: var(--lp-fr-calm); font-size: clamp(34px, 5.4vw, 56px); line-height: 1.04; letter-spacing: -.012em; text-wrap: balance;
+  }
+  .ph--landing .ph__title { font-size: clamp(44px, 8vw, 76px); line-height: 1; }
+  &.fp--doc .fp-h2 { font-family: var(--lp-fr); font-weight: 700; font-size: 30px; letter-spacing: 0; }
+  .fp-h2::after { width: 56px; height: 6px; background: var(--lp-fp); }
+
+  /* landing head: same as the other pillars, no boxed panel */
+  .ph--landing { background: transparent; border: 0; border-radius: 0; padding: 4px 0 8px; margin-bottom: var(--s5); overflow: visible; }
+  .ph--landing .ph__tag { width: auto; background: transparent; border: 0; color: var(--lp-muted); }
+  .ph--landing .ph__title, .ph--landing .ph__stand, .ph--landing .ph__promise { padding: 0; }
+  .ph--landing .ph__title::before { display: none; }
+  .ph--landing .ph__title { display: block; }
+  .ph--landing .ph__title .fp-star, .ph--landing .ph__title svg { display: none; }
+  .ph--landing .ph__stand { margin: 16px 0 0; max-width: 62ch; font: 400 19px/1.55 "Source Serif 4", Georgia, serif; color: var(--lp-muted); }
+  .ph--landing .ph__stand .fp-hl { background: var(--lp-fp); padding: 0 .18em; }
+  .ph--landing .ph__promise { margin: 14px 0 0; font: 600 12px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--lp-muted); }
+
+  /* index */
+  .fp-grid { margin-top: 32px; gap: 28px 24px; }
+  .fp-card { background: var(--lp-fp-card); border: 0; box-shadow: none; }
+  .fp-card:hover { border: 0; }
+  .fp-card--lead { border: 0; box-shadow: none; background: var(--lp-fp-band); }
+  .fp-card__img { border-bottom: 0; border-right: 0 !important; background: var(--lp-fp-card); }
+  .fp-card__title { letter-spacing: 0; font-size: clamp(24px, 2.8vw, 30px); line-height: 1.1; }
+  .fp-card--lead .fp-card__title { font-variation-settings: var(--lp-fr-var); letter-spacing: -.012em; font-size: clamp(30px, 4.4vw, 44px); line-height: 1.04; }
+  .fp-meta { font-size: 12px; color: var(--lp-muted); }
+  .fp-card__more { color: var(--lp-ink); text-decoration: underline; text-decoration-color: var(--lp-fp); text-decoration-thickness: 4px; text-underline-offset: 3px; }
+  .fp-card:hover .fp-card__more, .fp-card:focus-visible .fp-card__more { background: transparent; }
+  .fp-empty { border-color: var(--lp-fp); }
+
+  /* story head: no yellow top bar, white ground */
+  &.fp--doc { background: #fff; }
+  .ph--story { border-top: 0; }
+  .ph--story .ph__tag { background: var(--lp-fp); color: var(--lp-ink); border-radius: 0; font: 700 12px/1 var(--mono); letter-spacing: .1em; }
+  .ph--story .ph__tag::before { display: none; }
+  .ph--story .ph__title::before { display: none; }
+  &.fp--doc .byline { border-block: 0; padding: 6px 0; }
+  &.fp--doc .byline__mark::before { border-color: var(--lp-fp); }
+  &.fp--doc .byline__read { border: 0; background: var(--lp-fp-card); color: var(--lp-ink); }
+  &.fp--doc .byline__name { font-size: 13px; color: var(--lp-ink); }
+  &.fp--doc .byline__date { color: var(--lp-muted); opacity: 1; }
+  .fp-share .share-bar { border-top: 0; }
+  .fp-img img { border: 0; border-radius: 0; background: var(--lp-fp-card); }
+  .fp-img figcaption { color: var(--lp-muted); }
+
+  /* key figures: three numbers, one yellow field */
+  .fp-figs { border: 0; background: var(--lp-fp-card); }
+  .fp-fig { border-color: rgba(19, 18, 24, .16); }
+  .fp-fig--hl { background: var(--lp-fp); border: 0; }
+  .fp-fig__big { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-var); font-weight: 700; letter-spacing: -.012em; font-size: clamp(36px, 5vw, 48px); }
+  @media (min-width: 721px) { .fp-fig--hl { border-left: 0; } .fp-fig + .fp-fig { border-left: 1px solid rgba(19, 18, 24, .16); } .fp-fig--hl { border-left: 0 !important; } }
+
+  /* trust bar: ink on cream, no red */
+  .fp-trust { color: var(--lp-ink); border: 0; background: var(--lp-fp-card); }
+  .fp-trust > div { border-left-color: rgba(19, 18, 24, .16); }
+  .fp-trust span { color: var(--lp-muted); }
+
+  .fp-oneline p { font-weight: 600; }
+  .fp-label, .fp-lab { color: var(--lp-ink); }
+  .fp-lede { color: var(--lp-muted); }
+  .fp a { text-decoration-color: var(--lp-fp); text-decoration-thickness: 2px; }
+  .fp-hl, .fp-sources li:target { background: var(--lp-fp); }
+
+  /* does this apply to you? status chips */
+  .fp-checks { border: 0; border-bottom: 1px solid var(--fp-rule-strong); }
+  .fp-check { border: 0; border-top: 1px solid var(--fp-rule-strong); }
+  .fp-chip { border-radius: 0; }
+  .fp-chip--ink { background: var(--lp-ink); color: #fff; }
+  .fp-chip--yellow { background: var(--lp-fp); color: var(--lp-ink); border: 0; padding: 3px 8px; }
+  .fp-chip--outline { border: 2px solid var(--lp-ink); padding: 1px 7px; }
+
+  /* the rule, the receipt, the steps */
+  .fp-rule { border-top: 1px solid var(--lp-ink); }
+  .fp-rule:last-child { border-bottom: 0; }
+  .fp-rule__quote { background: var(--lp-fp-card); border: 0; border-left: 5px solid var(--lp-fp); font-size: 15px; color: var(--lp-ink); }
+  .fp-receipt { filter: none; }
+  .fp-receipt__tear { display: none; }
+  .fp-receipt__body { background: var(--lp-fp-card); padding: 20px 18px 8px; border-top: 4px solid var(--lp-fp); }
+  .fp-receipt__total { border-top-color: var(--lp-ink); }
+  .fp-steps, .fp-steps li { border-color: var(--fp-rule-strong); border-style: solid; }
+  .fp-steps { border-width: 0 0 1px; }
+  .fp-steps li { border-width: 1px 0 0; }
+  .fp-steps__n { width: 34px; font: 600 var(--lp-idx)/1.2 var(--mono); }
+
+  /* the fine print block, the take, the record */
+  .fp-fine { background: var(--lp-fp); color: var(--lp-ink); }
+  .fp-take { border-top: 0; border-left: 6px solid var(--lp-fp); padding-top: 0; }
+  .fp-record { background: var(--lp-fp-card); border: 0; }
+  .fp-sources { border-top-color: var(--fp-rule-strong); }
+  .fp-end__video { background: var(--lp-ink); color: #fff !important; }
+  .fp-end__video .fp-end__eyebrow { color: var(--lp-fp); }
+  .fp-end__box { border: 0; background: var(--lp-fp-card); }
+  .wa-strip, .wa-card { background: var(--lp-fp-card); border: 0; box-shadow: none; }
+}

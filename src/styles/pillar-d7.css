@@ -11,7 +11,9 @@
 html:not([data-theme="dark"]) .pg--daily { --pc: var(--lp-lime); --pc-tint: var(--lp-tint-daily); --pc-text: var(--lp-olive); }
 html:not([data-theme="dark"]) .pg--ki { --pc: var(--lp-teal); --pc-tint: var(--lp-tint-ki); --pc-text: var(--lp-teal-deep); }
 
-html:not([data-theme="dark"]) :is(.pg--daily, .pg--ki) {
+html:not([data-theme="dark"]) .fp { --pc: var(--lp-fp); --pc-tint: var(--lp-fp-card); --pc-text: #7A5200; }
+
+html:not([data-theme="dark"]) :is(.pg--daily, .pg--ki, .fp) {
   /* page-level pillar tokens: the pillar colour for fields and rings, its deep tone for small text */
   --pl: var(--pc); --pl-text: var(--pc-text);
   --accent: var(--pc-text); --accent-deep: var(--pc-text); --accent-light: var(--pc-text);
