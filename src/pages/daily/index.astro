@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import '../../styles/landing-heads.css';
+import '../../styles/chrome-d7.css';
+import '../../styles/daily-d7.css';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import ResponsiveImage from '../../components/ResponsiveImage.astro';
@@ -61,6 +63,8 @@ for (const b of archiveBriefs) {
 }
 
 const med = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' });
+const rowDay = new Intl.DateTimeFormat('en-IN', { day: '2-digit' });
+const rowMon = new Intl.DateTimeFormat('en-IN', { month: 'short', year: 'numeric' });
 const dlDay = featured ? new Intl.DateTimeFormat('en-IN', { day: '2-digit', timeZone: 'UTC' }).format(featured.data.date) : '';
 const dlMon = featured ? new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' }).format(featured.data.date) : '';
 const dlWd = featured ? new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'UTC' }).format(featured.data.date) : '';
@@ -211,7 +215,7 @@ const dlWd = featured ? new Intl.DateTimeFormat('en-US', { weekday: 'long', time
                       <div class="archive-row__meta-row">
                         <div class="archive-row__date">
                           <time class="dateline entry__meta" datetime={b.data.date.toISOString()}>
-                            {med.format(b.data.date)}
+                            <b class="archive-row__day">{rowDay.format(b.data.date)}</b> <span class="archive-row__mon">{rowMon.format(b.data.date)}</span>
                           </time>
                           <span class="pill-tag pill-tag--muted" style="font-size: 14px; padding: 2px 7px;">
                             {dayOfWeek}

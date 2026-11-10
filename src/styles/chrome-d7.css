@@ -1,0 +1,61 @@
+/* ============================================================
+   D7 SHARED CHROME (10 Nov 2026): tokens, white ground, ink header and footer.
+   Light mode only. Applies on any page that contains one of the D7 roots
+   listed in the :has() below. Add .pg--ki / .pg--fp here as those pages move.
+   ============================================================ */
+
+html:not([data-theme="dark"]) {
+  --lp-ink: #131218;
+  --lp-muted: #4A4650;
+  --lp-rule: #DEDDD3;
+  --lp-lime: #D8EC4A;
+  --lp-olive: #566700;
+  --lp-teal: #19C3AE;
+  --lp-fp: #F5C04A;
+  --lp-fp-band: #FAEBC6;
+  --lp-fp-card: #FDF6E3;
+  --lp-tint-daily: #F6FAD9;
+  --lp-tint-ki: #E8F8F5;
+  --lp-idx: 22px;
+  --lp-fr: "Fraunces", "Source Serif 4", Georgia, serif;
+  --lp-fr-var: "SOFT" 30, "WONK" 1, "opsz" 144;
+  --lp-fr-calm: "SOFT" 0, "WONK" 0, "opsz" 144;
+  --lp-fr-sm: "SOFT" 30, "WONK" 1;      /* small sizes: optical size follows font-size */
+  --lp-fr-sm-calm: "SOFT" 0, "WONK" 0;
+}
+
+/* ---------- page ground ---------- */
+html:not([data-theme="dark"]):has(:is(.hp, .pg--daily)), html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) { --ground: #FFFFFF; background: #FFFFFF; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead .header-search__kbd { background: transparent; color: #B9B4C4; border-color: #4A4755; }
+
+/* ---------- header: warm ink, nav underlines in the pillar colours ---------- */
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead {
+  --ink: #FFFFFF; --ink-soft: #FFFFFF; --muted: #B9B4C4;
+  --surface: rgba(255,255,255,.07); --surface-card: rgba(255,255,255,.07); --surface-hover: rgba(255,255,255,.14);
+  --rule: #4A4755; --rule-strong: #FFFFFF;
+  --accent: #D8EC4A; --accent-deep: #D8EC4A; --on-accent: #131218;
+  --shadow-card: none; --shadow-hard-sm: none;
+  background: #131218; border-bottom: 0; margin-bottom: 0;
+}
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead::before { background: #131218; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead::after { display: none; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead .brand-logo__title .word-press { color: #FFFFFF; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead .brand-logo__tagline { color: #B9B4C4; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .nav__link#nav-daily { border-bottom-color: var(--lp-lime); }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .nav__link#nav-known-issue { border-bottom-color: var(--lp-teal); }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .nav__link#nav-fine-print { border-bottom-color: var(--lp-fp); }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead .wa-header { background: transparent; border-color: #FFFFFF; color: #FFFFFF; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead .wa-header:hover { background: #FFFFFF; color: #131218; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .masthead .wa-header .wa-icon { color: #4ADE80; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) main { padding-top: var(--s4); }
+
+/* ---------- footer matches the header: same warm ink, neutral headings, lime for hover/focus ---------- */
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .footer {
+  --dark-ground: #131218; --accent-light: #D8EC4A;
+  background: #131218; border-top: 0;
+}
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .footer .footer__col-title { color: #B9B4C4; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .footer .brand-logo__title .word-press { color: #FFFFFF; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .footer a.wa-btn--footer { background: #F6F3EA; color: #131218; border-color: #F6F3EA; box-shadow: none; }
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily)) .footer a.wa-btn--footer:hover { background: #D8EC4A; border-color: #D8EC4A; }
+
