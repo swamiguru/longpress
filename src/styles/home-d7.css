@@ -55,7 +55,7 @@ html:not([data-theme="dark"]) body:has(.hp) .nav__link#nav-fine-print { border-b
 html:not([data-theme="dark"]) body:has(.hp) .masthead .wa-header { background: transparent; border-color: #FFFFFF; color: #FFFFFF; }
 html:not([data-theme="dark"]) body:has(.hp) .masthead .wa-header:hover { background: #FFFFFF; color: #131218; }
 html:not([data-theme="dark"]) body:has(.hp) .masthead .wa-header .wa-icon { color: #4ADE80; }
-html:not([data-theme="dark"]) body:has(.hp) main { padding-top: var(--s5); }
+html:not([data-theme="dark"]) body:has(.hp) main { padding-top: var(--s4); }
 
 html:not([data-theme="dark"]) .hp {
   color: var(--lp-ink);
@@ -72,38 +72,41 @@ html:not([data-theme="dark"]) .hp {
 
   /* ---------- 1. Today's Five: head ---------- */
   .hp-term {
-    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "bar bar" "body go" "labels labels";
-    align-items: end; gap: 0 24px; margin-bottom: 28px; padding: 0;
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "bar" "body" "labels" "go";
+    align-items: center; gap: 0; margin-bottom: 18px; padding: 0;
     background: transparent; color: var(--lp-ink); border: 0; border-radius: 0; box-shadow: none; overflow: visible;
   }
-  .hp-term__bar {
-    grid-area: bar; justify-content: space-between; padding: 10px 0; margin-bottom: 22px; gap: 12px;
-    border-top: 3px solid var(--lp-ink); border-bottom: 1px solid var(--lp-ink); outline: 0;
-    box-shadow: 0 -6px 0 -3px #fff, 0 -7px 0 -3px #fff; /* spacing only */
-    font-weight: 500; letter-spacing: .08em; color: var(--lp-muted);
-  }
+  .hp-term__bar { grid-area: bar; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 0 8px; border: 0; font-weight: 500; letter-spacing: .08em; color: var(--lp-muted); }
   .hp-term__date { color: var(--lp-muted); }
   .hp-term__new { background: var(--lp-ink); color: #FFFFFF; padding: 3px 10px; font-weight: 600; }
   .hp-term__new i { width: 8px; height: 8px; background: var(--lp-lime); box-shadow: none; }
   .hp-term__body { grid-area: body; padding: 0; }
-  .hp-term h2 { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-var); font-weight: 700; font-size: clamp(32px, 5vw, 44px); letter-spacing: -.012em; line-height: 1.02; color: var(--lp-ink); }
+  .hp-term h2 { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-var); font-weight: 700; font-size: clamp(30px, 4.4vw, 38px); letter-spacing: -.012em; line-height: 1.02; color: var(--lp-ink); }
   .hp-term__prompt { display: none; }
-  .hp-term__cur { background: var(--lp-ink); width: 11px; height: .78em; margin-left: 9px; vertical-align: -.02em; }
+  .hp-term__cur { background: var(--lp-ink); width: 9px; height: .76em; margin-left: 8px; vertical-align: -.02em; }
   .hp-term__sub { display: none; }
   .hp-term .hp-term__go {
-    grid-area: go; display: inline-flex; width: auto; min-height: 0; padding: 12px 16px;
+    grid-area: go; display: inline-flex; width: auto; min-height: 0; padding: 10px 14px; margin-top: 12px; justify-self: stretch; justify-content: center;
     background: var(--lp-lime); color: var(--lp-ink); border: 0;
-    font: 800 13px/1 Archivo, sans-serif; letter-spacing: .06em; text-transform: uppercase;
+    font: 800 12px/1 Archivo, sans-serif; letter-spacing: .06em; text-transform: uppercase;
   }
   .hp-term .hp-term__go:hover { background: var(--lp-ink); color: var(--lp-lime); }
   .hp-term .hp-labels {
-    grid-area: labels; display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 14px 0 0; padding: 14px 0 0;
-    background: transparent; border: 0; border-top: 1px solid var(--lp-ink); border-radius: 0; box-shadow: none;
+    grid-area: labels; display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 8px 0 0; padding: 0;
+    background: transparent; border: 0; border-radius: 0; box-shadow: none;
   }
   .hp-term .hp-labels li { flex: 0 0 auto; padding: 0; border: 0 !important; }
-  .hp-term .hp-labels b { color: var(--lp-ink); font-weight: 500; letter-spacing: .02em; }
+  .hp-term .hp-labels b { color: var(--lp-ink); font-weight: 500; letter-spacing: .01em; font-size: 14px; }
   .hp-term .hp-labels b::before { color: var(--lp-olive); opacity: 1; font-weight: 600; font-size: 14px; }
   .hp-term .hp-labels li:last-child b::after { display: none; }
+  /* Desktop: one row. [new] Today's Five | date | button; the four steps underneath, no rules. */
+  @media (min-width: 720px) {
+    .hp-term { grid-template-columns: auto minmax(0, 1fr) auto auto; grid-template-areas: "new body date go" "labels labels labels labels"; column-gap: 18px; }
+    .hp-term__bar { display: contents; }
+    .hp-term__new { grid-area: new; justify-self: start; }
+    .hp-term__date { grid-area: date; white-space: nowrap; }
+    .hp-term .hp-term__go { margin-top: 0; justify-self: end; padding: 10px 14px; }
+  }
 
   /* ---------- 1. Today's Five: lead card over the image, four tiles under it ---------- */
   .hp-daily .hp-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; gap: 30px 22px; }
@@ -132,7 +135,7 @@ html:not([data-theme="dark"]) .hp {
 
   .hp-daily .hp-tile--lead { grid-column: 1 / -1; }
   .hp-daily .hp-tile--lead .hp-tile__a { display: block; height: auto; }
-  .hp-daily .hp-tile--lead .hp-tile__fig { height: clamp(260px, 56vw, 520px); order: 0; border-width: 3px; background: #E8F3B0; }
+  .hp-daily .hp-tile--lead .hp-tile__fig { height: clamp(240px, 52vw, 400px); order: 0; border-width: 3px; background: #E8F3B0; }
   .hp-daily .hp-tile--lead .hp-tile__img { object-position: center 35%; }
   .hp-daily .hp-tile--lead .hp-tile__card {
     display: block; position: relative; z-index: 2; box-sizing: border-box;
@@ -232,8 +235,6 @@ html:not([data-theme="dark"]) .hp {
   .hp-fpt { background: #F6E6BE; }
 }
 @media (max-width: 719px) {
-  html:not([data-theme="dark"]) .hp .hp-term { grid-template-columns: 1fr; grid-template-areas: "bar" "body" "labels" "go"; gap: 0; }
-  html:not([data-theme="dark"]) .hp .hp-term .hp-term__go { margin-top: 14px; justify-content: center; }
   html:not([data-theme="dark"]) .hp .hp-kf__body,
   html:not([data-theme="dark"]) .hp .hp-fpl__card { width: calc(100% - 16px); margin: -40px 0 0 16px; padding: 18px 18px 18px; }
   html:not([data-theme="dark"]) .hp .hp-daily .hp-tile__title { font-size: 19px; }
