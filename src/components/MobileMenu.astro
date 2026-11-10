@@ -68,10 +68,10 @@ import WhatsAppCta from './WhatsAppCta.astro';
       <a href="/" class="mobile-drawer-brand" id="mobile-drawer-brand-link" aria-label="Long Press Home">
         <div class="mobile-drawer-brand__mark" aria-hidden="true">
           <svg width="30" height="30" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="1" width="42" height="42" rx="11" fill="#34323F" />
-            <circle cx="22" cy="22" r="10" stroke="#E3C58A" stroke-width="3.2" />
-            <path d="M22 12A10 10 0 0 1 22 32" stroke="#D98E72" stroke-width="3.2" />
-            <circle cx="22" cy="22" r="4" fill="#E3C58A" />
+            <rect x="2" y="2" width="40" height="40" rx="11" fill="#D8EC4A" />
+            <circle cx="22" cy="22" r="10" stroke="#131218" stroke-opacity=".28" stroke-width="2.8" />
+            <path d="M22 12A10 10 0 0 1 22 32" stroke="#131218" stroke-width="2.8" />
+            <circle cx="22" cy="22" r="3.6" fill="#131218" />
           </svg>
         </div>
         <div class="mobile-drawer-brand__text">
@@ -301,8 +301,8 @@ import WhatsAppCta from './WhatsAppCta.astro';
               </svg>
             </span>
             <div class="drawer-theme-card__text">
-              <span class="drawer-theme-card__title">Theme Appearance</span>
-              <span class="drawer-theme-card__status" id="drawer-theme-status">Light Editorial Mode</span>
+              <span class="drawer-theme-card__title">Theme</span>
+              <span class="drawer-theme-card__status" id="drawer-theme-status">Light</span>
             </div>
           </div>
           <button
@@ -1119,7 +1119,7 @@ import WhatsAppCta from './WhatsAppCta.astro';
       function updateThemeLabel() {
         if (!themeStatus || !themeBtnLabel) return;
         const isDark = getTheme() === 'dark';
-        themeStatus.textContent = isDark ? 'Deep Midnight Dark' : 'Sand Editorial Light';
+        themeStatus.textContent = isDark ? 'Dark' : 'Light';
         themeBtnLabel.textContent = isDark ? 'To Light' : 'To Dark';
       }
 
