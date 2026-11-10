@@ -73,7 +73,7 @@ const tiles = today
   ? today.data.items.slice(0, 5).map((item, i) => {
       const generated = Boolean(item.image);
       const src = item.image ?? fallbackFor(item.kind, today.data.date);
-      const sizes = i === 0 ? '(max-width: 719px) 100vw, 520px' : '(max-width: 719px) 50vw, 256px';
+      const sizes = i === 0 ? '(max-width: 719px) 100vw, 1000px' : '(max-width: 719px) 50vw, 240px';
       return { item, generated, img: getResponsiveImage(src, { aspectRatio: '1/1', customSizes: sizes }) };
     })
   : [];
@@ -96,6 +96,7 @@ const featuredImg = featured ? kiImage(featured, '(max-width: 719px) 100vw, 600p
 const yearsOpen = featured?.data.openSince ? new Date().getFullYear() - featured.data.openSince : null;
 import '../styles/home-daily.css';
 import '../styles/landing-heads.css';
+import '../styles/home-d7.css';
 ---
 <BaseLayout
   title="Long Press: five tech stories every morning"
@@ -103,6 +104,7 @@ import '../styles/landing-heads.css';
   bare
   wide
 >
+<link slot="head" rel="preload" href="/fonts/fraunces-latin-full-normal.e75e106b.woff2" as="font" type="font/woff2" crossorigin />
 <div class="hp">
   <h1 class="hp-h1">Long Press: five tech stories every morning</h1>
   <!-- Mobile only: the nav is behind the hamburger, so keep both doors in reach -->
@@ -132,31 +134,34 @@ import '../styles/landing-heads.css';
         {tiles.map(({ item, img }, i) => (
           <li class:list={['hp-tile', { 'hp-tile--lead': i === 0 }]} id={`daily-list-slot-${item.slot}`}>
             <a class="hp-tile__a" href={`${path(today)}#story-${item.slot}`}>
-              <img
-                class="hp-tile__img"
-                src={img.src}
-                srcset={img.srcset}
-                sizes={img.sizes}
-                width={img.width}
-                height={img.height}
-                alt=""
-                loading={i === 0 ? 'eager' : 'lazy'}
-                fetchpriority={i === 0 ? 'high' : 'auto'}
-                decoding="async"
-              />
-              <span class="hp-tile__scrim" aria-hidden="true"></span>
-              <span class="hp-tile__top">
-                <span class="hp-tile__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
-                <span class:list={['hp-tag', { 'hp-tag--op': OPINION_TAG.includes(item.kind) }]}>{label(item.kind)}</span>
+              <span class="hp-tile__fig">
+                <img
+                  class="hp-tile__img"
+                  src={img.src}
+                  srcset={img.srcset}
+                  sizes={img.sizes}
+                  width={img.width}
+                  height={img.height}
+                  alt=""
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : 'auto'}
+                  decoding="async"
+                />
               </span>
-              <div class="hp-tile__tx">
-                <h3 class="hp-tile__title">{item.heading}</h3>
-                {i === 0 && (
-                  <p class="hp-tile__you">
-                    <b>What it means for you</b>
-                    {excerpt(item.forYou || item.body || item.teaser, 170)}
-                  </p>
-                )}
+              <div class="hp-tile__card">
+                <span class="hp-tile__top">
+                  <span class="hp-tile__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
+                  <span class:list={['hp-tag', { 'hp-tag--op': OPINION_TAG.includes(item.kind) }]}>{label(item.kind)}</span>
+                </span>
+                <div class="hp-tile__tx">
+                  <h3 class="hp-tile__title">{item.heading}</h3>
+                  {i === 0 && (
+                    <p class="hp-tile__you">
+                      <b>What it means for you</b>
+                      {excerpt(item.forYou || item.body || item.teaser, 170)}
+                    </p>
+                  )}
+                </div>
               </div>
             </a>
           </li>
@@ -329,28 +334,30 @@ import '../styles/landing-heads.css';
                 />
               </span>
             )}
-            <span class="hp-fpl__meta">
-              <span>{fpLead.data.category}</span>
-              <span class="hp-fpl__stamp">Last checked {med.format(fpLead.data.lastChecked)}</span>
-            </span>
-            {fpRs && (
-              <span class="hp-fpl__rs"><b>{fpRs.amount}</b><span>{fpRs.item}</span></span>
-            )}
-            <h3 class="hp-fpl__title">{fpLead.data.title}</h3>
-            <p class="hp-fpl__line">{fpPlain(fpLead.data.oneLine)}</p>
-            <span class="hp-fpl__check">
-              <span class="hp-fpl__checkh">Does this apply to you?</span>
-              {fpLead.data.applies.slice(0, 3).map((a) => {
-                const st = FP_STATUS[a.status];
-                return (
-                  <span class="hp-fpl__row">
-                    <span class="hp-fpl__who">{a.who}</span>
-                    <span class={`hp-fpl__chip hp-fpl__chip--${st.tone}`}>{st.label}</span>
-                  </span>
-                );
-              })}
-            </span>
-            <b class="hp-fpl__more">Read the explainer &rarr;</b>
+            <div class="hp-fpl__card">
+              <span class="hp-fpl__meta">
+                <span>{fpLead.data.category}</span>
+                <span class="hp-fpl__stamp">Last checked {med.format(fpLead.data.lastChecked)}</span>
+              </span>
+              {fpRs && (
+                <span class="hp-fpl__rs"><b>{fpRs.amount}</b><span>{fpRs.item}</span></span>
+              )}
+              <h3 class="hp-fpl__title">{fpLead.data.title}</h3>
+              <p class="hp-fpl__line">{fpPlain(fpLead.data.oneLine)}</p>
+              <span class="hp-fpl__check">
+                <span class="hp-fpl__checkh">Does this apply to you?</span>
+                {fpLead.data.applies.slice(0, 3).map((a) => {
+                  const st = FP_STATUS[a.status];
+                  return (
+                    <span class="hp-fpl__row">
+                      <span class="hp-fpl__who">{a.who}</span>
+                      <span class={`hp-fpl__chip hp-fpl__chip--${st.tone}`}>{st.label}</span>
+                    </span>
+                  );
+                })}
+              </span>
+              <b class="hp-fpl__more">Read the explainer &rarr;</b>
+            </div>
           </a>
 
           {fpMore.length > 0 && (
