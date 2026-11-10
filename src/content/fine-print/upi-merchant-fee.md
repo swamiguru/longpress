@@ -2,13 +2,13 @@
 slug: upi-merchant-fee
 title: "UPI's new merchant fee: who pays, how much, and what's still free"
 seoTitle: "UPI merchant fee: who pays, how much, what's free"
-description: "UPI's 0.4% shop fee on payments above Rs 2,000 now starts after Diwali, not 15 October. Who pays, who's exempt, and why you shouldn't pay a rupee of it."
+description: "UPI's 0.4% shop fee on payments above Rs 2,000 still has no start date after Diwali. Who pays, who's exempt, and why you shouldn't pay a rupee of it."
 category: Payments
 published: 2026-10-11
-lastChecked: 2026-10-15
-nextCheck: 2026-11-15
+lastChecked: 2026-11-10
+nextCheck: 2026-12-10
 oneLine: >-
-  UPI's merchant fee is ==on hold until after Diwali==. When it starts, shops pay 0.4% on UPI payments above Rs 2,000, capped at Rs 300. You, the customer, pay nothing extra, and nobody is allowed to charge you for it.[^4][^1]
+  UPI's merchant fee ==still has no start date==. NPCI put it off until after Diwali, and Diwali has passed without a notice. When it starts, shops pay 0.4% on UPI payments above Rs 2,000, capped at Rs 300. You, the customer, pay nothing extra, and nobody is allowed to charge you for it.[^4][^7][^1]
 keyFigures:
   - big: 0.4%
     label: fee a shop will pay on UPI payments above Rs 2,000
@@ -34,10 +34,10 @@ applies:
     text: Up to Rs 1 lakh a month received on UPI QR stays at zero. No GST registration needed to qualify.
   - who: You run a bigger business
     status: you-pay
-    text: 0.4% on each UPI payment above Rs 2,000, never more than Rs 300 per payment. Not yet, though. It starts on a date NPCI will set after Diwali.[^4]
+    text: 0.4% on each UPI payment above Rs 2,000, never more than Rs 300 per payment. Not yet, though. NPCI deferred it to after Diwali and, as of 10 November, still hasn't named a date.[^4][^7]
 rules:
   - quote: 'NPCI, 13 October 2026: the fee "shall be implemented immediately post Diwali at a date to be notified separately."'
-    plain: Nothing started on 15 October. Diwali is on 8 November, and the fee begins some time after that, on a day NPCI hasn't named yet.[^4]
+    plain: Nothing started on 15 October. Diwali was on 8 November, and NPCI still hasn't named the day the fee begins.[^4][^7]
   - quote: 'Q34: the framework "ensures consumers pay only the posted price."'
     plain: A shop can't add the fee to your bill. The price on the tag is the price you pay.
   - quote: "Q17: UPI apps may not charge a platform fee or any other charge on UPI payments."
@@ -78,15 +78,18 @@ finePrint:
   - The small-shop exemption isn't permanent. Cross Rs 1 lakh a month on UPI QR for three straight months and you're reclassified.
   - Credit on UPI, such as a RuPay credit card linked to UPI, sits under separate credit rules. This fee framework doesn't cover it.
   - AutoPay mandates (SIPs, OTT subscriptions, bills on autopay) have no prescribed fee under this framework.
+  - The fee is being challenged in the Supreme Court. On 28 September the court issued notice on a PIL but refused to stay the fee, and NPCI has since filed an affidavit defending it.[^8][^9]
 unknowns:
-  - The new start date. NPCI says only "immediately post Diwali". One report expects the second week of November, another expects January. Neither is official.[^6][^5]
+  - The new start date. NPCI says only "immediately post Diwali", and Diwali has passed with no notice. One report expected the second week of November, another January. Neither is official.[^6][^5][^7]
   - Whether the rates change before launch. A source told Business Standard there will be no change, but NPCI's statement doesn't restate the numbers.[^4]
   - The government's FAQ still says 15 October. We expect it to be revised once a date is notified.[^1]
-  - How "no passing it on" gets enforced at a busy counter. The FAQ states the rule but names no penalty.
+  - How "no passing it on" gets enforced at a busy counter. NPCI told the Supreme Court on 3 November that the rule binds banks and UPI apps, which can lose their UPI membership for breaking it. No penalty aimed at the shop itself has been named.[^7][^8]
   - 'The exact fee for school and college payments. The FAQ promises "flat-fee structures or capped processing rates" with no number attached.'
 take: >-
   Zero-fee UPI was always being paid for by someone, and a 0.4% charge on big shop payments is a fair way to share the bill. The deferral reads as a delay and nothing more, since NPCI's own words are "immediately post Diwali". It does show who has leverage here: traders asked for the festive season off and got it two days before the fee was due. When it does start, expect a few shops to try a "UPI surcharge" on large bills, and push back when they do. In June 2025 the government called talk of a UPI fee "completely false", so a little skepticism about how this rolls out is earned.[^3]
 changelog:
+  - date: 2026-11-10
+    text: 'Diwali has passed and NPCI still has not notified a start date, so "after Diwali" wording now says no date has been set. Added the Supreme Court challenge (notice issued, no stay) and NPCI''s 3 November affidavit saying the no-pass-on rule binds banks and UPI apps. Rates unchanged. Added three sources.'
   - date: 2026-10-15
     text: 'Start date updated. On 13 October NPCI deferred the fee from 15 October to "immediately post Diwali", date to be notified. Updated the summary, who it applies to, steps, catches, open questions and take, and added three sources.'
   - date: 2026-10-11
@@ -104,6 +107,12 @@ sources:
     url: https://www.tribuneindia.com/news/delhi/upi-fee-row-govt-defers-0-4-mdr-on-select-merchant-transactions-till-after-diwali/
   - label: Outlook Money, 13 Oct 2026
     url: https://www.outlookmoney.com/banking/upi-mdr-charges-delayed-until-after-diwali-new-date-yet-to-be-announced
+  - label: MediaNama, 6 Nov 2026, NPCI's Supreme Court affidavit on UPI MDR
+    url: https://www.medianama.com/2026/11/223-npci-defends-upi-mdr-charges-supreme-court/
+  - label: The Tribune, 5 Nov 2026, merchants can't pass on MDR, NPCI tells Supreme Court
+    url: https://www.tribuneindia.com/news/business/merchants-cant-pass-on-mdr-charges-to-customers-npci-tells-supreme-court/
+  - label: Outlook Money, 6 Nov 2026
+    url: https://www.outlookmoney.com/banking/merchants-cannot-recover-upi-mdr-charges-from-customers-npci-assures-supreme-court
 topics: [upi, payments, india]
 draft: false
 ---
