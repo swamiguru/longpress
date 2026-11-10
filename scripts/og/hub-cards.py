@@ -20,14 +20,14 @@ W, H = 1200, 630
 # other callers still work: MIDNIGHT is the ground (warm ink), ORANGE is the
 # accent (lime), MUSTARD is the Fine Print yellow.
 MIDNIGHT = (19, 18, 24)        # ink  #131218
-ORANGE = (216, 236, 74)        # lime #D8EC4A
-ORANGE_LIGHT = (216, 236, 74)  # lime on ink, for tags and the URL
+ORANGE = (205, 224, 99)        # lime #CDE063
+ORANGE_LIGHT = (205, 224, 99)  # lime on ink, for tags and the URL
 INK_ON_DARK = (246, 243, 234)  # #F6F3EA
 SOFT_ON_DARK = (185, 180, 196) # #B9B4C4
 RULE = (58, 56, 68)            # #3A3844
 MUSTARD = (245, 192, 74)       # Fine Print yellow #F5C04A
 TEAL = (25, 195, 174)          # Known Issue teal #19C3AE
-TILE = (216, 236, 74)          # mark tile: lime
+TILE = (205, 224, 99)          # mark tile: lime
 AMBER = (19, 18, 24)           # mark ring/dot: ink (name kept)
 ARC = (19, 18, 24)             # mark arc: ink
 RING_ON_TILE = (161, 175, 59)  # ink at 28% over lime
