@@ -248,3 +248,12 @@ html:not([data-theme="dark"]) .hp {
   html:not([data-theme="dark"]) .hp .hp-door-m--ki { background: var(--lp-teal); }
   html:not([data-theme="dark"]) .hp .hp-door-m--fp { background: var(--lp-fp); }
 }
+
+/* ---------- footer matches the header: same warm ink ---------- */
+html:not([data-theme="dark"]) body:has(.hp) .footer {
+  --dark-ground: #131218;
+  background: #131218; border-top: 0;
+}
+html:not([data-theme="dark"]) body:has(.hp) .footer .brand-logo__title .word-press,
+html:not([data-theme="dark"]) body:has(.hp) .footer .wa-btn--footer { color: inherit; }
+html:not([data-theme="dark"]) body:has(.hp) .footer .brand-logo__title .word-press { color: #FFFFFF; }
