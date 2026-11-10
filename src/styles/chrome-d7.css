@@ -60,3 +60,13 @@ html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp, .pg--a
 html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp, .pg--about, .search-page, .legal)) .footer a.wa-btn--footer { background: #F6F3EA; color: #131218; border-color: #F6F3EA; box-shadow: none; }
 html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp, .pg--about, .search-page, .legal)) .footer a.wa-btn--footer:hover { background: #D8EC4A; border-color: #D8EC4A; }
 
+
+/* WhatsApp strip and card: lime field, ink type, flat */
+html:not([data-theme="dark"]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp, .pg--about, .search-page, .legal)) {
+  .wa-strip, .wa-card { background: var(--lp-lime); border: 0; box-shadow: none; border-radius: 0; }
+  .wa-strip__text, .wa-card__text { color: var(--lp-ink); }
+  .wa-strip__text strong { font-family: var(--lp-display, "Fraunces", Georgia, serif); font-variation-settings: var(--lp-fr-sm-calm); font-weight: 700; letter-spacing: 0; }
+  .wa-card__heading { font-family: var(--lp-display, "Fraunces", Georgia, serif); font-variation-settings: var(--lp-fr-var); font-weight: 700; letter-spacing: 0; color: var(--lp-ink); }
+  .wa-strip .wa-btn, .wa-card .wa-btn { background: var(--lp-ink); color: #fff; border: 0; border-radius: 0; box-shadow: none; font-family: var(--mono, "IBM Plex Mono", monospace); font-weight: 600; letter-spacing: .06em; }
+  .wa-strip .wa-btn:hover, .wa-card .wa-btn:hover { transform: none; background: #fff; color: var(--lp-ink); }
+}
