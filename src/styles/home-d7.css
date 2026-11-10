@@ -278,3 +278,19 @@ html:not([data-theme="dark"]) .hp {
   html:not([data-theme="dark"]) .hp .hp-ai { border-top: 1px solid var(--lp-rule); }
   html:not([data-theme="dark"]) .hp .hp-arch > li:first-child .hp-ai { border-top: 0; }
 }
+
+/* ---------- round two: no row dividers; spacing separates ---------- */
+html:not([data-theme="dark"]) .hp {
+  .hp-arch { border-top: 0; }
+  .hp-kr { border-top: 0; padding: 14px 0; }
+  .hp-ke__label { margin-bottom: 2px !important; }
+  .hp-fpo { border-top: 0; }
+  .hp-fpo li, .hp-fpo li:last-child { border-bottom: 0; }
+  .hp-fpo__a { padding: 14px 0; }
+  .hp-fpl__check { border-top: 0; padding-top: 4px; }
+  .hp-fpl__checkh { margin-bottom: 6px; }
+  .hp-fpl__row { padding: 6px 0; }
+}
+@media (max-width: 719px) {
+  html:not([data-theme="dark"]) .hp .hp-ai { border-top: 0; padding-top: 10px; }
+}
