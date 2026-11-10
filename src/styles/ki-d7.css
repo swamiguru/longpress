@@ -37,7 +37,7 @@ html:not([data-lp-legacy]) .pg--ki {
   .column-manifesto--compact .column-manifesto__num { font: 700 12px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--pc-text); }
   .column-manifesto--compact .column-manifesto__card h3 { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; font-size: 21px; letter-spacing: 0; color: var(--lp-ink); }
   .column-manifesto--compact .column-manifesto__card p { color: var(--lp-ink); font-size: 15px; line-height: 1.5; }
-  .column-tip-box { background: var(--pc-tint); border: 0; box-shadow: none; border-radius: 0; }
+  .column-tip-box { background: var(--lp-block); border: 0; box-shadow: none; border-radius: 0; }
 
   /* ---------- story head: light, no slab ---------- */
   .ph--story.ph--dark { background: transparent; border: 0; box-shadow: none; padding: 8px 0 0; color: var(--lp-ink); }
@@ -121,7 +121,7 @@ html:not([data-lp-legacy]) .pg--ki {
   .story-footer-card .eyebrow { color: var(--pc-text); }
   .story-footer-card__name { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; letter-spacing: 0; }
   .chip, .chip--primary, .chip--secondary { border: 2px solid var(--lp-line); border-radius: 0; box-shadow: none; color: var(--lp-ink); background: var(--lp-surf); font: 700 13px/1 var(--mono); }
-  .chip--primary { background: var(--pc); }
+  .chip--primary { background: var(--pc); color: var(--lp-on-field); }
   .chip:hover { background: var(--lp-block); color: var(--pc); }
   .wa-strip, .wa-card { background: var(--pc-tint); border: 0; box-shadow: none; }
 }

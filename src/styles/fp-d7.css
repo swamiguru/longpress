@@ -29,6 +29,7 @@ html:not([data-lp-legacy]) .fp {
   }
   .ph--landing .ph__title { font-size: clamp(44px, 8vw, 76px); line-height: 1; }
   &.fp--doc .fp-h2 { font-family: var(--lp-fr); font-weight: 700; font-size: 30px; letter-spacing: 0; }
+  .fp-fine .fp-h2 { color: var(--lp-on-field); }
   .fp-h2::after { width: 56px; height: 6px; background: var(--lp-fp); }
 
   /* landing head: same as the other pillars, no boxed panel */
@@ -121,5 +122,5 @@ html:not([data-lp-legacy]) .fp {
 }
 
 /* WhatsApp strip and card stay cream on Fine Print (beats the lime rule in chrome-d7.css) */
-html:not([data-lp-legacy]) body:has(.fp) :is(.wa-strip, .wa-card) { background: var(--lp-fp-card); }
-html:not([data-lp-legacy]) body:has(.fp) :is(.wa-strip__text, .wa-card__text, .wa-strip__text strong, .wa-card__heading) { color: var(--lp-ink); }
+html:not([data-lp-legacy]) body:has(.fp) :is(.wa-strip, .wa-card) { background: var(--lp-fp-card) !important; }
+html:not([data-lp-legacy]) body:has(.fp) :is(.wa-strip__text, .wa-card__text, .wa-strip__text strong, .wa-card__heading) { color: var(--lp-ink) !important; }

@@ -178,6 +178,11 @@ html:not([data-lp-legacy]) .hp {
     background: var(--lp-fp-card); border: 2px solid var(--lp-line); border-top: 8px solid var(--lp-fp); box-shadow: 6px 6px 0 var(--lp-line);
   }
   .hp-fpl__meta { color: var(--lp-muted); }
+  .hp-fpl__card :is(.hp-fpl__who, .hp-fpl__title, .hp-fpl__checkh, .hp-fpl__more, .hp-fpl__chip--outline) { color: var(--lp-ink); }
+  .hp-fpl__chip--outline { border-color: var(--lp-line); }
+  .hp-fpo :is(.hp-fpo__n, .hp-fpo__t) { color: var(--lp-ink); }
+  .hp-fpo__cat { color: var(--lp-muted); }
+  .hp-fp__kick { color: var(--lp-ink); }
   .hp-fpl__stamp { background: var(--lp-block); color: #FFFFFF; }
   .hp-fpl__title { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-calm); font-weight: 700; font-size: clamp(26px, 4vw, 40px); line-height: 1.06; letter-spacing: -.012em; }
   .hp-fpl__rs { background: var(--lp-fp); color: var(--lp-on-field); }
@@ -199,7 +204,7 @@ html:not([data-lp-legacy]) .hp {
 /* ---------- mobile doors: one colour per pillar ---------- */
 @media (max-width: 719px) {
   html:not([data-lp-legacy]) .hp .hp-doors-m { background: transparent; border-bottom: 0; box-shadow: none; clip-path: none; margin-bottom: 12px; }
-  html:not([data-lp-legacy]) .hp .hp-door-m { color: var(--lp-ink); border: 2px solid var(--lp-line); box-shadow: none; font-size: 13px; padding-inline: 2px; letter-spacing: 0; white-space: nowrap; justify-content: center; }
+  html:not([data-lp-legacy]) .hp .hp-door-m { color: var(--lp-on-field); border: 2px solid var(--lp-line); box-shadow: none; font-size: 13px; padding-inline: 2px; letter-spacing: 0; white-space: nowrap; justify-content: center; }
   html:not([data-lp-legacy]) .hp .hp-door-m--daily { background: var(--lp-lime); }
   html:not([data-lp-legacy]) .hp .hp-door-m--ki { background: var(--lp-teal); }
   html:not([data-lp-legacy]) .hp .hp-door-m--fp { background: var(--lp-fp); }
