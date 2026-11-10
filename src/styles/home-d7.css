@@ -294,3 +294,17 @@ html:not([data-theme="dark"]) .hp {
 @media (max-width: 719px) {
   html:not([data-theme="dark"]) .hp .hp-ai { border-top: 0; padding-top: 10px; }
 }
+
+/* ---------- round three: compact Known Issue and Fine Print heads ---------- */
+html:not([data-theme="dark"]) .hp {
+  .hp-band__in { padding-block: 36px 44px; }
+  .hp-fp__in { padding-block: 36px 48px; }
+  .hp-band .hp-shead, .hp-fp .hp-shead { margin-bottom: 22px; align-items: flex-end; gap: 10px 24px; }
+  .hp-band .hp-shead h2, .hp-fp .hp-shead h2 { font-size: clamp(36px, 5.2vw, 52px); margin: 8px 0 6px; }
+  .hp-band .hp-shead__sub, .hp-fp .hp-shead__sub { font-size: 17px; line-height: 1.45; max-width: 68ch; margin-top: 0; }
+  .hp-band .hp-btn, .hp-fp .hp-btn { padding: 10px 14px; font-size: 12px; }
+  .hp-band .hp-kick { padding: 3px 8px; }
+  .hp-band { margin-top: 36px; }
+  .hp-ki, .hp-fpg { gap: 26px; }
+  @media (min-width: 720px) { .hp-ki, .hp-fpg { gap: 32px; } }
+}
