@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Share cards for the Daily Five and Known Issue hubs (1200x630).
 
-Long Press identity (direction K): slate ground, terracotta accent, SCREEN mark
-(slate tile, amber ring, terracotta arc), block cursor, three-band stripe.
+Long Press identity (direction D7): warm ink ground, lime accent, lime tile
+with ink ring, arc and dot, block cursor, three-band stripe in the pillar colors.
 Committed PNGs, because the Vercel build has no fonts. Fine Print's hub uses
 the Fine Print default card instead (scripts/og/fine-print-cards.py).
 
@@ -16,18 +16,21 @@ OUT = ROOT / "public/images/hubs"
 FONTS = Path(__file__).resolve().parent / "fonts"
 
 W, H = 1200, 630
-# Names kept from the old palette so brief-cards.py and fine-print callers still work.
-MIDNIGHT = (52, 50, 63)        # slate  #34323F
-ORANGE = (207, 138, 114)       # terracotta on slate  #CF8A72
-ORANGE_LIGHT = (227, 165, 143) # #E3A58F
-INK_ON_DARK = (239, 234, 224)  # #EFEAE0
-SOFT_ON_DARK = (211, 205, 218) # #D3CDDA
-RULE = (85, 80, 95)            # #55505F
-MUSTARD = (214, 184, 120)      # #D6B878
-TEAL = (143, 191, 183)         # #8FBFB7
-TILE = (28, 27, 35)            # #1C1B23
-AMBER = (227, 197, 138)        # #E3C58A
-ARC = (217, 142, 114)          # #D98E72
+# D7 palette. The names are kept from the old palettes so brief-cards.py and
+# other callers still work: MIDNIGHT is the ground (warm ink), ORANGE is the
+# accent (lime), MUSTARD is the Fine Print yellow.
+MIDNIGHT = (19, 18, 24)        # ink  #131218
+ORANGE = (216, 236, 74)        # lime #D8EC4A
+ORANGE_LIGHT = (216, 236, 74)  # lime on ink, for tags and the URL
+INK_ON_DARK = (246, 243, 234)  # #F6F3EA
+SOFT_ON_DARK = (185, 180, 196) # #B9B4C4
+RULE = (58, 56, 68)            # #3A3844
+MUSTARD = (245, 192, 74)       # Fine Print yellow #F5C04A
+TEAL = (25, 195, 174)          # Known Issue teal #19C3AE
+TILE = (216, 236, 74)          # mark tile: lime
+AMBER = (19, 18, 24)           # mark ring/dot: ink (name kept)
+ARC = (19, 18, 24)             # mark arc: ink
+RING_ON_TILE = (161, 175, 59)  # ink at 28% over lime
 
 # Copy is lifted verbatim from the live pages (see src/pages/daily and known-issue).
 CARDS = {
@@ -87,26 +90,26 @@ def ring_mark(draw, cx, cy, r, color, dot=None):
 
 
 def screen_mark(draw, x, y, size):
-    """SCREEN icon: dark tile, amber ring, terracotta right half-arc, amber dot."""
-    draw.rounded_rectangle((x, y, x + size, y + size), radius=int(size * 0.26), fill=TILE, outline=RULE, width=2)
+    """D7 icon: lime tile, ink ring at 28%, ink right half-arc, ink dot."""
+    draw.rounded_rectangle((x, y, x + size, y + size), radius=int(size * 0.26), fill=TILE)
     cx, cy = x + size / 2, y + size / 2
     r = size * 0.27
     w = max(3, int(size * 0.07))
-    draw.ellipse((cx - r, cy - r, cx + r, cy + r), outline=AMBER, width=w)
+    draw.ellipse((cx - r, cy - r, cx + r, cy + r), outline=RING_ON_TILE, width=w)
     draw.arc((cx - r, cy - r, cx + r, cy + r), start=-90, end=90, fill=ARC, width=w)
     d = size * 0.1
     draw.ellipse((cx - d, cy - d, cx + d, cy + d), fill=AMBER)
 
 
 def brand_header(d):
-    """Left-edge three-band stripe, SCREEN icon, LONG PRESS wordmark, block cursor."""
+    """Left-edge three-band stripe (Daily Five, Known Issue, Fine Print), mark, wordmark, block cursor."""
     d.rectangle((0, 0, 6, H), fill=ORANGE)
-    d.rectangle((10, 0, 16, H), fill=MUSTARD)
-    d.rectangle((20, 0, 26, H), fill=TEAL)
+    d.rectangle((10, 0, 16, H), fill=TEAL)
+    d.rectangle((20, 0, 26, H), fill=MUSTARD)
     screen_mark(d, 64, 52, 56)
     wm = font("ExtraBold", 34)
     x = tracked(d, (140, 64), "LONG", wm, INK_ON_DARK, tracking=2)
-    x = tracked(d, (x + 10, 64), "PRESS", wm, ORANGE, tracking=2)
+    x = tracked(d, (x + 10, 64), "PRESS", wm, INK_ON_DARK, tracking=2)
     d.rectangle((x + 8, 70, x + 8 + 15, 70 + 28), fill=ORANGE)
 
 

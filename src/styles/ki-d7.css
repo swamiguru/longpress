@@ -5,7 +5,7 @@
    (deep teal) carries small text. The "take" panel is no longer a dark slab.
    ============================================================ */
 
-html:not([data-theme="dark"]) .pg--ki {
+html:not([data-lp-legacy]) .pg--ki {
 
   /* ---------- landing head ---------- */
   .ph--landing.ph--dark { background: transparent; border: 0; box-shadow: none; padding: 4px 0 8px; }
@@ -18,14 +18,14 @@ html:not([data-theme="dark"]) .pg--ki {
 
   /* featured: tags and share */
   .known-issue-featured .pill-tag--known-issue, .archive-row .pill-tag--known-issue {
-    background: var(--pc); color: var(--lp-ink); border: 0; border-radius: 0; font: 700 12px/1 var(--mono); letter-spacing: .1em; padding: 5px 9px;
+    background: var(--pc); color: var(--lp-on-field); border: 0; border-radius: 0; font: 700 12px/1 var(--mono); letter-spacing: .1em; padding: 5px 9px;
   }
   .known-issue-featured .pill-tag--muted, .archive-row .pill-tag--muted {
     background: transparent; border: 0; padding: 0; color: var(--lp-muted); font: 600 12px/1 var(--mono); letter-spacing: .08em;
   }
   .known-issue-featured .entry__footer { border-top: 0 !important; margin-top: 16px !important; padding-top: 0 !important; display: flex; align-items: center; gap: 12px 16px; flex-wrap: wrap; }
-  .card-share-btn { background: #fff; color: var(--lp-ink); border: 2px solid var(--lp-ink); border-radius: 0; box-shadow: none; }
-  .card-share-btn:hover { background: var(--pc); color: var(--lp-ink); transform: none; }
+  .card-share-btn { background: var(--lp-surf); color: var(--lp-ink); border: 2px solid var(--lp-line); border-radius: 0; box-shadow: none; }
+  .card-share-btn:hover { background: var(--pc); color: var(--lp-on-field); transform: none; }
   .archive-row__tags { gap: 12px; }
 
   /* the four tenets */
@@ -43,7 +43,7 @@ html:not([data-theme="dark"]) .pg--ki {
   .ph--story.ph--dark { background: transparent; border: 0; box-shadow: none; padding: 8px 0 0; color: var(--lp-ink); }
   .ph--story.ph--dark::before, .ph--story.ph--dark::after { display: none; }
   .ph--story.ph--dark .ph__tag {
-    background: var(--pc); color: var(--lp-ink); box-shadow: none; border-radius: 0; padding: 6px 10px; font: 700 12px/1 var(--mono); letter-spacing: .1em;
+    background: var(--pc); color: var(--lp-on-field); box-shadow: none; border-radius: 0; padding: 6px 10px; font: 700 12px/1 var(--mono); letter-spacing: .1em;
   }
   .ph--story.ph--dark .ph__tag::before { display: none; }
   .ph--story.ph--dark .ph__title {
@@ -68,8 +68,8 @@ html:not([data-theme="dark"]) .pg--ki {
   .ph--story.ph--dark .byline__mark::before { border-color: var(--pc); }
   .ph--story.ph--dark .byline__read { border: 0; background: var(--pc-tint); color: var(--lp-ink); }
   .ph--story.ph--dark .share-bar__label { color: var(--lp-muted); }
-  .share-pill { background: #fff; color: var(--lp-ink); border: 2px solid var(--lp-ink); border-radius: 0; box-shadow: none; }
-  .share-pill:hover { background: var(--pc); color: var(--lp-ink); }
+  .share-pill { background: var(--lp-surf); color: var(--lp-ink); border: 2px solid var(--lp-line); border-radius: 0; box-shadow: none; }
+  .share-pill:hover { background: var(--pc); color: var(--lp-on-field); }
   .ph-crumb { font-family: var(--mono); }
   .ph-crumb a { color: var(--lp-muted); }
   .ph-crumb a.article-breadcrumb__curr { color: var(--lp-ink); text-decoration-color: var(--pc); text-decoration-thickness: 3px; }
@@ -97,7 +97,7 @@ html:not([data-theme="dark"]) .pg--ki {
   .column-pullquote__label { color: var(--pc-text); font: 700 12px/1.2 var(--mono); letter-spacing: .1em; }
   .column-pullquote__lead, .column-pullquote__rest { color: var(--lp-ink); font-family: "Source Serif 4", Georgia, serif; }
   .column-pullquote__sig { color: var(--lp-muted); border-top: 0; }
-  .column-verdict, .column-verdict--buy, .column-verdict--wait, .column-verdict--skip { background: var(--lp-ink); color: #fff; }
+  .column-verdict, .column-verdict--buy, .column-verdict--wait, .column-verdict--skip { background: var(--lp-block); color: #fff; }
   .column-verdict::after { display: none; }
   .column-verdict__icon { color: var(--pc); }
   .column-verdict__label { color: #B9B4C4; font-family: var(--mono); }
@@ -120,8 +120,8 @@ html:not([data-theme="dark"]) .pg--ki {
   .story-footer-card { background: var(--pc-tint); border: 0; box-shadow: none; border-radius: 0; }
   .story-footer-card .eyebrow { color: var(--pc-text); }
   .story-footer-card__name { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; letter-spacing: 0; }
-  .chip, .chip--primary, .chip--secondary { border: 2px solid var(--lp-ink); border-radius: 0; box-shadow: none; color: var(--lp-ink); background: #fff; font: 700 13px/1 var(--mono); }
+  .chip, .chip--primary, .chip--secondary { border: 2px solid var(--lp-line); border-radius: 0; box-shadow: none; color: var(--lp-ink); background: var(--lp-surf); font: 700 13px/1 var(--mono); }
   .chip--primary { background: var(--pc); }
-  .chip:hover { background: var(--lp-ink); color: var(--pc); }
+  .chip:hover { background: var(--lp-block); color: var(--pc); }
   .wa-strip, .wa-card { background: var(--pc-tint); border: 0; box-shadow: none; }
 }

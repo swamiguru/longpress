@@ -292,7 +292,7 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={resolvedImage} />
     <meta name="twitter:image:alt" content={shareAlt} />
-    <meta name="theme-color" content="#F3EEE1" />
+    <meta name="theme-color" content="#131218" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Anti-FOUC theme detection. Deliberately inline and dependency-free:
@@ -306,11 +306,11 @@ const isFinePrintActive = currentPath === '/fine-print' || currentPath.startsWit
           if (saved === 'dark' || (!saved && prefersDark)) {
             document.documentElement.setAttribute('data-theme', 'dark');
             var meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#26242E');
+            if (meta) meta.setAttribute('content', '#131218');
           } else {
             document.documentElement.removeAttribute('data-theme');
             var meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', '#F3EEE1');
+            if (meta) meta.setAttribute('content', '#131218');
           }
         } catch (e) {}
       })();

@@ -8,8 +8,8 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
 ---
 <div class={`brand-logo brand-logo--${variant}`} id="brand-logo">
   <div class="brand-logo__mark" aria-hidden="true">
-    <!-- Press and hold: the arc fills while you wait. SCREEN icon: slate tile,
-         amber ring, terracotta arc, amber dot. The arc is a circle with
+    <!-- Press and hold: the arc fills while you wait. D7 icon: lime tile,
+         ink ring, ink arc, ink dot. The arc is a circle with
          pathLength=360 so dash lengths read as degrees. Static render is 180deg. -->
     <svg width="38" height="38" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="40" height="40" rx="11" class="mark-tile" />
@@ -49,11 +49,11 @@ const { variant = 'masthead', showTagline = false } = Astro.props;
   }
   .brand-logo:hover .brand-logo__mark { transform: scale(1.05); }
 
-  .mark-tile { fill: #34323F; }
-  .mark-ring { stroke: #E3C58A; }
-  .mark-arc  { stroke: #D98E72; }
-  .mark-dot  { fill: #E3C58A; }
-  html[data-theme="dark"] .mark-tile { stroke: #4A4756; stroke-width: 1.5; }
+  /* D7 mark: lime tile, ink ring, arc and dot. Same in light and dark. */
+  .mark-tile { fill: #D8EC4A; }
+  .mark-ring { stroke: #131218; stroke-opacity: .28; }
+  .mark-arc  { stroke: #131218; }
+  .mark-dot  { fill: #131218; }
 
   .brand-logo__text {
     display: flex;

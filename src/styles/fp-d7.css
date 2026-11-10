@@ -8,18 +8,18 @@
    on light mode. The footer and header are the shared ink chrome.
    ============================================================ */
 
-html:not([data-theme="dark"]) .fp {
-  --fp-paper: #FFFFFF;
-  --fp-card: #FDF6E3;
-  --fp-ink: #131218;
-  --fp-ink-soft: #3A3740;
-  --fp-muted: #4A4650;
-  --fp-rule: #E9DFC0;
-  --fp-rule-strong: #DCCFA6;
-  --fp-dash: #B9A56A;
+html:not([data-lp-legacy]) .fp {
+  --fp-paper: var(--lp-ground);
+  --fp-card: var(--lp-fp-card);
+  --fp-ink: var(--lp-ink);
+  --fp-ink-soft: var(--lp-ink-soft);
+  --fp-muted: var(--lp-muted);
+  --fp-rule: var(--lp-fp-rule);
+  --fp-rule-strong: var(--lp-fp-rule2);
+  --fp-dash: var(--lp-fp-dash);
   --fp-hl: #F5C04A;
   --fp-display: var(--lp-fr);
-  background: #fff;
+  background: var(--lp-ground);
 
   .fp-h2, .fp-card__title, .fp-end__title, &.fp--doc .ph__title, .ph--landing .ph__title {
     font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-sm); font-weight: 700; text-transform: none; color: var(--lp-ink);
@@ -56,9 +56,9 @@ html:not([data-theme="dark"]) .fp {
   .fp-empty { border-color: var(--lp-fp); }
 
   /* story head: no yellow top bar, white ground */
-  &.fp--doc { background: #fff; }
+  &.fp--doc { background: var(--lp-ground); }
   .ph--story { border-top: 0; }
-  .ph--story .ph__tag { background: var(--lp-fp); color: var(--lp-ink); border-radius: 0; font: 700 12px/1 var(--mono); letter-spacing: .1em; }
+  .ph--story .ph__tag { background: var(--lp-fp); color: var(--lp-on-field); border-radius: 0; font: 700 12px/1 var(--mono); letter-spacing: .1em; }
   .ph--story .ph__tag::before { display: none; }
   .ph--story .ph__title::before { display: none; }
   &.fp--doc .byline { border-block: 0; padding: 6px 0; }
@@ -92,30 +92,34 @@ html:not([data-theme="dark"]) .fp {
   .fp-checks { border: 0; border-bottom: 1px solid var(--fp-rule-strong); }
   .fp-check { border: 0; border-top: 1px solid var(--fp-rule-strong); }
   .fp-chip { border-radius: 0; }
-  .fp-chip--ink { background: var(--lp-ink); color: #fff; }
-  .fp-chip--yellow { background: var(--lp-fp); color: var(--lp-ink); border: 0; padding: 3px 8px; }
-  .fp-chip--outline { border: 2px solid var(--lp-ink); padding: 1px 7px; }
+  .fp-chip--ink { background: var(--lp-block); color: #fff; }
+  .fp-chip--yellow { background: var(--lp-fp); color: var(--lp-on-field); border: 0; padding: 3px 8px; }
+  .fp-chip--outline { border: 2px solid var(--lp-line); padding: 1px 7px; }
 
   /* the rule, the receipt, the steps */
-  .fp-rule { border-top: 1px solid var(--lp-ink); }
+  .fp-rule { border-top: 1px solid var(--lp-line); }
   .fp-rule:last-child { border-bottom: 0; }
   .fp-rule__quote { background: var(--lp-fp-card); border: 0; border-left: 5px solid var(--lp-fp); font-size: 15px; color: var(--lp-ink); }
   .fp-receipt { filter: none; }
   .fp-receipt__tear { display: none; }
   .fp-receipt__body { background: var(--lp-fp-card); padding: 20px 18px 8px; border-top: 4px solid var(--lp-fp); }
-  .fp-receipt__total { border-top-color: var(--lp-ink); }
+  .fp-receipt__total { border-top-color: var(--lp-line); }
   .fp-steps, .fp-steps li { border-color: var(--fp-rule-strong); border-style: solid; }
   .fp-steps { border-width: 0 0 1px; }
   .fp-steps li { border-width: 1px 0 0; }
   .fp-steps__n { width: 34px; font: 600 var(--lp-idx)/1.2 var(--mono); }
 
   /* the fine print block, the take, the record */
-  .fp-fine { background: var(--lp-fp); color: var(--lp-ink); }
+  .fp-fine { background: var(--lp-fp); color: var(--lp-on-field); }
   .fp-take { border-top: 0; border-left: 6px solid var(--lp-fp); padding-top: 0; }
   .fp-record { background: var(--lp-fp-card); border: 0; }
   .fp-sources { border-top-color: var(--fp-rule-strong); }
-  .fp-end__video { background: var(--lp-ink); color: #fff !important; }
+  .fp-end__video { background: var(--lp-block); color: #fff !important; }
   .fp-end__video .fp-end__eyebrow { color: var(--lp-fp); }
   .fp-end__box { border: 0; background: var(--lp-fp-card); }
   .wa-strip, .wa-card { background: var(--lp-fp-card); border: 0; box-shadow: none; }
 }
+
+/* WhatsApp strip and card stay cream on Fine Print (beats the lime rule in chrome-d7.css) */
+html:not([data-lp-legacy]) body:has(.fp) :is(.wa-strip, .wa-card) { background: var(--lp-fp-card); }
+html:not([data-lp-legacy]) body:has(.fp) :is(.wa-strip__text, .wa-card__text, .wa-strip__text strong, .wa-card__heading) { color: var(--lp-ink); }
