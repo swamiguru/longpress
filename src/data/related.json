@@ -2942,6 +2942,41 @@
     "n": 1,
     "score": 0.68
    }
+  ],
+  "daily:2026-11-11#1": [
+   {
+    "type": "daily",
+    "date": "2026-11-04",
+    "n": 4,
+    "score": 0.79
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-27",
+    "n": 1,
+    "score": 0.77
+   }
+  ],
+  "daily:2026-11-11#2": [
+   {
+    "type": "daily",
+    "date": "2026-11-06",
+    "n": 1,
+    "score": 0.69
+   },
+   {
+    "type": "daily",
+    "date": "2026-11-10",
+    "n": 2,
+    "score": 0.67
+   }
+  ],
+  "daily:2026-11-11#3": [
+   {
+    "type": "story",
+    "slug": "festive-sale-percent-off",
+    "score": 0.67
+   }
   ]
  }
 }
