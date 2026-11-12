@@ -55,7 +55,7 @@
 /* thumbnails */
 :is(
   .archive-row__thumb, .daily-featured__thumb, .known-issue-featured__thumb,
-  .daily-list__thumb, .dx__fig, .fp-fig, .fp-figs > *
+  .daily-list__thumb, .dx__fig, .hp-kt, .hp-fpt, .fp-fig, .fp-figs > *
 ) { border-radius: var(--lp-r-inner) !important; overflow: hidden; }
 
 /* ---------- buttons, tags, chips: pills ---------- */
