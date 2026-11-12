@@ -44,7 +44,7 @@ html:not([data-lp-legacy]) .hp .dx {
   .dx__tag { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lp-muted); }
   .dx__title { margin: 0; font-family: var(--lp-display, 'Fraunces', Georgia, serif); font-variation-settings: var(--lp-fr-calm); font-weight: 600; font-size: 20px; line-height: 1.15; letter-spacing: -.01em; color: var(--lp-ink); }
   .dx__a:hover .dx__title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--dx-lime); }
-  .dx__take { margin: 0; font: 400 14px/1.45 var(--serif, 'Source Serif 4', Georgia, serif); color: var(--lp-ink-soft); display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .dx__take { margin: 0; font: 400 14px/1.45 var(--serif, 'Source Serif 4', Georgia, serif); color: var(--lp-ink-soft); display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .dx__fig { display: block; width: 84px; height: 84px; border-radius: 10px; overflow: hidden; background: color-mix(in srgb, var(--lp-ink) 8%, transparent); }
   .dx__fig img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .dx__a:focus-visible { outline: 2px solid var(--lp-ink); outline-offset: 4px; border-radius: 8px; }
