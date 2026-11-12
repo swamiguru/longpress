@@ -267,3 +267,7 @@ html:not([data-lp-legacy]) .pg--daily .issue-jump-bar__hint-m { display: none; }
   html:not([data-lp-legacy]) .pg--daily .issue-jump-pill, html:not([data-lp-legacy]) .pg--daily .issue-jump-pill__go { transition: none; }
   html:not([data-lp-legacy]) .pg--daily .issue-jump-pill:hover .issue-jump-pill__go { transform: none; }
 }
+
+/* Dark theme: "Read the full issue" was near-black (--lp-block) on a near-black page. Lime field, ink text. */
+html[data-theme="dark"]:not([data-lp-legacy]) .hp .dx .dx__go { background: var(--dx-lime); color: var(--lp-on-field); }
+html[data-theme="dark"]:not([data-lp-legacy]) .hp .dx .dx__go:hover { background: #F6F3EA; color: #131218; }
