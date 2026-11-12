@@ -73,7 +73,7 @@ const tiles = today
   ? today.data.items.slice(0, 5).map((item, i) => {
       const generated = Boolean(item.image);
       const src = item.image ?? fallbackFor(item.kind, today.data.date);
-      const sizes = i === 0 ? '(max-width: 719px) 100vw, 1000px' : '(max-width: 719px) 50vw, 240px';
+      const sizes = i === 0 ? '(max-width: 719px) 84px' : '(max-width: 719px) 84px';
       return { item, generated, img: getResponsiveImage(src, { aspectRatio: '1/1', customSizes: sizes }) };
     })
   : [];
@@ -118,59 +118,54 @@ import '../styles/df-d8.css';
 
   <!-- 1. Today's Five -->
   {today && (
-    <section class="hp-daily" aria-labelledby="todays-five-heading" id="section-todays-five">
-      <div class="hp-daily__in">
-      <div class="hp-term">
-        <div class="hp-term__bar">
-          <span class="hp-term__new"><i aria-hidden="true"></i>New today</span>
-          <time class="hp-term__date" datetime={today.data.date.toISOString().slice(0, 10)}>{wdFmt.format(today.data.date)} {dayFmt.format(today.data.date)} {monFmt.format(today.data.date)}</time>
-        </div>
-        <div class="hp-term__body">
-          <h2 id="todays-five-heading"><span class="hp-term__prompt" aria-hidden="true">&gt;</span> Today&rsquo;s Five<span class="hp-term__cur" aria-hidden="true"></span></h2>
-          <span class="hp-sig" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-          <p class="hp-term__sub">Five tech stories every morning, each one told the same way: the problem, what changed, the catch, and what it means for you.</p>
-        </div>
-        <ul class="hp-labels" aria-label="Each story, in four parts"><li><b>The problem</b></li><li><b>What changed</b></li><li><b>The catch</b></li><li><b>What it means for you</b></li></ul>
-        <a href={path(today)} class="hp-btn hp-term__go" id="link-read-full-issue">Read the full issue &rarr;</a>
-      </div>
+    <section class="dx" aria-labelledby="todays-five-heading" id="section-todays-five">
+      <div class="dx__in">
+        <header class="dx__intro">
+          <span class="dx__new"><i aria-hidden="true"></i>New today <span aria-hidden="true">&middot;</span> <time datetime={today.data.date.toISOString().slice(0, 10)}>{wdFmt.format(today.data.date)} {dayFmt.format(today.data.date)} {monFmt.format(today.data.date)}</time></span>
+          <h2 id="todays-five-heading">Today&rsquo;s Five</h2>
+          <p class="dx__sub">Five tech stories every morning, each one told the same way: the problem, what changed, the catch, and what it means for you.</p>
+          <span class="dx__bar" aria-hidden="true"></span>
+          <a href={path(today)} class="dx__go" id="link-read-full-issue">Read the full issue &rarr;</a>
+          {archive.length > 0 && (
+            <nav class="dx__earlier" aria-labelledby="dx-earlier-h">
+              <span class="dx__earlier-h" id="dx-earlier-h">Earlier this week</span>
+              <ul>
+                {archive.slice(0, 3).map((b) => (
+                  <li><a href={path(b)}><time datetime={b.data.date.toISOString().slice(0, 10)}>{wdFmt.format(b.data.date)} {dayFmt.format(b.data.date)} {monFmt.format(b.data.date)}</time><span aria-hidden="true">&rarr;</span></a></li>
+                ))}
+              </ul>
+              <a class="dx__all" href="/daily">All {briefs.length} issues &rarr;</a>
+            </nav>
+          )}
+        </header>
 
-      <ol class="hp-bento" data-count={tiles.length} id="daily-list">
-        {tiles.map(({ item, img }, i) => (
-          <li class:list={['hp-tile', { 'hp-tile--lead': i === 0 }]} id={`daily-list-slot-${item.slot}`}>
-            <a class="hp-tile__a" href={`${path(today)}#story-${item.slot}`}>
-              <span class="hp-tile__fig">
-                <img
-                  class="hp-tile__img"
-                  src={img.src}
-                  srcset={img.srcset}
-                  sizes={img.sizes}
-                  width={img.width}
-                  height={img.height}
-                  alt=""
-                  loading={i === 0 ? 'eager' : 'lazy'}
-                  fetchpriority={i === 0 ? 'high' : 'auto'}
-                  decoding="async"
-                />
-              </span>
-              <div class="hp-tile__card">
-                <span class="hp-tile__top">
-                  <span class="hp-tile__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
-                  <span class:list={['hp-tag', { 'hp-tag--op': OPINION_TAG.includes(item.kind) }]}>{label(item.kind)}</span>
+        <ol class="dx__list" id="daily-list">
+          {tiles.map(({ item, img }, i) => (
+            <li class="dx__row" id={`daily-list-slot-${item.slot}`}>
+              <a class="dx__a" href={`${path(today)}#story-${item.slot}`}>
+                <span class="dx__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
+                <span class="dx__tx">
+                  <span class:list={['dx__tag', { 'dx__tag--op': OPINION_TAG.includes(item.kind) }]}>{label(item.kind)}</span>
+                  <h3 class="dx__title">{item.heading}</h3>
+                  <p class="dx__take">{excerpt(item.teaser || item.forYou || item.body, 130)}</p>
                 </span>
-                <div class="hp-tile__tx">
-                  <h3 class="hp-tile__title">{item.heading}</h3>
-                  {i === 0 && (
-                    <p class="hp-tile__you">
-                      <b>What it means for you</b>
-                      {excerpt(item.forYou || item.body || item.teaser, 170)}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ol>
+                <span class="dx__fig">
+                  <img
+                    src={img.src}
+                    srcset={img.srcset}
+                    sizes="(max-width: 719px) 84px, 150px"
+                    width={img.width}
+                    height={img.height}
+                    alt=""
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    fetchpriority={i === 0 ? 'high' : 'auto'}
+                    decoding="async"
+                  />
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )}
