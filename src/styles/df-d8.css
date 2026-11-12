@@ -176,7 +176,7 @@ html:not([data-lp-legacy]) .pg--daily {
   .df-chip--opinion { background: #F6F3EA; color: #131218; }
   .df-chip--india { background: var(--lp-block); color: var(--lp-lime); box-shadow: none; }
 
-  @media (min-width: 760px) { .df-story__media { align-self: start; position: sticky; top: 84px; } }
+  @media (min-width: 760px) { .df-story__media { align-self: start; } }
   .df-story__title { font-variation-settings: var(--lp-fr-sm-calm); font-weight: 600; letter-spacing: -.012em; }
   .df-story__body p { font-size: 18.5px; }
 
