@@ -144,9 +144,9 @@ html:not([data-lp-legacy]) .pg--daily {
   .df-parts { margin: 8px 20px 0; padding: 0; gap: 0; border: 1px solid var(--lp-rule); }
   .df-part { background: transparent; border: 0; padding: 20px 22px 22px; gap: 10px; position: relative; }
   .df-part + .df-part { border-top: 1px solid var(--lp-rule); }
-  .df-part .df-part__label { gap: 10px; font: 800 14.5px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--lp-ink); }
-  .df-part__num { font: 800 20px/1 var(--mono); color: var(--lp-olive); }
-  .df-part__num::after { content: ""; display: inline-block; width: 18px; height: 2px; margin-left: 8px; vertical-align: middle; background: var(--lp-rule); }
+  .df-part .df-part__label { gap: 10px; font: 800 17px/1.2 var(--df-font); letter-spacing: .1em; text-transform: uppercase; color: var(--lp-ink); }
+  .df-part__num { font: 900 28px/1 var(--df-font); color: var(--lp-olive); }
+  .df-part__num::after { content: ""; display: inline-block; width: 22px; height: 3px; margin-left: 8px; vertical-align: middle; background: var(--lp-rule); }
   .df-part .df-part__text { font-size: 17.5px; line-height: 1.62; color: var(--lp-ink); }
   .df-part--forYou { background: var(--lp-block); color: #F6F3EA; border-top-color: var(--lp-block); }
   .df-part--forYou::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--lp-lime); }
