@@ -1,0 +1,70 @@
+/* ============================================================
+   CALM BRIEF PAGE, D9 (12 Nov 2026)
+   The brief page had a frame around the card, a frame around the four
+   steps, a divider between each step, a frame around the answer, a frame
+   around every question, a rule above the footer, a dashed frame around
+   Share and a frame around Previously. Six nested boxes on a screen.
+
+   Now: one soft tinted card, no outline. Structure comes from spacing,
+   type size and the two coloured blocks (the question and "What it means
+   for you"). Rules are removed, not recoloured. Colours are role tokens,
+   so light and dark both work. Loaded after df-d8.css on /daily/<date> only.
+   ============================================================ */
+
+html:not([data-lp-legacy]):not([data-lp-legacy]):not([data-lp-legacy]) .pg--daily {
+  /* the card: tinted surface, no outline, no hard shadow */
+  .df-card { background: var(--lp-tint-n); border: 0; box-shadow: none; }
+
+  /* the timeline hairline between cards goes; the numbered node stays */
+  .df-row::before { display: none; }
+  .df-node { border-radius: var(--lp-r-inner, 14px); }
+
+  /* readout strip: text on the card, not an ink band with a progress rule */
+  .df-strip { background: transparent; padding: 18px 24px 0; color: var(--lp-muted); }
+  .df-strip::after { display: none; }
+  .df-strip__time, .df-strip__n { color: var(--lp-muted); }
+  .df-strip__n b { color: var(--lp-ink); }
+
+  /* picture and text sit inside the card with air around them */
+  .df-story__media { margin: 14px 16px 0; border: 0; }
+  @media (min-width: 760px) {
+    .df-story { padding: 14px 24px 0; column-gap: 28px; }
+    .df-story__media { margin: 0; }
+    .df-story__title { padding: 4px 0 0; }
+    .df-story__body { padding: 12px 0 8px; }
+    .df-answer { margin: 12px 24px 24px; }
+  }
+
+  /* the question and the one-line answer: two blocks, no outline */
+  .df-answer { border: 0; }
+
+  /* the four steps: open columns, no box, no dividers */
+  .df-parts { border: 0; border-radius: 0 !important; overflow: visible; margin: 8px 16px 0; gap: 24px; }
+  .df-part, .df-part + .df-part { border: 0; padding: 0; }
+  .df-part__num::after { display: none; }
+  @media (min-width: 760px) {
+    .df-parts { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 12px 24px 0; gap: 32px; }
+    .df-part + .df-part { border-left: 0; }
+  }
+  /* "What it means for you": the one filled block, rounded, no side bar */
+  .df-part.df-part--forYou { border-radius: var(--lp-r-media, 20px) !important; padding: 22px 24px 24px; }
+  .df-part--forYou::before { display: none; }
+  @media (min-width: 760px) { .df-part.df-part--forYou { padding: 24px 28px 26px; margin-top: 4px; } }
+
+  /* questions people ask: plain headings and text, spacing only */
+  .df-qa { padding: 28px 24px 8px; gap: 22px; }
+  .df-qa__item { background: transparent; border: 0; border-radius: 0 !important; padding: 0; }
+
+  /* footer: sources and share on one quiet row, no rules, no dashed box */
+  .df-foot { border: 0; padding: 20px 24px 8px; margin-top: 0; }
+  .df-foot .share-bar { border: 0 !important; background: transparent !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; }
+  .df-foot .share-pill { border-width: 1px !important; border-color: var(--lp-rule) !important; background: transparent !important; box-shadow: none !important; }
+  .df-foot .share-pill:hover { background: var(--lp-surf) !important; }
+
+  /* previously on Long Press: a line of text, not a box */
+  .df-prev { padding: 8px 24px 22px; }
+  .df-prev .previously { border: 0 !important; background: transparent !important; padding: 0 !important; box-shadow: none !important; }
+
+  /* ads between cards keep their reserved height; only the frame goes */
+  .df-ad { border: 0; }
+}
