@@ -27,6 +27,12 @@ html:not([data-lp-legacy]):not([data-lp-legacy]):not([data-lp-legacy]) .pg--dail
 
   /* picture and text sit inside the card with air around them */
   .df-story__media { margin: 14px 16px 0; border: 0; }
+  @media (max-width: 759px) {
+    .df-story__text { padding: 20px 22px 8px; }
+    .df-story__title, .df-story__body { padding-left: 22px; padding-right: 22px; }
+    .df-story__text .df-story__title, .df-story__text .df-story__body { padding-left: 0; padding-right: 0; }
+    .df-story__body { padding-top: 12px; padding-bottom: 8px; }
+  }
   @media (min-width: 760px) {
     .df-story { padding: 14px 24px 0; column-gap: 28px; }
     .df-story__media { margin: 0; }
