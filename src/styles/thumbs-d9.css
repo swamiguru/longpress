@@ -1,0 +1,37 @@
+/* ============================================================
+   THUMBNAILS, D9 (12 Nov 2026)
+   One size for every list thumbnail, on the homepage and on the three
+   landing pages, and the same shape on desktop and phone: a square.
+   The illustrations are square artwork; the Daily Five rows used to crop
+   them to 150 x 100 on desktop and show 84 x 84 on phones, Known Issue and
+   Fine Print rows stayed at 84 (72 on phones), the archives used 96 and 120.
+   Change --lp-thumb here, nowhere else.
+   Not touched: the lead images (16:9 and 16:10 cards) and the Fine Print
+   landing cards, which are full-width card images, not thumbnails.
+   ============================================================ */
+
+:root {
+  --lp-thumb: 104px;        /* list rows, phone */
+  --lp-thumb-feature: 144px; /* the featured row on /daily and /known-issue, phone */
+}
+@media (min-width: 720px) {
+  :root { --lp-thumb: 136px; --lp-thumb-feature: 240px; }
+}
+
+html:not([data-lp-legacy]):not([data-lp-legacy]):not([data-lp-legacy]) {
+  /* homepage rows: rank + text + thumbnail */
+  .hp .dx .dx__a { grid-template-columns: 28px minmax(0, 1fr) var(--lp-thumb); }
+  .hp .dx .dx__fig { width: var(--lp-thumb); height: var(--lp-thumb); }
+  .hp-kr { grid-template-columns: 44px minmax(0, 1fr) var(--lp-thumb); }
+  .hp-fpo__a { grid-template-columns: 48px minmax(0, 1fr) var(--lp-thumb); }
+  .hp-kt, .hp-fpt { width: var(--lp-thumb); height: var(--lp-thumb); aspect-ratio: auto; }
+
+  /* landing pages: archive rows and the featured row */
+  .archive-row__thumb { width: var(--lp-thumb); }
+  .daily-featured__thumb, .known-issue-featured__thumb { width: var(--lp-feature-w, var(--lp-thumb-feature)); }
+}
+@media (min-width: 720px) {
+  html:not([data-lp-legacy]):not([data-lp-legacy]):not([data-lp-legacy]) {
+    .hp .dx .dx__a { grid-template-columns: 56px minmax(0, 1fr) var(--lp-thumb); }
+  }
+}
