@@ -1,0 +1,269 @@
+/* ============================================================
+   DAILY FIVE, DIRECTION D8 "SIGNAL" (12 Nov 2026)
+   Homepage Today's Five (.hp-daily) and the brief page (.pg--daily .df-*).
+   Brief: serious and sleek, with a tinge of tech fun. Replaces the thick
+   borders, offset shadows, overlapping card and flat cartoon colour with:
+     - a soft full-bleed lime band with a dot grid (homepage), hairlines instead of 3px keylines
+     - illustrations run through a lime/ink duotone, so every day's art reads
+       as one system whatever colours the generator picked
+     - mono labels, a live dot, corner brackets, a five-pip scan
+   The homepage band uses role tokens (--dc-* alias them). Loaded after
+   home-d7.css / pillar-d7.css.
+   ============================================================ */
+
+/* ---------- shared: duotone + corner brackets ---------- */
+@keyframes d8-scan { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@keyframes d8-live { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dc-acc, #CDE063) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--dc-acc, #CDE063) 0%, transparent); } }
+
+/* ============================================================
+   1. HOMEPAGE: Today's Five, as a ranked index (option B)
+   White page, no band. Intro on the left, five ruled rows on the right: number,
+   tag, headline, one-line take, rounded thumbnail in the illustration's own
+   colours. Every colour is a role token, so light and dark share the rules.
+   ============================================================ */
+html:not([data-lp-legacy]) .hp .dx {
+  --dx-lime: var(--lp-lime); --dx-olive: var(--lp-olive);
+  --dx-line: color-mix(in srgb, var(--lp-ink) 16%, transparent);
+  --dx-line-soft: color-mix(in srgb, var(--lp-ink) 9%, transparent);
+  padding: 8px 0 8px;
+  .dx__in { display: grid; gap: 28px; }
+  .dx__intro { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .dx__new { display: inline-flex; align-items: center; gap: 8px; font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dx-olive); }
+  .dx__new i { width: 8px; height: 8px; border-radius: 50%; background: var(--dx-olive); animation: d8-live 1.9s ease-out infinite; --dc-acc: var(--dx-olive); }
+  h2 { margin: 0; font-family: var(--lp-display, 'Fraunces', Georgia, serif); font-variation-settings: var(--lp-fr-calm); font-weight: 600; font-size: clamp(34px, 4.6vw, 48px); line-height: 1; letter-spacing: -.02em; color: var(--lp-ink); }
+  .dx__sub { margin: 0; font: 400 16px/1.55 var(--serif, 'Source Serif 4', Georgia, serif); color: var(--lp-ink-soft); max-width: 36ch; }
+  .dx__bar { width: 64px; height: 4px; background: var(--dx-lime); }
+  .dx__go { margin-top: 4px; display: inline-block; background: var(--lp-block); color: #F6F3EA; padding: 13px 16px; border-radius: 8px; font: 800 12px/1 var(--ui, 'Archivo', sans-serif); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+  .dx__go:hover { background: color-mix(in srgb, var(--lp-block) 85%, var(--dx-lime)); }
+  .dx__wa { display: none; }
+  .dx__list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--lp-ink); }
+  .dx__row { border-bottom: 1px solid var(--dx-line); }
+  .dx__a { display: grid; grid-template-columns: 28px minmax(0, 1fr) 84px; gap: 12px; align-items: start; padding: 16px 0; color: var(--lp-ink); text-decoration: none; }
+  .dx__num { font: 600 18px/1.2 var(--mono); color: var(--dx-olive); }
+  .dx__tx { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .dx__tag { font: 600 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lp-muted); }
+  .dx__title { margin: 0; font-family: var(--lp-display, 'Fraunces', Georgia, serif); font-variation-settings: var(--lp-fr-calm); font-weight: 600; font-size: 20px; line-height: 1.15; letter-spacing: -.01em; color: var(--lp-ink); }
+  .dx__a:hover .dx__title { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--dx-lime); }
+  .dx__take { margin: 0; font: 400 14px/1.45 var(--serif, 'Source Serif 4', Georgia, serif); color: var(--lp-ink-soft); display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .dx__fig { display: block; width: 84px; height: 84px; border-radius: 10px; overflow: hidden; background: color-mix(in srgb, var(--lp-ink) 8%, transparent); }
+  .dx__fig img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .dx__a:focus-visible { outline: 2px solid var(--lp-ink); outline-offset: 4px; border-radius: 8px; }
+}
+/* light theme: a softer olive for the small accents (stays AA on white) */
+html:not([data-theme="dark"]):not([data-lp-legacy]) .hp .dx { --dx-olive: #657B00; }
+@media (max-width: 719px) {
+  /* phone: intro, then the list, then the button and earlier issues (the intro's children are re-ordered) */
+  html:not([data-lp-legacy]) .hp .dx {
+    .dx__in { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+    .dx__intro { display: contents; }
+    .dx__new { order: 1; } h2 { order: 2; } .dx__sub { order: 3; } .dx__bar { order: 4; }
+    .dx__list { order: 5; align-self: stretch; margin-top: 4px; }
+    .dx__sub { max-width: none; text-wrap: pretty; }
+    .dx__go { order: 6; align-self: stretch; text-align: center; padding: 16px; }
+    .dx__wa { display: none; }
+  }
+}
+@media (min-width: 720px) {
+  html:not([data-lp-legacy]) .hp .dx {
+    padding: 16px 0 16px;
+    .dx__in { grid-template-columns: minmax(0, 1fr) minmax(0, 2.3fr); gap: 56px; align-items: start; }
+    .dx__a { grid-template-columns: 56px minmax(0, 1fr) 150px; gap: 24px; align-items: center; padding: 20px 0; }
+    .dx__num { font-size: 28px; line-height: 1; }
+    .dx__tag { font-size: 11px; }
+    .dx__title { font-size: 28px; line-height: 1.1; letter-spacing: -.015em; }
+    .dx__take { font-size: 15px; line-height: 1.5; }
+    .dx__fig { width: 150px; height: 100px; border-radius: 12px; }
+    .dx__wa { display: block; align-self: stretch; margin-top: 22px; }
+    .dx__wa .wa-card { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px 14px; padding: 18px; border-radius: 14px; margin: 0; }
+    .dx__wa .wa-card .wa-btn { grid-column: 1 / -1; justify-self: stretch; text-align: center; }
+    .dx__wa .wa-card__heading { font-family: var(--df-font); font-variation-settings: normal; font-weight: 800; letter-spacing: -.01em; }
+    .dx__wa .wa-card__icon { width: 40px; height: 40px; padding: 8px; }
+    .dx__wa .wa-card__heading { font-size: 20px; line-height: 1.2; }
+    .dx__wa .wa-card__text { font-size: 14px; line-height: 1.45; }
+    .dx__wa .wa-btn { border-radius: 8px; }
+  }
+}
+/* Daily Five type: Figtree, a clean geometric sans with soft round forms, for every Daily Five headline */
+html:not([data-lp-legacy]) {
+  --df-font: 'Figtree', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  .hp .dx :is(h2, .dx__title), .hp #heading-daily-archive, .hp .hp-ai__t,
+  .pg--daily :is(.ph__title, .df-story__title, .df-answer__q, .df-qa__label, .df-qa__q, .df-part__label, .taps__title) {
+    font-family: var(--df-font); font-variation-settings: normal; font-optical-sizing: auto;
+  }
+  .hp .dx h2 { font-weight: 800; letter-spacing: -.025em; }
+  .hp .dx .dx__title { font-weight: 700; font-size: 20px; line-height: 1.2; letter-spacing: -.012em; }
+  .hp .hp-ai__t { font-weight: 700; font-size: 18px; line-height: 1.3; letter-spacing: -.005em; display: block; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; text-wrap: pretty; }
+  .pg--daily :is(.ph__title, .df-story__title) { font-weight: 800; letter-spacing: -.025em; }
+  .pg--daily :is(.df-answer__q, .df-qa__q, .df-qa__label, .df-part__label, .taps__title) { font-weight: 700; letter-spacing: -.01em; }
+}
+@media (min-width: 720px) { html:not([data-lp-legacy]) .hp .dx .dx__title { font-size: 26px; line-height: 1.15; } }
+html:not([data-lp-legacy]) .hp .dx + .wa-strip { margin-top: 24px; }
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-lp-legacy]) .hp .dx .dx__new i { animation: none; }
+}
+
+/* ============================================================
+   2. BRIEF PAGE: the stack of readouts
+   ============================================================ */
+html:not([data-lp-legacy]) .pg--daily {
+  /* head */
+  .ph--story.ph--brief .ph__title { font-variation-settings: var(--lp-fr-calm); font-weight: 600; letter-spacing: -.022em; line-height: 1.03; }
+  .ph--story.ph--brief .df-clock::before { width: 9px; height: 9px; border-radius: 50%; background: var(--lp-lime); box-shadow: 0 0 0 0 rgba(205, 224, 99, .6); animation: d8-live 1.9s ease-out infinite; }
+  .issue-jump-bar { background: transparent; border: 1px solid var(--lp-rule); padding: 14px 16px 16px; }
+  .issue-jump-bar__label { font: 600 11px/1 var(--mono); letter-spacing: .14em; color: var(--lp-muted); }
+  .issue-jump-pill { background: transparent; border: 1px solid var(--lp-rule); padding: 8px 12px; transition: background .15s, border-color .15s; }
+  .issue-jump-pill:hover { background: var(--lp-lime); border-color: var(--lp-lime); }
+  .issue-jump-pill:hover :is(.issue-jump-pill__num, .issue-jump-pill__title) { color: var(--lp-on-field); }
+  .issue-jump-pill__num { font: 600 14px/1 var(--mono); color: var(--lp-olive); }
+
+  /* timeline: square ink node on a hairline */
+  .df-stack { gap: 40px; }
+  @media (min-width: 900px) { .df-row::before { border-left: 1px solid var(--lp-rule); left: 21px; top: 44px; } }
+  .df-node { border-radius: 0; width: 44px; height: 44px; background: var(--lp-block); color: var(--lp-lime); font: 600 16px/1 var(--mono); box-shadow: 0 0 0 6px var(--lp-ground); }
+
+  /* card: hairline frame, ink readout bar with a progress rule */
+  .df-card { background: var(--lp-surf); border: 1px solid var(--lp-rule); border-top: 0; --pct: 20%; }
+  .df-strip { position: relative; background: var(--lp-block); color: #B9B4C4; padding: 11px 16px 12px; font: 600 11.5px/1 var(--mono); letter-spacing: .14em; }
+  .df-strip::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: var(--pct); background: var(--lp-lime); }
+  .df-strip__time, .df-strip__n { color: #B9B4C4; }
+  .df-strip__n b { color: var(--lp-lime); font: 600 13px/1 var(--mono); }
+
+  /* the picture: lime/ink duotone with brackets */
+  .df-story__media { background: color-mix(in srgb, var(--lp-ink) 8%, transparent); border: 0; isolation: isolate; border-radius: 14px; overflow: hidden; }
+  .df-story__media img { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+  .df-story__chips { z-index: 3; left: 20px; bottom: 20px; }
+  .df-chip { background: var(--lp-block); color: #F6F3EA; border: 0; padding: 5px 8px; font: 600 11px/1 var(--mono); letter-spacing: .12em; }
+  .df-chip--opinion { background: #F6F3EA; color: #131218; }
+  .df-chip--india { background: var(--lp-block); color: var(--lp-lime); box-shadow: none; }
+
+  @media (min-width: 760px) { .df-story__media { align-self: start; } }
+  .df-story__title { font-variation-settings: var(--lp-fr-sm-calm); font-weight: 600; letter-spacing: -.012em; }
+  .df-story__body p { font-size: 18.5px; }
+
+  /* the four steps: one spec sheet, hairline cells; "for you" is the ink conclusion */
+  .df-parts { margin: 8px 20px 0; padding: 0; gap: 0; border: 1px solid var(--lp-rule); }
+  .df-part { background: transparent; border: 0; padding: 20px 22px 22px; gap: 10px; position: relative; }
+  .df-part + .df-part { border-top: 1px solid var(--lp-rule); }
+  .df-part .df-part__label { gap: 10px; font: 600 12px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lp-ink); }
+  .df-part__num { font: 600 12px/1 var(--mono); color: var(--lp-olive); }
+  .df-part__num::after { content: ""; display: inline-block; width: 18px; height: 1px; margin-left: 8px; vertical-align: middle; background: var(--lp-rule); }
+  .df-part .df-part__text { font-size: 17.5px; line-height: 1.62; color: var(--lp-ink); }
+  .df-part--forYou { background: var(--lp-block); color: #F6F3EA; border-top-color: var(--lp-block); }
+  .df-part--forYou::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--lp-lime); }
+  .df-part--forYou .df-part__label { color: var(--lp-lime); }
+  .df-part--forYou .df-part__num { color: var(--lp-lime); }
+  .df-part--forYou .df-part__num::after { background: rgba(246, 243, 234, .3); }
+  .df-part--forYou .df-part__text { color: #F6F3EA; }
+  @media (min-width: 760px) {
+    .df-parts { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 8px 24px 0; }
+    .df-part + .df-part { border-top: 0; border-left: 1px solid var(--lp-rule); }
+    .df-part--forYou { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--lp-block); padding-left: 28px; }
+    .df-part:last-child:nth-child(odd) { grid-column: auto; }
+    .df-part--forYou:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  }
+
+  /* question + answer */
+  @media (min-width: 760px) { .df-answer { margin: 8px 24px 24px; } }
+  .df-answer__ask { background: var(--lp-block); }
+  .df-answer__tag { color: var(--lp-lime); }
+  .df-answer__a { background: var(--lp-lime); }
+  .df-qa__item { background: transparent; border: 1px solid var(--lp-rule); }
+  .df-foot { border-top: 1px solid var(--lp-rule); }
+  .df-source__label { font: 600 11px/1 var(--mono); letter-spacing: .14em; }
+
+  /* taps, end cap, nav */
+  .taps { background: transparent; border: 1px solid var(--lp-rule); border-top: 3px solid var(--lp-lime); }
+  .tap { border-top-color: var(--lp-rule); }
+  .df-cap { background: var(--lp-block); color: #F6F3EA; font-variation-settings: var(--lp-fr-sm-calm); }
+  .df-cap svg { color: var(--lp-lime); }
+  .df-cap small { color: var(--lp-lime); letter-spacing: .16em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-lp-legacy]) .pg--daily .ph--story.ph--brief .df-clock::before { animation: none; }
+}
+
+/* ============================================================
+   3. DAILY FIVE: a calmer lime, scoped to the pillar
+   The site-wide lime (--lp-lime #CDE063) stays for the logo and the other
+   pillars. Inside the Daily Five (homepage section and archive, the /daily
+   landing page and every brief) it is swapped for a more muted, calmer one.
+   ============================================================ */
+html:not([data-lp-legacy]) :is(.hp .dx, .hp .hp-archive, .hp .hp-door-m--daily, .pg--daily, body:has(.pg--daily) .wa-strip, body:has(.pg--daily) .wa-card, .hp .dx + .wa-strip) {
+  --dfl: #C5D580;
+  --lp-lime: var(--dfl);
+  --lp-tint-daily: #F4F6E2;
+  --lp-ph-daily: #E5EBC3;
+}
+html[data-theme="dark"]:not([data-lp-legacy]) :is(.hp .dx, .hp .hp-archive, .hp .hp-door-m--daily, .pg--daily) {
+  --lp-olive: var(--dfl);
+  --lp-tint-daily: #262A18;
+  --lp-ph-daily: #2A2F18;
+}
+
+/* ============================================================
+   4. "In this issue": a list of links that looks like one
+   Rounded rows with a lime number chip and an arrow button on the right. The
+   whole row is the target (44px+ tall). Hover and focus fill the arrow and
+   underline the title. Same stacked list on phone and desktop.
+   ============================================================ */
+html:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
+  display: flex; flex-direction: column; align-items: stretch; gap: 4px; width: 100%; max-width: 100%; min-width: 0;
+  padding: 16px; margin-top: 22px; border: 1px solid var(--lp-rule); border-radius: 18px; background: var(--lp-tint-daily); box-shadow: none;
+  .issue-jump-bar__label { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lp-ink); text-align: left; }
+  .issue-jump-bar__hint { font: 400 14px/1.4 var(--df-font, system-ui, sans-serif); color: var(--lp-muted); margin-bottom: 8px; }
+  .issue-jump-bar__nav { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 100%; min-width: 0; overflow: visible; padding: 0; }
+  .issue-jump-pill {
+    display: grid; grid-template-columns: 34px minmax(0, 1fr) 32px; align-items: center; gap: 12px; flex: initial; width: 100%; min-height: 52px;
+    padding: 9px 10px 9px 10px; border: 1px solid var(--lp-rule); border-radius: 12px; background: var(--lp-surf-card, #fff); color: var(--lp-ink); text-decoration: none; white-space: normal;
+    transition: border-color .15s, background .15s, box-shadow .15s, transform .15s;
+  }
+  .issue-jump-pill:last-child { border-bottom: 1px solid var(--lp-rule); }
+  .issue-jump-pill__num { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border-radius: 9px; background: var(--dfl); color: var(--lp-on-field); font: 600 14px/1 var(--mono); }
+  .issue-jump-pill__title { max-width: none; overflow: visible; white-space: normal; text-overflow: clip; font-family: var(--df-font, system-ui, sans-serif); font-weight: 650; font-size: 16px; line-height: 1.3; color: var(--lp-ink); }
+  .issue-jump-pill__go { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--lp-ink); color: var(--lp-ink); font: 600 15px/1 var(--df-font, system-ui, sans-serif); transition: background .15s, color .15s, transform .15s; }
+  .issue-jump-pill:hover, .issue-jump-pill:focus-visible { border-color: var(--lp-ink); background: var(--lp-tint-daily); transform: none; box-shadow: 0 2px 0 var(--lp-ink); }
+  .issue-jump-pill:hover .issue-jump-pill__title, .issue-jump-pill:focus-visible .issue-jump-pill__title { color: var(--lp-ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: var(--dfl); }
+  .issue-jump-pill:hover .issue-jump-pill__go, .issue-jump-pill:focus-visible .issue-jump-pill__go { background: var(--lp-ink); color: var(--lp-bg-ink, var(--lp-lime)); transform: translateY(2px); }
+  .issue-jump-pill:hover .issue-jump-pill__num { color: var(--lp-on-field); }
+  .issue-jump-pill:focus-visible { outline: 2px solid var(--lp-ink); outline-offset: 2px; }
+  .issue-jump-pill:active { transform: translateY(1px); box-shadow: none; }
+}
+html[data-theme="dark"]:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
+  .issue-jump-pill { background: var(--lp-surf); }
+  .issue-jump-pill:hover, .issue-jump-pill:focus-visible { box-shadow: 0 2px 0 var(--dfl); border-color: var(--dfl); }
+  .issue-jump-pill__go { border-color: var(--lp-ink); }
+  .issue-jump-pill:hover .issue-jump-pill__go, .issue-jump-pill:focus-visible .issue-jump-pill__go { background: var(--dfl); color: var(--lp-on-field); }
+}
+
+/* "In this issue" on phones: one swipeable row instead of a tall stack, so the story starts higher.
+   Cards peek past the right edge to show there is more; each snaps into place. */
+html:not([data-lp-legacy]) .pg--daily .issue-jump-bar__hint-m { display: none; }
+@media (max-width: 899px) {
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
+    overflow: hidden; padding: 14px 0 14px 16px; gap: 2px;
+    .issue-jump-bar__label, .issue-jump-bar__hint { padding-right: 16px; }
+    .issue-jump-bar__hint { margin-bottom: 10px; }
+    .issue-jump-bar__hint-d { display: none; }
+    .issue-jump-bar__hint-m { display: inline; }
+    .issue-jump-bar__nav {
+      flex-direction: row; gap: 10px; overflow-x: auto; overflow-y: hidden; width: auto; max-width: none;
+      padding: 2px 16px 6px 0; scroll-snap-type: x mandatory; scroll-padding-left: 0; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .issue-jump-bar__nav::-webkit-scrollbar { display: none; }
+    .issue-jump-pill {
+      flex: 0 0 min(64%, 240px); width: auto; min-height: 104px; scroll-snap-align: start;
+      grid-template-columns: 34px minmax(0, 1fr) 32px; grid-template-rows: auto 1fr; align-items: start; gap: 10px 12px; padding: 12px;
+    }
+    .issue-jump-pill__num { grid-column: 1; grid-row: 1; }
+    .issue-jump-pill__go { grid-column: 3; grid-row: 1; }
+    .issue-jump-pill__title { grid-column: 1 / -1; grid-row: 2; align-self: end; font-size: 15.5px; line-height: 1.25; }
+  }
+}
+@media (min-width: 900px) {
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-bar { margin-top: 0; align-self: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-pill, html:not([data-lp-legacy]) .pg--daily .issue-jump-pill__go { transition: none; }
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-pill:hover .issue-jump-pill__go { transform: none; }
+}
