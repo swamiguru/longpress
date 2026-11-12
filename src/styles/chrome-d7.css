@@ -168,3 +168,13 @@ html:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp, .pg--abou
   .drawer-theme-toggle-btn { background: #CDE063; color: #131218; border: 0; border-radius: 0; font: 700 12px/1 var(--mono); letter-spacing: .08em; white-space: nowrap; box-shadow: none; }
   .drawer-theme-toggle-btn:hover { background: #fff; }
 }
+
+/* ============================================================
+   READING PROGRESS BAR (loaded on every page, so it lives here, not in df-d8.css): pillar colour instead of the legacy terracotta
+   Daily Five lime (the calm one), Known Issue teal, Fine Print yellow; lime elsewhere.
+   ============================================================ */
+html:not([data-lp-legacy]) body .reading-progress__bar { background-color: var(--lp-lime); }
+html:not([data-lp-legacy]) body:has(.pg--daily) .reading-progress__bar { background-color: #C5D580; }
+html:not([data-lp-legacy]) body:has(.pg--ki) .reading-progress__bar { background-color: var(--lp-teal); }
+html:not([data-lp-legacy]) body:has(.fp) .reading-progress__bar { background-color: var(--lp-fp); }
+html:not([data-lp-legacy]) body .reading-progress { height: 4px; }
