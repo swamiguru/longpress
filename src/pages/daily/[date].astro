@@ -15,6 +15,7 @@ import { fallbackFor } from '../../lib/fallbacks';
 import '../../styles/daily-five.css';
 import '../../styles/chrome-d7.css';
 import '../../styles/pillar-d7.css';
+import '../../styles/df-d8.css';
 import { linkify, stripLinks, hostLabel } from '../../lib/text/inline.mjs';
 
 /** Every link an item cites: the `sources` list plus the legacy single `source`, de-duplicated. */
@@ -143,7 +144,7 @@ const ANALYSIS = [
               <span id={`slot-${item.slot}`} class="slot-anchor" aria-hidden="true"></span>
               <span id={heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} class="slot-anchor" aria-hidden="true"></span>
               <span class="df-node" aria-hidden="true">{item.slot}</span>
-              <div class="df-card">
+              <div class="df-card" style={`--pct:${((i + 1) / items.length) * 100}%`}>
                 <div class="df-strip">
                   <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#ECEAF4" stroke-width="2"></circle><path d="M12 3a9 9 0 0 1 0 18" fill="none" stroke="#A65D46" stroke-width="2.6"></path><circle cx="12" cy="12" r="2.6" fill="#ECEAF4"></circle></svg>
                   <span>Long Press · Daily Five</span>
