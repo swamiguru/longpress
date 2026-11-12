@@ -112,7 +112,7 @@ const ANALYSIS = [
       {items.length > 1 && (
         <div class="issue-jump-bar">
           <span class="issue-jump-bar__label">In this issue</span>
-          <span class="issue-jump-bar__hint">Select a story to jump to it.</span>
+          <span class="issue-jump-bar__hint"><span class="issue-jump-bar__hint-d">Select a story to jump to it.</span><span class="issue-jump-bar__hint-m">Swipe, then tap a story to jump to it.</span></span>
           <nav class="issue-jump-bar__nav" aria-label="Stories in this edition">
             {items.map((item) => (
               <a href={`#story-${item.slot}`} class="issue-jump-pill">

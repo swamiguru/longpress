@@ -234,6 +234,32 @@ html[data-theme="dark"]:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
   .issue-jump-pill__go { border-color: var(--lp-ink); }
   .issue-jump-pill:hover .issue-jump-pill__go, .issue-jump-pill:focus-visible .issue-jump-pill__go { background: var(--dfl); color: var(--lp-on-field); }
 }
+
+/* "In this issue" on phones: one swipeable row instead of a tall stack, so the story starts higher.
+   Cards peek past the right edge to show there is more; each snaps into place. */
+html:not([data-lp-legacy]) .pg--daily .issue-jump-bar__hint-m { display: none; }
+@media (max-width: 899px) {
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
+    overflow: hidden; padding: 14px 0 14px 16px; gap: 2px;
+    .issue-jump-bar__label, .issue-jump-bar__hint { padding-right: 16px; }
+    .issue-jump-bar__hint { margin-bottom: 10px; }
+    .issue-jump-bar__hint-d { display: none; }
+    .issue-jump-bar__hint-m { display: inline; }
+    .issue-jump-bar__nav {
+      flex-direction: row; gap: 10px; overflow-x: auto; overflow-y: hidden; width: auto; max-width: none;
+      padding: 2px 16px 6px 0; scroll-snap-type: x mandatory; scroll-padding-left: 0; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .issue-jump-bar__nav::-webkit-scrollbar { display: none; }
+    .issue-jump-pill {
+      flex: 0 0 min(64%, 240px); width: auto; min-height: 104px; scroll-snap-align: start;
+      grid-template-columns: 34px minmax(0, 1fr) 32px; grid-template-rows: auto 1fr; align-items: start; gap: 10px 12px; padding: 12px;
+    }
+    .issue-jump-pill__num { grid-column: 1; grid-row: 1; }
+    .issue-jump-pill__go { grid-column: 3; grid-row: 1; }
+    .issue-jump-pill__title { grid-column: 1 / -1; grid-row: 2; align-self: end; font-size: 15.5px; line-height: 1.25; }
+  }
+}
 @media (min-width: 900px) {
   html:not([data-lp-legacy]) .pg--daily .issue-jump-bar { margin-top: 0; align-self: start; }
 }
