@@ -1,0 +1,80 @@
+/* ============================================================
+   ROUNDED SURFACES, D9 (12 Nov 2026)
+   Cards, containers, images, buttons and inputs take blog.google's shape:
+   large soft corners on containers, a slightly tighter radius on the image
+   inside, full pills on buttons and tags. Rules, bars, the mark, the header
+   and footer bands, the reading-progress bar and the left-rule pull quote
+   stay square on purpose.
+
+   border-radius is a leaf property and the D7 files set it to 0 inside
+   long :is() chains, so these use !important instead of matching their
+   specificity. Change the radii here, nowhere else.
+   Theme-agnostic: no colours in this file.
+   ============================================================ */
+
+:root {
+  --lp-r-card: 24px;   /* containers: cards, panels, callouts */
+  --lp-r-media: 20px;  /* images and figures that stand alone */
+  --lp-r-inner: 14px;  /* small tiles, thumbnails, dropdowns */
+  --lp-r-pill: 999px;  /* buttons, tags, chips, search */
+}
+@media (max-width: 599px) {
+  :root { --lp-r-card: 20px; --lp-r-media: 16px; --lp-r-inner: 12px; }
+}
+
+/* ---------- containers ---------- */
+:is(
+  .brief__card, .df-card, .df-parts, .df-part--forYou, .df-qa__item, .df-answer, .df-story__media,
+  .hp-fpl__card, .hp-tile--lead .hp-tile__card, .fp-card, .fp-end__box, .fp-rule__quote,
+  .related-card, .entry-card, .dispatch-card, .story-footer-card,
+  .about-pillar-card, .about-standards-card, .column-manifesto__card,
+  .search-page__bar-card, .wa-card, .wa-strip, .drawer-card, .drawer-theme-card,
+  .column-callout, .column-tip-box, .column-verdict, .issue-jump-bar, .ki-strip,
+  .taps, .fp-receipt, .share-bar, .article-share-end, .brief-share-end
+) { border-radius: var(--lp-r-card) !important; }
+
+/* containers that hold a flush image or a coloured band must clip it */
+:is(
+  .brief__card, .df-card, .df-parts, .df-part--forYou, .df-answer, .hp-fpl__card, .fp-card, .related-card,
+  .entry-card, .about-pillar-card, .story-footer-card, .column-verdict, .column-callout
+) { overflow: hidden; }
+
+/* ---------- images and figures ---------- */
+:is(
+  .brief__figure, .story__media, .hp-tile__fig, .hp-fpl__img, .hp-kf__img,
+  .fp-img, .fp-img img, .art-head__media img, .article-hero .responsive-image-box,
+  .responsive-figure img, .story__body img, .fp-card__img, .related-card__media,
+  .entry-card__media, .entry-card img
+) { border-radius: var(--lp-r-media) !important; overflow: hidden; }
+
+/* an image already clipped by a rounded card should not round twice at the seam */
+:is(.fp-card, .hp-fpl__card, .related-card, .entry-card) :is(.fp-card__img, .hp-fpl__img, .related-card__media, .entry-card__media) {
+  border-radius: 0 !important;
+}
+
+/* thumbnails */
+:is(
+  .archive-row__thumb, .daily-featured__thumb, .known-issue-featured__thumb,
+  .daily-list__thumb, .dx__fig, .fp-fig, .fp-figs > *
+) { border-radius: var(--lp-r-inner) !important; overflow: hidden; }
+
+/* ---------- buttons, tags, chips: pills ---------- */
+:is(
+  .btn, .hp-btn, .wa-btn, .wa-btn--sm, .wa-btn--footer, .wa-strip__btn, .share-pill,
+  .pill-tag, .search-tag-pill, .section__link-pill, .archive-filter-btn,
+  .archive-nav-btn, .archive-jump-top, .topic-filter-btn, .card-share-btn,
+  .entry__cta, .entry__topic-pill, .related-card__cta, .footer__top-btn,
+  .header-search-trigger, .header-search__kbd, .drawer-theme-toggle-btn,
+  .dx__go, .df-story__more, .df-story__chips > *, .story__chips > *,
+  .fp-card__more, .dispatch-card__link, .df-answer__tag, .hp-door-m, .byline__read
+) { border-radius: var(--lp-r-pill) !important; }
+
+.issue-jump-pill { border-radius: var(--lp-r-inner) !important; }
+.issue-jump-pill__go { border-radius: 50% !important; }
+
+/* search */
+.search-page__input-wrap, .search-page__input { border-radius: var(--lp-r-pill) !important; }
+.header-search__dropdown { border-radius: var(--lp-r-card) !important; overflow: hidden; }
+
+/* mobile drawer: the sheet rounds its free corners */
+.mobile-menu-drawer { border-radius: 0 var(--lp-r-card) var(--lp-r-card) 0; }
