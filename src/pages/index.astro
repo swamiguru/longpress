@@ -126,17 +126,7 @@ import '../styles/df-d8.css';
           <p class="dx__sub">Five tech stories every morning, each one told the same way: the problem, what changed, the catch, and what it means for you.</p>
           <span class="dx__bar" aria-hidden="true"></span>
           <a href={path(today)} class="dx__go" id="link-read-full-issue">Read the full issue &rarr;</a>
-          {archive.length > 0 && (
-            <nav class="dx__earlier" aria-labelledby="dx-earlier-h">
-              <span class="dx__earlier-h" id="dx-earlier-h">Earlier this week</span>
-              <ul>
-                {archive.slice(0, 3).map((b) => (
-                  <li><a href={path(b)}><time datetime={b.data.date.toISOString().slice(0, 10)}>{wdFmt.format(b.data.date)} {dayFmt.format(b.data.date)} {monFmt.format(b.data.date)}</time><span aria-hidden="true">&rarr;</span></a></li>
-                ))}
-              </ul>
-              <a class="dx__all" href="/daily">All {briefs.length} issues &rarr;</a>
-            </nav>
-          )}
+          <div class="dx__wa"><WhatsAppCta variant="card" location="home_daily_five_card" /></div>
         </header>
 
         <ol class="dx__list" id="daily-list">
