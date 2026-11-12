@@ -178,3 +178,18 @@ html:not([data-lp-legacy]) body:has(.pg--daily) .reading-progress__bar { backgro
 html:not([data-lp-legacy]) body:has(.pg--ki) .reading-progress__bar { background-color: var(--lp-teal); }
 html:not([data-lp-legacy]) body:has(.fp) .reading-progress__bar { background-color: var(--lp-fp); }
 html:not([data-lp-legacy]) body .reading-progress { height: 4px; }
+
+/* Search dropdown: it sits inside the masthead, which resets the legacy tokens to header-ink (white text, 7% white
+   surfaces). That made the panel see-through with white-on-white text. Give the panel the page's own tokens back. */
+html:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp, .pg--about, .search-page, .legal)) .masthead .header-search__dropdown {
+  --ink: var(--lp-ink); --ink-soft: var(--lp-ink-soft); --muted: var(--lp-muted);
+  --surface-card: var(--lp-ground);
+  --surface: color-mix(in srgb, var(--lp-ink) 6%, var(--lp-ground));
+  --surface-hover: color-mix(in srgb, var(--lp-ink) 10%, var(--lp-ground));
+  --rule: var(--lp-rule); --rule-soft: color-mix(in srgb, var(--lp-ink) 9%, var(--lp-ground)); --rule-strong: var(--lp-ink);
+  --accent: var(--lp-olive); --accent-deep: var(--lp-ink); --accent-border: var(--lp-olive);
+  --accent-subtle: color-mix(in srgb, var(--lp-lime) 40%, var(--lp-ground));
+  background: var(--lp-ground); color: var(--lp-ink); border-radius: 12px; border: 1px solid var(--lp-rule);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .22), 0 4px 12px rgba(0, 0, 0, .1);
+}
+html:not([data-lp-legacy]) .masthead .header-search__dropdown :is(.search-tag-pill) { border-radius: 8px; }
