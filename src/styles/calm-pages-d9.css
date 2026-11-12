@@ -1,0 +1,63 @@
+/* ============================================================
+   CALM STORY PAGES, D9 (12 Nov 2026)
+   Known Issue stories and Fine Print pieces. Same rule as the brief page
+   (calm-d9.css): structure comes from spacing, type and tinted surfaces,
+   not from lines. What stays: the teal rule above "The take" and the teal
+   bar on the operator's read (Known Issue), the status badges and the
+   highlighter (Fine Print), and the 2px avatar ring. Everything else that
+   was a divider, a frame or a side bar is removed, not recoloured.
+   Colours are role tokens: light and dark both work.
+   The :not() chain only raises specificity above the D7 files, which can
+   load after this one.
+   ============================================================ */
+
+/* ---------- both: share buttons lose the heavy outline ---------- */
+html:not([data-lp-legacy]):not([data-lp-legacy]):not([data-lp-legacy]) :is(.pg--ki, .fp) {
+  .share-pill, .card-share-btn {
+    border-width: 1px !important;
+    border-color: color-mix(in srgb, var(--lp-ink) 30%, transparent) !important;
+    background: transparent !important; box-shadow: none !important;
+  }
+  .share-pill:hover, .card-share-btn:hover { background: var(--lp-surf) !important; }
+  .article-share-end { border: 0 !important; }
+}
+
+/* ---------- Known Issue ---------- */
+html:not([data-lp-legacy]):not([data-lp-legacy]):not([data-lp-legacy]) .pg--ki {
+  /* no black rule above Related Articles */
+  .related-articles { border-top: 0 !important; padding-top: 28px; }
+  /* tag chips and the author-card buttons: thin pills, not 2px boxes */
+  .chip { border-width: 1px; border-color: color-mix(in srgb, var(--lp-ink) 30%, transparent); }
+  .chip--primary { border-color: transparent; }
+}
+
+/* ---------- Fine Print ---------- */
+html:not([data-lp-legacy]):not([data-lp-legacy]):not([data-lp-legacy]) .fp {
+  /* key figures and the Last checked row: tinted cells with space between, no dividers */
+  .fp-figs { gap: 2px; }
+  .fp-fig, .fp-fig + .fp-fig, .fp-fig--hl { border: 0 !important; }
+  .fp-trust > div, .fp-trust > div:first-child { border: 0; }
+
+  /* Does this apply to you: rows separated by space */
+  .fp-checks, .fp-check { border: 0; }
+  .fp-check { padding: 20px 0; }
+
+  /* What the rule actually says: no rule between blocks; the quote is a plain tinted card */
+  .fp-rule, .fp-rule:last-child { border: 0; padding: 22px 0; }
+  .fp-rule__quote { border: 0; border-radius: var(--lp-r-media, 20px); padding: 18px 22px 20px; }
+
+  /* cost table */
+  .fp-receipt__body { border-top: 0; border-radius: var(--lp-r-media, 20px); }
+  .fp-receipt__rows li { border-top: 0; }
+  .fp-receipt__total { border-top: 1px solid var(--lp-rule); }
+
+  /* What to do: numbered steps, no lines between them */
+  .fp-steps, .fp-steps li { border: 0; }
+  .fp-steps li { padding: 14px 0; }
+
+  /* Our take: a tinted card instead of a side bar */
+  .fp-take { border: 0; padding: 26px 28px 28px; background: var(--lp-fp-card); border-radius: var(--lp-r-card, 24px); }
+
+  /* sources: no dashed rule */
+  .fp-sources { border-top: 0; margin-top: 28px; padding-top: 0; }
+}
