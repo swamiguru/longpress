@@ -49,8 +49,8 @@ html:not([data-lp-legacy]) .hp .dx {
   .dx__fig img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .dx__a:focus-visible { outline: 2px solid var(--lp-ink); outline-offset: 4px; border-radius: 8px; }
 }
-/* light theme: a fresher, less muted lime and a softer olive for the small accents (both stay AA on white) */
-html:not([data-theme="dark"]):not([data-lp-legacy]) .hp .dx { --dx-lime: #D2EA44; --dx-olive: #657B00; }
+/* light theme: a softer olive for the small accents (stays AA on white) */
+html:not([data-theme="dark"]):not([data-lp-legacy]) .hp .dx { --dx-olive: #657B00; }
 @media (max-width: 719px) {
   /* phone: intro, then the list, then the button and earlier issues (the intro's children are re-ordered) */
   html:not([data-lp-legacy]) .hp .dx {
@@ -180,4 +180,64 @@ html:not([data-lp-legacy]) .pg--daily {
 }
 @media (prefers-reduced-motion: reduce) {
   html:not([data-lp-legacy]) .pg--daily .ph--story.ph--brief .df-clock::before { animation: none; }
+}
+
+/* ============================================================
+   3. DAILY FIVE: a calmer lime, scoped to the pillar
+   The site-wide lime (--lp-lime #CDE063) stays for the logo and the other
+   pillars. Inside the Daily Five (homepage section and archive, the /daily
+   landing page and every brief) it is swapped for a more muted, calmer one.
+   ============================================================ */
+html:not([data-lp-legacy]) :is(.hp .dx, .hp .hp-archive, .hp .hp-door-m--daily, .pg--daily, body:has(.pg--daily) .wa-strip, body:has(.pg--daily) .wa-card, .hp .dx + .wa-strip) {
+  --dfl: #C5D580;
+  --lp-lime: var(--dfl);
+  --lp-tint-daily: #F4F6E2;
+  --lp-ph-daily: #E5EBC3;
+}
+html[data-theme="dark"]:not([data-lp-legacy]) :is(.hp .dx, .hp .hp-archive, .hp .hp-door-m--daily, .pg--daily) {
+  --lp-olive: var(--dfl);
+  --lp-tint-daily: #262A18;
+  --lp-ph-daily: #2A2F18;
+}
+
+/* ============================================================
+   4. "In this issue": a list of links that looks like one
+   Rounded rows with a lime number chip and an arrow button on the right. The
+   whole row is the target (44px+ tall). Hover and focus fill the arrow and
+   underline the title. Same stacked list on phone and desktop.
+   ============================================================ */
+html:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
+  display: flex; flex-direction: column; align-items: stretch; gap: 4px; width: 100%; max-width: 100%; min-width: 0;
+  padding: 16px; margin-top: 22px; border: 1px solid var(--lp-rule); border-radius: 18px; background: var(--lp-tint-daily); box-shadow: none;
+  .issue-jump-bar__label { font: 600 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--lp-ink); text-align: left; }
+  .issue-jump-bar__hint { font: 400 14px/1.4 var(--df-font, system-ui, sans-serif); color: var(--lp-muted); margin-bottom: 8px; }
+  .issue-jump-bar__nav { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 100%; min-width: 0; overflow: visible; padding: 0; }
+  .issue-jump-pill {
+    display: grid; grid-template-columns: 34px minmax(0, 1fr) 32px; align-items: center; gap: 12px; flex: initial; width: 100%; min-height: 52px;
+    padding: 9px 10px 9px 10px; border: 1px solid var(--lp-rule); border-radius: 12px; background: var(--lp-surf-card, #fff); color: var(--lp-ink); text-decoration: none; white-space: normal;
+    transition: border-color .15s, background .15s, box-shadow .15s, transform .15s;
+  }
+  .issue-jump-pill:last-child { border-bottom: 1px solid var(--lp-rule); }
+  .issue-jump-pill__num { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border-radius: 9px; background: var(--dfl); color: var(--lp-on-field); font: 600 14px/1 var(--mono); }
+  .issue-jump-pill__title { max-width: none; overflow: visible; white-space: normal; text-overflow: clip; font-family: var(--df-font, system-ui, sans-serif); font-weight: 650; font-size: 16px; line-height: 1.3; color: var(--lp-ink); }
+  .issue-jump-pill__go { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--lp-ink); color: var(--lp-ink); font: 600 15px/1 var(--df-font, system-ui, sans-serif); transition: background .15s, color .15s, transform .15s; }
+  .issue-jump-pill:hover, .issue-jump-pill:focus-visible { border-color: var(--lp-ink); background: var(--lp-tint-daily); transform: none; box-shadow: 0 2px 0 var(--lp-ink); }
+  .issue-jump-pill:hover .issue-jump-pill__title, .issue-jump-pill:focus-visible .issue-jump-pill__title { color: var(--lp-ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: var(--dfl); }
+  .issue-jump-pill:hover .issue-jump-pill__go, .issue-jump-pill:focus-visible .issue-jump-pill__go { background: var(--lp-ink); color: var(--lp-bg-ink, var(--lp-lime)); transform: translateY(2px); }
+  .issue-jump-pill:hover .issue-jump-pill__num { color: var(--lp-on-field); }
+  .issue-jump-pill:focus-visible { outline: 2px solid var(--lp-ink); outline-offset: 2px; }
+  .issue-jump-pill:active { transform: translateY(1px); box-shadow: none; }
+}
+html[data-theme="dark"]:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
+  .issue-jump-pill { background: var(--lp-surf); }
+  .issue-jump-pill:hover, .issue-jump-pill:focus-visible { box-shadow: 0 2px 0 var(--dfl); border-color: var(--dfl); }
+  .issue-jump-pill__go { border-color: var(--lp-ink); }
+  .issue-jump-pill:hover .issue-jump-pill__go, .issue-jump-pill:focus-visible .issue-jump-pill__go { background: var(--dfl); color: var(--lp-on-field); }
+}
+@media (min-width: 900px) {
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-bar { margin-top: 0; align-self: start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-pill, html:not([data-lp-legacy]) .pg--daily .issue-jump-pill__go { transition: none; }
+  html:not([data-lp-legacy]) .pg--daily .issue-jump-pill:hover .issue-jump-pill__go { transform: none; }
 }
