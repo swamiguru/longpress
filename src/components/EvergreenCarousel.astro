@@ -1,0 +1,117 @@
+---
+/**
+ * Horizontal carousel of older Known Issue or Fine Print pieces, shown under
+ * the lead block and the short list on the homepage.
+ *
+ * Every card is a real <a> in the server HTML, so Googlebot sees the links
+ * without running any script. It scrolls and snaps with plain CSS, and the
+ * arrow buttons are added by a few lines of script on top of that.
+ *
+ * Colours: the Known Issue band is ink in both themes, so that tone uses fixed
+ * dark values. The Fine Print band swaps per theme, so that tone uses role
+ * tokens only.
+ */
+interface Item {
+  href: string;
+  title: string;
+  meta: string;
+}
+interface Props {
+  id: string;
+  label: string;
+  tone: 'ki' | 'fp';
+  items: Item[];
+}
+const { id, label, tone, items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class={`ec ec--${tone}`} data-carousel id={id}>
+    <div class="ec__head">
+      <h3 class="ec__label" id={`${id}-label`}>{label}</h3>
+      <div class="ec__btns" data-controls hidden>
+        <button type="button" class="ec__btn" data-dir="-1" aria-label={`Previous: ${label}`}>&larr;</button>
+        <button type="button" class="ec__btn" data-dir="1" aria-label={`Next: ${label}`}>&rarr;</button>
+      </div>
+    </div>
+    <ul class="ec__track" data-track aria-labelledby={`${id}-label`}>
+      {items.map((it) => (
+        <li class="ec__item">
+          <a class="ec__card" href={it.href}>
+            <span class="ec__meta">{it.meta}</span>
+            <span class="ec__title">{it.title}</span>
+            <span class="ec__go" aria-hidden="true">Read &rarr;</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const controls = root.querySelector<HTMLElement>('[data-controls]');
+    if (!track || !controls) return;
+    controls.hidden = false;
+    controls.querySelectorAll<HTMLButtonElement>('[data-dir]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const dir = Number(b.dataset.dir);
+        const card = track.querySelector<HTMLElement>('.ec__item');
+        const step = (card ? card.offsetWidth : 280) + 16;
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        track.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
+  });
+</script>
+
+<style>
+  .ec { margin-top: 40px; }
+  .ec__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .ec__label { margin: 0; font: 600 13px/1.2 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .ec__btns { display: flex; gap: 8px; }
+  .ec__btn {
+    width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+    font: 600 18px/1 system-ui, sans-serif; cursor: pointer; border-radius: 999px;
+  }
+  .ec__track {
+    list-style: none; margin: 0; padding: 0 0 8px; display: flex; gap: 16px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 0; overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  .ec__item { flex: 0 0 clamp(240px, 78vw, 300px); scroll-snap-align: start; }
+  .ec__card {
+    display: flex; flex-direction: column; gap: 10px; height: 100%; min-height: 176px; box-sizing: border-box;
+    padding: 20px 20px 18px; text-decoration: none; border-style: solid; border-width: 1px; border-top-width: 6px; border-radius: 18px;
+  }
+  .ec__meta { font: 500 12px/1.3 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .02em; }
+  .ec__title { font-family: var(--lp-fr, "Fraunces", Georgia, serif); font-weight: 700; font-size: 19px; line-height: 1.22; }
+  .ec__go { margin-top: auto; font: 600 13px/1 "Archivo", system-ui, sans-serif; }
+  .ec__card:hover .ec__title { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
+  .ec__card:focus-visible, .ec__btn:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
+
+  /* Known Issue: ink band in both themes, so fixed dark values */
+  .ec--ki .ec__label { color: #C9C4D6; }
+  .ec--ki .ec__btn { background: var(--lp-teal); color: var(--lp-on-field); border: 0; }
+  .ec--ki .ec__btn:hover { background: #FFF9EA; }
+  .ec--ki .ec__card { background: #1E1C26; border-color: #3A3844; border-top-color: var(--lp-teal); }
+  .ec--ki .ec__meta { color: #C9C4D6; }
+  .ec--ki .ec__title { color: #FFF9EA; }
+  .ec--ki .ec__go { color: var(--lp-teal); }
+  .ec--ki .ec__card:hover .ec__title { text-decoration-color: var(--lp-teal); }
+  .ec--ki .ec__card:focus-visible, .ec--ki .ec__btn:focus-visible { outline-color: var(--lp-teal); }
+
+  /* Fine Print: role tokens, swap per theme */
+  .ec--fp .ec__label { color: var(--lp-ink); }
+  .ec--fp .ec__btn { background: var(--lp-fp-card); color: var(--lp-ink); border: 2px solid var(--lp-line); }
+  .ec--fp .ec__btn:hover { background: var(--lp-fp); color: var(--lp-on-field); }
+  .ec--fp .ec__card { background: var(--lp-fp-card); border-color: var(--lp-fp-rule2); border-top-color: var(--lp-fp); }
+  .ec--fp .ec__meta { color: var(--lp-muted); }
+  .ec--fp .ec__title { color: var(--lp-ink); }
+  .ec--fp .ec__go { color: var(--lp-ink); }
+  .ec--fp .ec__card:hover .ec__title { text-decoration-color: var(--lp-fp); }
+  .ec--fp .ec__card:focus-visible, .ec--fp .ec__btn:focus-visible { outline-color: var(--lp-ink); }
+
+  @media (prefers-reduced-motion: reduce) { .ec__track { scroll-behavior: auto; } }
+</style>
