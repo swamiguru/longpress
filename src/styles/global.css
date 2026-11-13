@@ -65,9 +65,11 @@
   --shadow-hard:     6px 6px 0 var(--ink);
 
   /* --- Type ------------------------------------------------- */
-  --display: "Archivo", system-ui, -apple-system, sans-serif;
-  --body:    "Public Sans", system-ui, -apple-system, sans-serif;
-  --mono:    "Space Grotesk", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans:    "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --read:    "Source Serif 4", Georgia, serif;
+  --display: var(--sans);
+  --body:    var(--sans);
+  --mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --display-wide:   "wdth" 125;   /* h1, wordmark, opinion heads   */
   --display-normal: "wdth" 112;   /* h2, h3, nav, buttons          */

@@ -18,7 +18,7 @@ html:not([data-lp-legacy]) .hp {
   /* ---------- shared bits ---------- */
   .hp-btn {
     background: transparent; color: var(--lp-ink); border: 2px solid var(--lp-line); box-shadow: none;
-    font-family: Archivo, sans-serif; font-weight: 800; letter-spacing: .06em;
+    font-family: Figtree, sans-serif; font-weight: 800; letter-spacing: .06em;
   }
   .hp-btn:hover { transform: none; box-shadow: none; background: var(--lp-lime); }
   .hp-shead h2 { font-family: var(--lp-fr); font-variation-settings: var(--lp-fr-var); font-weight: 700; letter-spacing: -.012em; line-height: 1; }
@@ -43,7 +43,7 @@ html:not([data-lp-legacy]) .hp {
   .hp-term .hp-term__go {
     grid-area: go; display: inline-flex; width: auto; min-height: 0; padding: 10px 14px; margin-top: 12px; justify-self: stretch; justify-content: center;
     background: var(--lp-lime); color: var(--lp-on-field); border: 0;
-    font: 800 12px/1 Archivo, sans-serif; letter-spacing: .06em; text-transform: uppercase;
+    font: 800 12px/1 Figtree, sans-serif; letter-spacing: .06em; text-transform: uppercase;
   }
   .hp-term .hp-term__go:hover { background: var(--lp-block); color: var(--lp-lime); }
   .hp-term .hp-labels {

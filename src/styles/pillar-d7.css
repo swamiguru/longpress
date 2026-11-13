@@ -107,7 +107,7 @@ html:not([data-lp-legacy]) :is(.pg--daily, .pg--ki, .fp) {
   .daily-featured .entry__meta-note { font: 600 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--lp-muted); order: 2; }
   .daily-featured .entry__cta, .archive-row .entry__cta {
     display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: var(--pc); color: var(--lp-on-field);
-    border: 2px solid var(--lp-line); border-radius: 0; font: 700 14px/1 "Archivo", system-ui, sans-serif; text-decoration: none; box-shadow: none;
+    border: 2px solid var(--lp-line); border-radius: 0; font: 700 14px/1 "Figtree", system-ui, sans-serif; text-decoration: none; box-shadow: none;
   }
   .daily-featured .entry__cta:hover, .archive-row .entry__cta:hover { background: var(--lp-block); color: var(--pc); }
 
@@ -137,7 +137,7 @@ html:not([data-lp-legacy]) :is(.pg--daily, .pg--ki, .fp) {
   .known-issue-featured .entry__meta-note { font: 600 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--lp-muted); order: 2; }
   .known-issue-featured .entry__cta, .archive-row .entry__cta {
     display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: var(--pc); color: var(--lp-on-field);
-    border: 2px solid var(--lp-line); border-radius: 0; font: 700 14px/1 "Archivo", system-ui, sans-serif; text-decoration: none; box-shadow: none;
+    border: 2px solid var(--lp-line); border-radius: 0; font: 700 14px/1 "Figtree", system-ui, sans-serif; text-decoration: none; box-shadow: none;
   }
   .known-issue-featured .entry__cta:hover, .archive-row .entry__cta:hover { background: var(--lp-block); color: var(--pc); }
 
@@ -198,7 +198,7 @@ html:not([data-lp-legacy]) :is(.pg--daily, .pg--ki, .fp) {
   .ph--story.ph--brief .ph__title::before { display: none; }
   .ph--story.ph--brief .ph__stand { font: 400 20px/1.55 "Source Serif 4", Georgia, serif; color: var(--lp-muted); max-width: 62ch; }
   .ph--story.ph--brief .byline { border-block: 0; padding: 6px 0; margin-top: 16px; }
-  .ph--story.ph--brief .byline__name { font-family: "Archivo", system-ui, sans-serif; font-variation-settings: normal; }
+  .ph--story.ph--brief .byline__name { font-family: "Figtree", system-ui, sans-serif; font-variation-settings: normal; }
   .ph--story.ph--brief .byline__mark { background: var(--pc); }
 
   /* In this issue: lime ground, numerals in the one numeral size */

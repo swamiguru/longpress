@@ -21,7 +21,7 @@
   --fp-on-hl: #111111;
   --fp-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --fp-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --fp-display: "Archivo", system-ui, sans-serif;
+  --fp-display: "Figtree", system-ui, sans-serif;
 
   background: var(--fp-paper);
   color: var(--fp-ink);

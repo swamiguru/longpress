@@ -85,7 +85,7 @@ html:not([data-theme="dark"]):not([data-lp-legacy]) .hp .dx { --dx-olive: #657B0
 }
 /* Daily Five type: Figtree, a clean geometric sans with soft round forms, for every Daily Five headline */
 html:not([data-lp-legacy]) {
-  --df-font: 'Figtree', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --df-font: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
   .hp .dx :is(h2, .dx__title), .hp #heading-daily-archive, .hp .hp-ai__t,
   .pg--daily :is(.ph__title, .df-story__title, .df-answer__q, .df-qa__label, .df-qa__q, .df-part__label, .taps__title) {
     font-family: var(--df-font); font-variation-settings: normal; font-optical-sizing: auto;

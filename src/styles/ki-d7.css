@@ -63,7 +63,7 @@ html:not([data-lp-legacy]) .pg--ki {
   .ph--story.ph--dark .ki-strip .ki-strip__fact { color: var(--lp-ink); }
   .art-head__media img { border: 0; background: var(--pc-tint); }
   .ph--story.ph--dark .byline { border-block: 0; padding: 6px 0; }
-  .ph--story.ph--dark .byline__name { font-family: "Archivo", system-ui, sans-serif; font-variation-settings: normal; color: var(--lp-ink); }
+  .ph--story.ph--dark .byline__name { font-family: "Figtree", system-ui, sans-serif; font-variation-settings: normal; color: var(--lp-ink); }
   .ph--story.ph--dark .byline__date { color: var(--lp-muted); opacity: 1; }
   .ph--story.ph--dark .byline__mark::before { border-color: var(--pc); }
   .ph--story.ph--dark .byline__read { border: 0; background: var(--pc-tint); color: var(--lp-ink); }
