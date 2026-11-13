@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
+import CrossLinks from '../components/CrossLinks.astro';
 import PreviouslyOn from '../components/PreviouslyOn.astro';
 import WhatsAppCta from '../components/WhatsAppCta.astro';
 import { relatedFor } from '../lib/related';
@@ -270,6 +271,8 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
       currentTopics={d.topics}
       exclude={previouslySlugs}
     />
+
+    <CrossLinks from="fine-print" topics={d.topics} limit={2} heading="Fine Print on rules and prices" id="cross-fine-print" />
   </article>
   </div>
   <script is:inline>

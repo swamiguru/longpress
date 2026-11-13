@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import WhatsAppCta from '../components/WhatsAppCta.astro';
+import EvergreenShelf from '../components/EvergreenShelf.astro';
 import { getResponsiveImage } from '../lib/images';
 import { getArticleReadingTime } from '../lib/readingTime';
 import { stripLinks } from '../lib/text/inline.mjs';
@@ -384,6 +385,7 @@ import '../styles/df-d8.css';
       </div>
     </section>
   )}
+  <EvergreenShelf />
 </div>
 <script is:inline>
   (function () {
