@@ -48,5 +48,6 @@ html:not([data-lp-legacy]) body :is(
   .previously__tag, .previously__title, .previously time, .df-source__label,
   .column-manifesto__num, .column-trigger__label, .ki-strip__label,
   .ph__tag, .ph__promise, .fp-receipt__head,
-  .about-pillar-card__eyebrow, .about-profile__byline, .legal__updated
+  .about-pillar-card__eyebrow, .about-profile__byline, .legal__updated,
+  .issue-jump-bar__label, .daily-featured__fourpart dt, .hp-dateline em
 ) { font-size: .8125rem !important; }
