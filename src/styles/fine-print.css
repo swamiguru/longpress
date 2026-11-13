@@ -21,7 +21,7 @@
   --fp-on-hl: #111111;
   --fp-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --fp-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --fp-display: "Archivo", system-ui, sans-serif;
+  --fp-display: "Figtree", system-ui, sans-serif;
 
   background: var(--fp-paper);
   color: var(--fp-ink);
@@ -184,7 +184,7 @@ html:not([data-theme="dark"]) .fp-trust { color: #9B2226; }
   .fp-fig__big { width: auto; margin-bottom: 8px; font-size: 46px; }
 }
 
-/* Site-wide h1 is uppercase wide Archivo; Fine Print headlines are sentence case. */
+/* Site-wide h1 is uppercase Figtree; Fine Print headlines are sentence case. */
 .fp h1, .fp h2 { text-transform: none; color: var(--fp-ink); }
 .fp-fine .fp-h2 { color: var(--fp-on-hl); }
 .fp-card__title { color: var(--fp-ink); }

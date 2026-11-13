@@ -33,7 +33,7 @@ html:not([data-lp-legacy]) .hp .dx {
   h2 { margin: 0; font-family: var(--lp-display, 'Fraunces', Georgia, serif); font-variation-settings: var(--lp-fr-calm); font-weight: 600; font-size: clamp(34px, 4.6vw, 48px); line-height: 1; letter-spacing: -.02em; color: var(--lp-ink); }
   .dx__sub { margin: 0; font: 400 16px/1.55 var(--serif, 'Source Serif 4', Georgia, serif); color: var(--lp-ink-soft); max-width: 36ch; }
   .dx__bar { width: 64px; height: 4px; background: var(--dx-lime); }
-  .dx__go { margin-top: 4px; display: inline-block; background: var(--lp-block); color: #F6F3EA; padding: 13px 16px; border-radius: 8px; font: 800 12px/1 var(--ui, 'Archivo', sans-serif); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+  .dx__go { margin-top: 4px; display: inline-block; background: var(--lp-block); color: #F6F3EA; padding: 13px 16px; border-radius: 8px; font: 800 12px/1 var(--ui, 'Figtree', sans-serif); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
   .dx__go:hover { background: color-mix(in srgb, var(--lp-block) 85%, var(--dx-lime)); }
   .dx__wa { display: none; }
   .dx__list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--lp-ink); }
@@ -85,7 +85,7 @@ html:not([data-theme="dark"]):not([data-lp-legacy]) .hp .dx { --dx-olive: #657B0
 }
 /* Daily Five type: Figtree, a clean geometric sans with soft round forms, for every Daily Five headline */
 html:not([data-lp-legacy]) {
-  --df-font: 'Figtree', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --df-font: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
   .hp .dx :is(h2, .dx__title), .hp #heading-daily-archive, .hp .hp-ai__t,
   .pg--daily :is(.ph__title, .df-story__title, .df-answer__q, .df-qa__label, .df-qa__q, .df-part__label, .taps__title) {
     font-family: var(--df-font); font-variation-settings: normal; font-optical-sizing: auto;
