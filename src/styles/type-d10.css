@@ -3,27 +3,31 @@
    One sans (Figtree), one display serif (Fraunces), one reading serif
    (Source Serif 4), one mono (IBM Plex Mono). Archivo, Public Sans and
    Space Grotesk are retired.
-   Rules here only raise reading sizes and label floors, in rem so browser
-   text settings apply. The guard matches the D7 files.
+   Long reading is 19px in Known Issue and Fine Print, 18px in Daily Five.
+   Labels never go below 13px. Sizes are in rem so browser text settings apply.
+   The extra "body" in the guard lifts these above the D7/D8 page rules,
+   which load after BaseLayout.
    ============================================================ */
-html:not([data-lp-legacy]) {
-  /* Daily Five: reading text and quiet labels */
-  .df-part .df-part__text { font-size: 1.125rem; line-height: 1.6; }
-  .df-story__body p { font-size: 1.1563rem; }
-  .dx__take { font-size: 1rem; }
-  .dx__tag { font-size: .8125rem; }
+html:not([data-lp-legacy]) body {
+  /* Daily Five */
+  .pg--daily .df-part .df-part__text { font-size: 1.125rem; line-height: 1.6; }
+  .pg--daily .df-story__body p { font-size: 1.1563rem; }
+  .hp .dx .dx__take, .dx .dx__take { font-size: 1rem; }
+  .hp .dx .dx__tag, .dx .dx__tag { font-size: .8125rem; }
   .pg--daily .tap__line { font-size: 1rem; }
+  .pg--daily .tap__region { font-size: .8125rem; font-weight: 600; }
   .pg--daily .df-strip { font-size: .8125rem; letter-spacing: .1em; }
   .pg--daily .df-chip { font-size: .8125rem; letter-spacing: .08em; }
   .pg--daily .issue-jump-bar__label { font-size: .8125rem; letter-spacing: .1em; }
 
-  /* Known Issue: prose stays at 20px; labels go to the 13px floor */
-  .pg--ki .prose { font-size: 1.25rem; line-height: 1.7; max-width: 66ch; }
+  /* Known Issue: paragraphs were 18px inside a 20px container; set them to 19px */
+  .pg--ki .prose p, .pg--ki .prose li { font-size: 1.1875rem; line-height: 1.7; }
+  .pg--ki .column-trigger { font-size: 1.125rem; }
   .pg--ki :is(.column-callout__label, .column-pullquote__label, .take__tag, .take__where,
               .ki-strip__label, .column-verdict__label, .column-manifesto__num),
   .pg--ki .ki-facts span { font-size: .8125rem; }
 
-  /* Fine Print: reading size up from 17px, labels to the 13px floor */
+  /* Fine Print */
   .fp :is(.fp-body, .fp-lede, .fp-check__text, .fp-list, .fp-end__list, .fp-card__line) {
     font-size: 1.1875rem; line-height: 1.6;
   }
