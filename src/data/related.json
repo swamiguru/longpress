@@ -3032,6 +3032,62 @@
     "slug": "upi-daily-cap-no-warning",
     "score": 0.65
    }
+  ],
+  "daily:2026-11-13#1": [
+   {
+    "type": "daily",
+    "date": "2026-11-12",
+    "n": 1,
+    "score": 0.88
+   },
+   {
+    "type": "daily",
+    "date": "2026-11-10",
+    "n": 1,
+    "score": 0.69
+   }
+  ],
+  "daily:2026-11-13#2": [
+   {
+    "type": "daily",
+    "date": "2026-09-15",
+    "n": 1,
+    "score": 0.71
+   },
+   {
+    "type": "daily",
+    "date": "2026-07-23",
+    "n": 1,
+    "score": 0.69
+   },
+   {
+    "type": "daily",
+    "date": "2026-07-31",
+    "n": 2,
+    "score": 0.67
+   }
+  ],
+  "daily:2026-11-13#4": [
+   {
+    "type": "daily",
+    "date": "2026-10-16",
+    "n": 4,
+    "score": 0.72
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-20",
+    "n": 4,
+    "score": 0.68
+   }
+  ],
+  "daily:2026-11-13#5": [
+   {
+    "type": "daily",
+    "date": "2026-10-13",
+    "n": 4,
+    "score": 0.66
+   }
   ]
  }
 }
