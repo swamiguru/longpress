@@ -1,0 +1,103 @@
+---
+/**
+ * Plain text links to evergreen pieces (Known Issue stories and Fine Print
+ * explainers). The homepage is the page other sites link to, so listing every
+ * piece here passes that trust on to each one, and gives Googlebot a one-hop
+ * path to all of them. Text only: no images, so it adds no weight.
+ *
+ * Colours are role tokens (chrome-d7.css) so light and dark both work.
+ */
+import { getCollection } from 'astro:content';
+
+interface Props {
+  heading?: string;
+  /** Which pillars to list. */
+  include?: Array<'stories' | 'fine-print'>;
+  /** Cap per pillar. Omit to list everything. */
+  limit?: number;
+  id?: string;
+}
+
+const { heading = 'Every Known Issue and Fine Print piece', include = ['stories', 'fine-print'], limit, id = 'evergreen-shelf' } = Astro.props;
+
+const byDate = <T extends { data: { published: Date } }>(a: T, b: T) => b.data.published.valueOf() - a.data.published.valueOf();
+const stories = include.includes('stories')
+  ? (await getCollection('stories', ({ data }) => !data.draft)).sort(byDate)
+  : [];
+const pieces = include.includes('fine-print')
+  ? (await getCollection('finePrint', ({ data }) => !data.draft)).sort(byDate)
+  : [];
+const shownStories = limit ? stories.slice(0, limit) : stories;
+const shownPieces = limit ? pieces.slice(0, limit) : pieces;
+---
+
+{(shownStories.length > 0 || shownPieces.length > 0) && (
+  <section class="shelf" id={id} aria-labelledby={`${id}-h`}>
+    <h2 class="shelf__h" id={`${id}-h`}>{heading}</h2>
+    <div class="shelf__cols">
+      {shownStories.length > 0 && (
+        <div class="shelf__col">
+          <h3 class="shelf__sub"><a href="/known-issue">Known Issue</a></h3>
+          <ul class="shelf__list">
+            {shownStories.map((s) => <li><a href={`/${s.data.slug}`}>{s.data.title}</a></li>)}
+          </ul>
+        </div>
+      )}
+      {shownPieces.length > 0 && (
+        <div class="shelf__col">
+          <h3 class="shelf__sub"><a href="/fine-print">Fine Print</a></h3>
+          <ul class="shelf__list">
+            {shownPieces.map((p) => <li><a href={`/fine-print/${p.data.slug}`}>{p.data.title}</a></li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .shelf {
+    max-width: 1180px;
+    margin: 48px auto 0;
+    padding: 28px 20px 8px;
+    border-top: 1px solid var(--lp-rule);
+    color: var(--lp-ink);
+  }
+  .shelf__h {
+    margin: 0 0 18px;
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+  .shelf__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 8px 40px;
+  }
+  .shelf__sub {
+    margin: 0 0 8px;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--lp-muted);
+  }
+  .shelf__sub a { color: inherit; text-decoration: none; }
+  .shelf__sub a:hover { text-decoration: underline; }
+  .shelf__list {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+  }
+  .shelf__list li { margin: 0; }
+  .shelf__list a {
+    display: block;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--lp-rule);
+    color: var(--lp-ink);
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+  .shelf__list a:hover { text-decoration: underline; }
+  .shelf__list a:focus-visible,
+  .shelf__sub a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+</style>

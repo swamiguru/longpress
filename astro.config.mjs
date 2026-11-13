@@ -26,7 +26,12 @@ export default defineConfig({
       filter: (page) =>
         !/\/(rss\.xml|ads\.txt|search)$/.test(page) &&
         !/\/daily\/\d{4}-\d{2}-\d{2}\/\d+$/.test(page) &&
+        // The dated briefs have their own sitemap (src/pages/sitemap-daily.xml.ts).
+        // The year and month archives are noindex, follow, so they stay out too.
+        !/\/daily\/\d{4}-\d{2}-\d{2}$/.test(page) &&
+        !/\/daily\/\d{4}(\/\d{2})?$/.test(page) &&
         indexableTopic(page),
+      customSitemaps: [`${SITE}/sitemap-daily.xml`],
       serialize: serializeWithLastmod(SITE),
     }),
   ],

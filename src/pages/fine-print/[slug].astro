@@ -7,6 +7,7 @@ import PageCrumb from '../../components/PageCrumb.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import PreferredSource from '../../components/PreferredSource.astro';
 import WhatsAppCta from '../../components/WhatsAppCta.astro';
+import CrossLinks from '../../components/CrossLinks.astro';
 import { fpPlain } from '../../lib/text/finePrint';
 import { fpInline, FP_STATUS } from '../../lib/text/finePrint';
 import '../../styles/fine-print.css';
@@ -223,7 +224,7 @@ const faqItems = [
         </figure>
       )}
 
-      <WhatsAppCta variant="strip" location="fine_print_mid" heading="Fine Print on WhatsApp" text="One explainer every Saturday, on the Long Press channel." />
+      <WhatsAppCta variant="strip" location="fine_print_mid" heading="Fine Print on WhatsApp" text="New explainers on Mondays and Thursdays, on the Long Press channel." />
 
       <section class="fp-section fp-fine" aria-labelledby="fp-fine">
         <div class="fp-fine__head">
@@ -272,7 +273,7 @@ const faqItems = [
       </section>
       </div>
 
-      <WhatsAppCta variant="card" location="fine_print_end" heading="Follow Long Press on WhatsApp" text="Next Saturday's Fine Print, and the Daily Five every morning." />
+      <WhatsAppCta variant="card" location="fine_print_end" heading="Follow Long Press on WhatsApp" text="The next Fine Print, and the Daily Five every morning." />
 
       <div class="fp-share">
         <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} />
@@ -296,6 +297,8 @@ const faqItems = [
           )}
         </section>
       )}
+
+      <CrossLinks from="stories" topics={d.topics ?? []} limit={3} heading="From Known Issue" id="cross-known-issue" />
     </article>
   </div>
 </BaseLayout>

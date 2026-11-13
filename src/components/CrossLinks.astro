@@ -1,0 +1,61 @@
+---
+/**
+ * "Related from the other pillar": Fine Print pieces on a Known Issue page, and
+ * Known Issue stories on a Fine Print page. Only pieces that share a topic are
+ * shown, ranked by overlap and then recency; no match, no block. Plain text links; the
+ * markup is a short list, not cards.
+ */
+import { getCollection } from 'astro:content';
+
+interface Props {
+  /** The pillar to pull links FROM. */
+  from: 'stories' | 'fine-print';
+  topics?: string[];
+  limit?: number;
+  heading: string;
+  id?: string;
+}
+
+const { from, topics = [], limit = 3, heading, id = 'cross-links' } = Astro.props;
+
+type Row = { href: string; title: string; note: string; score: number; time: number };
+const rows: Row[] = [];
+if (from === 'fine-print') {
+  for (const p of await getCollection('finePrint', ({ data }) => !data.draft)) {
+    const shared = (p.data.topics ?? []).filter((t: string) => topics.includes(t)).length;
+    rows.push({ href: `/fine-print/${p.data.slug}`, title: p.data.title, note: p.data.category, score: shared, time: p.data.published.valueOf() });
+  }
+} else {
+  for (const s of await getCollection('stories', ({ data }) => !data.draft)) {
+    const shared = (s.data.topics ?? []).filter((t: string) => topics.includes(t)).length;
+    rows.push({ href: `/${s.data.slug}`, title: s.data.title, note: 'Known Issue', score: shared, time: s.data.published.valueOf() });
+  }
+}
+// Only topic-matched links: an unrelated link is noise to a reader and to Google.
+rows.sort((a, b) => b.score - a.score || b.time - a.time);
+const shown = rows.filter((r) => r.score > 0).slice(0, limit);
+---
+
+{shown.length > 0 && (
+  <section class="xl" id={id} aria-labelledby={`${id}-h`}>
+    <h2 class="xl__h" id={`${id}-h`}>{heading}</h2>
+    <ul class="xl__list">
+      {shown.map((r) => (
+        <li>
+          <a href={r.href}>{r.title}</a>
+          <span class="xl__note">{r.note}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .xl { margin: 36px 0 0; padding-top: 20px; border-top: 1px solid var(--lp-rule); color: var(--lp-ink); }
+  .xl__h { margin: 0 0 10px; font-size: 1.125rem; line-height: 1.3; }
+  .xl__list { list-style: none; margin: 0; padding: 0; }
+  .xl__list li { padding: 8px 0; border-bottom: 1px solid var(--lp-rule); display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; justify-content: space-between; }
+  .xl__list a { color: var(--lp-ink); text-decoration: underline; text-underline-offset: 3px; font-size: 0.9375rem; line-height: 1.4; }
+  .xl__list a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .xl__note { color: var(--lp-muted); font-size: 0.8125rem; }
+</style>
