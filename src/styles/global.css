@@ -7,9 +7,9 @@
    Accent:  Saffron       #A65D46   (the one loud colour)
    Second:  Teal          #47766F   (explainers, comparisons)
 
-   Display: Archivo — variable width, run expanded (wdth 125)
-   Body:    Public Sans — deliberately plain; headlines do the shouting
-   Label:   Space Grotesk — eyebrows, datelines, slot numbers, sources
+   Display: Figtree (D10; Archivo retired)
+   Body:    Figtree (D10; Public Sans retired)
+   Label:   IBM Plex Mono (D10; Space Grotesk retired)
 
    Legacy variable names are preserved and remapped, so no page
    template or inline style needs to change.

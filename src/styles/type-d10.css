@@ -40,3 +40,13 @@ html:not([data-lp-legacy]) body {
     font-variant-numeric: tabular-nums lining-nums;
   }
 }
+
+/* Site-wide 13px floor for small labels on every other page (audit 13 Nov 2026).
+   !important is deliberate: a floor must beat any single-purpose label rule. */
+html:not([data-lp-legacy]) body :is(
+  .archive-row__footer, .pill-tag, .ec__meta, .hp-btn, .dx__new, .dx__go,
+  .previously__tag, .previously__title, .previously time, .df-source__label,
+  .column-manifesto__num, .column-trigger__label, .ki-strip__label,
+  .ph__tag, .ph__promise, .fp-receipt__head,
+  .about-pillar-card__eyebrow, .about-profile__byline, .legal__updated
+) { font-size: .8125rem !important; }

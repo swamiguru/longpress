@@ -184,7 +184,7 @@ html:not([data-theme="dark"]) .fp-trust { color: #9B2226; }
   .fp-fig__big { width: auto; margin-bottom: 8px; font-size: 46px; }
 }
 
-/* Site-wide h1 is uppercase wide Archivo; Fine Print headlines are sentence case. */
+/* Site-wide h1 is uppercase Figtree; Fine Print headlines are sentence case. */
 .fp h1, .fp h2 { text-transform: none; color: var(--fp-ink); }
 .fp-fine .fp-h2 { color: var(--fp-on-hl); }
 .fp-card__title { color: var(--fp-ink); }
