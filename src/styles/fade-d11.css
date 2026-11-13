@@ -1,6 +1,6 @@
 /* ============================================================
    D11 TOP FADE (13 Nov 2026): a faint pillar-colour wash under the ink header
-   that dissolves into the page ground. Homepage is neutral warm, Daily Five
+   that dissolves into the page ground. Homepage and Daily Five are
    lime, Known Issue teal, Fine Print straw.
 
    It is a background-image on <body>, so it is full-bleed and behind everything.
@@ -17,9 +17,9 @@ html:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp--doc)) {
   --lp-fade-len: 440px;
   background-image: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--lp-fade) var(--lp-fade-a, 78%), transparent) 0,
-    color-mix(in srgb, var(--lp-fade) calc(var(--lp-fade-a, 78%) * .55), transparent) 38%,
-    color-mix(in srgb, var(--lp-fade) calc(var(--lp-fade-a, 78%) * .18), transparent) 74%,
+    color-mix(in srgb, var(--lp-fade) var(--lp-fade-a, 100%), transparent) 0,
+    color-mix(in srgb, var(--lp-fade) calc(var(--lp-fade-a, 100%) * .55), transparent) 38%,
+    color-mix(in srgb, var(--lp-fade) calc(var(--lp-fade-a, 100%) * .18), transparent) 74%,
     transparent 100%
   );
   background-repeat: no-repeat;
@@ -27,17 +27,17 @@ html:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp--doc)) {
   background-position: top center;
 }
 
-html:not([data-lp-legacy]) body:has(.hp)       { --lp-fade: var(--lp-tint-n); }
+html:not([data-lp-legacy]) body:has(.hp)       { --lp-fade: var(--lp-tint-daily); }
 html:not([data-lp-legacy]) body:has(.pg--daily) { --lp-fade: var(--lp-tint-daily); }
 html:not([data-lp-legacy]) body:has(.pg--ki)    { --lp-fade: var(--lp-tint-ki); }
-html:not([data-lp-legacy]) body:has(.fp--doc)   { --lp-fade: var(--lp-fp-band); --lp-fade-a: 55%; }
+html:not([data-lp-legacy]) body:has(.fp--doc)   { --lp-fade: var(--lp-fp-band); --lp-fade-a: 80%; }
 
 /* The wrappers that paint an opaque ground would hide the wash. Let it through. */
 html:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp--doc)) :is(.hp, .fp, .fp--doc) { background: transparent; }
 
 /* Dark: the dark tints are already close to the ground, so a touch more of them. */
-html[data-theme="dark"]:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp--doc)) { --lp-fade-a: 90%; }
-html[data-theme="dark"]:not([data-lp-legacy]) body:has(.fp--doc) { --lp-fade-a: 70%; }
+html[data-theme="dark"]:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp--doc)) { --lp-fade-a: 100%; }
+html[data-theme="dark"]:not([data-lp-legacy]) body:has(.fp--doc) { --lp-fade-a: 90%; }
 
 @media (max-width: 719px) {
   html:not([data-lp-legacy]) body:has(:is(.hp, .pg--daily, .pg--ki, .fp--doc)) { --lp-fade-len: 340px; }
