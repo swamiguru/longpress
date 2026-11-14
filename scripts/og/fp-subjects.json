@@ -34,5 +34,9 @@
   "fastag-local-pass": {
     "hero": "a road toll barrier arm raised open beside a small house, with a single large key hanging from the barrier arm, the key filled yellow",
     "body": "two stacks of coins side by side, a tall stack made of twelve thin coins and a short stack of one thick coin, the short single coin filled yellow"
+  },
+  "payment-hold-number-change": {
+    "hero": "a closed wallet resting on a table with a small padlock through its clasp and an hourglass standing beside it, the hourglass filled yellow",
+    "body": "a key ring holding two keys hanging from a hook beside a closed drawer, one key set apart as a spare, the spare key filled yellow"
   }
 }
