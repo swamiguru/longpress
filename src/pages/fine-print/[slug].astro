@@ -54,7 +54,9 @@ const lastLog = [...d.changelog].sort((a, b) => b.date.valueOf() - a.date.valueO
 // dateModified is the last change a reader would notice. A monthly re-check that
 // found nothing moves "Last checked", not the modified date.
 const NO_CHANGE = /^re-checked\b.*\bno change\b/i;
-const modified = lastLog.find((c) => !NO_CHANGE.test(c.text.trim()))?.date ?? d.published;
+const rawModified = lastLog.find((c) => !NO_CHANGE.test(c.text.trim()))?.date ?? d.published;
+// dateModified must never precede datePublished: a pre-publication draft date stays at published.
+const modified = rawModified > d.published ? rawModified : d.published;
 
 // Share / Discover card: the piece's own, made by scripts/og/fine-print-cards.py,
 // else the shared Fine Print card. Never the Long Press default.

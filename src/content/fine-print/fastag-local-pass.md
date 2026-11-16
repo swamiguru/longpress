@@ -86,7 +86,7 @@ take: >-
 changelog:
   - date: 2026-11-10
     text: Re-checked against the sources. No change.
-  - date: 2026-11-07
+  - date: 2026-11-09
     text: First draft. Checked against MoRTH's PIB release of 27 October 2026 on the National Highways Fee (Fifth Amendment) Rules, 2026.
 sources:
   - label: PIB, MoRTH, Concessional Local Pass for National Highway users living near fee plazas, 27 Oct 2026

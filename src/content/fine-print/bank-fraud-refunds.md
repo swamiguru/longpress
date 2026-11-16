@@ -90,7 +90,7 @@ take: >-
 changelog:
   - date: 2026-11-10
     text: Re-checked against the sources. No change.
-  - date: 2026-11-03
+  - date: 2026-11-05
     text: First draft. Checked against RBI's (Commercial Banks - Responsible Business Conduct) Third Amendment Directions, 2026, dated 24 June 2026.
 sources:
   - label: RBI, Commercial Banks Responsible Business Conduct Third Amendment Directions, 24 June 2026
