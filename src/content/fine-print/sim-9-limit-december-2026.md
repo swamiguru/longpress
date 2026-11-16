@@ -4,7 +4,7 @@ title: "From 1 December, your tenth SIM application gets blocked at the counter"
 seoTitle: "India's nine-SIM limit goes real-time on 1 December"
 description: "DoT's real-time enforcement of the nine-SIM limit starts 1 December. Check your count on Sanchar Saathi and surrender excess before the cutover."
 category: Telecom
-published: 2026-11-27
+published: 2026-11-16
 lastChecked: 2026-11-16
 nextCheck: 2026-12-02
 oneLine: >-
@@ -102,7 +102,7 @@ take: >-
   ==you are the one who gets blocked at the counter on 1 December==. The check on
   Sanchar Saathi takes about two minutes.
 changelog:
-  - date: 2026-11-27
+  - date: 2026-11-16
     text: >-
       First published. Checked against DoT's August 2026 subscriber verification
       rules and the Phase 2 enforcement timeline.
