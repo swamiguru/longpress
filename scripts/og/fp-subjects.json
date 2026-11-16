@@ -38,5 +38,9 @@
   "payment-hold-number-change": {
     "hero": "a closed wallet resting on a table with a small padlock through its clasp and an hourglass standing beside it, the hourglass filled yellow",
     "body": "a key ring holding two keys hanging from a hook beside a closed drawer, one key set apart as a spare, the spare key filled yellow"
+  },
+  "sim-9-limit-december-2026": {
+    "hero": "nine small square tiles standing upright on a shelf like books, with a tenth tile pressing against a solid upright bookend that blocks it completely, the bookend filled yellow",
+    "body": "a round bucket filled to the brim with small square tiles, with one more tile resting against the outside of the bucket unable to fit in, the tile outside filled yellow"
   }
 }
