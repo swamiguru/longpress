@@ -1,6 +1,7 @@
 ---
 slug: bank-fraud-refunds
 title: "Money lost to online fraud: who pays it back from 1 January"
+seoTitle: "Money lost to online fraud: who pays from 1 January"
 description: "RBI's new fraud rules start on 1 January 2027. When your bank must refund you in full, and when you get 85% back, capped at Rs 25,000."
 category: Banking
 published: 2026-11-05
