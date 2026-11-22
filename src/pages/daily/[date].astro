@@ -82,6 +82,9 @@ const shortDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'sho
 const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(brief);
 const taps = d.taps ?? [];
+const tapIsFirst = (t) => t.firstParty === true || (t.source?.url ? isFirstPartyUrl(t.source.url) : false);
+const plainTaps = taps.filter((t) => !tapIsFirst(t));
+const sourceTaps = taps.filter(tapIsFirst);
 /** Briefs carry a date, not a time, so the head and strips show the date only. */
 const heroDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short' }).format(d.date);
 const stripDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(d.date);
@@ -289,22 +292,45 @@ const ANALYSIS = [
           <h2 class="taps__title" id="taps-title">Taps</h2>
           <p class="taps__sub">Quick hits. One line each, for when a long press is too much.</p>
         </div>
-        <ul class="taps__list">
-          {taps.map((t) => (
-            <li class="tap">
-              {t.region && <span class={`tap__region tap__region--${t.region}`}>{t.region === 'india' ? 'India' : 'Global'}</span>}
-              <div class="tap__text">
-                <p class="tap__headline">{t.headline}</p>
-                {t.line && <p class="tap__line" set:html={linkify(t.line)} />}
-              </div>
-              {t.source && (
-                <a class="tap__source" href={t.source.url} rel="noopener" target="_blank">
-                  {t.source.label || hostLabel(t.source.url)} &nearr;
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
+        {plainTaps.length > 0 && (
+          <ul class="taps__list">
+            {plainTaps.map((t) => (
+              <li class="tap">
+                {t.region && <span class={`tap__region tap__region--${t.region}`}>{t.region === 'india' ? 'India' : 'Global'}</span>}
+                <div class="tap__text">
+                  <p class="tap__headline">{t.headline}</p>
+                  {t.line && <p class="tap__line" set:html={linkify(t.line)} />}
+                </div>
+                {t.source && (
+                  <a class="tap__source" href={t.source.url} rel="noopener" target="_blank">
+                    {t.source.label || hostLabel(t.source.url)} &nearr;
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        {sourceTaps.length > 0 && (
+          <div class="taps__lane">
+            <h3 class="taps__lane-title"><span class="taps__lane-tag">From the source</span> first-party launches</h3>
+            <ul class="taps__list taps__list--lane">
+              {sourceTaps.map((t) => (
+                <li class="tap tap--source">
+                  {t.region && <span class={`tap__region tap__region--${t.region}`}>{t.region === 'india' ? 'India' : 'Global'}</span>}
+                  <div class="tap__text">
+                    <p class="tap__headline">{t.headline}</p>
+                    {t.line && <p class="tap__line" set:html={linkify(t.line)} />}
+                  </div>
+                  {t.source && (
+                    <a class="tap__source" href={t.source.url} rel="noopener" target="_blank">
+                      {t.source.label || hostLabel(t.source.url)} &nearr;
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
     )}
 

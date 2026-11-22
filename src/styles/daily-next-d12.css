@@ -52,3 +52,38 @@ html:not([data-lp-legacy]) .df-chip--source::before {
   margin-right: 6px;
   vertical-align: middle;
 }
+
+/* Taps "From the source" lane — first-party launches grouped under the quick hits. */
+html:not([data-lp-legacy]) .taps__lane {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--lp-rule);
+}
+html:not([data-lp-legacy]) .taps__lane-title {
+  font: 600 13px/1.4 var(--mono);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--lp-muted);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+html:not([data-lp-legacy]) .taps__lane-tag {
+  background: var(--lp-block);
+  color: #F6F3EA;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+  letter-spacing: .06em;
+}
+html:not([data-lp-legacy]) .taps__lane-tag::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lp-lime);
+  margin-right: 6px;
+  vertical-align: middle;
+}

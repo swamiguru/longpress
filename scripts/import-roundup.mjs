@@ -74,6 +74,28 @@ function normSources(p) {
   return out.slice(0, 6);
 }
 
+/**
+ * First-party newsroom hosts. The generator sets `firstParty` on a post or tap
+ * explicitly (STEP 2e of the daily task); this is the fallback, matched on the
+ * item's primary (first) cited URL so a press write-up that only links a
+ * company page is not mislabelled. Keep in sync with FIRST_PARTY in
+ * src/pages/daily/[date].astro.
+ */
+const FIRST_PARTY = [
+  'blog.google', 'developers.googleblog', 'blog.youtube', 'store.google',
+  'apple.com/newsroom', 'apple.com/in/newsroom',
+  'about.fb.com', 'about.meta.com', 'about.instagram.com', 'meta.com/',
+  'blogs.microsoft.com', 'news.microsoft.com', 'openai.com', 'anthropic.com',
+  'news.samsung.com', 'samsungmobilepress.com', 'oneplus.com', 'blog.mi.com',
+  'realme.com', 'blog.zomato.com', 'stories.zomato.com', 'bytes.swiggy.com',
+  'blog.whatsapp.com', 'phonepe.com', 'paytm.com', 'cred.club',
+  'stories.flipkart.com',
+];
+function isFirstPartyUrl(url) {
+  const u = String(url || '').toLowerCase();
+  return FIRST_PARTY.some((h) => u.includes(h));
+}
+
 /** Meta description, <=160, cut at a sentence or clause. See src/lib/text/description.mjs. */
 function meta(text = '', cap = 160) {
   return fitDescription(text, cap);
@@ -267,6 +289,7 @@ for (const file of files) {
         if (s.label) lines.push(`        url: ${quote(s.url)}`);
       }
     }
+    if (p.firstParty === true || (sources[0] && isFirstPartyUrl(sources[0].url))) lines.push('    firstParty: true');
     // Same bookkeeping as illustrations: the run summary says how many items
     // carried a source, so a generator that stops emitting them is noticed.
     // The community/poll slot is never expected to cite anything.
@@ -298,6 +321,7 @@ for (const file of files) {
       } else {
         warnings.push(`${date} tap "${t.headline.slice(0, 40)}": no valid source`);
       }
+      if (t.firstParty === true || (src && isFirstPartyUrl(String(src.url || '')))) lines.push('    firstParty: true');
     }
   }
   tapStats.set(date, taps.length);

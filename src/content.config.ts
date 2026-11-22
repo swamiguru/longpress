@@ -15,6 +15,8 @@ const REGIONS = ['india', 'global'] as const;
  */
 const tap = z.object({
   region: z.enum(REGIONS).optional(),
+  /** First-party: the tap's source is the company's own newsroom. Drives the "From the source" lane. */
+  firstParty: z.boolean().optional(),
   headline: z.string().min(3),
   line: z.string().optional(),
   source: z.object({ label: z.string().optional(), url: z.string().url() }).optional(),
