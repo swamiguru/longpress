@@ -1,0 +1,134 @@
+/* ============================================================
+   Story rail (22 Nov 2026). "Keep reading" on Known Issue stories,
+   "More in Fine Print" on Fine Print pieces.
+   Role tokens only: no hex here. --pc-tint / --pc-text come from the
+   pillar scope (.pg--ki, .fp) in pillar-d7.css. Labels stay at 13px or more.
+   The extra "body" lifts these above .prose a / .prose ul / .prose li,
+   because the rail is moved INTO .prose on narrow screens. .story-rail is
+   doubled for the same reason (ki-d7 and global set h2 and a inside .prose).
+   Breakpoint 1080px = the 1040px shell plus its gutters.
+   ============================================================ */
+html:not([data-lp-legacy]) body {
+
+  /* ---- base: a stacked list of rows ---- */
+  .story-grid { display: block; }
+
+  .story-rail.story-rail {
+    margin: 2rem 0;
+    max-width: none;
+  }
+  .story-rail.story-rail .rail__label {
+    margin: 0 0 .25rem;
+    font: 600 .8125rem/1 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--pc-text);
+  }
+  .story-rail.story-rail .rail__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+  }
+  .story-rail.story-rail .rail__item { margin: 0; padding: 0; }
+  .story-rail.story-rail .rail-card {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: .875rem;
+    align-items: start;
+    min-height: 5.5rem;
+    padding: .875rem 0;
+    border-top: 1px solid var(--lp-rule);
+    color: var(--lp-ink);
+    text-decoration: none;
+  }
+  .story-rail.story-rail .rail__item:first-child .rail-card { border-top: 0; }
+  .story-rail.story-rail .rail-card:focus-visible { outline: 3px solid var(--pc); outline-offset: 2px; border-radius: .5rem; }
+
+  .story-rail.story-rail .rail-card__img {
+    display: block;
+    width: 4.5rem;
+    height: 4.5rem;
+    object-fit: cover;
+    border-radius: .625rem;
+    background: var(--lp-rule);
+  }
+  .story-rail.story-rail .rail-card__img--ki { background: var(--lp-teal); }
+  .story-rail.story-rail .rail-card__img--daily { background: var(--lp-lime); }
+  .story-rail.story-rail .rail-card__img--fp { background: var(--lp-fp); }
+
+  .story-rail.story-rail .rail-card__kicker,
+  .story-rail.story-rail .rail-card__meta {
+    display: block;
+    font: 400 .8125rem/1.3 var(--mono);
+    color: var(--lp-muted);
+  }
+  .story-rail.story-rail .rail-card__kicker { font-weight: 600; }
+  .story-rail.story-rail .rail-card__title {
+    display: block;
+    margin: .25rem 0;
+    font: 600 1rem/1.3 var(--sans);
+    color: var(--lp-ink);
+  }
+  .story-rail.story-rail .rail-card__title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+  .fp .story-rail.story-rail .rail-card__title { font-family: "Fraunces", Georgia, serif; font-size: 1.0625rem; }
+  .story-rail.story-rail .rail-card:hover .rail-card__title { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ---- inline: moved into the article body by the script ---- */
+  .story-rail.story-rail.is-inline {
+    margin: 2rem 0;
+    padding: 1rem 1.125rem .25rem;
+    background: var(--pc-tint);
+    border: 1px solid var(--lp-rule);
+    border-radius: 1rem;
+  }
+  .story-rail.story-rail.is-inline .rail__label { margin-bottom: .125rem; }
+
+  /* ---- tablet: three across, no swipe ---- */
+  @media (min-width: 600px) and (max-width: 1079.98px) {
+    .story-rail.story-rail .rail__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; padding-bottom: .75rem; }
+    .story-rail.story-rail .rail-card { grid-template-columns: 1fr; gap: .625rem; padding: .5rem 0 0; border-top: 0; min-height: 0; }
+    .story-rail.story-rail .rail-card__img { width: 100%; height: auto; aspect-ratio: 16 / 10; }
+  }
+
+  /* ---- desktop: article + sticky rail ---- */
+  @media (min-width: 1080px) {
+    .story-rail.story-rail .rail-card__title { -webkit-line-clamp: 3; line-clamp: 3; }
+    .story-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 18.75rem;
+      column-gap: 3rem;
+      align-items: start;
+    }
+    .story-grid > .story-rail.story-rail {
+      position: sticky;
+      top: 5.5rem; /* 64px sticky masthead + 24px */
+      margin: 0;
+      padding-top: .875rem;
+      border-top: 3px solid var(--pc);
+    }
+    .fp .story-grid > .story-rail.story-rail {
+      padding: 1rem 1.125rem .25rem;
+      background: var(--pc-tint);
+      border: 1px solid var(--lp-rule);
+      border-top: 3px solid var(--pc);
+      border-radius: 1rem;
+    }
+    .story-grid > .story-rail.story-rail .rail__item:first-child .rail-card {
+      grid-template-columns: 1fr;
+      gap: .625rem;
+      padding-top: .5rem;
+    }
+    .story-grid > .story-rail.story-rail .rail__item:first-child .rail-card__img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border-radius: .75rem;
+    }
+    .story-grid > .story-rail.story-rail .rail__item:first-child .rail-card__title { font-size: 1.1875rem; }
+  }
+  /* Short laptop screens: let the rail scroll with the page instead of clipping. */
+  @media (min-width: 1080px) and (max-height: 759.98px) {
+    .story-grid > .story-rail.story-rail { position: static; }
+  }
+}

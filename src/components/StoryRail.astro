@@ -1,0 +1,102 @@
+---
+/**
+ * Related reading for a story page. One DOM node.
+ * Desktop (1080px and up): the right-hand column of .story-grid, sticky.
+ * Below that: a script moves it into the article body after block `after`
+ * (paragraph 3 on Known Issue, section 3 on Fine Print). Without JavaScript
+ * it stays where it is, after the article body. Images are decorative: the
+ * headline is the link text, so alt is empty.
+ */
+import type { RailItem } from '../lib/rail';
+
+interface Props {
+  heading: string;
+  items: RailItem[];
+  /** Block after which the rail is placed on narrow screens. */
+  after?: number;
+  /** Location tag for analytics. */
+  location: string;
+}
+
+const { heading, items, after = 3, location } = Astro.props;
+const id = `rail-h-${location}`;
+---
+{items.length > 0 && (
+  <aside class="story-rail" data-rail data-after={after} data-rail-location={location} aria-labelledby={id}>
+    <h2 id={id} class="rail__label">{heading}</h2>
+    <ul class="rail__list">
+      {items.map((it, i) => (
+        <li class="rail__item">
+          <a class="rail-card" href={it.href} data-rail-pos={i + 1} data-rail-pillar={it.tone}>
+            {it.img
+              ? <img class="rail-card__img" src={it.img.src} srcset={it.img.srcset} sizes={it.img.sizes} width={it.img.width} height={it.img.height} alt="" loading="lazy" decoding="async" />
+              : <span class={`rail-card__img rail-card__img--${it.tone}`} aria-hidden="true"></span>}
+            <span class="rail-card__tx">
+              <span class="rail-card__kicker">{it.kicker}</span>
+              <span class="rail-card__title">{it.title}</span>
+              <span class="rail-card__meta">{it.meta}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}
+<script is:inline>
+  (function () {
+    var rail = document.querySelector('[data-rail]');
+    var body = document.querySelector('[data-rail-body]');
+    if (!rail || !body) return;
+    var after = parseInt(rail.getAttribute('data-after') || '3', 10);
+    var home = rail.parentNode, next = rail.nextSibling;
+    var mq = window.matchMedia('(max-width: 1079.98px)');
+    function place() {
+      if (mq.matches) {
+        var blocks = Array.prototype.filter.call(body.children, function (el) {
+          return el.matches('p, [data-fp-block]');
+        });
+        var anchor = blocks[after - 1];
+        // Only inline when at least two blocks follow the anchor.
+        if (anchor && blocks.length > after + 1) {
+          var nx = anchor.nextElementSibling;
+          if (nx && nx.tagName === 'FIGURE') anchor = nx;
+          anchor.insertAdjacentElement('afterend', rail);
+          rail.classList.add('is-inline');
+          return;
+        }
+      }
+      home.insertBefore(rail, next);
+      rail.classList.remove('is-inline');
+    }
+    place();
+    mq.addEventListener('change', place);
+    // Analytics: one delegated click listener, one view event at 50% visible.
+    function send(name, params) {
+      params.event = name;
+      params.page_path = location.pathname;
+      (window.dataLayer = window.dataLayer || []).push(params);
+    }
+    rail.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[data-rail-pos]');
+      if (!a) return;
+      send('rail_click', {
+        rail_location: rail.getAttribute('data-rail-location'),
+        rail_position: Number(a.getAttribute('data-rail-pos')),
+        rail_pillar: a.getAttribute('data-rail-pillar'),
+        rail_placement: rail.classList.contains('is-inline') ? 'inline' : 'rail'
+      });
+    });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) {
+          send('rail_view', {
+            rail_location: rail.getAttribute('data-rail-location'),
+            rail_placement: rail.classList.contains('is-inline') ? 'inline' : 'rail'
+          });
+          io.disconnect();
+        }
+      }, { threshold: 0.5 });
+      io.observe(rail);
+    }
+  })();
+</script>

@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdSlot from '../components/AdSlot.astro';
 import RelatedArticles from '../components/RelatedArticles.astro';
+import StoryRail from '../components/StoryRail.astro';
+import { railForStory } from '../lib/rail';
 import CrossLinks from '../components/CrossLinks.astro';
 import PreviouslyOn from '../components/PreviouslyOn.astro';
 import WhatsAppCta from '../components/WhatsAppCta.astro';
@@ -19,6 +21,7 @@ import '../styles/pillar-d7.css';
 import '../styles/ki-d7.css';
 import '../styles/calm-pages-d9.css';
 import '../styles/fade-d11.css';
+import '../styles/rail.css';
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories', ({ data }) => !data.draft);
@@ -34,6 +37,9 @@ const { Content } = await render(story);
 const d = story.data;
 // Stories already linked by "Previously on Long Press" are left out of Related Articles.
 const previouslySlugs = (await relatedFor(`story:${d.slug}`)).flatMap((l) => (l.slug ? [l.slug] : []));
+const railItems = d.category === 'known-issue'
+  ? await railForStory({ currentSlug: d.slug, currentCategory: d.category, currentTopics: d.topics, exclude: previouslySlugs })
+  : [];
 const long = new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' });
 const short = new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
 const readingTime = getArticleReadingTime(story);
@@ -150,7 +156,14 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
       </div>
     </header>
 
-    <div class="prose"><Content /></div>
+    {railItems.length > 0 ? (
+      <div class="story-grid">
+        <div class="prose" data-rail-body><Content /></div>
+        <StoryRail heading="Keep reading" items={railItems} after={3} location="known_issue" />
+      </div>
+    ) : (
+      <div class="prose"><Content /></div>
+    )}
 
     {(d.whoBenefits || d.operatorsRead || d.verdict) && (
       <section class="take" aria-label="Known Issue take">
@@ -266,12 +279,12 @@ const leadCaption = d.image ? d.imageCaption : d.heroImageCaption;
 
     <PreviouslyOn id={`story:${d.slug}`} />
 
-    <RelatedArticles
+    {railItems.length === 0 && <RelatedArticles
       currentSlug={d.slug}
       currentCategory={d.category}
       currentTopics={d.topics}
       exclude={previouslySlugs}
-    />
+    />}
 
     <CrossLinks from="fine-print" topics={d.topics} limit={2} heading="Fine Print on rules and prices" id="cross-fine-print" />
   </article>
