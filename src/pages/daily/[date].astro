@@ -18,6 +18,7 @@ import '../../styles/pillar-d7.css';
 import '../../styles/df-d8.css';
 import '../../styles/calm-d9.css';
 import '../../styles/fade-d11.css';
+import '../../styles/daily-next-d12.css';
 import { linkify, stripLinks, hostLabel } from '../../lib/text/inline.mjs';
 
 /** Every link an item cites: the `sources` list plus the legacy single `source`, de-duplicated. */
@@ -25,6 +26,27 @@ function sourcesOf(item: { source?: string; sources?: { label?: string; url: str
   const all = [...(item.sources ?? []), ...(item.source ? [{ url: item.source }] : [])];
   const seen = new Set<string>();
   return all.filter((s) => !seen.has(s.url) && seen.add(s.url));
+}
+
+/**
+ * First-party newsroom hosts. The sourcing step sets `firstParty` on an item
+ * explicitly; this is the render-time fallback, matched against the item's
+ * primary (first) cited URL so a press write-up that merely links a company
+ * page is not mislabelled.
+ */
+const FIRST_PARTY = [
+  'blog.google', 'developers.googleblog', 'blog.youtube', 'store.google',
+  'apple.com/newsroom', 'apple.com/in/newsroom',
+  'about.fb.com', 'about.meta.com', 'about.instagram.com', 'meta.com/',
+  'blogs.microsoft.com', 'news.microsoft.com', 'openai.com', 'anthropic.com',
+  'news.samsung.com', 'samsungmobilepress.com', 'oneplus.com', 'blog.mi.com',
+  'realme.com', 'blog.zomato.com', 'stories.zomato.com', 'bytes.swiggy.com',
+  'blog.whatsapp.com', 'phonepe.com', 'paytm.com', 'cred.club',
+  'stories.flipkart.com',
+];
+function isFirstPartyUrl(url: string) {
+  const u = url.toLowerCase();
+  return FIRST_PARTY.some((h) => u.includes(h));
 }
 
 export async function getStaticPaths() {
@@ -141,6 +163,7 @@ const ANALYSIS = [
         const num = String(item.slot).padStart(2, '0');
         const isOpinion = OPINION.includes(item.kind);
         const cites = sourcesOf(item);
+        const isFirstParty = item.firstParty === true || (cites[0] ? isFirstPartyUrl(cites[0].url) : false);
         return (
           <>
             {i === 2 && <li class="df-ad"><AdSlot placement="brief" /></li>}
@@ -170,6 +193,7 @@ const ANALYSIS = [
                     <div class="df-story__chips">
                       <span class={`df-chip${isOpinion ? ' df-chip--opinion' : ''}`}>{label(item.kind)}</span>
                       {item.region === 'india' && <span class="df-chip df-chip--india">India</span>}
+                      {isFirstParty && <span class="df-chip df-chip--source">From source</span>}
                     </div>
                   </div>
                   <div class="df-story__text">
@@ -242,6 +266,16 @@ const ANALYSIS = [
                 </div>
 
                 <div class="df-prev"><PreviouslyOn id={`daily:${dateStr}#${item.slot}`} /></div>
+
+                {items[i + 1] && (
+                  <a class="df-next" href={`#story-${items[i + 1].slot}`}>
+                    <span class="df-next__num" aria-hidden="true">{items[i + 1].slot}</span>
+                    <span class="df-next__meta">
+                      <span class="df-next__label">Next up <span class="df-next__arrow" aria-hidden="true">&darr;</span></span>
+                      <span class="df-next__head">{items[i + 1].heading}</span>
+                    </span>
+                  </a>
+                )}
               </div>
             </li>
           </>

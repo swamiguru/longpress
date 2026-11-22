@@ -1,0 +1,54 @@
+/* Daily Five - "Next up" cue + "From source" marker (D12).
+   Built from role tokens only, so light and dark swap automatically.
+   Imported last on the daily page, so these win at equal specificity. */
+
+/* "Next up": a forward peek at the next story, at the foot of each card. */
+html:not([data-lp-legacy]) .df-next {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 2px 18px 18px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--lp-rule);
+  text-decoration: none;
+  color: inherit;
+}
+html:not([data-lp-legacy]) .df-next__num {
+  font: 600 27px/1 var(--mono);
+  color: var(--lp-muted);
+  opacity: .45;
+  flex: none;
+}
+html:not([data-lp-legacy]) .df-next__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+html:not([data-lp-legacy]) .df-next__label {
+  font: 600 13px/1 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--lp-muted);
+}
+html:not([data-lp-legacy]) .df-next__arrow { color: var(--lp-lime); }
+html:not([data-lp-legacy]) .df-next__head {
+  font: 600 15px/1.3 var(--sans);
+  color: var(--lp-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html:not([data-lp-legacy]) .df-next:hover .df-next__head { text-decoration: underline; }
+
+/* "From source": the kind chip's ink body with a lime dot, for first-party items. */
+html:not([data-lp-legacy]) .df-chip--source::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lp-lime);
+  margin-right: 6px;
+  vertical-align: middle;
+}

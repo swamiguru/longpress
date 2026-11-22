@@ -27,6 +27,12 @@ const briefItem = z
     kind: z.enum(ITEM_KINDS),
     /** Where the story is centred. Drives the India chip; older issues have none. */
     region: z.enum(REGIONS).optional(),
+    /**
+     * First-party: the primary source is the company's own newsroom (blog.google,
+     * Apple Newsroom, Meta, OpenAI, etc.). Drives the "From source" marker. Set by
+     * the sourcing step; the renderer falls back to a source-host check when unset.
+     */
+    firstParty: z.boolean().optional(),
     heading: z.string().min(3),
     /** Full text - use ONLY when this item is not promoted to its own page. */
     body: z.string().optional(),
