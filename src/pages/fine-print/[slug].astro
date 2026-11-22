@@ -8,6 +8,8 @@ import ShareButtons from '../../components/ShareButtons.astro';
 import PreferredSource from '../../components/PreferredSource.astro';
 import WhatsAppCta from '../../components/WhatsAppCta.astro';
 import CrossLinks from '../../components/CrossLinks.astro';
+import StoryRail from '../../components/StoryRail.astro';
+import { railForFinePrint } from '../../lib/rail';
 import { fpPlain } from '../../lib/text/finePrint';
 import { fpInline, FP_STATUS } from '../../lib/text/finePrint';
 import '../../styles/fine-print.css';
@@ -16,6 +18,7 @@ import '../../styles/pillar-d7.css';
 import '../../styles/fp-d7.css';
 import '../../styles/calm-pages-d9.css';
 import '../../styles/fade-d11.css';
+import '../../styles/rail.css';
 
 export async function getStaticPaths() {
   const all = await getCollection('finePrint', ({ data }) => !data.draft);
@@ -39,6 +42,7 @@ const { entry, others } = Astro.props;
 const d = entry.data;
 const n = d.sources.length;
 const t = (s: string) => fpInline(s, n);
+const railItems = railForFinePrint(others);
 const dateFmt = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
 // Reading time across every text field: ~220 words a minute, never under 2.
@@ -111,7 +115,8 @@ const faqItems = [
       </figure>
     )}
 
-    <article class="fp-article">
+    <div class="story-grid">
+    <article class="fp-article" data-rail-body>
 
       {d.keyFigures && d.keyFigures.length > 0 && (
         <section class="fp-figs" aria-label="Key figures">
@@ -130,12 +135,12 @@ const faqItems = [
         <div><span>Read from</span><b>{n} {n === 1 ? 'source' : 'sources'}</b></div>
       </div>
 
-      <section class="fp-oneline" aria-labelledby="fp-oneline">
+      <section class="fp-oneline" data-fp-block aria-labelledby="fp-oneline">
         <h2 id="fp-oneline" class="fp-label">In one line</h2>
         <p set:html={t(d.oneLine)} />
       </section>
 
-      <section class="fp-section" aria-labelledby="fp-applies">
+      <section class="fp-section" data-fp-block aria-labelledby="fp-applies">
         <h2 id="fp-applies" class="fp-h2">Does this apply to you?</h2>
         <p class="fp-lede">Find yourself in the list.</p>
         <div class="fp-checks">
@@ -155,7 +160,7 @@ const faqItems = [
       </section>
 
       {d.rules.length > 0 && (
-        <section class="fp-section" aria-labelledby="fp-rules">
+        <section class="fp-section" data-fp-block aria-labelledby="fp-rules">
           <h2 id="fp-rules" class="fp-h2">What the rule actually says</h2>
           <p class="fp-lede">The plain version first, then the line from the primary document.</p>
           <div class="fp-rules">
@@ -178,7 +183,7 @@ const faqItems = [
       )}
 
       {d.costs && (
-        <section class="fp-section" aria-labelledby="fp-costs">
+        <section class="fp-section" data-fp-block aria-labelledby="fp-costs">
           <h2 id="fp-costs" class="fp-h2">{d.costs.title}</h2>
           {d.costs.note && <p class="fp-lede" set:html={t(d.costs.note)} />}
           <div class="fp-receipt">
@@ -210,7 +215,7 @@ const faqItems = [
       )}
 
       {d.steps.length > 0 && (
-        <section class="fp-section" aria-labelledby="fp-steps">
+        <section class="fp-section" data-fp-block aria-labelledby="fp-steps">
           <h2 id="fp-steps" class="fp-h2">What to do</h2>
           <ol class="fp-steps">
             {d.steps.map((s, i) => (
@@ -229,7 +234,7 @@ const faqItems = [
 
       <WhatsAppCta variant="strip" location="fine_print_mid" heading="Fine Print on WhatsApp" text="New explainers on Mondays and Thursdays, on the Long Press channel." />
 
-      <section class="fp-section fp-fine" aria-labelledby="fp-fine">
+      <section class="fp-section fp-fine" data-fp-block aria-labelledby="fp-fine">
         <div class="fp-fine__head">
           <svg width="22" height="22" viewBox="0 0 40 40" aria-hidden="true"><g stroke="currentColor" stroke-width="6" stroke-linecap="round"><line x1="20" y1="5" x2="20" y2="35"></line><line x1="7" y1="12.5" x2="33" y2="27.5"></line><line x1="7" y1="27.5" x2="33" y2="12.5"></line></g></svg>
           <h2 id="fp-fine" class="fp-h2">The fine print</h2>
@@ -240,7 +245,7 @@ const faqItems = [
       </section>
 
       {d.unknowns.length > 0 && (
-        <section class="fp-section" aria-labelledby="fp-unknowns">
+        <section class="fp-section" data-fp-block aria-labelledby="fp-unknowns">
           <h2 id="fp-unknowns" class="fp-h2" style="margin-bottom:14px">What we don't know yet</h2>
           <ul class="fp-list">
             {d.unknowns.map((u) => <li set:html={t(u)} />)}
@@ -248,7 +253,7 @@ const faqItems = [
         </section>
       )}
 
-      <section class="fp-section fp-take" aria-labelledby="fp-take">
+      <section class="fp-section fp-take" data-fp-block aria-labelledby="fp-take">
         <h2 id="fp-take" class="fp-label">Our take</h2>
         <p set:html={t(d.take)} />
       </section>
@@ -282,7 +287,7 @@ const faqItems = [
         <ShareButtons title={d.title} description={fpPlain(d.oneLine)} url={`/fine-print/${d.slug}`} />
       </div>
 
-      {(d.video || others.length > 0) && (
+      {d.video && (
         <section class="fp-end">
           {d.video && (
             <a class="fp-end__video" href={d.video.url} rel="noopener" target="_blank">
@@ -290,18 +295,12 @@ const faqItems = [
               <span class="fp-end__title">{d.video.title}</span>
             </a>
           )}
-          {others.length > 0 && (
-            <div class="fp-end__box">
-              <span class="fp-end__eyebrow">More in Fine Print</span>
-              <ul class="fp-end__list">
-                {others.map((o) => <li><a href={`/fine-print/${o.data.slug}`}>{o.data.title}</a></li>)}
-              </ul>
-            </div>
-          )}
         </section>
       )}
 
       <CrossLinks from="stories" topics={d.topics ?? []} limit={3} heading="From Known Issue" id="cross-known-issue" />
     </article>
+    <StoryRail heading="More in Fine Print" items={railItems} after={3} location="fine_print" />
+    </div>
   </div>
 </BaseLayout>
