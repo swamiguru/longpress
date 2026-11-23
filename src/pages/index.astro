@@ -130,13 +130,6 @@ import '../styles/home-b.css';
     <a class="hp-door-m hp-door-m--fp" href="/fine-print" id="cta-fine-print-door">Fine Print &rarr;</a>
   </nav>
 
-  <!-- Desktop: three-pillar doors with descriptors -->
-  <nav class="hp-doors" aria-label="Sections">
-    <a class="hpd hpd--daily" href={today ? path(today) : '/daily'}><b>The Daily Five</b><span>Five tech stories every morning.</span></a>
-    <a class="hpd hpd--ki" href="/known-issue"><b>Known Issue</b><span>The things in your phone wrong long enough to count as a decision.</span></a>
-    <a class="hpd hpd--fp" href="/fine-print"><b>Fine Print</b><span>India&rsquo;s rules, prices and fees, worked out in rupees.</span></a>
-  </nav>
-
   <!-- 1. Today's Five -->
   {today && (
     <section class="dx" aria-labelledby="todays-five-heading" id="section-todays-five">

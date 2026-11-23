@@ -1,19 +1,5 @@
-/* Option B homepage additions — desktop doors, evergreen teaser, slim archive.
+/* Option B homepage additions — evergreen teaser, slim archive.
    Built from role tokens so light and dark swap. Loaded after home-d7.css. */
-
-/* Desktop doors (mobile keeps .hp-doors-m) */
-.hp .hp-doors{display:none}
-@media(min-width:720px){
-  .hp .hp-doors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px}
-  .hp .hpd{position:relative;display:block;border:1px solid var(--lp-line);border-radius:12px;background:var(--lp-surf);padding:13px 16px 13px 18px;text-decoration:none;color:var(--lp-ink)}
-  .hp .hpd::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:5px;border-radius:3px}
-  .hp .hpd--daily::before{background:var(--lp-lime)}
-  .hp .hpd--ki::before{background:var(--lp-teal)}
-  .hp .hpd--fp::before{background:var(--lp-fp)}
-  .hp .hpd b{font-family:var(--sans);font-weight:700;font-size:15px;display:block;margin-bottom:3px}
-  .hp .hpd span{font-family:var(--sans);font-size:13px;line-height:1.35;color:var(--lp-muted)}
-  .hp .hpd:hover{border-color:var(--lp-ink)}
-}
 
 /* Evergreen teaser — the column + the explainer, before the full sections */
 .hp .hp-teaser{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 22px}
