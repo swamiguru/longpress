@@ -1,13 +1,13 @@
 ---
 slug: "skip-support-without-human"
 title: "Find the human before you pay"
-seoTitle: "Apps and subscriptions with no human support: skip them"
-description: "AI now answers first at Zomato, Swiggy, PhonePe and Urban Company. Human help is a paid tier or a telecom rule. Check before you pay."
+seoTitle: "AI customer support in India: find the human first"
+description: "AI answers first at Zomato, Swiggy, PhonePe and Urban Company. Human help is often a paid tier. How to check before you pay."
 published: 2026-11-23
 category: "known-issue"
 image: "/images/known-issue/skip-support-without-human.png"
 imageAlt: "A speech bubble with three dots and a telephone handset with sound waves, side by side in front of a tall closed door with only a keyhole"
-topics: ["customer-support", "ai", "zomato", "swiggy", "urban-company"]
+topics: ["customer-support", "ai", "zomato", "swiggy", "urban-company", "food-delivery", "india-telecom", "india"]
 openSince: 2025
 reportedOn: 2025-03-02
 workaround: "Before you pay, find the route to a human in the help section. If there isn't one, pick another provider."
