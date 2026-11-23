@@ -48,58 +48,58 @@ sources:
 draft: false
 ---
 
-When an order, a payment or a booking goes wrong, the first reply from most big Indian apps now comes from a bot. A person may exist somewhere behind it. This piece is about finding out before you hand over money.
-
-## What the companies say
-
-Zomato says its support AI, Nugget, handles over 15 million interactions a month across Zomato, Blinkit and Hyperpure and can resolve up to 80 percent of queries on its own. It now offers Nugget to businesses worldwide. ([Telecomtalk](https://telecomtalk.info/zomato-ai-powered-customer-support-platform-nugget/989986/))
-
-Swiggy's support agent is described in an October 2025 Databricks case study as having fully automated 100 percent of customer queries. The same page lists a handoff to human agents as a design goal and gives no figures for it. ([Databricks](https://www.databricks.com/blog/redefining-customer-support-swiggys-enterprise-scale-ai-agent-built-databricks))
-
-PhonePe cut its support team by about 60 percent over five years, from around 1,100 agents to just over 400, according to figures in its annual report as reported by Inc42. ([Inc42](https://inc42.com/buzz/how-phonepe-leveraged-ai-to-reduce-customer-support-teams-by-60)) In July 2026 it said its AI resolves over 92 percent of queries without a person, and that queries too subjective or sensitive for automation go to a human. ([PhonePe Tech](https://tech.phonepe.com/how-ai-driven-automation-is-scaling-phonepes-customer-support-framework/))
-
-Urban Company says on a Microsoft customer page that 85 to 90 percent of queries are now resolved by chatbots. The page does not say whether those are customer or service-professional queries, or what period it covers. ([Microsoft](https://www.microsoft.com/en-in/aifirstmovers/urban-company)) Its voice AI, described in a recap of a June 2026 webinar, serves its service professionals, not customers. ([ElevenLabs](https://elevenlabs.io/blog/webinar-recap-how-urban-company-automated-partner-support-at-scale))
-
-Meesho says its voice bot handles about 60,000 customer calls a day in English and Hindi, resolves 95 percent of them, and passes about 5 percent to a person. It also says agents were moved to harder queries and seller support, not let go. ([TechCrunch](https://techcrunch.com/2024/11/26/ai-helps-indias-meesho-cut-customer-call-costs-by-75))
-
-All of these are company or vendor figures. None has been audited.
-
-![A looping arrow passes the customer between a chat bubble and a sound-wave orb while a narrow door at the far end stays shut](/images/known-issue/skip-support-without-human-body.webp)
-
-## What customers report
-
-In November 2025 a Zomato customer posted screenshots to Reddit. He said he had accidentally added extra items to an order, the restaurant agreed to remove them, and Zomato's support AI repeatedly refused to connect him to a person. It said it was escalating to a senior support executive only after he kept typing "agent". By then the order had been picked up. Zomato's response was not reported. His own summary was short: all he wanted was to talk to a human agent. One commenter on the same story, unverified, said the same thing had happened to them on Zepto the month before: about 15 minutes of repeating the same messages, then a refund and a ₹200 coupon. ([Business Today](https://www.businesstoday.in/amp/latest/trends/story/this-is-how-a-zomato-user-broke-its-customer-service-ai-after-chatbot-failed-to-cancel-his-order-500897-2025-11-05))
-
-On 2 March 2025 Karnataka's IT minister, Priyank Kharge, said on X that chatbots and smart prompts can handle some issues but fail to resolve genuine grievances. He named Swiggy and Zomato and said governments may have to step in. ([Business Today](https://www.businesstoday.in/technology/news/story/karnataka-minister-calls-out-e-commerce-platforms-over-ai-chatbot-woes-warns-of-regulation-466895-2025-03-06))
-
-I ran into the same wall at Urban Company. I tried to reach a person there, got an AI voice agent, and could not get through to a human.
+I tried to reach a person at Urban Company and couldn't. A voice agent picked up, and that was as far as I got.
 
 <!-- SWAMI: add the date and what the issue was. The company material I found documents voice AI only for its service professionals, and a chatbot figure for queries. It does not document a customer-facing voice line. Confirm the wording before this goes live. -->
 
-Mint reported in October 2025 that human help is turning into a paid extra. Flipkart Black, Swiggy One BLCK and Zomato VIP Mode require subscriptions or additional payments and promise priority support and direct access to human agents. For everyone else, the article says, chatbots are the only way to raise a concern. ([Mint via Magzter](https://www.magzter.com/fr/stories/newspaper/Mint-Hyderabad/ONLINE-RETAIL-PUTS-A-PREMIUM-ON-HUMAN-CUSTOMER-SUPPORT))
+It isn't only Urban Company. When an order, a payment or a booking goes wrong, the first reply from most big Indian apps now comes from a bot. A person may exist somewhere behind it. I wanted to know which apps say so, and which ones make you fight for it, so I read what the companies say about their own support and what customers say back.
+
+## What the companies say about their own support
+
+Zomato says its support AI, Nugget, handles over 15 million interactions a month across Zomato, Blinkit and Hyperpure, and can resolve up to 80 percent of queries on its own. It now sells Nugget to other businesses worldwide. ([Telecomtalk](https://telecomtalk.info/zomato-ai-powered-customer-support-platform-nugget/989986/))
+
+Swiggy's support agent is described in an October 2025 Databricks case study as having fully automated 100 percent of customer queries. The same page lists a handoff to human agents as a design goal, and gives no figures for it. ([Databricks](https://www.databricks.com/blog/redefining-customer-support-swiggys-enterprise-scale-ai-agent-built-databricks))
+
+PhonePe cut its support team by about 60 percent over five years, from around 1,100 agents to just over 400, according to its annual report as reported by Inc42. ([Inc42](https://inc42.com/buzz/how-phonepe-leveraged-ai-to-reduce-customer-support-teams-by-60)) In July 2026 it said its AI resolves over 92 percent of queries without a person, and that queries too subjective or sensitive for automation go to a human. ([PhonePe Tech](https://tech.phonepe.com/how-ai-driven-automation-is-scaling-phonepes-customer-support-framework/))
+
+Urban Company says on a Microsoft customer page that 85 to 90 percent of queries are now resolved by chatbots. The page doesn't say whether those are customer or service-professional queries, or what period it covers. ([Microsoft](https://www.microsoft.com/en-in/aifirstmovers/urban-company)) Its voice AI, described in a recap of a June 2026 webinar, serves its service professionals, not customers. ([ElevenLabs](https://elevenlabs.io/blog/webinar-recap-how-urban-company-automated-partner-support-at-scale))
+
+Meesho says its voice bot handles about 60,000 customer calls a day in English and Hindi, resolves 95 percent of them, and passes about 5 percent to a person. It also says agents were moved to harder queries and seller support, not let go. ([TechCrunch](https://techcrunch.com/2024/11/26/ai-helps-indias-meesho-cut-customer-call-costs-by-75))
+
+Every number in this section comes from the company or its vendor. Nobody outside has audited them.
+
+![A looping arrow passes the customer between a chat bubble and a sound-wave orb while a narrow door at the far end stays shut](/images/known-issue/skip-support-without-human-body.webp)
+
+## What customers say
+
+A Zomato customer posted this to Reddit in November 2025. He'd added extra items to an order by accident, and the restaurant agreed to remove them. Zomato's support AI kept refusing to connect him to a person. It said it was escalating to a senior support executive only after he kept typing "agent", and by then the order had been picked up. Zomato's response wasn't reported. His own summary was short: all he wanted was to talk to a human agent. One commenter on the same story, unverified, said the same thing had happened to them on Zepto the month before. About 15 minutes of repeating the same messages, then a refund and a ₹200 coupon. ([Business Today](https://www.businesstoday.in/amp/latest/trends/story/this-is-how-a-zomato-user-broke-its-customer-service-ai-after-chatbot-failed-to-cancel-his-order-500897-2025-11-05))
+
+On 2 March 2025 Karnataka's IT minister, Priyank Kharge, said on X that chatbots and smart prompts can handle some issues but fail to resolve genuine grievances. He named Swiggy and Zomato and said governments may have to step in. ([Business Today](https://www.businesstoday.in/technology/news/story/karnataka-minister-calls-out-e-commerce-platforms-over-ai-chatbot-woes-warns-of-regulation-466895-2025-03-06))
+
+Mint reported in October 2025 that human help is turning into a paid extra. Flipkart Black, Swiggy One BLCK and Zomato VIP Mode require subscriptions or extra payments, and promise priority support and direct access to human agents. For everyone else, the article says, chatbots are the only way to raise a concern. ([Mint via Magzter](https://www.magzter.com/fr/stories/newspaper/Mint-Hyderabad/ONLINE-RETAIL-PUTS-A-PREMIUM-ON-HUMAN-CUSTOMER-SUPPORT))
 
 ## Where a human is written down
 
-Google Pay India lists a toll-free line, 1-800-419-0157, with phone support in Hindi, English, Tamil, Kannada and Telugu. It also has in-app chat and a three-level escalation path, and points to NPCI and the RBI Ombudsman if you are still unsatisfied. ([Google Pay India](https://support.google.com/pay/india/answer/10084701?hl=en)) That is what "a route to a human" looks like when it is spelled out.
+Google Pay India lists a toll-free line, 1-800-419-0157, with phone support in Hindi, English, Tamil, Kannada and Telugu. It also has in-app chat and a three-level escalation path, and points to NPCI and the RBI Ombudsman if you're still unsatisfied. ([Google Pay India](https://support.google.com/pay/india/answer/10084701?hl=en)) That's what a route to a human looks like when it's spelled out.
 
 Using AI is not the same as hiding the person. Bajaj Finserv's FY2026 annual report says 65 percent of customer servicing at BFL, Bajaj Finance Limited, goes through AI voice and text bots. ([Bajaj Finserv](https://www.bajajfinserv.in/finserv-digital-annual-report-fy26/building-for-tomorrow-building-for-a-billion-futures.html)) Its contact page still lists a helpline, an IVR in nine languages, a virtual bot and live representatives seven days a week. The page gives two different sets of hours for the representatives, so check before you call. ([Bajaj Finance](https://bajajfinserv.in/call-us))
 
-For telecom, TRAI's Telecom Consumer Complaint Redressal (Fourth Amendment) Regulations, 2026 let operators use AI agents around the clock. They also require human help for at least 16 hours a day, require operators to tell you when you are talking to an AI, and fine Rs 1,000 for each mishandled complaint. The rules take effect in phases after Gazette publication. ([YourStory](https://yourstory.com/ai-story/ai-complaint-support-trai-telecom-firms))
+For telecom, TRAI's Telecom Consumer Complaint Redressal (Fourth Amendment) Regulations, 2026 let operators use AI agents around the clock. They also require human help for at least 16 hours a day, require operators to tell you when you're talking to an AI, and fine Rs 1,000 for each mishandled complaint. The rules take effect in phases after Gazette publication. ([YourStory](https://yourstory.com/ai-story/ai-complaint-support-trai-telecom-firms))
 
-Nothing comparable applies to food delivery, home services or most subscriptions. The Department of Consumer Affairs was reported on 17 August 2026 to be examining AI customer service, with officials considering requiring companies to upgrade complaint handling within defined timelines. ([VARIndia](https://varindia.com/news/government-reviews-ai-customer-service-amid-consumer-complaints))
+Nothing comparable applies to food delivery, home services or most subscriptions. The Department of Consumer Affairs was reported on 17 August 2026 to be examining AI customer service, with officials considering requiring companies to upgrade complaint handling within set timelines. ([VARIndia](https://varindia.com/news/government-reviews-ai-customer-service-amid-consumer-complaints))
 
-## The check
+## How I'd check before paying
 
 1. Before you pay, find the "talk to a human" route in the help section. Count the screens.
-2. Ask the bot for a person in plain words. If it says it cannot transfer you, or loops, that is your answer.
+2. Ask the bot for a person in plain words. If it says it can't transfer you, or it loops, that's your answer.
 3. Look for a phone number or email that reaches a person. Check whether it sits behind a paid tier.
 
-If a step fails and you have an alternative, skip. This applies when you are choosing: a new subscription, a wallet, a mobile plan, a home-services app.
+If a step fails and you have an alternative, skip. This applies when you're choosing: a new subscription, a wallet, a mobile plan, a home-services app.
 
-## What we could not confirm
+## What I couldn't confirm
 
-We did not create accounts or run these flows ourselves, so the company statements above describe what each firm says it does, not what we tested. We did not find reliable support information for Netflix, Spotify, Amazon, Flipkart, Paytm, Zepto, MakeMyTrip, NoBroker or 99acres beyond what is cited above.
+I didn't create accounts or run these flows myself, so the company statements above are what each firm says it does, not what I tested. I couldn't find reliable support information for Netflix, Spotify, Amazon, Flipkart, Paytm, Zepto, MakeMyTrip, NoBroker or 99acres beyond what's cited above.
 
 ## The people behind the numbers
 
-PhonePe's support team fell from about 1,100 to just over 400 agents. Those were jobs in India. They were also the people on the other end of the call.
+I ran a service desk for five years, so this part isn't abstract to me. PhonePe has nearly 700 fewer people answering its customers than it did five years ago. Those were jobs in India, and the people who held them were the ones on the other end of the call.
