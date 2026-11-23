@@ -50,8 +50,6 @@ draft: false
 
 In mid-November I called Urban Company because I wanted to talk to someone. A voice agent picked up, and I never got through to a person.
 
-<!-- SWAMI: optional. Add what the call was about, if you want it in. -->
-
 It isn't only Urban Company. When an order, a payment or a booking goes wrong, the first reply from most big Indian apps now comes from a bot. A person may exist somewhere behind it. I wanted to know which apps say so, and which ones make you fight for it, so I read what the companies say about their own support and what customers say back.
 
 ## What the companies say about their own support
