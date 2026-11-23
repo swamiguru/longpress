@@ -49,11 +49,11 @@
   html:not([data-lp-legacy]) .hp .dx .dx__list{grid-area:list;margin-top:6px}
   /* Compact the in-rail WhatsApp card on desktop so the intro column
      doesn't tower over the lead story and leave blank space. */
-  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card{padding:14px 16px;gap:10px;display:flex;flex-wrap:wrap;align-items:center}
-  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__icon{width:28px;height:28px}
-  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__heading{font-size:15px;margin:0}
-  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__text{font-size:13px;margin:0}
-  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-btn{font-size:12px;padding:8px 14px}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card{padding:14px 16px !important;gap:10px !important;display:flex !important;flex-wrap:wrap;align-items:center}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__icon{width:28px !important;height:28px !important}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__heading{font-size:15px !important;margin:0 !important}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__text{font-size:13px !important;margin:0 !important}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-btn{font-size:12px !important;padding:8px 14px !important}
   .hp .dx .dx__lead-fig{border-radius:14px;aspect-ratio:1/1}
   .hp .dx .dx__lead-title{font-size:30px}
 }
