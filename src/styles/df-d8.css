@@ -219,7 +219,7 @@ html:not([data-lp-legacy]) .pg--daily .issue-jump-bar {
   }
   .issue-jump-pill:last-child { border-bottom: 1px solid var(--lp-rule); }
   .issue-jump-pill__num { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border-radius: 9px; background: var(--dfl); color: var(--lp-on-field); font: 600 14px/1 var(--mono); }
-  .issue-jump-pill__title { max-width: none; overflow: visible; white-space: normal; text-overflow: clip; font-family: var(--df-font, system-ui, sans-serif); font-weight: 650; font-size: 16px; line-height: 1.3; color: var(--lp-ink); }
+  .issue-jump-pill__title { max-width: none; display: block; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; white-space: normal; text-overflow: clip; overflow-wrap: anywhere; font-family: var(--df-font, system-ui, sans-serif); font-weight: 650; font-size: 16px; line-height: 1.3; color: var(--lp-ink); }
   .issue-jump-pill__go { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--lp-ink); color: var(--lp-ink); font: 600 15px/1 var(--df-font, system-ui, sans-serif); transition: background .15s, color .15s, transform .15s; }
   .issue-jump-pill:hover, .issue-jump-pill:focus-visible { border-color: var(--lp-ink); background: var(--lp-tint-daily); transform: none; box-shadow: 0 2px 0 var(--lp-ink); }
   .issue-jump-pill:hover .issue-jump-pill__title, .issue-jump-pill:focus-visible .issue-jump-pill__title { color: var(--lp-ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; text-decoration-color: var(--dfl); }
