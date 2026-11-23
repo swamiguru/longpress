@@ -16,7 +16,7 @@ trigger: >-
 whoBenefits: >-
   Companies pay less per ticket. Zomato also sells the same AI to other businesses, so every automated ticket is a demo. Mint reported that Flipkart, Swiggy and Zomato sell faster human access as a paid tier. A bot that is hard to get past makes that tier easier to sell.
 operatorsRead: >-
-  Support teams report what is easy to count. "Resolved without a person" goes on the dashboard. "Asked for a person and could not reach one" usually does not. Every figure in this piece is the first kind, and I found none of the second. A closed ticket is not the same as a helped customer: the customer may just have stopped trying. I ran a service desk for five years before moving into product, and a team can only manage the numbers it counts.
+  Support teams report what is easy to count. "Resolved without a person" goes on the dashboard. "Asked for a person and could not reach one" usually does not. Every figure in this piece is the first kind, and I found none of the second. Behind that second number is someone with a wrong charge, a missing order or a service visit that went badly, repeating themselves to a bot that cannot do the one thing they need. A closed ticket is not a helped customer: they may simply have stopped trying. I ran a service desk for five years before moving into product. People rarely write in on a good day.
 verdict: "skip"
 verdictNote: >-
   Skip any subscription, wallet or plan where you cannot find a route to a human before you pay. The check takes two minutes, and it matters most when you have an alternative. The one place the rule is backed by law today is telecom.
