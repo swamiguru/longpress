@@ -5,6 +5,8 @@ seoTitle: "Apps and subscriptions with no human support: skip them"
 description: "AI now answers first at Zomato, Swiggy, PhonePe and Urban Company. Human help is a paid tier or a telecom rule. Check before you pay."
 published: 2026-11-23
 category: "known-issue"
+image: "/images/known-issue/skip-support-without-human.png"
+imageAlt: "A speech bubble with three dots and a telephone handset with sound waves, side by side in front of a tall closed door with only a keyhole"
 topics: ["customer-support", "ai", "zomato", "swiggy", "urban-company"]
 openSince: 2025
 reportedOn: 2025-03-02
@@ -61,6 +63,8 @@ Urban Company says on a Microsoft customer page that 85 to 90 percent of queries
 Meesho says its voice bot handles about 60,000 customer calls a day in English and Hindi, resolves 95 percent of them, and passes about 5 percent to a person. It also says agents were moved to harder queries and seller support, not let go. ([TechCrunch](https://techcrunch.com/2024/11/26/ai-helps-indias-meesho-cut-customer-call-costs-by-75))
 
 All of these are company or vendor figures. None has been audited.
+
+![A looping arrow passes the customer between a chat bubble and a sound-wave orb while a narrow door at the far end stays shut](/images/known-issue/skip-support-without-human-body.webp)
 
 ## What customers report
 
