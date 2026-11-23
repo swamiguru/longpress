@@ -143,8 +143,33 @@ import '../styles/home-b.css';
           <div class="dx__wa"><WhatsAppCta variant="card" location="home_daily_five_card" /></div>
         </header>
 
+        {tiles[0] && (
+          <a class="dx__lead" href={`${path(today)}#story-${tiles[0].item.slot}`} id="daily-lead">
+            <span class="dx__lead-fig">
+              <img
+                src={tiles[0].img.src}
+                srcset={tiles[0].img.srcset}
+                sizes="(max-width: 719px) 84px, 220px"
+                width={tiles[0].img.width}
+                height={tiles[0].img.height}
+                alt=""
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </span>
+            <span class="dx__lead-tx">
+              <span class="dx__lead-eyebrow">
+                <span class="dx__lead-num" aria-hidden="true">01</span>
+                <span class:list={['dx__tag', { 'dx__tag--op': OPINION_TAG.includes(tiles[0].item.kind) }]}>{label(tiles[0].item.kind)}</span>
+              </span>
+              <h3 class="dx__lead-title">{tiles[0].item.heading}</h3>
+              <p class="dx__lead-take">{excerpt(tiles[0].item.teaser || tiles[0].item.forYou || tiles[0].item.body, 240)}</p>
+            </span>
+          </a>
+        )}
         <ol class="dx__list" id="daily-list">
-          {tiles.map(({ item, img }, i) => (
+          {tiles.slice(1).map(({ item, img }) => (
             <li class="dx__row" id={`daily-list-slot-${item.slot}`}>
               <a class="dx__a" href={`${path(today)}#story-${item.slot}`}>
                 <span class="dx__num" aria-hidden="true">{String(item.slot).padStart(2, '0')}</span>
@@ -161,8 +186,7 @@ import '../styles/home-b.css';
                     width={img.width}
                     height={img.height}
                     alt=""
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                    fetchpriority={i === 0 ? 'high' : 'auto'}
+                    loading="lazy"
                     decoding="async"
                   />
                 </span>

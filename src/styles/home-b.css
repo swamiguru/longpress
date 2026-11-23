@@ -25,3 +25,38 @@
 .hp .hp-arch-slim__t{font-family:var(--sans);font-weight:600;font-size:14.5px}
 .hp .hp-arch-slim__go{margin-left:auto;font-family:var(--sans);font-weight:700;font-size:13.5px;color:var(--lp-ink)}
 .hp .hp-arch-slim:hover{border-color:var(--lp-ink)}
+
+/* Daily Five: a bigger lead story beside the intro, stories 2-5 stacked full-width below,
+   so the four fill the space the five used to leave under the WhatsApp card. */
+.hp .dx .dx__lead{text-decoration:none;color:var(--lp-ink)}
+.hp .dx .dx__lead-fig{overflow:hidden;background:color-mix(in srgb, var(--lp-ink) 8%, transparent)}
+.hp .dx .dx__lead-fig img{width:100%;height:100%;object-fit:cover;display:block}
+.hp .dx .dx__lead-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.hp .dx .dx__lead-num{font:600 22px/1 var(--mono);color:var(--dx-olive,#657B00)}
+.hp .dx .dx__lead .dx__tag{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--lp-muted)}
+.hp .dx .dx__lead-title{margin:0;font-family:"Fraunces",Georgia,serif;font-weight:700;line-height:1.1;letter-spacing:-.015em}
+.hp .dx .dx__lead-take{margin:8px 0 0;font:400 16px/1.5 "Source Serif 4",Georgia,serif;color:var(--lp-ink-soft,var(--lp-muted));display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hp .dx .dx__lead:hover .dx__lead-title{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--lp-lime)}
+
+@media(min-width:720px){
+  html:not([data-lp-legacy]) .hp .dx .dx__in{
+    grid-template-columns:minmax(0,1fr) minmax(0,2.3fr);
+    grid-template-areas:"intro lead" "list list";
+    column-gap:56px;row-gap:10px;align-items:start;
+  }
+  html:not([data-lp-legacy]) .hp .dx .dx__intro{grid-area:intro}
+  html:not([data-lp-legacy]) .hp .dx .dx__lead{grid-area:lead;display:grid;grid-template-columns:210px minmax(0,1fr);gap:22px;align-items:center}
+  html:not([data-lp-legacy]) .hp .dx .dx__list{grid-area:list;margin-top:6px}
+  .hp .dx .dx__lead-fig{border-radius:14px;aspect-ratio:1/1}
+  .hp .dx .dx__lead-title{font-size:30px}
+}
+
+@media(max-width:719px){
+  html:not([data-lp-legacy]) .hp .dx .dx__lead{order:5;align-self:stretch;display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;align-items:center;margin-top:4px}
+  html:not([data-lp-legacy]) .hp .dx .dx__list{order:6;align-self:stretch}
+  html:not([data-lp-legacy]) .hp .dx .dx__go{order:7}
+  .hp .dx .dx__lead-fig{border-radius:10px;aspect-ratio:1/1}
+  .hp .dx .dx__lead-title{font-size:20px;line-height:1.18}
+  .hp .dx .dx__lead-take{display:none}
+  .hp .dx .dx__lead-num{font-size:16px}
+}
