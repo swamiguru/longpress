@@ -17,9 +17,9 @@ const archive = briefs.slice(1, 5);
 const allStories = (await getCollection('stories', ({ data }) => !data.draft))
   .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
 const featured = allStories[0];
-const earlier = allStories.slice(1, 6);
-// Carousel: the next 10 after the lead and the five-item list.
-const kiCarousel = allStories.slice(6, 16).map((s) => ({
+const earlier = allStories.slice(1, 4);
+// Carousel: the next 5 after the lead and the three-item list.
+const kiCarousel = allStories.slice(4, 9).map((s) => ({
   href: `/${s.data.slug}`,
   title: s.data.title,
   meta: `${new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' }).format(s.data.published)}`,
@@ -31,8 +31,8 @@ const finePrint = (await getCollection('finePrint', ({ data }) => !data.draft))
 const fpLead = finePrint[0];
 const fpRsRow = fpLead?.data.costs?.rows.find((r) => r.highlight) ?? fpLead?.data.costs?.rows[0];
 const fpRs = fpRsRow && fpRsRow.amount.length <= 14 ? { amount: fpPlain(fpRsRow.amount), item: fpPlain(fpRsRow.item) } : null;
-const fpMore = finePrint.slice(1, 5);
-const fpCarousel = finePrint.slice(5, 15).map((f) => ({
+const fpMore = finePrint.slice(1, 4);
+const fpCarousel = finePrint.slice(4, 9).map((f) => ({
   href: `/fine-print/${f.data.slug}`,
   title: f.data.title,
   meta: `${f.data.category} \u00b7 Checked ${new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeZone: 'UTC' }).format(f.data.lastChecked)}`,
@@ -112,6 +112,7 @@ import '../styles/chrome-d7.css';
 import '../styles/home-d7.css';
 import '../styles/df-d8.css';
 import '../styles/fade-d11.css';
+import '../styles/home-b.css';
 ---
 <BaseLayout
   title="Long Press: five tech stories every morning"
@@ -127,6 +128,13 @@ import '../styles/fade-d11.css';
     <a class="hp-door-m hp-door-m--daily" href={today ? path(today) : '/daily'} id="cta-read-today">The Daily Five &rarr;</a>
     <a class="hp-door-m hp-door-m--ki" href="/known-issue" id="cta-known-issue-door">Known Issue &rarr;</a>
     <a class="hp-door-m hp-door-m--fp" href="/fine-print" id="cta-fine-print-door">Fine Print &rarr;</a>
+  </nav>
+
+  <!-- Desktop: three-pillar doors with descriptors -->
+  <nav class="hp-doors" aria-label="Sections">
+    <a class="hpd hpd--daily" href={today ? path(today) : '/daily'}><b>The Daily Five</b><span>Five tech stories every morning.</span></a>
+    <a class="hpd hpd--ki" href="/known-issue"><b>Known Issue</b><span>The things in your phone wrong long enough to count as a decision.</span></a>
+    <a class="hpd hpd--fp" href="/fine-print"><b>Fine Print</b><span>India&rsquo;s rules, prices and fees, worked out in rupees.</span></a>
   </nav>
 
   <!-- 1. Today's Five -->
@@ -175,38 +183,33 @@ import '../styles/fade-d11.css';
 
   {today && <WhatsAppCta variant="strip" location="home_after_five" />}
 
-  <!-- 2. The Daily Five Archive -->
-  {archive.length > 0 && (
-    <section class="hp-archive" aria-labelledby="heading-daily-archive" id="section-daily-archive">
-      <div class="hp-shead">
-        <h2 id="heading-daily-archive">The Daily Five Archive</h2>
-        <a href="/daily" class="hp-btn" id="link-all-daily-archive">All {briefs.length} issues &rarr;</a>
-      </div>
-      <ul class="hp-arch" id="daily-archive-grid">
-        {archive.map((b) => {
-          const briefSlug = b.id.replace(/\.md$/, '');
-          return (
-            <li id={`brief-${briefSlug}`}>
-              <a class="hp-ai" href={path(b)} id={`brief-link-${briefSlug}`}>
-                <time class="hp-ai__date" datetime={b.data.date.toISOString()}>
-                  <b>{dayFmt.format(b.data.date)}</b>
-                  <span>{monFmt.format(b.data.date)} &middot; {wdFmt.format(b.data.date)}</span>
-                </time>
-                <h3 class="hp-ai__t" id={`brief-title-${briefSlug}`}>{b.data.title}</h3>
-                <span class="hp-ai__meta">
-                  <span class="hp-pips" aria-hidden="true">{b.data.items.map(() => <i></i>)}</span>
-                  {b.data.items.length} stories &middot; {getArticleReadingTime(b).text}
-                </span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+  <!-- Evergreen teaser: the column + the explainer, before the full sections -->
+  {(featured || fpLead) && (
+    <section class="hp-teaser" aria-label="This week's column and latest explainer">
+      {featured && (
+        <a class="hpt hpt--ki" href={`/${featured.data.slug}`} id="teaser-known-issue">
+          <span class="hpt__bar" aria-hidden="true"></span>
+          <span class="hpt__in">
+            <span class="hpt__eye"><i aria-hidden="true"></i>This week&rsquo;s column &middot; Known Issue</span>
+            <span class="hpt__h">{featured.data.title}</span>
+            <span class="hpt__meta">{daysOpen && daysOpen > 0 ? `${daysOpen.toLocaleString('en-US')} days open` : yearsOpen && yearsOpen > 0 ? `${yearsOpen} years open` : getArticleReadingTime(featured).text}</span>
+            {featured.data.verdict && <span class="hpt__verdict">Verdict &middot; {featured.data.verdict}</span>}
+          </span>
+        </a>
+      )}
+      {fpLead && (
+        <a class="hpt hpt--fp" href={`/fine-print/${fpLead.data.slug}`} id="teaser-fine-print">
+          <span class="hpt__bar" aria-hidden="true"></span>
+          <span class="hpt__in">
+            <span class="hpt__eye"><i aria-hidden="true"></i>Latest explainer &middot; Fine Print</span>
+            <span class="hpt__h">{fpLead.data.title}</span>
+            <span class="hpt__meta">{fpLead.data.category} &middot; Last checked {med.format(fpLead.data.lastChecked)}</span>
+            {fpRs && <span class="hpt__fig">{fpRs.amount}</span>}
+          </span>
+        </a>
+      )}
     </section>
   )}
-
-  <!-- Ad Slot -->
-  <AdSlot placement="hub" />
 
   <!-- 3. Known Issue -->
   {featured && featuredImg && (
@@ -306,6 +309,9 @@ import '../styles/fade-d11.css';
     </section>
   )}
 
+  <!-- Ad Slot -->
+  <AdSlot placement="hub" />
+
   <!-- 4. Fine Print -->
   {fpLead && (
     <section class="hp-fp" aria-labelledby="heading-fine-print" id="section-fine-print">
@@ -399,6 +405,13 @@ import '../styles/fade-d11.css';
       </div>
     </section>
   )}
+
+  <!-- Slim Daily Five archive -->
+  <a class="hp-arch-slim" href="/daily" id="link-all-daily-archive">
+    <span class="hp-arch-slim__k">Archive</span>
+    <span class="hp-arch-slim__t">The Daily Five, every morning since 12 July</span>
+    <span class="hp-arch-slim__go">All {briefs.length} issues &rarr;</span>
+  </a>
 </div>
 <script is:inline>
   (function () {

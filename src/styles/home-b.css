@@ -1,0 +1,41 @@
+/* Option B homepage additions — desktop doors, evergreen teaser, slim archive.
+   Built from role tokens so light and dark swap. Loaded after home-d7.css. */
+
+/* Desktop doors (mobile keeps .hp-doors-m) */
+.hp .hp-doors{display:none}
+@media(min-width:720px){
+  .hp .hp-doors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px}
+  .hp .hpd{position:relative;display:block;border:1px solid var(--lp-line);border-radius:12px;background:var(--lp-surf);padding:13px 16px 13px 18px;text-decoration:none;color:var(--lp-ink)}
+  .hp .hpd::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:5px;border-radius:3px}
+  .hp .hpd--daily::before{background:var(--lp-lime)}
+  .hp .hpd--ki::before{background:var(--lp-teal)}
+  .hp .hpd--fp::before{background:var(--lp-fp)}
+  .hp .hpd b{font-family:var(--sans);font-weight:700;font-size:15px;display:block;margin-bottom:3px}
+  .hp .hpd span{font-family:var(--sans);font-size:13px;line-height:1.35;color:var(--lp-muted)}
+  .hp .hpd:hover{border-color:var(--lp-ink)}
+}
+
+/* Evergreen teaser — the column + the explainer, before the full sections */
+.hp .hp-teaser{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 22px}
+.hp .hpt{display:flex;border:1px solid var(--lp-line);border-radius:13px;overflow:hidden;background:var(--lp-surf);text-decoration:none;color:var(--lp-ink)}
+.hp .hpt__bar{width:6px;flex:none}
+.hp .hpt--ki .hpt__bar{background:var(--lp-teal)}
+.hp .hpt--fp .hpt__bar{background:var(--lp-fp)}
+.hp .hpt__in{padding:15px 17px;min-width:0;display:flex;flex-direction:column}
+.hp .hpt__eye{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--lp-muted);display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.hp .hpt__eye i{width:7px;height:7px;border-radius:50%;flex:none}
+.hp .hpt--ki .hpt__eye i{background:var(--lp-teal)}
+.hp .hpt--fp .hpt__eye i{background:var(--lp-fp)}
+.hp .hpt__h{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:21px;line-height:1.14;letter-spacing:-.01em;margin:0 0 9px}
+.hp .hpt__meta{font-family:var(--mono);font-size:11px;color:var(--lp-muted)}
+.hp .hpt__verdict{align-self:flex-start;margin-top:10px;font-family:var(--sans);font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.06em;background:var(--lp-block);color:#F6F3EA;padding:4px 9px;border-radius:5px}
+.hp .hpt__fig{align-self:flex-start;margin-top:10px;font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:15px;background:var(--lp-fp);color:var(--lp-on-field);padding:3px 9px;border-radius:6px}
+.hp .hpt:hover{border-color:var(--lp-ink)}
+@media(max-width:719px){.hp .hp-teaser{grid-template-columns:1fr}}
+
+/* Slim Daily Five archive strip */
+.hp .hp-arch-slim{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 0;padding:14px 16px;border:1px solid var(--lp-line);border-radius:12px;background:var(--lp-surf);text-decoration:none;color:var(--lp-ink)}
+.hp .hp-arch-slim__k{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--lp-muted)}
+.hp .hp-arch-slim__t{font-family:var(--sans);font-weight:600;font-size:14.5px}
+.hp .hp-arch-slim__go{margin-left:auto;font-family:var(--sans);font-weight:700;font-size:13.5px;color:var(--lp-ink)}
+.hp .hp-arch-slim:hover{border-color:var(--lp-ink)}
