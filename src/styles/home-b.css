@@ -47,9 +47,13 @@
   html:not([data-lp-legacy]) .hp .dx .dx__intro{grid-area:intro}
   html:not([data-lp-legacy]) .hp .dx .dx__lead{grid-area:lead;display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px;align-items:center}
   html:not([data-lp-legacy]) .hp .dx .dx__list{grid-area:list;margin-top:6px}
-  /* the in-rail WhatsApp card made the left column tall and left a gap beside the lead;
-     the full-width WhatsApp strip right below this section already covers the channel. */
-  html:not([data-lp-legacy]) .hp .dx .dx__wa{display:none}
+  /* Compact the in-rail WhatsApp card on desktop so the intro column
+     doesn't tower over the lead story and leave blank space. */
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card{padding:14px 16px;gap:10px;display:flex;flex-wrap:wrap;align-items:center}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__icon{width:28px;height:28px}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__heading{font-size:15px;margin:0}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-card__text{font-size:13px;margin:0}
+  html:not([data-lp-legacy]) .hp .dx .dx__wa .wa-btn{font-size:12px;padding:8px 14px}
   .hp .dx .dx__lead-fig{border-radius:14px;aspect-ratio:1/1}
   .hp .dx .dx__lead-title{font-size:30px}
 }
