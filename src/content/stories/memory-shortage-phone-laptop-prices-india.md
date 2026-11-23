@@ -3,6 +3,7 @@ slug: "memory-shortage-phone-laptop-prices-india"
 title: "The same money now buys less phone and laptop in India"
 description: "Smartphone memory costs nearly four times its September 2025 price (Counterpoint). Phones and laptops in India cost more, and forecasts see no relief in 2027."
 published: 2026-10-20
+updated: 2026-11-23
 category: "known-issue"
 topics: ["memory-prices", "india-pricing", "smartphones", "laptops"]
 image: "/images/known-issue/memory-shortage-phone-laptop-prices-india.png"
@@ -36,12 +37,12 @@ sources:
     url: "https://m.gsmarena.com/apple_price_hikes_hit_india_even_harder_than_other_regions-amp-73454.php"
   - label: "Inc42: iPhone Duo launch and older iPhone price changes"
     url: "https://inc42.com/buzz/apple-unveils-first-foldable-iphone-duo-priced-%E2%82%B93-lakh-onwards-in-india/"
-  - label: "Apple India: Buy MacBook Air"
-    url: "https://www.apple.com/in/shop/buy-mac/macbook-air"
   - label: "Yahoo Tech (Notebookcheck): TrendForce on laptop RAM cuts"
     url: "https://tech.yahoo.com/computing/articles/ddr5-memory-shortage-pressures-laptop-164558002.html"
   - label: "Communications Today: TrendForce 4Q26 DRAM outlook"
     url: "https://www.communicationstoday.co.in/?p=424298"
+  - label: "MacRumors: Apple close to a long-term Samsung memory deal, 17 Nov"
+    url: "https://macrumors.com/2026/11/17/apple-rare-long-term-memory-deal-samsung"
 draft: false
 ---
 
@@ -66,6 +67,14 @@ By September, with the Duo launch, [Inc42 reported](https://inc42.com/buzz/apple
 ## Less, and not only more
 
 The other way to pass on a cost is to take something out. [TrendForce has said](https://tech.yahoo.com/computing/articles/ddr5-memory-shortage-pressures-laptop-164558002.html) that Dell, Lenovo and Framework face pressure to move mid-range laptops that would have shipped with 16GB down to 8GB. No confirmed India example turned up in the sources used here, so check the RAM and storage line on any listing before you compare prices. Apple's own store still [lists the MacBook Air from 16GB](https://www.apple.com/in/shop/buy-mac/macbook-air).
+
+## Apple is buying supply for years
+
+On 17 November, [MacRumors relayed a report](https://macrumors.com/2026/11/17/apple-rare-long-term-memory-deal-samsung) from Korea's Maeil Business Newspaper that Apple is close to a four-to-five-year DRAM supply deal with Samsung, [starting in the first half of 2027](https://www.iclarified.com/103602/apple-nears-long-term-samsung-memory-deal-amid-supply-shortage-report). Nothing is signed. The reported terms set a minimum supply volume and leave prices to be settled later, based on market conditions. So the deal does not freeze today's price, and a reader who takes it as proof of a permanent price is reading more into it than the report says. MacRumors adds that Apple recently signed a similar agreement with SK hynix, on terms that favor the supplier.
+
+What the report does show is how tight supply is. MacRumors notes that Apple usually prefers short contracts and presses suppliers on price. A company with that habit is now committing for years. The earlier price figure is also secondhand: in February, Dealsite reported that Apple [accepted a 100% increase](https://macrumors.com/2026/02/26/apple-agrees-100-price-hike-samsung-ram/) on Samsung's LPDDR5X memory for iPhone 17 production. Neither company confirmed it.
+
+The reports do not say what this means for other brands. A guaranteed volume goes to the buyer that signs for years, and a brand without one buys at the going rate, which is the market the forecasts in the next section describe.
 
 ## When it ends
 
