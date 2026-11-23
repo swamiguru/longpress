@@ -48,9 +48,9 @@ sources:
 draft: false
 ---
 
-I tried to reach a person at Urban Company and couldn't. A voice agent picked up, and that was as far as I got.
+In mid-November I called Urban Company because I wanted to talk to someone. A voice agent picked up, and I never got through to a person.
 
-<!-- SWAMI: add the date and what the issue was. The company material I found documents voice AI only for its service professionals, and a chatbot figure for queries. It does not document a customer-facing voice line. Confirm the wording before this goes live. -->
+<!-- SWAMI: optional. Add what the call was about, if you want it in. -->
 
 It isn't only Urban Company. When an order, a payment or a booking goes wrong, the first reply from most big Indian apps now comes from a bot. A person may exist somewhere behind it. I wanted to know which apps say so, and which ones make you fight for it, so I read what the companies say about their own support and what customers say back.
 
@@ -62,7 +62,7 @@ Swiggy's support agent is described in an October 2025 Databricks case study as 
 
 PhonePe cut its support team by about 60 percent over five years, from around 1,100 agents to just over 400, according to its annual report as reported by Inc42. ([Inc42](https://inc42.com/buzz/how-phonepe-leveraged-ai-to-reduce-customer-support-teams-by-60)) In July 2026 it said its AI resolves over 92 percent of queries without a person, and that queries too subjective or sensitive for automation go to a human. ([PhonePe Tech](https://tech.phonepe.com/how-ai-driven-automation-is-scaling-phonepes-customer-support-framework/))
 
-Urban Company says on a Microsoft customer page that 85 to 90 percent of queries are now resolved by chatbots. The page doesn't say whether those are customer or service-professional queries, or what period it covers. ([Microsoft](https://www.microsoft.com/en-in/aifirstmovers/urban-company)) Its voice AI, described in a recap of a June 2026 webinar, serves its service professionals, not customers. ([ElevenLabs](https://elevenlabs.io/blog/webinar-recap-how-urban-company-automated-partner-support-at-scale))
+Urban Company says on a Microsoft customer page that 85 to 90 percent of queries are now resolved by chatbots. The page doesn't say whether those are customer or service-professional queries, or what period it covers. ([Microsoft](https://www.microsoft.com/en-in/aifirstmovers/urban-company)) Its voice AI, described in a recap of a June 2026 webinar, serves its service professionals, not customers. ([ElevenLabs](https://elevenlabs.io/blog/webinar-recap-how-urban-company-automated-partner-support-at-scale)) That isn't what I ran into when I called.
 
 Meesho says its voice bot handles about 60,000 customer calls a day in English and Hindi, resolves 95 percent of them, and passes about 5 percent to a person. It also says agents were moved to harder queries and seller support, not let go. ([TechCrunch](https://techcrunch.com/2024/11/26/ai-helps-indias-meesho-cut-customer-call-costs-by-75))
 
@@ -98,7 +98,7 @@ If a step fails and you have an alternative, skip. This applies when you're choo
 
 ## What I couldn't confirm
 
-I didn't create accounts or run these flows myself, so the company statements above are what each firm says it does, not what I tested. I couldn't find reliable support information for Netflix, Spotify, Amazon, Flipkart, Paytm, Zepto, MakeMyTrip, NoBroker or 99acres beyond what's cited above.
+I didn't create accounts or run these flows myself, so the company statements above are what each firm says it does, not what I tested. I don't know whether the voice agent that answered me at Urban Company is the company's own or a vendor's. I couldn't find reliable support information for Netflix, Spotify, Amazon, Flipkart, Paytm, Zepto, MakeMyTrip, NoBroker or 99acres beyond what's cited above.
 
 ## The people behind the numbers
 
