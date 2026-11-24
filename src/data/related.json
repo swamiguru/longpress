@@ -3572,6 +3572,79 @@
     "n": 4,
     "score": 0.67
    }
+  ],
+  "daily:2026-11-24#1": [
+   {
+    "type": "daily",
+    "date": "2026-10-20",
+    "n": 1,
+    "score": 0.73
+   },
+   {
+    "type": "daily",
+    "date": "2026-08-19",
+    "n": 1,
+    "score": 0.67
+   }
+  ],
+  "daily:2026-11-24#2": [
+   {
+    "type": "daily",
+    "date": "2026-11-13",
+    "n": 1,
+    "score": 0.87
+   },
+   {
+    "type": "daily",
+    "date": "2026-11-10",
+    "n": 1,
+    "score": 0.68
+   },
+   {
+    "type": "daily",
+    "date": "2026-11-18",
+    "n": 1,
+    "score": 0.68
+   }
+  ],
+  "daily:2026-11-24#4": [
+   {
+    "type": "daily",
+    "date": "2026-11-01",
+    "n": 4,
+    "score": 0.85
+   },
+   {
+    "type": "daily",
+    "date": "2026-10-24",
+    "n": 1,
+    "score": 0.74
+   },
+   {
+    "type": "daily",
+    "date": "2026-11-18",
+    "n": 2,
+    "score": 0.69
+   }
+  ],
+  "daily:2026-11-24#5": [
+   {
+    "type": "daily",
+    "date": "2026-09-13",
+    "n": 2,
+    "score": 0.68
+   },
+   {
+    "type": "daily",
+    "date": "2026-08-02",
+    "n": 2,
+    "score": 0.66
+   },
+   {
+    "type": "story",
+    "slug": "memory-shortage-phone-laptop-prices-india",
+    "score": 0.66
+   }
   ]
  }
 }
