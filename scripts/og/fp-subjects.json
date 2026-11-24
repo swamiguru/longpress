@@ -46,5 +46,9 @@
   "telecom-complaint-appeal-15-days": {
     "hero": "a small desk bell sitting inside a drawer that is pulled halfway open and sliding shut, the bell filled yellow",
     "body": "a pair of open scissors cutting a long ribbon into two halves, one half falling away and the shorter half that remains filled yellow"
+  },
+  "cash-money-transfer-limits": {
+    "hero": "a small cloth money pouch tied shut with string, sliding along a long rope bridge towards a little house, the pouch filled yellow",
+    "body": "a narrow funnel with a stack of coins above it, only a few coins passing through the thin spout at the bottom, the coins passing through filled yellow"
   }
 }
